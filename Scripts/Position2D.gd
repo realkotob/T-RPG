@@ -14,7 +14,7 @@ func _ready():
 
 func _change_state(new_state):
 	if new_state == STATES.FOLLOW:
-		path = get_parent().get_node('TileMap').find_path(position, target_position)
+		path = get_tree().get_root().get_node("Master/Map").find_path(position, target_position)
 		if not path or len(path) == 1:
 			_change_state(STATES.IDLE)
 			return

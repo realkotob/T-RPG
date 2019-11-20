@@ -3,8 +3,8 @@ extends TileMap
 # Create a Astar node and store it in the variable astar_node
 onready var astar_node = AStar.new()
 onready var _half_cell_size = cell_size / 2
-onready var obstacles_tilemap = get_child(0)
-onready var walls_tilemap = get_child(1)
+onready var obstacles_tilemap = get_node("YSort").get_node("Obstacles")
+onready var walls_tilemap = get_node("Walls")
 
 # Define the map size, in cells
 export(Vector2) var map_size = Vector2(100, 100)
@@ -28,6 +28,7 @@ func _ready():
 	# Create the connections between all the walkable cells
 	astar_connect_walkable_cells(walkable_cells_list)
 
+# Determine which cells are walkale and which are not
 func astar_add_walkable_cells(obstacles = []):
 	
 	var points_array = []
@@ -50,6 +51,7 @@ func astar_add_walkable_cells(obstacles = []):
 	
 	return points_array
 
+# Connect walkables cells together
 func astar_connect_walkable_cells(points_array):
 	for point in points_array:
 		# Store the current point's index we are checking in point_index
@@ -75,12 +77,15 @@ func astar_connect_walkable_cells(points_array):
 			# If not, add a connection with the origin point
 			astar_node.connect_points(point_index, current_point_relative_index, true)
 
+# Return true if the given point is outside the map bounds
 func is_outside_map_bounds(point):
 	return point.x < 0 or point.y < 0 or point.x > map_size.x or point.y > map_size.y
 
+# Return the point index
 func calculate_point_index(point):
 	return point.x + map_size.x * point.y
 
+# Retrun the shortest path between two points 
 func find_path(world_start, world_end):
 	self.path_start_position = world_to_map(world_start)
 	self.path_end_position = world_to_map(world_end)
@@ -96,7 +101,7 @@ func calculate_path():
 	var start_point_index = calculate_point_index(path_start_position)
 	var end_point_index = calculate_point_index(path_end_position)
 	_point_path = astar_node.get_point_path(start_point_index, end_point_index)
-
+ 
 func set_path_start_position(value):
 	if value in obstacles:
 		return
@@ -105,10 +110,6 @@ func set_path_start_position(value):
 	
 	# Set the starting postion
 	path_start_position = value
-	
-	# Calculate path if necesary
-	if path_end_position && path_end_position != path_start_position:
-		calculate_path()
 
 func set_path_end_position(value):
 	if value in obstacles:
@@ -118,15 +119,5 @@ func set_path_end_position(value):
 		print("outside map")
 		return
 	
-	# Erase the last starting point cell
-	# set_cell(path_start_position.x, path_start_position.y, -1)
-	
-	# Modify the cell of the starting point to be, "S" cell
-	# set_cell(value.x, value.y, 1)
-	
 	# Set the end postion
 	path_end_position = value
-	
-	# Calculate path if necesary
-	if path_start_position != path_end_position && _point_path:
-		calculate_path()

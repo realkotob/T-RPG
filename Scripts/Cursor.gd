@@ -5,6 +5,7 @@ var cursor_pos := Vector2()
 onready var grid := Vector2(32, 16)
 onready var character : Node = get_parent().get_node("Character")
 
+
 func snap_to_iso_grid(mouse_position, iso_grid):
 	
 	var iso_pos = Vector2()
@@ -38,6 +39,7 @@ func _physics_process(_delta):
 	# Set the cursor to the right position
 	set_position(cursor_pos)
 
+# On click, give the active character its destination
 func _unhandled_input(event : InputEvent) -> void:
 	if event is InputEventMouseButton && event.button_index == BUTTON_LEFT && event.pressed:
 		character.target_position = cursor_pos
