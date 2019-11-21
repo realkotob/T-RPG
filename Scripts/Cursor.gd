@@ -3,8 +3,8 @@ extends Position2D
 var mouse_pos := Vector2()
 var cursor_pos := Vector2()
 onready var grid := Vector2(32, 16)
-onready var character : Node = get_parent().get_node("Character")
 
+signal cursor_change_position
 
 func snap_to_iso_grid(mouse_position, iso_grid):
 	
@@ -35,12 +35,8 @@ func _physics_process(_delta):
 	
 	# Snap to the grid
 	cursor_pos = snap_to_iso_grid(mouse_pos, grid)
+	if position != cursor_pos:
+		emit_signal("cursor_change_position", cursor_pos)
 	
 	# Set the cursor to the right position
 	set_position(cursor_pos)
-
-# On click, give the active character its destination
-func _unhandled_input(event : InputEvent) -> void:
-	if event is InputEventMouseButton && event.button_index == BUTTON_LEFT && event.pressed:
-		character.target_position = cursor_pos
-		character._change_state(character.STATES.FOLLOW)

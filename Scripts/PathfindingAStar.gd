@@ -18,6 +18,8 @@ var _point_path = []
 const BASE_LINE_WIDTH = 4.0
 const DRAW_COLOR = Color('#fff')
 
+signal path_found
+
 func _ready():
 	# Store all the unpassable cells into the array obstacles
 	obstacles = obstacles_tilemap.get_used_cells() + walls_tilemap.get_used_cells()
@@ -85,39 +87,47 @@ func is_outside_map_bounds(point):
 func calculate_point_index(point):
 	return point.x + map_size.x * point.y
 
-# Retrun the shortest path between two points 
+# Retrun the shortest path between two points, or null if there is no path to take to get there
 func find_path(world_start, world_end):
-	self.path_start_position = world_to_map(world_start)
-	self.path_end_position = world_to_map(world_end)
-	calculate_path()
+	var is_path
+	is_path = set_path_start_position(world_to_map(world_start))
+	is_path = set_path_end_position(world_to_map(world_end))
+	
+	if is_path == true:
+		calculate_path()
+	else:
+		emit_signal("path_found", false)
+		return null
+	
 	var path_world = []
 	for point in _point_path:
 		var point_world = map_to_world(Vector2(point.x, point.y))
 		point_world.y += _half_cell_size.y
 		path_world.append(point_world)
+	
+	# Emit the information: if there is a path found of not
+	if len(path_world) <= 1:
+		emit_signal("path_found", false)
+	else:
+		emit_signal("path_found", true)
+	
 	return path_world
 
 func calculate_path():
 	var start_point_index = calculate_point_index(path_start_position)
 	var end_point_index = calculate_point_index(path_end_position)
 	_point_path = astar_node.get_point_path(start_point_index, end_point_index)
- 
+
 func set_path_start_position(value):
-	if value in obstacles:
-		return
-	if is_outside_map_bounds(value):
-		return
-	
-	# Set the starting postion
-	path_start_position = value
+	if value in obstacles or is_outside_map_bounds(value):
+		return false
+	else:
+		path_start_position = value
+		return true
 
 func set_path_end_position(value):
-	if value in obstacles:
-		print("obstacle")
-		return
-	if is_outside_map_bounds(value):
-		print("outside map")
-		return
-	
-	# Set the end postion
-	path_end_position = value
+	if value in obstacles or is_outside_map_bounds(value):
+		return false
+	else :
+		path_end_position = value
+		return true
