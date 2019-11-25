@@ -1,15 +1,45 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Scripts/Position2D.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/StateMachine.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Hart_Iso_outline.png" type="Texture" id=2]
+[ext_resource path="res://Scripts/Idle.gd" type="Script" id=3]
+[ext_resource path="res://Scripts/Move.gd" type="Script" id=4]
+[ext_resource path="res://Fonts/source-code-pro-bold.otf" type="DynamicFontData" id=5]
+[ext_resource path="res://Scripts/StateLabel.gd" type="Script" id=6]
+
+[sub_resource type="DynamicFont" id=1]
+size = 9
+font_data = ExtResource( 5 )
 
 [node name="Character" type="Position2D"]
-position = Vector2( 84.7085, 141.724 )
+position = Vector2( 80, 80 )
 script = ExtResource( 1 )
 
-[node name="Character" type="Sprite" parent="."]
-position = Vector2( 0, -16 )
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0.263519, -20.4799 )
 texture = ExtResource( 2 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
+
+[node name="States" type="Node" parent="."]
+
+[node name="Idle" type="Node" parent="States"]
+script = ExtResource( 3 )
+
+[node name="Move" type="Node" parent="States"]
+script = ExtResource( 4 )
+
+[node name="StateLabel" type="Label" parent="."]
+margin_left = -28.8172
+margin_top = -62.312
+margin_right = 28.1828
+margin_bottom = -35.312
+custom_fonts/font = SubResource( 1 )
+text = "state"
+align = 1
+valign = 1
+uppercase = true
+script = ExtResource( 6 )
+[connection signal="state_changed" from="." to="StateLabel" method="_on_Character_state_changed"]
+[connection signal="path_chosen" from="States/Idle" to="States/Move" method="_on_Idle_path_chosen"]

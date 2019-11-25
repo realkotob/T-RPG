@@ -3,17 +3,19 @@ extends TileMap
 # Create a Astar node and store it in the variable astar_node
 onready var astar_node = AStar.new()
 onready var _half_cell_size = cell_size / 2
-onready var obstacles_tilemap = get_node("YSort").get_node("Obstacles")
+onready var grounds_tilemap = get_node("Grounds")
+onready var obstacles_tilemap = get_parent().get_node("YSort").get_node("Obstacles")
 onready var walls_tilemap = get_node("Walls")
 
 # Define the map size, in cells
 export(Vector2) var map_size = Vector2(100, 100)
 
-var path_start_position := Vector2() setget set_path_start_position
-var path_end_position := Vector2() setget set_path_end_position
+var path_start_position : Vector2 setget set_path_start_position
+var path_end_position : Vector2 setget set_path_end_position
 
+var grounds
 var obstacles
-var _point_path = []
+var _point_path := PoolVector3Array()
 
 const BASE_LINE_WIDTH = 4.0
 const DRAW_COLOR = Color('#fff')
@@ -21,6 +23,9 @@ const DRAW_COLOR = Color('#fff')
 signal path_found
 
 func _ready():
+	# Store all the passable cells into the array grounds
+	grounds = grounds_tilemap.get_used_cells()
+	
 	# Store all the unpassable cells into the array obstacles
 	obstacles = obstacles_tilemap.get_used_cells() + walls_tilemap.get_used_cells()
 	
@@ -81,7 +86,8 @@ func astar_connect_walkable_cells(points_array):
 
 # Return true if the given point is outside the map bounds
 func is_outside_map_bounds(point):
-	return point.x < 0 or point.y < 0 or point.x > map_size.x or point.y > map_size.y
+	return !(point in grounds)
+	#return point.x < 0 or point.y < 0 or point.x > map_size.x or point.y > map_size.y
 
 # Return the point index
 func calculate_point_index(point):
@@ -89,15 +95,11 @@ func calculate_point_index(point):
 
 # Retrun the shortest path between two points, or null if there is no path to take to get there
 func find_path(world_start, world_end):
-	var is_path
-	is_path = set_path_start_position(world_to_map(world_start))
-	is_path = set_path_end_position(world_to_map(world_end))
 	
-	if is_path == true:
-		calculate_path()
-	else:
-		emit_signal("path_found", false)
-		return null
+	set_path_start_position(world_to_map(world_start))
+	set_path_end_position(world_to_map(world_end))
+	
+	calculate_path()
 	
 	var path_world = []
 	for point in _point_path:
@@ -114,20 +116,19 @@ func find_path(world_start, world_end):
 	return path_world
 
 func calculate_path():
+	if path_start_position == Vector2() or path_end_position == Vector2():
+		_point_path = []
+		return
 	var start_point_index = calculate_point_index(path_start_position)
 	var end_point_index = calculate_point_index(path_end_position)
 	_point_path = astar_node.get_point_path(start_point_index, end_point_index)
 
 func set_path_start_position(value):
 	if value in obstacles or is_outside_map_bounds(value):
-		return false
-	else:
-		path_start_position = value
-		return true
+		value = Vector2()
+	path_start_position = value
 
 func set_path_end_position(value):
 	if value in obstacles or is_outside_map_bounds(value):
-		return false
-	else :
-		path_end_position = value
-		return true
+		value = Vector2()
+	path_end_position = value
