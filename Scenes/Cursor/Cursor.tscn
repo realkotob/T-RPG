@@ -1,9 +1,8 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Scripts/Cursor.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Cursor/Cursor.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Cursor.png" type="Texture" id=2]
-[ext_resource path="res://Scripts/CursorSprite.gd" type="Script" id=3]
-
+[ext_resource path="res://Scenes/Cursor/CursorSprite.gd" type="Script" id=3]
 
 [node name="Cursor" type="Position2D"]
 position = Vector2( 67.299, 183.853 )

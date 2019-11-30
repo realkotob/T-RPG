@@ -1,0 +1,76 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://Scenes/Characters/StateMachine.gd" type="Script" id=1]
+[ext_resource path="res://Sprites/Hart_Iso_outline.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/Characters/Idle.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/Characters/Move.gd" type="Script" id=4]
+[ext_resource path="res://Fonts/source-code-pro-bold.otf" type="DynamicFontData" id=5]
+[ext_resource path="res://Scenes/Characters/StateLabel.gd" type="Script" id=6]
+[ext_resource path="res://Scenes/Characters/Attributes.gd" type="Script" id=7]
+[ext_resource path="res://Resources/HartStats.tres" type="Resource" id=8]
+[ext_resource path="res://Scenes/Characters/Stats.gd" type="Script" id=9]
+[ext_resource path="res://Fonts/DefaultFont.tres" type="DynamicFont" id=10]
+[ext_resource path="res://Scenes/Characters/StatsLabel.gd" type="Script" id=11]
+[ext_resource path="res://Scenes/Characters/MaxStatsLabel.gd" type="Script" id=12]
+
+[sub_resource type="DynamicFont" id=1]
+size = 9
+font_data = ExtResource( 5 )
+
+[node name="Character" type="Position2D"]
+position = Vector2( 80, 80 )
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0.263519, -20.4799 )
+texture = ExtResource( 2 )
+
+[node name="States" type="Node" parent="."]
+
+[node name="Idle" type="Node" parent="States"]
+script = ExtResource( 3 )
+
+[node name="Move" type="Node" parent="States"]
+script = ExtResource( 4 )
+
+[node name="StateLabel" type="Label" parent="."]
+visible = false
+margin_left = -28.8172
+margin_top = -62.312
+margin_right = 28.1828
+margin_bottom = -35.312
+custom_fonts/font = SubResource( 1 )
+text = "state"
+align = 1
+valign = 1
+uppercase = true
+script = ExtResource( 6 )
+
+[node name="Attributes" type="Node" parent="."]
+script = ExtResource( 7 )
+starting_stats = ExtResource( 8 )
+
+[node name="Stats" type="Node" parent="Attributes"]
+script = ExtResource( 9 )
+
+[node name="StatsLabel" type="Label" parent="Attributes/Stats"]
+margin_left = 215.262
+margin_top = -30.1822
+margin_right = 248.262
+margin_bottom = -2.18223
+custom_fonts/font = ExtResource( 10 )
+align = 1
+valign = 1
+uppercase = true
+script = ExtResource( 11 )
+
+[node name="MaxStatsLabel" type="Label" parent="Attributes/Stats"]
+margin_left = -239.077
+margin_top = -46.8944
+margin_right = -206.077
+margin_bottom = -18.8945
+custom_fonts/font = ExtResource( 10 )
+align = 1
+valign = 1
+uppercase = true
+script = ExtResource( 12 )

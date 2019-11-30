@@ -1,5 +1,9 @@
 extends Position2D
 
+class_name StatesMachine
+
+onready var StateLabel := $StateLabel 
+
 # Define the list of possible states, and give the path to the corresponding node
 onready var states_map = {
 	"idle" : $States/Idle,
@@ -14,6 +18,7 @@ var state_name
 signal state_changed
 
 func _ready():
+	var _err = self.connect("state_changed", StateLabel, "on_Character_state_changed")
 	state_name = "idle"
 	_set_state(states_map[state_name])
 

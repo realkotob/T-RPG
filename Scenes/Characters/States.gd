@@ -1,5 +1,7 @@
 extends Node
 
+class_name States
+
 func update(_host, _delta):
 	pass
 

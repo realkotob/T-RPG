@@ -20,7 +20,7 @@ var _point_path := PoolVector3Array()
 const BASE_LINE_WIDTH = 4.0
 const DRAW_COLOR = Color('#fff')
 
-signal path_found
+# signal path_found
 
 func _ready():
 	# Store all the passable cells into the array grounds
@@ -87,7 +87,6 @@ func astar_connect_walkable_cells(points_array):
 # Return true if the given point is outside the map bounds
 func is_outside_map_bounds(point):
 	return !(point in grounds)
-	#return point.x < 0 or point.y < 0 or point.x > map_size.x or point.y > map_size.y
 
 # Return the point index
 func calculate_point_index(point):
@@ -107,11 +106,11 @@ func find_path(world_start, world_end):
 		point_world.y += _half_cell_size.y
 		path_world.append(point_world)
 	
-	# Emit the information: if there is a path found of not
-	if len(path_world) <= 1:
-		emit_signal("path_found", false)
-	else:
-		emit_signal("path_found", true)
+#	# Emit the information: if there is a path found of not
+#	if len(path_world) <= 1:
+#		emit_signal("path_found", false)
+#	else:
+#		emit_signal("path_found", true)
 	
 	return path_world
 

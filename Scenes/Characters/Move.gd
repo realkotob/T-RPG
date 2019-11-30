@@ -1,4 +1,4 @@
-extends "res://Scripts/States.gd"
+extends States
 
 var path : PoolVector2Array
 var target_point_world : Vector2
@@ -6,7 +6,10 @@ var speed = 5.0
 
 # Move the actor, until it's arrived to the next point
 func update(host, _delta):
-	target_point_world = path[0]
+	
+	if len(path) > 0:
+		target_point_world = path[0]
+		
 	var arrived_to_next_point = move_to(target_point_world, host)
 	
 	# If the actor is arrived to the next point, remove this point from the path and take the next for destination

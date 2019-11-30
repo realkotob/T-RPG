@@ -1,8 +1,10 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Environement/TileSet/TourInterieur.tres" type="TileSet" id=1]
-[ext_resource path="res://Scripts/PathfindingAStar.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/Combat/PathfindingAStar.gd" type="Script" id=2]
 [ext_resource path="res://Environement/Tiles/TilesetMurs.png" type="Texture" id=3]
+
+
 
 [sub_resource type="TileSet" id=1]
 0/name = "TilesetMurs.png 0"

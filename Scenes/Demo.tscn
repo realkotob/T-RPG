@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Environement/TileSet/TourInterieur.tres" type="TileSet" id=1]
-[ext_resource path="res://Scripts/PathfindingAStar.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/Combat/PathfindingAStar.gd" type="Script" id=2]
 [ext_resource path="res://Environement/Tiles/TilesetMurs.png" type="Texture" id=3]
-[ext_resource path="res://Scenes/Cursor.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Scenes/Character.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/Cursor/Cursor.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Characters/Character.tscn" type="PackedScene" id=5]
 
 [sub_resource type="TileSet" id=1]
 0/name = "TilesetMurs.png 0"
@@ -151,6 +151,7 @@
 [node name="Master" type="Node2D"]
 
 [node name="Map" type="TileMap" parent="."]
+editor/display_folded = true
 mode = 1
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 32, 16 )
@@ -182,6 +183,7 @@ tile_data = PoolIntArray( -131070, 6, 0, -131062, 6, 0, 131071, 13, 0, 262142, 7
 [node name="Cursor" parent="." instance=ExtResource( 4 )]
 
 [node name="YSort" type="YSort" parent="."]
+editor/display_folded = true
 
 [node name="Obstacles" type="TileMap" parent="YSort"]
 mode = 1
@@ -193,5 +195,10 @@ tile_data = PoolIntArray( 65541, 8, 0, 65542, 3, 0, 65543, 46, 0, 65552, 47, 0, 
 
 [node name="Character" parent="YSort" instance=ExtResource( 5 )]
 position = Vector2( 164.395, 139.253 )
-[connection signal="path_found" from="Map" to="Cursor/Sprite" method="_on_Map_path_found"]
+
+[node name="CombatLoop" type="Node" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 0.568787, 110.348 )
+current = true
 [connection signal="cursor_change_position" from="Cursor" to="YSort/Character/States/Idle" method="set_potential_path"]
