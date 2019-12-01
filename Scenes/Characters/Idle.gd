@@ -1,6 +1,7 @@
 extends States
 
 onready var map_node = get_tree().get_root().get_node("Master/Map")
+onready var area_node = get_tree().get_root().get_node("Master/Map/Area")
 onready var move_node = get_parent().get_node("Move")
 onready var stats_node = get_parent().get_parent().get_node("Attributes/Stats")
 onready var cursor_sprite_node = get_tree().get_root().get_node("Master/Cursor/Sprite")
@@ -11,10 +12,12 @@ var position : Vector2
 
 signal path_chosen
 signal path_valid
+signal draw_movement_area
 
 func _ready():
 	var _err = self.connect("path_chosen", move_node, "_on_Idle_path_chosen")
 	_err = self.connect("path_valid", cursor_sprite_node, "_on_path_valid")
+	_err = self.connect("draw_movement_area", area_node, "_on_draw_movement_area")
 
 func update(_host, _delta):
 	var is_path_valid = check_path(path)
@@ -24,9 +27,11 @@ func update(_host, _delta):
 
 # When the state is entered define the actor postiton, empty the path and potential_path array, and set a potential_path
 func enter_state(host):
+	
 	position = host.position
 	initialize_path_value()
 	set_potential_path(host.get_viewport().get_mouse_position())
+	emit_signal("draw_movement_area", position, stats_node.get_actual_movements())
 
 # When the state is exited, empty the path and potential path array
 func exit_state(_host):

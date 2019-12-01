@@ -54,6 +54,7 @@ starting_stats = ExtResource( 8 )
 script = ExtResource( 9 )
 
 [node name="StatsLabel" type="Label" parent="Attributes/Stats"]
+visible = false
 margin_left = 215.262
 margin_top = -30.1822
 margin_right = 248.262
@@ -65,6 +66,7 @@ uppercase = true
 script = ExtResource( 11 )
 
 [node name="MaxStatsLabel" type="Label" parent="Attributes/Stats"]
+visible = false
 margin_left = -239.077
 margin_top = -46.8944
 margin_right = -206.077

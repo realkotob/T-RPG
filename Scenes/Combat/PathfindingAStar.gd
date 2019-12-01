@@ -1,4 +1,4 @@
-extends TileMap
+extends IsoTileMap
 
 # Create a Astar node and store it in the variable astar_node
 onready var astar_node = AStar.new()
@@ -6,9 +6,6 @@ onready var _half_cell_size = cell_size / 2
 onready var grounds_tilemap = get_node("Grounds")
 onready var obstacles_tilemap = get_parent().get_node("YSort").get_node("Obstacles")
 onready var walls_tilemap = get_node("Walls")
-
-# Define the map size, in cells
-export(Vector2) var map_size = Vector2(100, 100)
 
 var path_start_position : Vector2 setget set_path_start_position
 var path_end_position : Vector2 setget set_path_end_position
@@ -20,9 +17,10 @@ var _point_path := PoolVector3Array()
 const BASE_LINE_WIDTH = 4.0
 const DRAW_COLOR = Color('#fff')
 
-# signal path_found
-
 func _ready():
+	# Define the map size, in cells
+	map_size = Vector2(100, 100)
+	
 	# Store all the passable cells into the array grounds
 	grounds = grounds_tilemap.get_used_cells()
 	
@@ -41,20 +39,19 @@ func astar_add_walkable_cells(obstacles = []):
 	var points_array = []
 	
 	# Go through all the cells of the map, and check if they are in the obstacles array
-	for y in range (map_size.y):
-		for x in range (map_size.x):
-			
-			# Store the coordonates of the current cell, check if it is in the obstacles array, and if it is: skip to the next cell
-			var point := Vector2(x, y)
-			if point in obstacles:
-				continue
-			
-			# Add the last cell checked in the array of points we will create in the astar_node
-			points_array.append(point)
-			
-			# Caculate an index for our point, and add it to the astar_node
-			var point_index = calculate_point_index(point)
-			astar_node.add_point(point_index, Vector3(point.x, point.y, 0.0))
+	for i in range (len(grounds)):
+		
+		# Store the coordonates of the current cell, check if it is in the obstacles array, and if it is: skip to the next cell
+		var point = grounds[i]
+		if point in obstacles:
+			continue
+		
+		# Add the last cell checked in the array of points we will create in the astar_node
+		points_array.append(point)
+		
+		# Caculate an index for our point, and add it to the astar_node
+		var point_index = calculate_point_index(point)
+		astar_node.add_point(point_index, Vector3(point.x, point.y, 0.0))
 	
 	return points_array
 
@@ -92,42 +89,51 @@ func is_outside_map_bounds(point):
 func calculate_point_index(point):
 	return point.x + map_size.x * point.y
 
-# Retrun the shortest path between two points, or null if there is no path to take to get there
-func find_path(world_start, world_end):
+# Retrun the shortest path between two points, or an empty path if there is no path to take to get there
+func find_path(world_start, world_end) -> Array:
 	
+	# Set the start and end point
 	set_path_start_position(world_to_map(world_start))
 	set_path_end_position(world_to_map(world_end))
 	
+	# Calculate a path between this two points
 	calculate_path()
 	
+	# Convert the path from a point path, to a path of coordonates in the game world
 	var path_world = []
 	for point in _point_path:
 		var point_world = map_to_world(Vector2(point.x, point.y))
 		point_world.y += _half_cell_size.y
 		path_world.append(point_world)
 	
-#	# Emit the information: if there is a path found of not
-#	if len(path_world) <= 1:
-#		emit_signal("path_found", false)
-#	else:
-#		emit_signal("path_found", true)
-	
 	return path_world
 
+# Calculate the path between two positions
 func calculate_path():
+	# Check if the given start and end points are valid, retrun an empty array if not
 	if path_start_position == Vector2() or path_end_position == Vector2():
 		_point_path = []
 		return
+	
+	# Calculate the start and the end point index
 	var start_point_index = calculate_point_index(path_start_position)
 	var end_point_index = calculate_point_index(path_end_position)
+	
+	# Find a path between this two points, and store it into _point_path
 	_point_path = astar_node.get_point_path(start_point_index, end_point_index)
 
-func set_path_start_position(value):
-	if value in obstacles or is_outside_map_bounds(value):
-		value = Vector2()
-	path_start_position = value
+# Set the start path to the given value, unless this point is an obstacle or outside the map
+func set_path_start_position(point) -> void:
+	if !is_position_valid(point):
+		point = Vector2()
+	path_start_position = point
 
-func set_path_end_position(value):
-	if value in obstacles or is_outside_map_bounds(value):
-		value = Vector2()
-	path_end_position = value
+# Set the end path to the given value, unless this point is an obstacle or outside the map
+func set_path_end_position(point) -> void:
+	if !is_position_valid(point):
+		point = Vector2()
+	path_end_position = point
+
+# Check if a position is valid, return true if it is, false if it is not
+func is_position_valid(point: Vector2) -> bool:
+	return !(point in obstacles or is_outside_map_bounds(point))
