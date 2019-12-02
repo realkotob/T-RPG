@@ -17,7 +17,7 @@ func find_walkable_cells(actor_position : Vector2, actor_movements : int) -> voi
 	clear()
 	
 	# For each actor's movement point, get the 
-	for i in range(1, actor_movements +1):
+	for i in range(1, actor_movements + 1):
 		
 		if i == 1:
 			relatives = find_relatives_point(actor_point)

@@ -213,6 +213,7 @@ tile_data = PoolIntArray( -131070, 6, 0, -131062, 6, 0, 131071, 13, 0, 262142, 7
 [node name="Cursor" parent="." instance=ExtResource( 6 )]
 
 [node name="YSort" type="YSort" parent="."]
+editor/display_folded = true
 
 [node name="Obstacles" type="TileMap" parent="YSort"]
 mode = 1
@@ -228,6 +229,6 @@ position = Vector2( 164.395, 139.253 )
 [node name="CombatLoop" type="Node" parent="."]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 0.568787, 110.348 )
+position = Vector2( 19.1445, 112.338 )
 current = true
 [connection signal="cursor_change_position" from="Cursor" to="YSort/Character/States/Idle" method="set_potential_path"]
