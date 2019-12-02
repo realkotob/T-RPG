@@ -1,5 +1,6 @@
 extends States
 
+onready var character_node := get_parent().get_parent()
 onready var map_node = get_tree().get_root().get_node("Master/Map")
 onready var area_node = get_tree().get_root().get_node("Master/Map/Area")
 onready var move_node = get_parent().get_node("Move")
@@ -23,12 +24,12 @@ func update(_host, _delta):
 	var is_path_valid = check_path(path)
 	if is_path_valid == true:
 		emit_signal("path_chosen", path)
-		return "move"
+		return "Move"
 
 # When the state is entered define the actor postiton, empty the path and potential_path array, and set a potential_path
 func enter_state(host):
 	
-	position = host.position
+	position = character_node.position
 	initialize_path_value()
 	set_potential_path(host.get_viewport().get_mouse_position())
 	emit_signal("draw_movement_area", position, stats_node.get_actual_movements())

@@ -213,7 +213,6 @@ tile_data = PoolIntArray( -131070, 6, 0, -131062, 6, 0, 131071, 13, 0, 262142, 7
 [node name="Cursor" parent="." instance=ExtResource( 6 )]
 
 [node name="YSort" type="YSort" parent="."]
-editor/display_folded = true
 
 [node name="Obstacles" type="TileMap" parent="YSort"]
 mode = 1

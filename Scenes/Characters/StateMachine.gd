@@ -1,14 +1,13 @@
-extends Position2D
+extends Node
 
 class_name StatesMachine
 
 onready var StateLabel := $StateLabel 
 
-# Define the list of possible states, and give the path to the corresponding node
-onready var states_map = {
-	"idle" : $States/Idle,
-	"move" : $States/Move
-}
+# Define the list of possible states, and give the path to the corresponding node for each state
+# The states are distinguished by the name of their corresponding node
+# The default state is always the first in the tree
+onready var states_map = get_children()
 
 onready var current_state : Object
 onready var previous_state : Object
@@ -19,14 +18,14 @@ signal state_changed
 
 func _ready():
 	var _err = self.connect("state_changed", StateLabel, "on_Character_state_changed")
-	state_name = "idle"
-	_set_state(states_map[state_name])
+	state_name = states_map[0].name
+	_set_state(get_node(state_name))
 
 # Call for the current state process
 func _physics_process(delta):
 	state_name = current_state.update(self, delta)
 	if state_name:
-		_set_state(states_map[state_name])
+		_set_state(get_node(state_name))
 
 # Set a new state
 func _set_state(new_state):
