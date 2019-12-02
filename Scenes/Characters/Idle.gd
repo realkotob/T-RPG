@@ -1,11 +1,11 @@
 extends States
 
-onready var character_node := get_parent().get_parent()
-onready var map_node = get_tree().get_root().get_node("Master/Map")
-onready var area_node = get_tree().get_root().get_node("Master/Map/Area")
-onready var move_node = get_parent().get_node("Move")
-onready var stats_node = get_parent().get_parent().get_node("Attributes/Stats")
-onready var cursor_sprite_node = get_tree().get_root().get_node("Master/Cursor/Sprite")
+onready var character_node := find_parent("Character")
+onready var map_node := get_tree().get_root().get_node("Master/Map")
+onready var area_node := get_tree().get_root().get_node("Master/Map/Area")
+onready var move_node := get_parent().get_node("Move")
+onready var stats_node := get_parent().get_parent().get_node("Attributes/Stats")
+onready var cursor_sprite_node := get_tree().get_root().get_node("Master/Cursor/Sprite")
 
 var path := PoolVector2Array()
 var potential_path := PoolVector2Array()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Scenes/Combat/PathfindingAStar.gd" type="Script" id=1]
 [ext_resource path="res://Environement/TileSet/TourInterieur.tres" type="TileSet" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Environement/Tiles/TilesetMurs.png" type="Texture" id=5]
 [ext_resource path="res://Scenes/Cursor/Cursor.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/Characters/Character.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/CombatLoop.gd" type="Script" id=8]
 
 [sub_resource type="TileSet" id=1]
 0/name = "Areas.png 0"
@@ -226,6 +227,7 @@ tile_data = PoolIntArray( 65541, 8, 0, 65542, 3, 0, 65543, 46, 0, 65552, 47, 0, 
 position = Vector2( 164.395, 139.253 )
 
 [node name="CombatLoop" type="Node" parent="."]
+script = ExtResource( 8 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 19.1445, 112.338 )
