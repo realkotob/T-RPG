@@ -2,12 +2,11 @@ extends Node
 
 class_name StatesMachine
 
-onready var StateLabel := $StateLabel 
-
 # Define the list of possible states, and give the path to the corresponding node for each state
 # The states are distinguished by the name of their corresponding node
 # The default state is always the first in the tree
-onready var states_map = get_children()
+
+#onready var states_map = get_children()
 
 onready var current_state : Object
 onready var previous_state : Object
@@ -16,19 +15,25 @@ var state_name
 
 signal state_changed
 
-func _ready():
-	var _err = self.connect("state_changed", StateLabel, "on_Character_state_changed")
-	state_name = states_map[0].name
-	_set_state(get_node(state_name))
+#func _ready():
+#	_set_state(states_map[0])
 
-# Call for the current state process
+
+# Call for the current state process at every frame of the physic process
 func _physics_process(delta):
+	if current_state == null:
+		return
 	state_name = current_state.update(self, delta)
 	if state_name:
 		_set_state(get_node(state_name))
 
-# Set a new state
+
+# Set current_state at a new state, also set previous state, and emit a signal to notify the change, to anybody needing it 
 func _set_state(new_state):
+	
+	# if the given argument is a string, get the 
+	if new_state is String:
+		new_state = get_node(new_state)
 	
 	# Discard the method if the new_state is the current_state
 	if new_state == current_state:

@@ -3,8 +3,8 @@ extends Node
 var MaxStats : Resource
 var ActualStats : Resource
 
-onready var label = get_child(0)
-onready var max_label = get_child(1)
+onready var label = get_node("StatsLabel")
+onready var max_label = get_node("MaxStatsLabel")
 
 signal ActualStatsChanged
 signal MaxStatsChanged

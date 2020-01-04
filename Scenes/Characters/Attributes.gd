@@ -2,9 +2,9 @@ extends Node
 
 class_name Attributes
 
-onready var Stats = $Stats
+onready var stats_node = get_node("Stats")
 
 export var starting_stats : Resource
 
 func _ready():
-	Stats.initialize(starting_stats)
+	stats_node.initialize(starting_stats)

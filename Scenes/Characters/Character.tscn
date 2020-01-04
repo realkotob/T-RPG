@@ -8,7 +8,7 @@
 [ext_resource path="res://Fonts/DefaultFont.tres" type="DynamicFont" id=6]
 [ext_resource path="res://Scenes/Characters/StatsLabel.gd" type="Script" id=7]
 [ext_resource path="res://Scenes/Characters/MaxStatsLabel.gd" type="Script" id=8]
-[ext_resource path="res://Scenes/Characters/StateMachine.gd" type="Script" id=9]
+[ext_resource path="res://Scenes/Characters/CharacterStates.gd" type="Script" id=9]
 [ext_resource path="res://Scenes/Characters/Idle.gd" type="Script" id=10]
 [ext_resource path="res://Scenes/Characters/Move.gd" type="Script" id=11]
 [ext_resource path="res://Fonts/source-code-pro-bold.otf" type="DynamicFontData" id=12]
@@ -19,19 +19,21 @@ size = 9
 font_data = ExtResource( 12 )
 
 [node name="Character" type="Position2D"]
-position = Vector2( 80, 80 )
 script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0.263519, -20.4799 )
 texture = ExtResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Attributes" type="Node" parent="."]
-editor/display_folded = true
 script = ExtResource( 3 )
 starting_stats = ExtResource( 4 )
 
 [node name="Stats" type="Node" parent="Attributes"]
+editor/display_folded = true
 script = ExtResource( 5 )
 
 [node name="StatsLabel" type="Label" parent="Attributes/Stats"]

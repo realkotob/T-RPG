@@ -28,13 +28,13 @@ func _ready():
 	obstacles = obstacles_tilemap.get_used_cells() + walls_tilemap.get_used_cells()
 	
 	# Store all the passable cells into the array walkable_cells_list, by checking all the cells in the map to see if they are not an obstacle
-	var walkable_cells_list = astar_add_walkable_cells(obstacles)
+	var walkable_cells_list = astar_add_walkable_cells()
 	
 	# Create the connections between all the walkable cells
 	astar_connect_walkable_cells(walkable_cells_list)
 
 # Determine which cells are walkale and which are not
-func astar_add_walkable_cells(obstacles = []):
+func astar_add_walkable_cells():
 	
 	var points_array = []
 	

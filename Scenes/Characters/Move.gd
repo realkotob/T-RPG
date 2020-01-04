@@ -1,6 +1,6 @@
-extends States
+extends StateBase
 
-onready var character = find_parent("Character")
+var character_node : Node
 
 var path : PoolVector2Array
 var target_point_world : Vector2
@@ -26,13 +26,14 @@ func update(_host, _delta):
 # Handle the movement to the next point on the path, return true if the character is arrived
 func move_to(world_position):
 	
-	var velocity = (world_position - character.position).normalized() * speed
-	if character.position.distance_to(world_position) <= speed:
-		character.position = world_position
+	var velocity = (world_position - character_node.global_position).normalized() * speed
+	if character_node.global_position.distance_to(world_position) <= speed:
+		character_node.global_position = world_position
 	else:
-		character.position += velocity
+		character_node.global_position += velocity
 	
-	return world_position == character.position
+	return world_position == character_node.global_position
 
+# Set the path whenever the player choose a destination
 func _on_Idle_path_chosen(chosen_path):
 	path = chosen_path

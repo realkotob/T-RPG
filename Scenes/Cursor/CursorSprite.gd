@@ -1,7 +1,10 @@
 extends Sprite
 
-func _on_path_valid(path_valid):
+const WHITE := Color('#ffffff')
+const RED := Color('#ff0000')
+
+func change_color(path_valid):
 	if path_valid == true:
-		set_modulate(Color('#ffffff'))
+		set_modulate(WHITE)
 	else:
-		set_modulate(Color('#ff0000'))
+		set_modulate(RED)
