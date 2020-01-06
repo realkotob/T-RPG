@@ -6,7 +6,7 @@ class_name StatesMachine
 # The states are distinguished by the name of their corresponding node
 # The default state is always the first in the tree
 
-#onready var states_map = get_children()
+onready var states_map = get_children()
 
 onready var current_state : Object
 onready var previous_state : Object
@@ -15,8 +15,9 @@ var state_name
 
 signal state_changed
 
-#func _ready():
-#	_set_state(states_map[0])
+
+func on_ready():
+	_set_state(states_map[0])
 
 
 # Call for the current state process at every frame of the physic process
