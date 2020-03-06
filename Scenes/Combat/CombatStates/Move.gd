@@ -1,6 +1,6 @@
 extends CombatStateBase
 
-#### MOVE STATE ####
+#### COMBAT MOVE STATE ####
 
 # Connect the active actor when the state is entered
 func enter_state():

@@ -1,6 +1,6 @@
 extends CombatStateBase
 
-#### OVERLOOK STATE ####
+#### COMBAT OVERLOOK STATE ####
 
 # Connect the active actor when the state is entered
 func enter_state():

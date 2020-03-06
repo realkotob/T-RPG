@@ -1,0 +1,124 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://Environement/TileSet/TourInterieur.tres" type="TileSet" id=1]
+[ext_resource path="res://Scenes/Combat/Cursor/Cursor.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Combat/HUD/MoveButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Characters/Character.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Combat/HUD/AttackButton.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/Combat/Map/Map.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/Combat/HUD/SkillsButton.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/Combat/HUD/ItemsButton.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/Combat/HUD/WaitButton.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scenes/Combat/CombatStates/Move.gd" type="Script" id=10]
+[ext_resource path="res://Scenes/Combat/HUD/HUD.gd" type="Script" id=11]
+[ext_resource path="res://Scenes/Combat/CombatStates/Overlook.gd" type="Script" id=12]
+[ext_resource path="res://Scenes/Combat/CombatLoop.gd" type="Script" id=13]
+[ext_resource path="res://Scenes/Combat/HUD/ActiveActorLabel.gd" type="Script" id=14]
+[ext_resource path="res://Scenes/Combat/CombatStates/CombatStateMachine.gd" type="Script" id=15]
+
+[node name="Combat" type="Node2D"]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CombatLoop" type="Node2D" parent="."]
+script = ExtResource( 13 )
+
+[node name="Camera2D" type="Camera2D" parent="CombatLoop"]
+position = Vector2( 19.1445, 112.338 )
+current = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CombatState" type="Node" parent="CombatLoop"]
+script = ExtResource( 15 )
+
+[node name="Overlook" type="Node" parent="CombatLoop/CombatState"]
+script = ExtResource( 12 )
+
+[node name="Move" type="Node" parent="CombatLoop/CombatState"]
+script = ExtResource( 10 )
+
+[node name="Map" parent="CombatLoop" instance=ExtResource( 6 )]
+
+[node name="YSort" type="YSort" parent="CombatLoop"]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Obstacles" type="TileMap" parent="CombatLoop/YSort"]
+mode = 1
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 32, 16 )
+cell_y_sort = true
+format = 1
+tile_data = PoolIntArray( 65541, 8, 0, 65542, 3, 0, 65543, 46, 0, 65552, 47, 0, 65553, 9, 0, 131078, 7, 0, 262145, 20, 0, 393223, 21, 0, 393228, 37, 0, 458764, 12, 0, 458765, 18, 0, 458766, 48, 0, 589838, 19, 0, 655361, 3, 0, 720897, 2, 0, 786433, 2, 0, 851969, 9, 0, 917514, 6, 0, 917517, 5, 0 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Cursor" parent="CombatLoop/YSort" instance=ExtResource( 2 )]
+
+[node name="Character" parent="CombatLoop/YSort" instance=ExtResource( 4 )]
+position = Vector2( 164.395, 139.253 )
+
+[node name="HUD" type="Control" parent="CombatLoop"]
+anchor_right = 1.0
+script = ExtResource( 11 )
+
+[node name="ActionMenu" type="VBoxContainer" parent="CombatLoop/HUD"]
+margin_left = 275.0
+margin_right = 400.0
+margin_bottom = -35.7256
+custom_constants/separation = -6
+alignment = 1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Move" parent="CombatLoop/HUD/ActionMenu" instance=ExtResource( 3 )]
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 125.0
+margin_bottom = 19.0
+
+[node name="Attack" parent="CombatLoop/HUD/ActionMenu" instance=ExtResource( 5 )]
+margin_left = 0.0
+margin_top = 13.0
+margin_right = 125.0
+margin_bottom = 32.0
+
+[node name="Skills" parent="CombatLoop/HUD/ActionMenu" instance=ExtResource( 7 )]
+margin_left = 0.0
+margin_top = 26.0
+margin_right = 125.0
+margin_bottom = 45.0
+
+[node name="Items" parent="CombatLoop/HUD/ActionMenu" instance=ExtResource( 8 )]
+margin_left = 0.0
+margin_top = 39.0
+margin_right = 125.0
+margin_bottom = 58.0
+disabled = true
+
+[node name="Wait" parent="CombatLoop/HUD/ActionMenu" instance=ExtResource( 9 )]
+margin_left = 0.0
+margin_top = 52.0
+margin_right = 125.0
+margin_bottom = 71.0
+
+[node name="Debug" type="VBoxContainer" parent="CombatLoop/HUD"]
+margin_left = -293.401
+margin_top = -58.9641
+margin_right = -188.401
+margin_bottom = 51.0359
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="ActiveActor" type="Label" parent="CombatLoop/HUD/Debug"]
+margin_right = 105.0
+margin_bottom = 14.0
+script = ExtResource( 14 )

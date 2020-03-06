@@ -42,7 +42,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "StatesMachine",
 "language": "GDScript",
-"path": "res://Scenes/Characters/StateMachine.gd"
+"path": "res://Classes/StateMachine.gd"
 } ]
 _global_script_class_icons={
 "Attributes": "",
@@ -57,7 +57,7 @@ _global_script_class_icons={
 [application]
 
 config/name="TRPG"
-run/main_scene="res://Scenes/Demo.tscn"
+run/main_scene="res://Scenes/Combat/CombatBase.tscn"
 config/icon="res://icon.png"
 
 [display]

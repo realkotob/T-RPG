@@ -36,6 +36,7 @@ func find_walkable_cells(actor_position : Vector2, actor_movements : int) -> voi
 				if path_len > 0 && path_len - 1 <= actor_movements:
 					walkable_cells.append(cell)
 
+
 # Find all the relatives to an array of points, checking if they haven't been treated before, and return it in an array
 func find_relatives_array(point_array : Array) -> Array:
 	var result_array : Array = []
@@ -52,6 +53,7 @@ func find_relatives_array(point_array : Array) -> Array:
 				result_array.append(cell)
 	
 	return result_array
+
 
 # Find all the relatives to a points, checking if they haven't been treated before, and return it in an array
 func find_relatives_point(point: Vector2) -> Array:
@@ -70,12 +72,14 @@ func find_relatives_point(point: Vector2) -> Array:
 	
 	return result_array
 
+
 # Draw the given area, with the give tile
 func draw_area(cell_array : Array, tile_id : int) -> void:
 	for cell in cell_array:
 		set_cellv(cell, tile_id, false, false, false)
 
-# On the draw movement envent, find the movement area, and draw it
+
+# On the draw movement event, find the movement area, and draw it
 func _on_draw_movement_area(actor_position, actor_movements):
 	find_walkable_cells(actor_position, actor_movements)
 	draw_area(walkable_cells, BLUE_CELL)

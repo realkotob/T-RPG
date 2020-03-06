@@ -3,7 +3,7 @@ extends IsoTileMap
 # Create a Astar node and store it in the variable astar_node
 onready var astar_node = AStar.new()
 onready var _half_cell_size = cell_size / 2
-onready var grounds_tilemap = get_node("Grounds/Ground1")
+onready var grounds_tilemap = get_node("Ground")
 onready var obstacles_tilemap = get_parent().get_node("YSort").get_node("Obstacles")
 onready var walls_tilemap = get_node("Walls")
 
