@@ -33,7 +33,6 @@ script = ExtResource( 3 )
 starting_stats = ExtResource( 4 )
 
 [node name="Stats" type="Node" parent="Attributes"]
-editor/display_folded = true
 script = ExtResource( 5 )
 
 [node name="StatsLabel" type="Label" parent="Attributes/Stats"]

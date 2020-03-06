@@ -7,7 +7,7 @@ var target_point_world : Vector2
 var speed = 5.0
 
 # Move the actor, until it's arrived to the next point
-func update(_host, _delta):
+func update(_delta):
 	
 	if len(path) > 0:
 		target_point_world = path[0]

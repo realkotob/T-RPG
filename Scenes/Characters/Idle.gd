@@ -25,7 +25,7 @@ func initialize_path_value():
 
 
 # Check if the path is valid or not every frames, if it is, set the state to Move
-func update(_host, _delta):
+func update(_delta):
 	var is_path_valid = check_path(path)
 	if is_path_valid == true:
 		emit_signal("path_chosen", path)
@@ -33,19 +33,19 @@ func update(_host, _delta):
 
 
 # When the state is entered define the actor postiton, empty the path and potential_path array, and set a potential_path
-func enter_state(host):
+func enter_state():
 	var pos
 	if character_node != null:
 		pos = character_node.get_position()
 		initialize_path_value()
-		set_potential_path(host.get_viewport().get_mouse_position(), pos)
+		set_potential_path(get_viewport().get_mouse_position(), pos)
 	
 		if stats_node != null:
 			emit_signal("draw_movement_area", pos, stats_node.get_actual_movements())
 
 
 # When the state is exited, empty the path and potential path array
-func exit_state(_host):
+func exit_state():
 	initialize_path_value()
 
 

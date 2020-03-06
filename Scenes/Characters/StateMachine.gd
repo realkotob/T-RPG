@@ -16,6 +16,7 @@ var state_name
 signal state_changed
 
 
+# Set the state to the first of the list
 func setup():
 	set_state(states_map[0])
 
@@ -24,7 +25,7 @@ func setup():
 func _physics_process(delta):
 	if current_state == null:
 		return
-	state_name = current_state.update(self, delta)
+	state_name = current_state.update(delta)
 	if state_name:
 		set_state(get_node(state_name))
 
@@ -42,7 +43,7 @@ func set_state(new_state):
 	
 	# Use the exit state function of the current state
 	if current_state != null:
-		current_state.exit_state(self)
+		current_state.exit_state()
 	
 	# Change the current state, and the previous state
 	previous_state = current_state
@@ -50,6 +51,6 @@ func set_state(new_state):
 	
 	# Use the enter_state function of the current state
 	if new_state != null:
-		current_state.enter_state(self)
+		current_state.enter_state()
 	
 	emit_signal("state_changed", state_name)
