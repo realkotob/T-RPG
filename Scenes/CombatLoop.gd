@@ -3,20 +3,21 @@ extends Node
 onready var map_node = get_node("Map")
 onready var map_area_node = get_node("Map/Areas")
 onready var cursor_node = get_node("YSort/Cursor")
-onready var combat_state_node = get_node("Combat_State")
+onready var combat_state_node = get_node("CombatState")
+onready var HUD_node = get_node("HUD")
 
 onready var allies_array : Array = get_tree().get_nodes_in_group("Allies")
 onready var actors_order : Array = allies_array
+
+onready var children_array = get_children()
 
 var active_actor : Node
 var previous_actor : Node = null
 
 
 func _ready():
-	give_nodes_to_allies()
 	active_actor = actors_order[0]
-	setup_cursor()
-	setup_combat_state()
+	setup_children()
 	new_turn()
 
 
@@ -33,22 +34,30 @@ func first_become_last(array : Array) -> void:
 	array.pop_front()
 
 
-# Give the allies all the node reference it needs
-func give_nodes_to_allies() -> void:
-	for ally in allies_array:
-		ally.cursor_node = cursor_node
-		ally.map_node = map_node
-		ally.map_area_node = map_area_node
-		ally.setup()
+# Give references to the children node and call their setup method
+func setup_children():
+	# Treat the cursor node as a direct child
+	children_array.append(cursor_node)
+	
+	# Treat the characters as direct children
+	children_array += allies_array
+	
+	for child in children_array:
+		if "map_node" in child:
+			child.map_node = map_node
+		
+		if "cursor_node" in child:
+			child.cursor_node = cursor_node
+		
+		if "map_area_node" in child:
+			child.map_area_node = map_area_node
+		
+		if "combat_loop_node" in child:
+			child.combat_loop_node = self
+		
+		if "combat_state_node" in child:
+			child.combat_state_node = combat_state_node
+		
+		if child.has_method("setup"):
+			child.setup()
 
-
-# Setup the cursor and give it node references
-func setup_cursor() -> void:
-	cursor_node.map_node = map_node
-	cursor_node.setup()
-
-
-# Setup the combat_state_node and give it node references
-func setup_combat_state() -> void:
-	combat_state_node.combat_loop_node = self
-	combat_state_node.setup()

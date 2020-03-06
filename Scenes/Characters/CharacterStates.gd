@@ -32,4 +32,4 @@ func setup():
 	
 	connect_signals()
 	
-	_set_state("Idle")
+	set_state("Idle")

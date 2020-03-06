@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Scenes/CombatLoop.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Combat/Combat_StateMachine.gd" type="Script" id=2]
@@ -13,8 +13,9 @@
 [ext_resource path="res://Scenes/Combat/SkillsButton.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Scenes/Combat/ItemsButton.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Scenes/Combat/WaitButton.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Scenes/HUD.gd" type="Script" id=14]
 
-[node name="Master" type="Node2D"]
+[node name="Combat" type="Node2D"]
 __meta__ = {
 "_edit_lock_": true
 }
@@ -29,19 +30,18 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Combat_State" type="Node" parent="CombatLoop"]
+[node name="CombatState" type="Node" parent="CombatLoop"]
 script = ExtResource( 2 )
 
-[node name="Overlook" type="Node" parent="CombatLoop/Combat_State"]
+[node name="Overlook" type="Node" parent="CombatLoop/CombatState"]
 script = ExtResource( 3 )
 
-[node name="Move" type="Node" parent="CombatLoop/Combat_State"]
+[node name="Move" type="Node" parent="CombatLoop/CombatState"]
 script = ExtResource( 4 )
 
 [node name="Map" parent="CombatLoop" instance=ExtResource( 5 )]
 
 [node name="YSort" type="YSort" parent="CombatLoop"]
-editor/display_folded = true
 __meta__ = {
 "_edit_lock_": true
 }
@@ -63,19 +63,18 @@ __meta__ = {
 position = Vector2( 164.395, 139.253 )
 
 [node name="HUD" type="Control" parent="CombatLoop"]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 19.1445
 margin_top = 112.338
 margin_right = 19.1445
 margin_bottom = 112.338
+script = ExtResource( 14 )
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="ActionMenu" type="VBoxContainer" parent="CombatLoop/HUD"]
-editor/display_folded = true
 margin_left = 273.083
 margin_top = -106.726
 margin_right = 315.313
@@ -86,34 +85,33 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="CombatButton" parent="CombatLoop/HUD/ActionMenu" instance=ExtResource( 9 )]
+[node name="Move" parent="CombatLoop/HUD/ActionMenu" instance=ExtResource( 9 )]
 margin_left = 0.0
 margin_top = 0.0
 margin_right = 42.0
 margin_bottom = 19.0
 
-[node name="CombatButton2" parent="CombatLoop/HUD/ActionMenu" instance=ExtResource( 10 )]
+[node name="Attack" parent="CombatLoop/HUD/ActionMenu" instance=ExtResource( 10 )]
 margin_left = 0.0
 margin_top = 13.0
 margin_right = 42.0
 margin_bottom = 32.0
 
-[node name="CombatButton3" parent="CombatLoop/HUD/ActionMenu" instance=ExtResource( 11 )]
+[node name="Skills" parent="CombatLoop/HUD/ActionMenu" instance=ExtResource( 11 )]
 margin_left = 0.0
 margin_top = 26.0
 margin_right = 42.0
 margin_bottom = 45.0
 
-[node name="CombatButton4" parent="CombatLoop/HUD/ActionMenu" instance=ExtResource( 12 )]
+[node name="Items" parent="CombatLoop/HUD/ActionMenu" instance=ExtResource( 12 )]
 margin_left = 0.0
 margin_top = 39.0
 margin_right = 42.0
 margin_bottom = 58.0
+disabled = true
 
-[node name="CombatButton5" parent="CombatLoop/HUD/ActionMenu" instance=ExtResource( 13 )]
+[node name="Wait" parent="CombatLoop/HUD/ActionMenu" instance=ExtResource( 13 )]
 margin_left = 0.0
 margin_top = 52.0
 margin_right = 42.0
 margin_bottom = 71.0
-
-[node name="Portrait" type="TextureRect" parent="CombatLoop/HUD"]
