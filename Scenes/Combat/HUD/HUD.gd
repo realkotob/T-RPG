@@ -40,7 +40,7 @@ func on_combat_state_changed(state : Node):
 
 # Set the debug labels invisible when  
 func _input(_event):
-	if Input.is_action_pressed("ui_cancel"):
+	if Input.is_action_just_pressed("ui_cancel"):
 		debug_node.set_visible(!debug_node.is_visible())
 		
 		# Desactivate the physics process of the labels when they are invisible

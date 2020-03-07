@@ -1,21 +1,25 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Environement/TileSet/TourInterieur.tres" type="TileSet" id=1]
 [ext_resource path="res://Scenes/Combat/Cursor/Cursor.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Scenes/Combat/HUD/MoveButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Combat/HUD/ActionMenu/MoveButton.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Characters/Character.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Scenes/Combat/HUD/AttackButton.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/Combat/HUD/ActionMenu/AttackButton.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/Combat/Map/Map.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Scenes/Combat/HUD/SkillsButton.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Scenes/Combat/HUD/ItemsButton.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Scenes/Combat/HUD/WaitButton.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scenes/Combat/HUD/ActionMenu/SkillsButton.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/Combat/HUD/ActionMenu/ItemsButton.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/Combat/HUD/ActionMenu/WaitButton.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/Combat/CombatStates/Move.gd" type="Script" id=10]
 [ext_resource path="res://Scenes/Combat/HUD/HUD.gd" type="Script" id=11]
 [ext_resource path="res://Scenes/Combat/CombatStates/Overlook.gd" type="Script" id=12]
 [ext_resource path="res://Scenes/Combat/CombatLoop.gd" type="Script" id=13]
-[ext_resource path="res://Scenes/Combat/HUD/ActiveActorLabel.gd" type="Script" id=14]
+[ext_resource path="res://Scenes/Combat/HUD/Debug/ActiveActorLabel.gd" type="Script" id=14]
 [ext_resource path="res://Scenes/Combat/CombatStates/CombatStateMachine.gd" type="Script" id=15]
-[ext_resource path="res://Scenes/Combat/HUD/CombatStateLabel.gd" type="Script" id=16]
+[ext_resource path="res://Scenes/Combat/HUD/Debug/CombatStateLabel.gd" type="Script" id=16]
+[ext_resource path="res://Scenes/Combat/CombatStates/Attack.gd" type="Script" id=17]
+[ext_resource path="res://Scenes/Combat/CombatStates/Skills.gd" type="Script" id=18]
+[ext_resource path="res://Scenes/Combat/CombatStates/Items.gd" type="Script" id=19]
+[ext_resource path="res://Scenes/Combat/CombatStates/Wait.gd" type="Script" id=20]
 
 [node name="Combat" type="Node2D"]
 __meta__ = {
@@ -40,6 +44,18 @@ script = ExtResource( 12 )
 
 [node name="Move" type="Node" parent="CombatLoop/CombatState"]
 script = ExtResource( 10 )
+
+[node name="Attack" type="Node" parent="CombatLoop/CombatState"]
+script = ExtResource( 17 )
+
+[node name="Skills" type="Node" parent="CombatLoop/CombatState"]
+script = ExtResource( 18 )
+
+[node name="Items" type="Node" parent="CombatLoop/CombatState"]
+script = ExtResource( 19 )
+
+[node name="Wait" type="Node" parent="CombatLoop/CombatState"]
+script = ExtResource( 20 )
 
 [node name="Map" parent="CombatLoop" instance=ExtResource( 6 )]
 
