@@ -1,6 +1,6 @@
 extends Label
 
-var active_actor : Node
+var combat_state : Node
 
 func _ready():
 	set_physics_process(false)
@@ -11,7 +11,7 @@ func setup():
 
 
 func _physics_process(_delta):
-	if active_actor != null:
-		text = "Active actor: " + active_actor.name
+	if combat_state != null:
+		text = "Combat State: " + combat_state.name
 	else:
-		text = "Active actor: null"
+		text = "Combat State: null"

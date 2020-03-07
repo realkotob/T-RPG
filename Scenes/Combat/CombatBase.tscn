@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Environement/TileSet/TourInterieur.tres" type="TileSet" id=1]
 [ext_resource path="res://Scenes/Combat/Cursor/Cursor.tscn" type="PackedScene" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://Scenes/Combat/CombatLoop.gd" type="Script" id=13]
 [ext_resource path="res://Scenes/Combat/HUD/ActiveActorLabel.gd" type="Script" id=14]
 [ext_resource path="res://Scenes/Combat/CombatStates/CombatStateMachine.gd" type="Script" id=15]
+[ext_resource path="res://Scenes/Combat/HUD/CombatStateLabel.gd" type="Script" id=16]
 
 [node name="Combat" type="Node2D"]
 __meta__ = {
@@ -66,6 +67,9 @@ position = Vector2( 164.395, 139.253 )
 [node name="HUD" type="Control" parent="CombatLoop"]
 anchor_right = 1.0
 script = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ActionMenu" type="VBoxContainer" parent="CombatLoop/HUD"]
 margin_left = 275.0
@@ -118,7 +122,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ActiveActor" type="Label" parent="CombatLoop/HUD/Debug"]
+[node name="CombatState" type="Label" parent="CombatLoop/HUD/Debug"]
 margin_right = 105.0
 margin_bottom = 14.0
+script = ExtResource( 16 )
+
+[node name="ActiveActor" type="Label" parent="CombatLoop/HUD/Debug"]
+margin_top = 18.0
+margin_right = 105.0
+margin_bottom = 32.0
 script = ExtResource( 14 )
