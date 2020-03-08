@@ -21,20 +21,6 @@ func _ready():
 	new_turn()
 
 
-# New turn procedure, set the new active actor
-func new_turn():
-	previous_actor = active_actor
-	first_become_last(actors_order)
-	active_actor = actors_order[0]
-	HUD_node.set_active_actor(active_actor)
-
-
-# Put the first actor of the array at the last position
-func first_become_last(array : Array) -> void:
-	array.append(array[0])
-	array.pop_front()
-
-
 # Give references to the children node and call their setup method
 func setup_children():
 	# Treat the cursor node as a direct child
@@ -65,3 +51,16 @@ func setup_children():
 		if child.has_method("setup"):
 			child.setup()
 
+
+# New turn procedure, set the new active actor
+func new_turn():
+	previous_actor = active_actor
+	first_become_last(actors_order)
+	active_actor = actors_order[0]
+	HUD_node.set_active_actor(active_actor)
+
+
+# Put the first actor of the array at the last position
+func first_become_last(array : Array) -> void:
+	array.append(array[0])
+	array.pop_front()

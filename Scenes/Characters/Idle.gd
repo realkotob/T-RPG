@@ -1,9 +1,10 @@
 extends StateBase
 
 var map_node : TileMap
-
 var character_node : Node
-var stats_node : Node
+var move_node : Node
+var cursor_node : Node
+var area_node : Node
 
 var path := PoolVector2Array()
 var potential_path := PoolVector2Array()
@@ -13,9 +14,11 @@ signal path_valid
 signal draw_movement_area
 
 
-# Connect signals whenever the parent is ready
 func setup():
 	var _err
+	_err = connect("path_chosen", move_node, "_on_Idle_path_chosen")
+	_err = connect("path_valid", cursor_node, "_on_path_valid")
+	_err = connect("draw_movement_area", area_node, "_on_draw_movement_area")
 
 
 # Empty the path and potential path arrays
@@ -39,9 +42,8 @@ func enter_state():
 		pos = character_node.get_position()
 		initialize_path_value()
 		set_potential_path(get_viewport().get_mouse_position(), pos)
-	
-		if stats_node != null:
-			emit_signal("draw_movement_area", pos, stats_node.get_actual_movements())
+		
+		emit_signal("draw_movement_area", pos, character_node.get_actual_movements())
 
 
 # When the state is exited, empty the path and potential path array
@@ -68,10 +70,10 @@ func set_potential_path(cursor_pos : Vector2, char_pos : Vector2) -> void:
 
 # Check if the path is valid, return true or false
 func check_path(path_to_check : PoolVector2Array) -> bool:
-	if stats_node == null:
+	if character_node == null:
 		return false
 	
-	var movements = stats_node.get_actual_movements()
+	var movements = character_node.get_actual_movements()
 	if len(path_to_check) > 0 and len(path_to_check) - 1 <= movements:
 		return true
 	else:

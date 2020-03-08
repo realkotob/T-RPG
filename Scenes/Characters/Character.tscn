@@ -1,13 +1,8 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scenes/Characters/Character.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Hart_Iso_outline.png" type="Texture" id=2]
-[ext_resource path="res://Scenes/Characters/Attributes.gd" type="Script" id=3]
 [ext_resource path="res://Resources/HartStats.tres" type="Resource" id=4]
-[ext_resource path="res://Scenes/Characters/Stats.gd" type="Script" id=5]
-[ext_resource path="res://Fonts/DefaultFont.tres" type="DynamicFont" id=6]
-[ext_resource path="res://Scenes/Characters/StatsLabel.gd" type="Script" id=7]
-[ext_resource path="res://Scenes/Characters/MaxStatsLabel.gd" type="Script" id=8]
 [ext_resource path="res://Scenes/Characters/CharacterStates.gd" type="Script" id=9]
 [ext_resource path="res://Scenes/Characters/Idle.gd" type="Script" id=10]
 [ext_resource path="res://Scenes/Characters/Move.gd" type="Script" id=11]
@@ -20,6 +15,7 @@ font_data = ExtResource( 12 )
 
 [node name="Character" type="Position2D"]
 script = ExtResource( 1 )
+starting_stats = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0.263519, -20.4799 )
@@ -27,37 +23,6 @@ texture = ExtResource( 2 )
 __meta__ = {
 "_edit_lock_": true
 }
-
-[node name="Attributes" type="Node" parent="."]
-script = ExtResource( 3 )
-starting_stats = ExtResource( 4 )
-
-[node name="Stats" type="Node" parent="Attributes"]
-script = ExtResource( 5 )
-
-[node name="StatsLabel" type="Label" parent="Attributes/Stats"]
-visible = false
-margin_left = 215.262
-margin_top = -30.1822
-margin_right = 248.262
-margin_bottom = -2.18223
-custom_fonts/font = ExtResource( 6 )
-align = 1
-valign = 1
-uppercase = true
-script = ExtResource( 7 )
-
-[node name="MaxStatsLabel" type="Label" parent="Attributes/Stats"]
-visible = false
-margin_left = -239.077
-margin_top = -46.8944
-margin_right = -206.077
-margin_bottom = -18.8945
-custom_fonts/font = ExtResource( 6 )
-align = 1
-valign = 1
-uppercase = true
-script = ExtResource( 8 )
 
 [node name="States" type="Node" parent="."]
 script = ExtResource( 9 )
