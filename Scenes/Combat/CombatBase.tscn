@@ -22,49 +22,52 @@
 [ext_resource path="res://Scenes/Combat/CombatStates/Wait.gd" type="Script" id=20]
 
 [node name="Combat" type="Node2D"]
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="CombatLoop" type="Node2D" parent="."]
 script = ExtResource( 13 )
 
-[node name="Camera2D" type="Camera2D" parent="CombatLoop"]
+[node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 19.1445, 112.338 )
 current = true
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="CombatState" type="Node" parent="CombatLoop"]
+[node name="CombatState" type="Node" parent="."]
 script = ExtResource( 15 )
 
-[node name="Overlook" type="Node" parent="CombatLoop/CombatState"]
+[node name="Overlook" type="Node" parent="CombatState"]
 script = ExtResource( 12 )
 
-[node name="Move" type="Node" parent="CombatLoop/CombatState"]
+[node name="Move" type="Node" parent="CombatState"]
 script = ExtResource( 10 )
 
-[node name="Attack" type="Node" parent="CombatLoop/CombatState"]
+[node name="Line" type="Line2D" parent="CombatState/Move"]
+width = 7.0
+default_color = Color( 0.356863, 0.839216, 0.329412, 0.619608 )
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+round_precision = 19
+
+[node name="Attack" type="Node" parent="CombatState"]
 script = ExtResource( 17 )
 
-[node name="Skills" type="Node" parent="CombatLoop/CombatState"]
+[node name="Skills" type="Node" parent="CombatState"]
 script = ExtResource( 18 )
 
-[node name="Items" type="Node" parent="CombatLoop/CombatState"]
+[node name="Items" type="Node" parent="CombatState"]
 script = ExtResource( 19 )
 
-[node name="Wait" type="Node" parent="CombatLoop/CombatState"]
+[node name="Wait" type="Node" parent="CombatState"]
 script = ExtResource( 20 )
 
-[node name="Map" parent="CombatLoop" instance=ExtResource( 6 )]
+[node name="Map" parent="." instance=ExtResource( 6 )]
 
-[node name="YSort" type="YSort" parent="CombatLoop"]
+[node name="YSort" type="YSort" parent="."]
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Obstacles" type="TileMap" parent="CombatLoop/YSort"]
+[node name="Obstacles" type="TileMap" parent="YSort"]
 mode = 1
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 32, 16 )
@@ -75,19 +78,19 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Cursor" parent="CombatLoop/YSort" instance=ExtResource( 2 )]
+[node name="Cursor" parent="YSort" instance=ExtResource( 2 )]
 
-[node name="Character" parent="CombatLoop/YSort" instance=ExtResource( 4 )]
+[node name="Character" parent="YSort" instance=ExtResource( 4 )]
 position = Vector2( 164.395, 139.253 )
 
-[node name="HUD" type="Control" parent="CombatLoop"]
+[node name="HUD" type="Control" parent="."]
 anchor_right = 1.0
 script = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ActionMenu" type="VBoxContainer" parent="CombatLoop/HUD"]
+[node name="ActionMenu" type="VBoxContainer" parent="HUD"]
 margin_left = 275.0
 margin_right = 400.0
 margin_bottom = -35.7256
@@ -97,38 +100,38 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Move" parent="CombatLoop/HUD/ActionMenu" instance=ExtResource( 3 )]
+[node name="Move" parent="HUD/ActionMenu" instance=ExtResource( 3 )]
 margin_left = 0.0
 margin_top = 0.0
 margin_right = 125.0
 margin_bottom = 19.0
 
-[node name="Attack" parent="CombatLoop/HUD/ActionMenu" instance=ExtResource( 5 )]
+[node name="Attack" parent="HUD/ActionMenu" instance=ExtResource( 5 )]
 margin_left = 0.0
 margin_top = 13.0
 margin_right = 125.0
 margin_bottom = 32.0
 
-[node name="Skills" parent="CombatLoop/HUD/ActionMenu" instance=ExtResource( 7 )]
+[node name="Skills" parent="HUD/ActionMenu" instance=ExtResource( 7 )]
 margin_left = 0.0
 margin_top = 26.0
 margin_right = 125.0
 margin_bottom = 45.0
 
-[node name="Items" parent="CombatLoop/HUD/ActionMenu" instance=ExtResource( 8 )]
+[node name="Items" parent="HUD/ActionMenu" instance=ExtResource( 8 )]
 margin_left = 0.0
 margin_top = 39.0
 margin_right = 125.0
 margin_bottom = 58.0
 disabled = true
 
-[node name="Wait" parent="CombatLoop/HUD/ActionMenu" instance=ExtResource( 9 )]
+[node name="Wait" parent="HUD/ActionMenu" instance=ExtResource( 9 )]
 margin_left = 0.0
 margin_top = 52.0
 margin_right = 125.0
 margin_bottom = 71.0
 
-[node name="Debug" type="VBoxContainer" parent="CombatLoop/HUD"]
+[node name="Debug" type="VBoxContainer" parent="HUD"]
 margin_left = -293.401
 margin_top = -58.9641
 margin_right = -188.401
@@ -138,12 +141,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CombatState" type="Label" parent="CombatLoop/HUD/Debug"]
+[node name="CombatState" type="Label" parent="HUD/Debug"]
 margin_right = 105.0
 margin_bottom = 14.0
 script = ExtResource( 16 )
 
-[node name="ActiveActor" type="Label" parent="CombatLoop/HUD/Debug"]
+[node name="ActiveActor" type="Label" parent="HUD/Debug"]
 margin_top = 18.0
 margin_right = 105.0
 margin_bottom = 32.0

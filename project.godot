@@ -19,7 +19,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Characters/BaseStats.gd"
 }, {
-"base": "Position2D",
+"base": "Node2D",
 "class": "Character",
 "language": "GDScript",
 "path": "res://Scenes/Characters/Character.gd"

@@ -24,7 +24,6 @@ func setup():
 # Change the active actor in the HUD
 # Generaly called by CombatLoop when the active actor change
 func set_active_actor(actor : Node):
-	
 	for label in debug_labels_array:
 		if "active_actor" in label:
 			label.active_actor = actor
@@ -32,7 +31,6 @@ func set_active_actor(actor : Node):
 
 # Change the combat state label
 func on_combat_state_changed(state : Node):
-	
 	for label in debug_labels_array:
 		if "combat_state" in label:
 			label.combat_state = state

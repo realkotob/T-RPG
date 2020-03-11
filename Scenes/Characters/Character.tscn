@@ -13,7 +13,7 @@
 size = 9
 font_data = ExtResource( 12 )
 
-[node name="Character" type="Position2D"]
+[node name="Character" type="Node2D"]
 script = ExtResource( 1 )
 starting_stats = ExtResource( 4 )
 

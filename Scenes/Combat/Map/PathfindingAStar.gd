@@ -17,6 +17,7 @@ var _point_path := PoolVector3Array()
 const BASE_LINE_WIDTH = 4.0
 const DRAW_COLOR = Color('#fff')
 
+
 func _ready():
 	# Define the map size, in cells
 	map_size = Vector2(100, 100)
@@ -32,6 +33,7 @@ func _ready():
 	
 	# Create the connections between all the walkable cells
 	astar_connect_walkable_cells(walkable_cells_list)
+
 
 # Determine which cells are walkale and which are not
 func astar_add_walkable_cells():
@@ -54,6 +56,7 @@ func astar_add_walkable_cells():
 		astar_node.add_point(point_index, Vector3(point.x, point.y, 0.0))
 	
 	return points_array
+
 
 # Connect walkables cells together
 func astar_connect_walkable_cells(points_array):
@@ -81,17 +84,19 @@ func astar_connect_walkable_cells(points_array):
 			# If not, add a connection with the origin point
 			astar_node.connect_points(point_index, current_point_relative_index, true)
 
+
 # Return true if the given point is outside the map bounds
 func is_outside_map_bounds(point):
 	return !(point in grounds)
+
 
 # Return the point index
 func calculate_point_index(point):
 	return point.x + map_size.x * point.y
 
+
 # Retrun the shortest path between two points, or an empty path if there is no path to take to get there
 func find_path(world_start, world_end) -> Array:
-	
 	# Set the start and end point
 	set_path_start_position(world_to_map(world_start))
 	set_path_end_position(world_to_map(world_end))
@@ -108,6 +113,7 @@ func find_path(world_start, world_end) -> Array:
 	
 	return path_world
 
+
 # Calculate the path between two positions
 func calculate_path():
 	# Check if the given start and end points are valid, retrun an empty array if not
@@ -122,17 +128,20 @@ func calculate_path():
 	# Find a path between this two points, and store it into _point_path
 	_point_path = astar_node.get_point_path(start_point_index, end_point_index)
 
+
 # Set the start path to the given value, unless this point is an obstacle or outside the map
 func set_path_start_position(point) -> void:
 	if !is_position_valid(point):
 		point = Vector2()
 	path_start_position = point
 
+
 # Set the end path to the given value, unless this point is an obstacle or outside the map
 func set_path_end_position(point) -> void:
 	if !is_position_valid(point):
 		point = Vector2()
 	path_end_position = point
+
 
 # Check if a position is valid, return true if it is, false if it is not
 func is_position_valid(point: Vector2) -> bool:

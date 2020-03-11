@@ -3,6 +3,7 @@ extends Node
 onready var map_node = get_node("Map")
 onready var map_area_node = get_node("Map/Areas")
 onready var cursor_node = get_node("YSort/Cursor")
+onready var character_node = get_node("YSort/Character")
 onready var combat_state_node = get_node("CombatState")
 onready var HUD_node = get_node("HUD")
 
@@ -33,11 +34,14 @@ func setup_children():
 		if "map_node" in child:
 			child.map_node = map_node
 		
+		if "character_node" in child: ### TO BE REMPLACED WITH ACTIVE ACTOR IN THE FUTURE ###
+			child.character_node = character_node
+		
 		if "cursor_node" in child:
 			child.cursor_node = cursor_node
 		
-		if "map_area_node" in child:
-			child.map_area_node = map_area_node
+		if "area_node" in child:
+			child.area_node = map_area_node
 		
 		if "combat_loop_node" in child:
 			child.combat_loop_node = self

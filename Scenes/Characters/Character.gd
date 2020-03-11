@@ -1,12 +1,11 @@
-extends Position2D
+extends Node2D
 
 class_name Character
 
-var get 
+onready var states_node = $States
+onready var move_node = $States/Move
 
-var map_node : TileMap
-var map_area_node : TileMap 
-var cursor_node : Node
+var area_node : TileMap
 
 export var starting_stats : Resource
 
@@ -19,27 +18,33 @@ func _init():
 	add_to_group("Allies")
 
 
-func setup():
-	# Set the current stats to the starting stats
+# Set the current stats to the starting stats
+func _ready():
 	MaxStats = starting_stats
-	ActualStats = MaxStats
-	
+	ActualStats = starting_stats
+
+
+func setup():
 	for child in get_children():
-		if "cursor_node" in child:
-			child.cursor_node = cursor_node
-		
 		if "character_node" in child:
 			child.character_node = self
-		
-		if "map_node" in child:
-			child.map_node = map_node
-		
-		if "area_node" in child:
-			child.area_node = map_area_node
 		
 		if child.has_method("setup"):
 			child.setup()
 
+
+# Set the character in the given state
+func set_state(value : String):
+	states_node.set_state(value)
+
+
+# Move the character along the given path
+func move_along_path(path : PoolVector2Array):
+	move_node.path = path
+	set_state("Move")
+
+
+### ACCESORS ###
 
 func get_max_HP():
 	return MaxStats.HP

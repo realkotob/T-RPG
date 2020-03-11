@@ -1,4 +1,4 @@
-extends Position2D
+extends Node2D
 
 onready var sprite_node = get_node("Sprite")
 
@@ -13,8 +13,10 @@ signal cursor_change_position
 func _ready():
 	set_physics_process(false)
 
+
 func setup():
 	set_physics_process(true)
+
 
 func _physics_process(_delta):
 	# Get the mouse position
@@ -27,10 +29,12 @@ func _physics_process(_delta):
 	cursor_pos.y -= 8
 	
 	if position != cursor_pos:
+		# This signal is connected to and from the Overlook combat state
 		emit_signal("cursor_change_position", cursor_pos)
 	
 	# Set the cursor to the right position
 	set_position(cursor_pos)
+
 
 func _on_path_valid(is_path_valid : bool):
 	sprite_node.change_color(is_path_valid)

@@ -80,6 +80,6 @@ func draw_area(cell_array : Array, tile_id : int) -> void:
 
 
 # On the draw movement event, find the movement area, and draw it
-func _on_draw_movement_area(actor_position, actor_movements):
+func draw_movement_area(actor_position, actor_movements):
 	find_walkable_cells(actor_position, actor_movements)
 	draw_area(walkable_cells, BLUE_CELL)

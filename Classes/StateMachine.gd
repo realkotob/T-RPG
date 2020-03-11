@@ -30,6 +30,10 @@ func _physics_process(delta):
 		set_state(get_node(state_name))
 
 
+func get_state() -> Object:
+	return current_state
+
+
 # Set current_state at a new state, also set previous state, and emit a signal to notify the change, to anybody needing it 
 func set_state(new_state):
 	
