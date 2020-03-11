@@ -3,6 +3,7 @@
 [ext_resource path="res://Scenes/Combat/HUD/ActionMenu/CombatButton.tscn" type="PackedScene" id=1]
 
 
+
 [node name="CombatButton" instance=ExtResource( 1 )]
 action_mode = 0
 

@@ -3,9 +3,10 @@ extends StatesMachine
 var combat_loop_node : Node
 var HUD_node : Node
 var map_node : TileMap
-var character_node : Node
 var cursor_node : Node
 var area_node : Node
+
+var active_actor : Node
 
 # Setup children references
 func setup():
@@ -16,8 +17,8 @@ func setup():
 		if "map_node" in state:
 			state.map_node = map_node
 		
-		if "character_node" in state:
-			state.character_node = character_node
+		if "active_actor" in state:
+			state.active_actor = active_actor
 		
 		if "cursor_node" in state:
 			state.cursor_node = cursor_node

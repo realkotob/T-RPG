@@ -1,11 +1,11 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scenes/Characters/Character.gd" type="Script" id=1]
-[ext_resource path="res://Sprites/Hart_Iso_outline.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/Characters/CptHart/Sprite/Hart_Iso_outline.png" type="Texture" id=2]
 [ext_resource path="res://Resources/HartStats.tres" type="Resource" id=4]
-[ext_resource path="res://Scenes/Characters/CharacterStates.gd" type="Script" id=9]
-[ext_resource path="res://Scenes/Characters/Idle.gd" type="Script" id=10]
-[ext_resource path="res://Scenes/Characters/Move.gd" type="Script" id=11]
+[ext_resource path="res://Scenes/Characters/States/CharacterStates.gd" type="Script" id=9]
+[ext_resource path="res://Scenes/Characters/States/Idle.gd" type="Script" id=10]
+[ext_resource path="res://Scenes/Characters/States/Move.gd" type="Script" id=11]
 
 [node name="Character" type="Node2D"]
 script = ExtResource( 1 )

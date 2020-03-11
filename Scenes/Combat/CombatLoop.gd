@@ -34,8 +34,8 @@ func setup_children():
 		if "map_node" in child:
 			child.map_node = map_node
 		
-		if "character_node" in child: ### TO BE REMPLACED WITH ACTIVE ACTOR IN THE FUTURE ###
-			child.character_node = character_node
+		if "active_actor" in child:
+			child.active_actor = active_actor
 		
 		if "cursor_node" in child:
 			child.cursor_node = cursor_node

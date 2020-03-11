@@ -4,6 +4,7 @@ onready var debug_node : Node = $Debug
 
 onready var action_buttons_array = $ActionMenu.get_children()
 onready var debug_labels_array = debug_node.get_children()
+onready var active_actor_infos_node = $ActiveActorInfos
 
 var combat_state_node: Node
 
@@ -21,12 +22,18 @@ func setup():
 			label.setup()
 
 
+func hide_active_actor_infos(value : bool):
+	active_actor_infos_node.set_visble(!value)
+
+
 # Change the active actor in the HUD
 # Generaly called by CombatLoop when the active actor change
 func set_active_actor(actor : Node):
 	for label in debug_labels_array:
 		if "active_actor" in label:
 			label.active_actor = actor
+	
+	active_actor_infos_node.set_active_actor(actor)
 
 
 # Change the combat state label

@@ -7,6 +7,7 @@ onready var move_node = $States/Move
 
 var area_node : TileMap
 
+export var portrait : Texture 
 export var starting_stats : Resource
 
 var MaxStats : Resource
@@ -24,6 +25,7 @@ func _ready():
 	ActualStats = starting_stats
 
 
+# Give the references to the children nodes and trigger their setup method
 func setup():
 	for child in get_children():
 		if "character_node" in child:

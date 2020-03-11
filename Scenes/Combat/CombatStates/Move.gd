@@ -6,11 +6,12 @@ onready var line_node := $Line
 onready var combat_states_node = get_parent()
 
 var map_node : TileMap
-var character_node : Node
 var move_node : Node
 var cursor_node : Node
 var area_node : Node
 var combat_loop_node : Node
+
+var active_actor : Node
 
 var path := PoolVector2Array()
 
@@ -32,13 +33,13 @@ func initialize_path_value():
 func enter_state():
 	initialize_path_value()
 	
-	if character_node != null:
-		var pos = character_node.get_global_position()
+	if active_actor != null:
+		var pos = active_actor.get_global_position()
 		set_path(get_viewport().get_mouse_position(), pos)
 		
-		area_node.draw_movement_area(pos, character_node.get_actual_movements())
+		area_node.draw_movement_area(pos, active_actor.get_actual_movements())
 	
-	var _err = character_node.move_node.connect("movement_finished", self, "on_movement_finished")
+	var _err = active_actor.move_node.connect("movement_finished", self, "on_movement_finished")
 
 
 # Empty the path variable when the state is exited and 
@@ -46,7 +47,7 @@ func exit_state():
 	initialize_path_value() # Empty the path
 	line_node.set_points([]) # Empty the line
 	area_node.clear() # Clear every cells in the area tilemap
-	character_node.move_node.disconnect("movement_finished", self, "on_movement_finished")
+	active_actor.move_node.disconnect("movement_finished", self, "on_movement_finished")
 
 
 # On click, give the active actor its destination
@@ -54,13 +55,13 @@ func _unhandled_input(event):
 	if event is InputEventMouseButton && combat_states_node.get_state() == self:
 		if event.get_button_index() == BUTTON_LEFT && event.pressed:
 			if check_path(path):
-				character_node.move_along_path(path) # Move the actor
+				active_actor.move_along_path(path) # Move the actor
 
 
 # When cursor as moved, call the function that calculate a new path
 func on_cursor_change_position(cursor_pos : Vector2):
 	if combat_states_node.get_state() == self:
-		set_path(cursor_pos, character_node.get_global_position())
+		set_path(cursor_pos, active_actor.get_global_position())
 
 
 # Ask Astar for a path between current actor's position and cursor position
@@ -79,10 +80,10 @@ func set_path(cursor_pos : Vector2, char_pos : Vector2) -> void:
 
 # Check if the path is valid, return true if it is or false if not
 func check_path(path_to_check : PoolVector2Array) -> bool:
-	if character_node == null:
+	if active_actor == null:
 		return false
 	
-	var movements = character_node.get_actual_movements()
+	var movements = active_actor.get_actual_movements()
 	if len(path_to_check) > 0 and len(path_to_check) - 1 <= movements:
 		return true
 	else:

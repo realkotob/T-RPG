@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Environement/TileSet/TourInterieur.tres" type="TileSet" id=1]
 [ext_resource path="res://Scenes/Combat/Cursor/Cursor.tscn" type="PackedScene" id=2]
@@ -20,6 +20,13 @@
 [ext_resource path="res://Scenes/Combat/CombatStates/Skills.gd" type="Script" id=18]
 [ext_resource path="res://Scenes/Combat/CombatStates/Items.gd" type="Script" id=19]
 [ext_resource path="res://Scenes/Combat/CombatStates/Wait.gd" type="Script" id=20]
+[ext_resource path="res://Scenes/Combat/HUD/ActorInfos/ActiveActorInfos.gd" type="Script" id=21]
+[ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Portrait/PortBorder.png" type="Texture" id=22]
+[ext_resource path="res://Scenes/Characters/CptHart/Portrait/Hart (transparant).png" type="Texture" id=23]
+[ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Jauge/JaugeBorder.png" type="Texture" id=24]
+[ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Portrait/PortBackGround.png" type="Texture" id=25]
+[ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Jauge/Jauge.png" type="Texture" id=26]
+[ext_resource path="res://Fonts/BoldCapitalPixel.tres" type="DynamicFont" id=27]
 
 [node name="Combat" type="Node2D"]
 script = ExtResource( 13 )
@@ -82,6 +89,7 @@ __meta__ = {
 
 [node name="Character" parent="YSort" instance=ExtResource( 4 )]
 position = Vector2( 144, 144 )
+portrait = ExtResource( 23 )
 
 [node name="HUD" type="Control" parent="."]
 anchor_right = 1.0
@@ -90,46 +98,133 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ActionMenu" type="VBoxContainer" parent="HUD"]
-margin_left = 275.0
-margin_right = 400.0
-margin_bottom = -35.7256
-custom_constants/separation = -6
-alignment = 1
+[node name="ActiveActorInfos" type="Control" parent="HUD"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = 152.0
+margin_top = -64.5987
+margin_right = 336.0
+margin_bottom = -0.59874
+script = ExtResource( 21 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PortraitContainer" type="Position2D" parent="HUD/ActiveActorInfos"]
+position = Vector2( 146.092, 44.9053 )
+
+[node name="Border" type="Sprite" parent="HUD/ActiveActorInfos/PortraitContainer"]
+texture = ExtResource( 22 )
 __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="Background" type="Sprite" parent="HUD/ActiveActorInfos/PortraitContainer"]
+modulate = Color( 0.286275, 0.427451, 0.435294, 1 )
+texture = ExtResource( 25 )
+
+[node name="Portrait" type="Sprite" parent="HUD/ActiveActorInfos/PortraitContainer"]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Jauges" type="VBoxContainer" parent="HUD/ActiveActorInfos"]
+margin_left = 1.0
+margin_top = 13.0
+margin_right = 102.0
+margin_bottom = 43.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HP" type="TextureProgress" parent="HUD/ActiveActorInfos/Jauges"]
+margin_right = 101.0
+margin_bottom = 12.0
+value = 100.0
+texture_under = ExtResource( 24 )
+texture_progress = ExtResource( 26 )
+tint_progress = Color( 1, 0.101961, 0.101961, 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HUD/ActiveActorInfos/Jauges/HP"]
+margin_left = -17.0
+margin_top = -1.0
+margin_right = 23.0
+margin_bottom = 13.0
+custom_fonts/font = ExtResource( 27 )
+text = "HP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MP" type="TextureProgress" parent="HUD/ActiveActorInfos/Jauges"]
+margin_top = 16.0
+margin_right = 101.0
+margin_bottom = 28.0
+value = 50.0
+texture_under = ExtResource( 24 )
+texture_progress = ExtResource( 26 )
+tint_progress = Color( 0, 0.811765, 1, 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="HUD/ActiveActorInfos/Jauges/MP"]
+margin_left = -17.0
+margin_top = -1.0
+margin_right = 23.0
+margin_bottom = 13.0
+custom_fonts/font = ExtResource( 27 )
+text = "MP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ActionMenu" type="VBoxContainer" parent="HUD"]
+margin_left = 286.689
+margin_top = 18.4937
+margin_right = 333.689
+margin_bottom = 102.5
+custom_constants/separation = -4
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Move" parent="HUD/ActionMenu" instance=ExtResource( 3 )]
 margin_left = 0.0
-margin_top = 0.0
-margin_right = 125.0
-margin_bottom = 19.0
+margin_top = 2.0
+margin_right = 47.0
+margin_bottom = 21.0
 
 [node name="Attack" parent="HUD/ActionMenu" instance=ExtResource( 5 )]
 margin_left = 0.0
-margin_top = 13.0
-margin_right = 125.0
-margin_bottom = 32.0
+margin_top = 17.0
+margin_right = 47.0
+margin_bottom = 36.0
 
 [node name="Skills" parent="HUD/ActionMenu" instance=ExtResource( 7 )]
 margin_left = 0.0
-margin_top = 26.0
-margin_right = 125.0
-margin_bottom = 45.0
+margin_top = 32.0
+margin_right = 47.0
+margin_bottom = 51.0
 
 [node name="Items" parent="HUD/ActionMenu" instance=ExtResource( 8 )]
 margin_left = 0.0
-margin_top = 39.0
-margin_right = 125.0
-margin_bottom = 58.0
+margin_top = 47.0
+margin_right = 47.0
+margin_bottom = 66.0
 disabled = true
 
 [node name="Wait" parent="HUD/ActionMenu" instance=ExtResource( 9 )]
 margin_left = 0.0
-margin_top = 52.0
-margin_right = 125.0
-margin_bottom = 71.0
+margin_top = 62.0
+margin_right = 47.0
+margin_bottom = 81.0
 
 [node name="Debug" type="VBoxContainer" parent="HUD"]
 margin_left = -293.401

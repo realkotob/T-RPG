@@ -1,5 +1,7 @@
 extends StatesMachine
 
+#### CHARACTER STATE MACHINE ####
+
 var character_node : Node
 
 func setup():

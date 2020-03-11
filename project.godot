@@ -9,16 +9,6 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Node",
-"class": "Attributes",
-"language": "GDScript",
-"path": "res://Scenes/Characters/Attributes.gd"
-}, {
-"base": "Resource",
-"class": "BaseStats",
-"language": "GDScript",
-"path": "res://Scenes/Characters/BaseStats.gd"
-}, {
 "base": "Node2D",
 "class": "Character",
 "language": "GDScript",
@@ -45,8 +35,6 @@ _global_script_classes=[ {
 "path": "res://Classes/StateMachine.gd"
 } ]
 _global_script_class_icons={
-"Attributes": "",
-"BaseStats": "",
 "Character": "",
 "CombatStateBase": "",
 "IsoTileMap": "",

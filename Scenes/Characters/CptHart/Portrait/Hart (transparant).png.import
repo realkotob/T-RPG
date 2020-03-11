@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Hart_Iso_outline.png-301a4f4729e4efbdc048d624ae65fe3d.stex"
+path="res://.import/Hart (transparant).png-949fb3edbb98f901e7604cad92b37d33.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Hart_Iso_outline.png"
-dest_files=[ "res://.import/Hart_Iso_outline.png-301a4f4729e4efbdc048d624ae65fe3d.stex" ]
+source_file="res://Scenes/Characters/CptHart/Portrait/Hart (transparant).png"
+dest_files=[ "res://.import/Hart (transparant).png-949fb3edbb98f901e7604cad92b37d33.stex" ]
 
 [params]
 
