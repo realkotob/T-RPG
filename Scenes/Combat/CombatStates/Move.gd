@@ -30,10 +30,10 @@ func initialize_path_value():
 
 # When the state is entered define the actor postiton, empty the path and path array, and set a path
 func enter_state():
-	var pos
+	initialize_path_value()
+	
 	if character_node != null:
-		pos = character_node.get_global_position()
-		initialize_path_value()
+		var pos = character_node.get_global_position()
 		set_path(get_viewport().get_mouse_position(), pos)
 		
 		area_node.draw_movement_area(pos, character_node.get_actual_movements())
@@ -52,7 +52,7 @@ func exit_state():
 # On click, give the active actor its destination
 func _unhandled_input(event):
 	if event is InputEventMouseButton && combat_states_node.get_state() == self:
-		if event.get_button_index() == BUTTON_LEFT:
+		if event.get_button_index() == BUTTON_LEFT && event.pressed:
 			if check_path(path):
 				character_node.move_along_path(path) # Move the actor
 

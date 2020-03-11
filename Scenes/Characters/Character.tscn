@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scenes/Characters/Character.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Hart_Iso_outline.png" type="Texture" id=2]
@@ -6,12 +6,6 @@
 [ext_resource path="res://Scenes/Characters/CharacterStates.gd" type="Script" id=9]
 [ext_resource path="res://Scenes/Characters/Idle.gd" type="Script" id=10]
 [ext_resource path="res://Scenes/Characters/Move.gd" type="Script" id=11]
-[ext_resource path="res://Fonts/source-code-pro-bold.otf" type="DynamicFontData" id=12]
-[ext_resource path="res://Scenes/Characters/StateLabel.gd" type="Script" id=13]
-
-[sub_resource type="DynamicFont" id=1]
-size = 9
-font_data = ExtResource( 12 )
 
 [node name="Character" type="Node2D"]
 script = ExtResource( 1 )
@@ -32,16 +26,3 @@ script = ExtResource( 10 )
 
 [node name="Move" type="Node" parent="States"]
 script = ExtResource( 11 )
-
-[node name="StateLabel" type="Label" parent="States"]
-visible = false
-margin_left = 51.1828
-margin_top = 17.688
-margin_right = 108.183
-margin_bottom = 44.688
-custom_fonts/font = SubResource( 1 )
-text = "state"
-align = 1
-valign = 1
-uppercase = true
-script = ExtResource( 13 )
