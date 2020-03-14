@@ -5,8 +5,11 @@ onready var debug_node : Node = $Debug
 onready var action_buttons_array = $ActionMenu.get_children()
 onready var debug_labels_array = debug_node.get_children()
 onready var active_actor_infos_node = $ActiveActorInfos
+onready var actions_left_node = $ActiveActorInfos/ActionsLeft
 
 var combat_state_node: Node
+var active_actor: Object
+
 
 func setup():
 	for button in action_buttons_array:
@@ -22,6 +25,7 @@ func setup():
 			label.setup()
 
 
+# Set the whole actor HUD visible/invisible
 func hide_active_actor_infos(value : bool):
 	active_actor_infos_node.set_visble(!value)
 
@@ -34,6 +38,14 @@ func set_active_actor(actor : Node):
 			label.active_actor = actor
 	
 	active_actor_infos_node.set_active_actor(actor)
+
+
+# Update the display of actions left each time it's called
+# Usually called on each new turn, and after each actions
+# Can also be called when a malus is applied to the actor
+func update_actions_left(value : int):
+	var actions_left = clamp(value, 0, 3) as int
+	actions_left_node.update_display(actions_left)
 
 
 # Change the combat state label

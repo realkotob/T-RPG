@@ -39,5 +39,5 @@ func movements_get():
 script = SubResource( 1 )
 HP = 20
 MP = 10
-Actions = 2
+Actions = 3
 Movements = 5

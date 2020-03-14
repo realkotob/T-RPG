@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Actions/ActionBorder.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Actions/ActionLight.png" type="Texture" id=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends CenterContainer
+
+"
+
+[node name="ActionLeft" type="CenterContainer"]
+anchor_right = 0.016
+anchor_bottom = 0.028
+margin_right = -10.24
+margin_bottom = -10.08
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Border" type="TextureRect" parent="."]
+margin_right = 10.0
+margin_bottom = 10.0
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Light" type="TextureRect" parent="."]
+margin_right = 10.0
+margin_bottom = 10.0
+texture = ExtResource( 2 )

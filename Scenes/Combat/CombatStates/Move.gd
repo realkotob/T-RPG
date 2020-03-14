@@ -10,6 +10,7 @@ var move_node : Node
 var cursor_node : Node
 var area_node : Node
 var combat_loop_node : Node
+var HUD_node : Node
 
 var active_actor : Node
 
@@ -37,7 +38,7 @@ func enter_state():
 		var pos = active_actor.get_global_position()
 		set_path(get_viewport().get_mouse_position(), pos)
 		
-		area_node.draw_movement_area(pos, active_actor.get_actual_movements())
+		area_node.draw_movement_area(pos, active_actor.get_current_movements())
 	
 	var _err = active_actor.move_node.connect("movement_finished", self, "on_movement_finished")
 
@@ -47,15 +48,19 @@ func exit_state():
 	initialize_path_value() # Empty the path
 	line_node.set_points([]) # Empty the line
 	area_node.clear() # Clear every cells in the area tilemap
+	
 	active_actor.move_node.disconnect("movement_finished", self, "on_movement_finished")
 
 
 # On click, give the active actor its destination
+# Triggers the player movement
 func _unhandled_input(event):
 	if event is InputEventMouseButton && combat_states_node.get_state() == self:
 		if event.get_button_index() == BUTTON_LEFT && event.pressed:
 			if check_path(path):
 				active_actor.move_along_path(path) # Move the actor
+				active_actor.set_current_actions(active_actor.get_current_actions() - 1)
+				HUD_node.update_actions_left(active_actor.get_current_actions())
 
 
 # When cursor as moved, call the function that calculate a new path
@@ -83,7 +88,7 @@ func check_path(path_to_check : PoolVector2Array) -> bool:
 	if active_actor == null:
 		return false
 	
-	var movements = active_actor.get_actual_movements()
+	var movements = active_actor.get_current_movements()
 	if len(path_to_check) > 0 and len(path_to_check) - 1 <= movements:
 		return true
 	else:
@@ -93,3 +98,7 @@ func check_path(path_to_check : PoolVector2Array) -> bool:
 # Trigerred when the movement is finished
 func on_movement_finished():
 	combat_states_node.set_state("Overlook") # Set the state to overlook
+	
+	# If the active actor no longer has actions points, triggers a new turn 
+	if active_actor.get_current_actions() == 0:
+		combat_loop_node.new_turn()

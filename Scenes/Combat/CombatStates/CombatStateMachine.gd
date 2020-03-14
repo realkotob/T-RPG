@@ -26,6 +26,9 @@ func setup():
 		if "area_node" in state:
 			state.area_node = area_node
 		
+		if "HUD_node" in state:
+			state.HUD_node = HUD_node
+		
 		if state.has_method("setup"):
 			state.setup()
 	
@@ -36,5 +39,15 @@ func setup():
 	set_state(states_map[0])
 
 
+# Propagates the actor references to each states
+func set_active_actor(actor : Object):
+	active_actor = actor
+	
+	for state in states_map:
+		if "active_actor" in state:
+			state.active_actor = active_actor
+
+
+# Triggered when the player push an action button, set the state to the corresponding value
 func on_action_pressed(action_name : String):
 	set_state(action_name)

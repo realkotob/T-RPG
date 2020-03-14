@@ -8,11 +8,12 @@ onready var move_node = $States/Move
 var area_node : TileMap
 
 export var portrait : Texture 
-export var starting_stats : Resource
+export var MaxStats : Resource
 
-var MaxStats : Resource
-var ActualStats : Resource
-
+var current_actions : int setget set_current_actions, get_current_actions
+var current_movements : int setget set_current_movements, get_current_movements
+var current_HP : int setget set_current_HP, get_current_HP
+var current_MP : int setget set_current_MP, get_current_MP
 
 # Add the node to the group allies
 func _init():
@@ -21,8 +22,10 @@ func _init():
 
 # Set the current stats to the starting stats
 func _ready():
-	MaxStats = starting_stats
-	ActualStats = starting_stats
+	set_current_actions(get_max_actions())
+	set_current_movements(get_max_movements())
+	set_current_HP(get_max_HP())
+	set_current_MP(get_max_MP())
 
 
 # Give the references to the children nodes and trigger their setup method
@@ -46,6 +49,9 @@ func move_along_path(path : PoolVector2Array):
 	set_state("Move")
 
 
+func new_turn():
+	current_actions = get_max_actions()
+
 ### ACCESORS ###
 
 func get_max_HP():
@@ -64,17 +70,33 @@ func get_max_movements():
 	return MaxStats.Movements
 
 
-func get_acutal_HP():
-	return ActualStats.HP
+func get_current_HP():
+	return current_HP
 
 
-func get_actual_MP():
-	return ActualStats.MP
+func set_current_HP(value : int):
+	current_HP = value
 
 
-func get_actual_actions():
-	return ActualStats.Actions
+func get_current_MP():
+	return current_MP
 
 
-func get_actual_movements():
-	return ActualStats.Movements
+func set_current_MP(value : int):
+	current_MP = value
+
+
+func set_current_actions(value : int):
+	current_actions = value
+
+
+func get_current_actions():
+	return current_actions
+
+
+func get_current_movements():
+	return current_movements
+
+
+func set_current_movements(value : int):
+	current_movements = value

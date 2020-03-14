@@ -3,7 +3,6 @@ extends Node
 onready var map_node = get_node("Map")
 onready var map_area_node = get_node("Map/Areas")
 onready var cursor_node = get_node("YSort/Cursor")
-onready var character_node = get_node("YSort/Character")
 onready var combat_state_node = get_node("CombatState")
 onready var HUD_node = get_node("HUD")
 
@@ -18,8 +17,8 @@ var previous_actor : Node = null
 
 func _ready():
 	active_actor = actors_order[0]
+	HUD_node.set_active_actor(active_actor)
 	setup_children()
-	new_turn()
 
 
 # Give references to the children node and call their setup method
@@ -61,7 +60,10 @@ func new_turn():
 	previous_actor = active_actor
 	first_become_last(actors_order)
 	active_actor = actors_order[0]
+	
+	active_actor.new_turn()
 	HUD_node.set_active_actor(active_actor)
+	combat_state_node.set_active_actor(active_actor)
 
 
 # Put the first actor of the array at the last position
