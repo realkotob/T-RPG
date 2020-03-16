@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Ella (transparant).png-1c7fcf4f8a0e1a6dfedfe84ac85f2f2c.stex"
+path="res://.import/BorderTL.png-195e78ac621e5f8ae6feb353070a5f97.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/Characters/Ella/Ella (transparant).png"
-dest_files=[ "res://.import/Ella (transparant).png-1c7fcf4f8a0e1a6dfedfe84ac85f2f2c.stex" ]
+source_file="res://Scenes/Combat/HUD/Timeline/BorderTL.png"
+dest_files=[ "res://.import/BorderTL.png-195e78ac621e5f8ae6feb353070a5f97.stex" ]
 
 [params]
 

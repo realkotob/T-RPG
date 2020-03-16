@@ -19,6 +19,8 @@ func _ready():
 	active_actor = actors_order[0]
 	HUD_node.set_active_actor(active_actor)
 	setup_children()
+	
+	HUD_node.generate_timeline(actors_order)
 
 
 # Give references to the children node and call their setup method

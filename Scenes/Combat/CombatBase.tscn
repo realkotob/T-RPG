@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://Environement/TileSet/TourInterieur.tres" type="TileSet" id=1]
 [ext_resource path="res://Scenes/Combat/Cursor/Cursor.tscn" type="PackedScene" id=2]
@@ -29,19 +29,19 @@
 [ext_resource path="res://Fonts/BoldCapitalPixel.tres" type="DynamicFont" id=27]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Actions/ActionLeft.tscn" type="PackedScene" id=28]
 [ext_resource path="res://Scenes/Combat/ActionsLeft.gd" type="Script" id=29]
-[ext_resource path="res://Scenes/Characters/Ella/Ella (transparant).png" type="Texture" id=30]
+[ext_resource path="res://Scenes/Characters/Ella/Portrait/Ella (transparant).png" type="Texture" id=30]
 [ext_resource path="res://Scenes/Characters/CptHart/HartStats.tres" type="Resource" id=31]
 [ext_resource path="res://Scenes/Combat/HUD/Debug/Actions.gd" type="Script" id=32]
+[ext_resource path="res://Scenes/Characters/CptHart/Timeline/HartTL.png" type="Texture" id=33]
+[ext_resource path="res://Scenes/Characters/Ella/Timeline/EllaTL.png" type="Texture" id=34]
 
 [node name="Combat" type="Node2D"]
 script = ExtResource( 13 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 19.1445, 112.338 )
+z_index = 999
 current = true
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="CombatState" type="Node" parent="."]
 script = ExtResource( 15 )
@@ -95,27 +95,28 @@ __meta__ = {
 [node name="Hart" parent="YSort" instance=ExtResource( 4 )]
 position = Vector2( 144, 144 )
 portrait = ExtResource( 23 )
+timeline_port = ExtResource( 33 )
 MaxStats = ExtResource( 31 )
 
 [node name="Ella" parent="YSort" instance=ExtResource( 4 )]
 position = Vector2( -95.5, 140 )
 portrait = ExtResource( 30 )
+timeline_port = ExtResource( 34 )
 MaxStats = ExtResource( 31 )
 
-[node name="HUD" type="Control" parent="."]
-anchor_right = 1.0
+[node name="HUD" type="CanvasLayer" parent="."]
+layer = 2
 script = ExtResource( 11 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ActiveActorInfos" type="Control" parent="HUD"]
+visible = false
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = 152.0
-margin_top = -64.5987
-margin_right = 336.0
-margin_bottom = -0.59874
+margin_left = -185.0
+margin_top = -4.0
+margin_right = -1.0
+margin_bottom = 60.0
+mouse_filter = 2
 script = ExtResource( 21 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -123,6 +124,9 @@ __meta__ = {
 
 [node name="PortraitContainer" type="Position2D" parent="HUD/ActiveActorInfos"]
 position = Vector2( 146.092, 44.9053 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Border" type="Sprite" parent="HUD/ActiveActorInfos/PortraitContainer"]
 texture = ExtResource( 22 )
@@ -133,6 +137,9 @@ __meta__ = {
 [node name="Background" type="Sprite" parent="HUD/ActiveActorInfos/PortraitContainer"]
 modulate = Color( 0.286275, 0.427451, 0.435294, 1 )
 texture = ExtResource( 25 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Portrait" type="Sprite" parent="HUD/ActiveActorInfos/PortraitContainer"]
 __meta__ = {
@@ -207,6 +214,7 @@ margin_right = 3.77888
 margin_bottom = -3.89123
 script = ExtResource( 29 )
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -214,64 +222,68 @@ __meta__ = {
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 10.0
-margin_bottom = 14.0
+margin_bottom = 15.0
 
 [node name="ActionLeft2" parent="HUD/ActiveActorInfos/ActionsLeft" instance=ExtResource( 28 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 14.0
 margin_right = 24.0
-margin_bottom = 14.0
+margin_bottom = 15.0
 
 [node name="ActionLeft1" parent="HUD/ActiveActorInfos/ActionsLeft" instance=ExtResource( 28 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 28.0
 margin_right = 38.0
-margin_bottom = 14.0
+margin_bottom = 15.0
 
 [node name="ActionMenu" type="VBoxContainer" parent="HUD"]
-margin_left = 286.689
-margin_top = 18.4937
-margin_right = 333.689
-margin_bottom = 102.5
+visible = false
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -48.0
+margin_top = -115.5
+margin_right = -1.0
+margin_bottom = -4.5
 custom_constants/separation = -4
 alignment = 1
 __meta__ = {
-"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="Move" parent="HUD/ActionMenu" instance=ExtResource( 3 )]
 margin_left = 0.0
-margin_top = 2.0
+margin_top = 16.0
 margin_right = 47.0
-margin_bottom = 21.0
+margin_bottom = 35.0
 
 [node name="Attack" parent="HUD/ActionMenu" instance=ExtResource( 5 )]
 margin_left = 0.0
-margin_top = 17.0
+margin_top = 31.0
 margin_right = 47.0
-margin_bottom = 36.0
+margin_bottom = 50.0
 
 [node name="Skills" parent="HUD/ActionMenu" instance=ExtResource( 7 )]
 margin_left = 0.0
-margin_top = 32.0
+margin_top = 46.0
 margin_right = 47.0
-margin_bottom = 51.0
+margin_bottom = 65.0
 
 [node name="Items" parent="HUD/ActionMenu" instance=ExtResource( 8 )]
 margin_left = 0.0
-margin_top = 47.0
+margin_top = 61.0
 margin_right = 47.0
-margin_bottom = 66.0
+margin_bottom = 80.0
 disabled = true
 
 [node name="Wait" parent="HUD/ActionMenu" instance=ExtResource( 9 )]
 margin_left = 0.0
-margin_top = 62.0
+margin_top = 76.0
 margin_right = 47.0
-margin_bottom = 81.0
+margin_bottom = 95.0
 
 [node name="Debug" type="VBoxContainer" parent="HUD"]
 visible = false
@@ -296,6 +308,10 @@ margin_bottom = 32.0
 script = ExtResource( 14 )
 
 [node name="Actions" type="Label" parent="HUD/Debug"]
-margin_right = 40.0
-margin_bottom = 14.0
+margin_top = 36.0
+margin_right = 105.0
+margin_bottom = 50.0
 script = ExtResource( 32 )
+
+[node name="TimeLine" type="Node2D" parent="HUD"]
+position = Vector2( 1.9756, 2.79494 )

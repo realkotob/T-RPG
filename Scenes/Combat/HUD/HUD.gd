@@ -1,11 +1,14 @@
-extends Control
+extends Node
 
 onready var debug_node : Node = $Debug
-
+onready var action_menu_node = $ActionMenu
 onready var action_buttons_array = $ActionMenu.get_children()
 onready var debug_labels_array = debug_node.get_children()
 onready var active_actor_infos_node = $ActiveActorInfos
 onready var actions_left_node = $ActiveActorInfos/ActionsLeft
+onready var timeline_node = $TimeLine
+
+onready var TL_portrait_scene = preload("res://Scenes/Combat/HUD/Timeline/TL_Portrait.tscn")
 
 var combat_state_node: Node
 var active_actor: Object
@@ -20,9 +23,30 @@ func setup():
 			button.setup()
 	
 	for label in debug_labels_array:
-		
 		if label.has_method("setup"):
 			label.setup()
+	
+	# Set every HUD node visible (expect the debug)
+	action_menu_node.set_visible(true)
+	active_actor_infos_node.set_visible(true)
+	timeline_node.set_visible(true)
+
+
+# Generate the timeline form an array of actors
+# Called at the start of the combat by the combat Node
+func generate_timeline(actors_array : Array):
+	var i = 0
+	
+	for actor in actors_array:
+		var new_TL_port = TL_portrait_scene.instance()
+		
+		actor.timeline_port_node = new_TL_port
+		timeline_node.add_child(new_TL_port)
+		
+		new_TL_port.set_portrait_texture(actor.timeline_port)
+		new_TL_port.set_position(Vector2(38 * i, 0))
+		
+		i += 1
 
 
 # Set the whole actor HUD visible/invisible
