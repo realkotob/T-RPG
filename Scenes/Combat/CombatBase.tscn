@@ -1,14 +1,11 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://Environement/TileSet/TourInterieur.tres" type="TileSet" id=1]
 [ext_resource path="res://Scenes/Combat/Cursor/Cursor.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Scenes/Combat/HUD/ActionMenu/MoveButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Combat/HUD/ActionMenu/CombatButton.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Characters/Character.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Scenes/Combat/HUD/ActionMenu/AttackButton.tscn" type="PackedScene" id=5]
+[ext_resource path="res://GUI_theme/transparant_UI_theme.tres" type="Theme" id=5]
 [ext_resource path="res://Scenes/Combat/Map/Map.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Scenes/Combat/HUD/ActionMenu/SkillsButton.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Scenes/Combat/HUD/ActionMenu/ItemsButton.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Scenes/Combat/HUD/ActionMenu/WaitButton.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/Combat/CombatStates/Move.gd" type="Script" id=10]
 [ext_resource path="res://Scenes/Combat/HUD/HUD.gd" type="Script" id=11]
 [ext_resource path="res://Scenes/Combat/CombatStates/Overlook.gd" type="Script" id=12]
@@ -239,15 +236,14 @@ margin_right = 38.0
 margin_bottom = 15.0
 
 [node name="ActionMenu" type="VBoxContainer" parent="HUD"]
-visible = false
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -48.0
-margin_top = -115.5
-margin_right = -1.0
-margin_bottom = -4.5
+margin_left = -63.0
+margin_top = -118.5
+margin_right = -9.0
+margin_bottom = -7.5
 custom_constants/separation = -4
 alignment = 1
 __meta__ = {
@@ -257,33 +253,38 @@ __meta__ = {
 [node name="Move" parent="HUD/ActionMenu" instance=ExtResource( 3 )]
 margin_left = 0.0
 margin_top = 16.0
-margin_right = 47.0
+margin_right = 54.0
 margin_bottom = 35.0
+theme = ExtResource( 5 )
+text = "MOVE"
 
-[node name="Attack" parent="HUD/ActionMenu" instance=ExtResource( 5 )]
+[node name="Attack" parent="HUD/ActionMenu" instance=ExtResource( 3 )]
 margin_left = 0.0
 margin_top = 31.0
-margin_right = 47.0
+margin_right = 54.0
 margin_bottom = 50.0
+text = "ATTACK"
 
-[node name="Skills" parent="HUD/ActionMenu" instance=ExtResource( 7 )]
+[node name="Skills" parent="HUD/ActionMenu" instance=ExtResource( 3 )]
 margin_left = 0.0
 margin_top = 46.0
-margin_right = 47.0
+margin_right = 54.0
 margin_bottom = 65.0
+text = "SKILLS"
 
-[node name="Items" parent="HUD/ActionMenu" instance=ExtResource( 8 )]
+[node name="Items" parent="HUD/ActionMenu" instance=ExtResource( 3 )]
 margin_left = 0.0
 margin_top = 61.0
-margin_right = 47.0
+margin_right = 54.0
 margin_bottom = 80.0
-disabled = true
+text = "ITEMS"
 
-[node name="Wait" parent="HUD/ActionMenu" instance=ExtResource( 9 )]
+[node name="Wait" parent="HUD/ActionMenu" instance=ExtResource( 3 )]
 margin_left = 0.0
 margin_top = 76.0
-margin_right = 47.0
+margin_right = 54.0
 margin_bottom = 95.0
+text = "WAIT"
 
 [node name="Debug" type="VBoxContainer" parent="HUD"]
 visible = false
