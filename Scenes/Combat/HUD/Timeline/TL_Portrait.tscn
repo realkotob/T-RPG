@@ -10,11 +10,11 @@ script = ExtResource( 3 )
 [node name="Background" type="Sprite" parent="."]
 modulate = Color( 0.286275, 0.427451, 0.435294, 1 )
 texture = ExtResource( 1 )
-offset = Vector2( 33, 31 )
+offset = Vector2( 28, 12 )
 
 [node name="Border" type="Sprite" parent="."]
 texture = ExtResource( 2 )
-offset = Vector2( 33, 31 )
+offset = Vector2( 28, 12 )
 
 [node name="Portrait" type="Sprite" parent="."]
-offset = Vector2( 33, 31 )
+offset = Vector2( 28, 12 )

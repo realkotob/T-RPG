@@ -44,7 +44,7 @@ func generate_timeline(actors_array : Array):
 		timeline_node.add_child(new_TL_port)
 		
 		new_TL_port.set_portrait_texture(actor.timeline_port)
-		new_TL_port.set_position(Vector2(38 * i, 0))
+		new_TL_port.set_position(Vector2(0, 17 * i))
 		
 		i += 1
 

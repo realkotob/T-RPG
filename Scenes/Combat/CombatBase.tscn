@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://Environement/TileSet/TourInterieur.tres" type="TileSet" id=1]
 [ext_resource path="res://Scenes/Combat/Cursor/Cursor.tscn" type="PackedScene" id=2]
@@ -30,7 +30,6 @@
 [ext_resource path="res://Scenes/Characters/CptHart/HartStats.tres" type="Resource" id=31]
 [ext_resource path="res://Scenes/Combat/HUD/Debug/Actions.gd" type="Script" id=32]
 [ext_resource path="res://Scenes/Characters/CptHart/Timeline/HartTL.png" type="Texture" id=33]
-[ext_resource path="res://Scenes/Characters/Ella/Timeline/EllaTL.png" type="Texture" id=34]
 
 [node name="Combat" type="Node2D"]
 script = ExtResource( 13 )
@@ -98,7 +97,7 @@ MaxStats = ExtResource( 31 )
 [node name="Ella" parent="YSort" instance=ExtResource( 4 )]
 position = Vector2( -95.5, 140 )
 portrait = ExtResource( 30 )
-timeline_port = ExtResource( 34 )
+timeline_port = ExtResource( 33 )
 MaxStats = ExtResource( 31 )
 
 [node name="HUD" type="CanvasLayer" parent="."]
@@ -315,4 +314,4 @@ margin_bottom = 50.0
 script = ExtResource( 32 )
 
 [node name="TimeLine" type="Node2D" parent="HUD"]
-position = Vector2( 1.9756, 2.79494 )
+position = Vector2( 1.9756, 0.122113 )
