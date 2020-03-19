@@ -6,13 +6,11 @@ onready var action_buttons_array = $ActionMenu.get_children()
 onready var debug_labels_array = debug_node.get_children()
 onready var active_actor_infos_node = $ActiveActorInfos
 onready var actions_left_node = $ActiveActorInfos/ActionsLeft
-onready var timeline_node = $TimeLine
+onready var timeline_node = $TimeLineStates/Timeline
 
-onready var TL_portrait_scene = preload("res://Scenes/Combat/HUD/Timeline/TL_Portrait.tscn")
-
-var combat_state_node: Node
-var active_actor: Object
-
+var combat_loop_node : Node
+var combat_state_node : Node
+var active_actor : Object
 
 func setup():
 	for button in action_buttons_array:
@@ -26,6 +24,13 @@ func setup():
 		if label.has_method("setup"):
 			label.setup()
 	
+	for child in get_children():
+		if "combat_loop_node" in child:
+			child.combat_loop_node = combat_loop_node
+		
+		if child.has_method("setup"):
+			child.setup()
+	
 	# Set every HUD node visible (expect the debug)
 	action_menu_node.set_visible(true)
 	active_actor_infos_node.set_visible(true)
@@ -35,18 +40,18 @@ func setup():
 # Generate the timeline form an array of actors
 # Called at the start of the combat by the combat Node
 func generate_timeline(actors_array : Array):
-	var i = 0
-	
-	for actor in actors_array:
-		var new_TL_port = TL_portrait_scene.instance()
-		
-		actor.timeline_port_node = new_TL_port
-		timeline_node.add_child(new_TL_port)
-		
-		new_TL_port.set_portrait_texture(actor.timeline_port)
-		new_TL_port.set_position(Vector2(0, 17 * i))
-		
-		i += 1
+	timeline_node.generate_timeline(actors_array)
+
+
+# Called when a new turn end, move the timeline to be in the right disposition
+func end_turn():
+	$TimeLineStates.end_turn()
+
+
+# Rearrange the hierarchy of nodes of the timeline so it correspond the actors order
+# Called at the end of a turn by the combat Node
+func update_timeline_order(actor_order : Array):
+	timeline_node.update_timeline_order(actor_order)
 
 
 # Set the whole actor HUD visible/invisible
@@ -79,7 +84,7 @@ func on_combat_state_changed(state : Node):
 			label.combat_state = state
 
 
-# Set the debug labels invisible when  
+# Set the debug labels visible/invisible on ui_cancel
 func _input(_event):
 	if Input.is_action_just_pressed("ui_cancel"):
 		debug_node.set_visible(!debug_node.is_visible())

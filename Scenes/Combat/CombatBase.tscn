@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Environement/TileSet/TourInterieur.tres" type="TileSet" id=1]
 [ext_resource path="res://Scenes/Combat/Cursor/Cursor.tscn" type="PackedScene" id=2]
@@ -6,6 +6,9 @@
 [ext_resource path="res://Scenes/Characters/Character.tscn" type="PackedScene" id=4]
 [ext_resource path="res://GUI_theme/transparant_UI_theme.tres" type="Theme" id=5]
 [ext_resource path="res://Scenes/Combat/Map/Map.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/Combat/HUD/Timeline/States/TimeLineStates.gd" type="Script" id=7]
+[ext_resource path="res://Scenes/Combat/HUD/Timeline/States/Idle.gd" type="Script" id=8]
+[ext_resource path="res://Scenes/Combat/HUD/Timeline/States/Extract.gd" type="Script" id=9]
 [ext_resource path="res://Scenes/Combat/CombatStates/Move.gd" type="Script" id=10]
 [ext_resource path="res://Scenes/Combat/HUD/HUD.gd" type="Script" id=11]
 [ext_resource path="res://Scenes/Combat/CombatStates/Overlook.gd" type="Script" id=12]
@@ -30,6 +33,9 @@
 [ext_resource path="res://Scenes/Characters/CptHart/HartStats.tres" type="Resource" id=31]
 [ext_resource path="res://Scenes/Combat/HUD/Debug/Actions.gd" type="Script" id=32]
 [ext_resource path="res://Scenes/Characters/CptHart/Timeline/HartTL.png" type="Texture" id=33]
+[ext_resource path="res://Scenes/Combat/HUD/Timeline/States/Move.gd" type="Script" id=34]
+[ext_resource path="res://Scenes/Combat/HUD/Timeline/States/Insert.gd" type="Script" id=35]
+[ext_resource path="res://Scenes/Combat/HUD/Timeline/Timeline.gd" type="Script" id=36]
 
 [node name="Combat" type="Node2D"]
 script = ExtResource( 13 )
@@ -286,13 +292,11 @@ margin_bottom = 95.0
 text = "WAIT"
 
 [node name="Debug" type="VBoxContainer" parent="HUD"]
-visible = false
 margin_left = -293.401
 margin_top = -58.9641
 margin_right = -188.401
 margin_bottom = 51.0359
 __meta__ = {
-"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -313,5 +317,21 @@ margin_right = 105.0
 margin_bottom = 50.0
 script = ExtResource( 32 )
 
-[node name="TimeLine" type="Node2D" parent="HUD"]
-position = Vector2( 1.9756, 0.122113 )
+[node name="TimeLineStates" type="Node2D" parent="HUD"]
+position = Vector2( 4.9756, 7.12211 )
+script = ExtResource( 7 )
+
+[node name="Idle" type="Node" parent="HUD/TimeLineStates"]
+script = ExtResource( 8 )
+
+[node name="Extract" type="Node" parent="HUD/TimeLineStates"]
+script = ExtResource( 9 )
+
+[node name="Move" type="Node" parent="HUD/TimeLineStates"]
+script = ExtResource( 34 )
+
+[node name="Insert" type="Node" parent="HUD/TimeLineStates"]
+script = ExtResource( 35 )
+
+[node name="Timeline" type="Node2D" parent="HUD/TimeLineStates"]
+script = ExtResource( 36 )

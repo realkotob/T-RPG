@@ -33,13 +33,19 @@ _global_script_classes=[ {
 "class": "StatesMachine",
 "language": "GDScript",
 "path": "res://Classes/StateMachine.gd"
+}, {
+"base": "StateBase",
+"class": "TL_StateBase",
+"language": "GDScript",
+"path": "res://Scenes/Combat/HUD/Timeline/States/TL_StateBase.gd"
 } ]
 _global_script_class_icons={
 "Character": "",
 "CombatStateBase": "",
 "IsoTileMap": "",
 "StateBase": "",
-"StatesMachine": ""
+"StatesMachine": "",
+"TL_StateBase": ""
 }
 
 [application]

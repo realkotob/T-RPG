@@ -17,12 +17,13 @@ var active_actor : Node
 var path := PoolVector2Array()
 
 signal path_valid
-
+signal active_actor_turn_finished
 
 func setup():
 	var _err
 	_err = connect("path_valid", cursor_node, "_on_path_valid")
 	_err = cursor_node.connect("cursor_change_position", self, "on_cursor_change_position")
+	_err = connect("active_actor_turn_finished", combat_loop_node, "on_active_actor_turn_finished")
 
 
 # Empty the path and potential path arrays
@@ -101,4 +102,4 @@ func on_movement_finished():
 	
 	# If the active actor no longer has actions points, triggers a new turn 
 	if active_actor.get_current_actions() == 0:
-		combat_loop_node.new_turn()
+		emit_signal("active_actor_turn_finished")

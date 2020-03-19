@@ -57,18 +57,39 @@ func setup_children():
 			child.setup()
 
 
-# New turn procedure, set the new active actor
+# New turn procedure, set the new active_actor and previous_actor
 func new_turn():
 	previous_actor = active_actor
-	first_become_last(actors_order)
 	active_actor = actors_order[0]
 	
+	# Triggers the new_turn method of the new active_actor
 	active_actor.new_turn()
+	
+	# Propagate the active actor where its needed
 	HUD_node.set_active_actor(active_actor)
 	combat_state_node.set_active_actor(active_actor)
+
+
+# End of turn procedure, called right before a new turn start
+func end_turn():
+	# Change the order of actors
+	first_become_last(actors_order) ### TO BE REPLACED WITH A MORE DYNAMIC METHOD ###
+	HUD_node.end_turn()
 
 
 # Put the first actor of the array at the last position
 func first_become_last(array : Array) -> void:
 	array.append(array[0])
 	array.pop_front()
+
+
+# Triggered when the active actor finished his turn
+func on_active_actor_turn_finished():
+	end_turn()
+
+
+# Triggered when the timeline movement is finished
+# Update the order of children nodes in the hierachy of the timeline to match the actor order
+func on_timeline_movement_finished():
+	HUD_node.update_timeline_order(actors_order)
+	new_turn()
