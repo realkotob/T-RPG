@@ -6,7 +6,7 @@ onready var states_node = $States
 onready var move_node = $States/Move
 
 var area_node : TileMap
-var timeline_port_node
+var timeline_port_node : Node
 
 export var portrait : Texture
 export var timeline_port : Texture

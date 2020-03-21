@@ -13,7 +13,7 @@ func generate_timeline(actors_array : Array):
 		add_child(new_TL_port)
 		
 		var slot = new_TL_port.get_node("Border").get_texture().get_height() + 2
-		new_TL_port.actor = actor
+		new_TL_port.actor_node = actor
 		new_TL_port.set_portrait_texture(actor.timeline_port)
 		new_TL_port.set_position(Vector2(0, slot * i))
 		
@@ -25,7 +25,7 @@ func generate_timeline(actors_array : Array):
 # Move the portraits order in the hierarchy, so it correspond to the actors order
 func update_timeline_order(actor_order : Array):
 	for child in get_children():
-		if !(child.actor in actor_order):
+		if !(child.actor_node in actor_order):
 			child.queue_free()
 		else:
-			move_child(child, actor_order.find(child.actor))
+			move_child(child, actor_order.find(child.actor_node))

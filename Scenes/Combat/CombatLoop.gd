@@ -72,9 +72,8 @@ func new_turn():
 
 # End of turn procedure, called right before a new turn start
 func end_turn():
-	# Change the order of actors
-	first_become_last(actors_order) ### TO BE REPLACED WITH A MORE DYNAMIC METHOD ###
-	HUD_node.end_turn()
+	# Change the order of the timeline
+	HUD_node.end_turn(actors_order)
 
 
 # Put the first actor of the array at the last position
@@ -91,5 +90,6 @@ func on_active_actor_turn_finished():
 # Triggered when the timeline movement is finished
 # Update the order of children nodes in the hierachy of the timeline to match the actor order
 func on_timeline_movement_finished():
+	first_become_last(actors_order) ### TO BE REPLACED WITH A MORE DYNAMIC METHOD ###
 	HUD_node.update_timeline_order(actors_order)
 	new_turn()
