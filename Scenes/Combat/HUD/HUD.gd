@@ -44,10 +44,8 @@ func generate_timeline(actors_array : Array):
 
 
 # Called when a turn end, move the timeline to be in the right disposition
-func end_turn(actors_order: Array):
-	var actors_to_move = [actors_order[0]]
-	var destination = [len(actors_order) - 1]
-	$TimeLineStates.move_timeline(actors_order, actors_to_move, destination)
+func move_timeline(current_actors_order: Array, future_actors_order: Array):
+	$TimeLineStates.move_timeline(current_actors_order, future_actors_order)
 
 
 # Rearrange the hierarchy of nodes of the timeline so it correspond the actors order

@@ -23,41 +23,46 @@ func setup():
 	set_state("Idle")
 
 
-# Set the first actor to the last postion in the timeline
-func move_timeline(actors_array: Array, actors_to_move: Array, actors_id_destinations: Array):
+# Move the timeline so it matches the future_actors_order
+func move_timeline(actors_array: Array, future_actors_order: Array):
 	
 	# Check if the two array size corresponds, print a error message and return if not
-	if len(actors_to_move) != len(actors_id_destinations):
-		print("ERROR: move_timeline() - The actors_to_move array size doesn't correspond the actors_id_destinations")
+	if len(actors_array) != len(future_actors_order):
+		print("ERROR: move_timeline() - The actors_array array size doesn't correspond the future_actors_order")
 		return
 	
-	var portrait_array = timeline_node.get_children()
-	var states_array = get_children()
-	states_array.remove(len(states_array) - 1)
+	var actors_to_move_down : Array = []
+	var actors_to_move_up : Array = []
 	
+	sort_actors_by_destination(actors_array, future_actors_order, actors_to_move_down, actors_to_move_up)
 	
-	# Give every portrait that move downward its new destination
-	var i := 0
-	for actor in actors_to_move:
-		actor.timeline_port_node.timeline_id_dest = actors_id_destinations[i]
-		i += 1
-	
-	# Give every portrait that move upward its new destination
-	i = 0
+	# Give every portrait its new destination
 	for actor in actors_array:
-		if !(actor in actors_to_move):
-			var slots_to_move = count_moving_actors_before_index(actors_array, actors_to_move, i)
-			portrait_array[i].timeline_id_dest = portrait_array[i].get_index() - slots_to_move
-		
-		i += 1
+		actor.timeline_port_node.timeline_id_dest = future_actors_order.find(actor)
 	
 	# Give every state the array of portraits
+	var portrait_array = timeline_node.get_children()
+	var states_array = get_children()
+	
 	for state in states_array:
 		if "portrait_array" in state:
 			state.portrait_array = portrait_array
 	
 	# Triggers the movement of the timeline
 	set_state("Extract")
+
+
+# Sort every actor by destination
+# Store every actor going up in the actors_to_move_up array 
+# and every actors that move up in the actors_to_move_up array
+func sort_actors_by_destination(actors_order: Array, future_actors_order: Array, actors_to_move_down: Array, actors_to_move_up: Array):
+	for i in range(len(actors_order)):
+		var new_id = future_actors_order.find(actors_order[i])
+		if new_id > i:
+			actors_to_move_down.append(actors_order[i])
+		elif new_id < i:
+			actors_to_move_up.append(actors_order[i])
+
 
 
 # Count the number of actors before the given index 

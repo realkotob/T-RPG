@@ -14,6 +14,7 @@ onready var children_array = get_children()
 var active_actor : Node
 var previous_actor : Node = null
 
+var future_actors_order : Array
 
 func _ready():
 	active_actor = actors_order[0]
@@ -73,7 +74,10 @@ func new_turn():
 # End of turn procedure, called right before a new turn start
 func end_turn():
 	# Change the order of the timeline
-	HUD_node.end_turn(actors_order)
+	future_actors_order = actors_order
+	first_become_last(future_actors_order)
+	
+	HUD_node.move_timeline(actors_order, future_actors_order)
 
 
 # Put the first actor of the array at the last position
@@ -90,6 +94,6 @@ func on_active_actor_turn_finished():
 # Triggered when the timeline movement is finished
 # Update the order of children nodes in the hierachy of the timeline to match the actor order
 func on_timeline_movement_finished():
-	first_become_last(actors_order) ### TO BE REPLACED WITH A MORE DYNAMIC METHOD ###
+	actors_order = future_actors_order
 	HUD_node.update_timeline_order(actors_order)
 	new_turn()
