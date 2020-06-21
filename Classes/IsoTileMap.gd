@@ -5,9 +5,7 @@ class_name IsoTileMap
 # Define the map size, in cells
 export(Vector2) var map_size : Vector2
 
-# Return the point index
-func calculate_point_index(point):
-	return point.x + map_size.x * point.y
+
 
 ## World to map in a iso context, with the origin on the center
 #func world_to_map_iso(pos : Vector2) -> Vector2:

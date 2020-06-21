@@ -2,13 +2,13 @@ extends TL_StateBase
 
 #### TIMELINE EXTRACT STATE ####
 
-var combat_loop_node : Node
+onready var combat_loop_node : Node = owner
 
 export var extract_offset : int = 55
 
 signal timeline_movement_finished
 
-func setup():
+func _ready():
 	var _err = connect("timeline_movement_finished", combat_loop_node, "on_timeline_movement_finished")
 
 # Give to the portraits that need to be inserted their new destination

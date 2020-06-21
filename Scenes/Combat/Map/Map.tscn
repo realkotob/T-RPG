@@ -1,194 +1,21 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Environement/TileSet/TourInterieur.tres" type="TileSet" id=1]
+[ext_resource path="res://Scenes/Combat/Map/Layer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Combat/Map/PathfindingAStar.gd" type="Script" id=2]
-[ext_resource path="res://Environement/Tiles/TilesetMurs.png" type="Texture" id=3]
 [ext_resource path="res://Scenes/Combat/Map/WalkableArea.gd" type="Script" id=4]
 [ext_resource path="res://Environement/TileSet/Areas.tres" type="TileSet" id=5]
 
-[sub_resource type="TileSet" id=1]
-0/name = "TilesetMurs.png 0"
-0/texture = ExtResource( 3 )
-0/tex_offset = Vector2( -7, -68 )
-0/modulate = Color( 1, 1, 1, 1 )
-0/region = Rect2( 0, 0, 48, 80 )
-0/tile_mode = 0
-0/occluder_offset = Vector2( 0, 0 )
-0/navigation_offset = Vector2( 0, 0 )
-0/shapes = [  ]
-0/z_index = 0
-1/name = "TilesetMurs.png 1"
-1/texture = ExtResource( 3 )
-1/tex_offset = Vector2( -7, -68 )
-1/modulate = Color( 1, 1, 1, 1 )
-1/region = Rect2( 48, 0, 48, 80 )
-1/tile_mode = 0
-1/occluder_offset = Vector2( 0, 0 )
-1/navigation_offset = Vector2( 0, 0 )
-1/shapes = [  ]
-1/z_index = 0
-2/name = "TilesetMurs.png 2"
-2/texture = ExtResource( 3 )
-2/tex_offset = Vector2( -7, -68 )
-2/modulate = Color( 1, 1, 1, 1 )
-2/region = Rect2( 96, 0, 48, 80 )
-2/tile_mode = 0
-2/occluder_offset = Vector2( 0, 0 )
-2/navigation_offset = Vector2( 0, 0 )
-2/shapes = [  ]
-2/z_index = 0
-3/name = "TilesetMurs.png 3"
-3/texture = ExtResource( 3 )
-3/tex_offset = Vector2( -9, -68 )
-3/modulate = Color( 1, 1, 1, 1 )
-3/region = Rect2( 0, 80, 48, 80 )
-3/tile_mode = 0
-3/occluder_offset = Vector2( 0, 0 )
-3/navigation_offset = Vector2( 0, 0 )
-3/shapes = [  ]
-3/z_index = 0
-4/name = "TilesetMurs.png 4"
-4/texture = ExtResource( 3 )
-4/tex_offset = Vector2( -9, -68 )
-4/modulate = Color( 1, 1, 1, 1 )
-4/region = Rect2( 48, 80, 48, 80 )
-4/tile_mode = 0
-4/occluder_offset = Vector2( 0, 0 )
-4/navigation_offset = Vector2( 0, 0 )
-4/shapes = [  ]
-4/z_index = 0
-5/name = "TilesetMurs.png 5"
-5/texture = ExtResource( 3 )
-5/tex_offset = Vector2( -9, -68 )
-5/modulate = Color( 1, 1, 1, 1 )
-5/region = Rect2( 96, 80, 48, 80 )
-5/tile_mode = 0
-5/occluder_offset = Vector2( 0, 0 )
-5/navigation_offset = Vector2( 0, 0 )
-5/shapes = [  ]
-5/z_index = 0
-6/name = "TilesetMurs.png 6"
-6/texture = ExtResource( 3 )
-6/tex_offset = Vector2( 0, 0 )
-6/modulate = Color( 1, 1, 1, 1 )
-6/region = Rect2( 0, 160, 32, 32 )
-6/tile_mode = 0
-6/occluder_offset = Vector2( 0, 0 )
-6/navigation_offset = Vector2( 0, 0 )
-6/shapes = [  ]
-6/z_index = 0
-7/name = "TilesetMurs.png 7"
-7/texture = ExtResource( 3 )
-7/tex_offset = Vector2( 0, 0 )
-7/modulate = Color( 1, 1, 1, 1 )
-7/region = Rect2( 0, 192, 32, 32 )
-7/tile_mode = 0
-7/occluder_offset = Vector2( 0, 0 )
-7/navigation_offset = Vector2( 0, 0 )
-7/shapes = [  ]
-7/z_index = 0
-8/name = "TilesetMurs.png 8"
-8/texture = ExtResource( 3 )
-8/tex_offset = Vector2( -2, -68 )
-8/modulate = Color( 1, 1, 1, 1 )
-8/region = Rect2( 245, 0, 70, 80 )
-8/tile_mode = 0
-8/occluder_offset = Vector2( 0, 0 )
-8/navigation_offset = Vector2( 0, 0 )
-8/shapes = [  ]
-8/z_index = 0
-9/name = "TilesetMurs.png 9"
-9/texture = ExtResource( 3 )
-9/tex_offset = Vector2( -7, -68 )
-9/modulate = Color( 1, 1, 1, 1 )
-9/region = Rect2( 144, 0, 48, 80 )
-9/tile_mode = 0
-9/occluder_offset = Vector2( 0, 0 )
-9/navigation_offset = Vector2( 0, 0 )
-9/shapes = [  ]
-9/z_index = 0
-10/name = "TilesetMurs.png 10"
-10/texture = ExtResource( 3 )
-10/tex_offset = Vector2( -7, -68 )
-10/modulate = Color( 1, 1, 1, 1 )
-10/region = Rect2( 192, 0, 48, 80 )
-10/tile_mode = 0
-10/occluder_offset = Vector2( 0, 0 )
-10/navigation_offset = Vector2( 0, 0 )
-10/shapes = [  ]
-10/z_index = 0
-11/name = "TilesetMurs.png 11"
-11/texture = ExtResource( 3 )
-11/tex_offset = Vector2( -9, -68 )
-11/modulate = Color( 1, 1, 1, 1 )
-11/region = Rect2( 144, 80, 48, 80 )
-11/tile_mode = 0
-11/occluder_offset = Vector2( 0, 0 )
-11/navigation_offset = Vector2( 0, 0 )
-11/shapes = [  ]
-11/z_index = 0
-12/name = "TilesetMurs.png 12"
-12/texture = ExtResource( 3 )
-12/tex_offset = Vector2( -9, -68 )
-12/modulate = Color( 1, 1, 1, 1 )
-12/region = Rect2( 192, 80, 48, 80 )
-12/tile_mode = 0
-12/occluder_offset = Vector2( 0, 0 )
-12/navigation_offset = Vector2( 0, 0 )
-12/shapes = [  ]
-12/z_index = 0
-13/name = "TilesetMurs.png 13"
-13/texture = ExtResource( 3 )
-13/tex_offset = Vector2( -23, -20 )
-13/modulate = Color( 1, 1, 1, 1 )
-13/region = Rect2( 32, 168, 96, 72 )
-13/tile_mode = 0
-13/occluder_offset = Vector2( 0, 0 )
-13/navigation_offset = Vector2( 0, 0 )
-13/shapes = [  ]
-13/z_index = 0
-
-[node name="Map" type="TileMap"]
-mode = 1
-tile_set = ExtResource( 1 )
-cell_size = Vector2( 32, 16 )
-format = 1
+[node name="Map" type="YSort"]
 script = ExtResource( 2 )
 
-[node name="Ground" type="TileMap" parent="."]
-mode = 1
-tile_set = ExtResource( 1 )
-cell_size = Vector2( 32, 16 )
-format = 1
-tile_data = PoolIntArray( 0, 32, 65537, 1, 32, 65537, 2, 32, 65537, 3, 32, 65537, 4, 32, 65537, 5, 32, 65537, 6, 32, 65537, 7, 32, 65537, 8, 32, 65537, 9, 32, 65537, 10, 32, 65537, 11, 32, 65537, 12, 32, 65537, 13, 32, 65537, 14, 32, 65537, 15, 32, 65537, 16, 32, 65537, 17, 32, 65537, 65536, 32, 65537, 65537, 55, 0, 65538, 32, 65537, 65539, 32, 65537, 65540, 32, 65537, 65541, 32, 65537, 65542, 32, 65537, 65543, 32, 65537, 65544, 32, 65537, 65545, 32, 65537, 65546, 32, 65537, 65547, 32, 65537, 65548, 32, 65537, 65549, 32, 65537, 65550, 55, 3, 65551, 32, 65537, 65552, 32, 65537, 65553, 32, 65537, 131072, 32, 65537, 131073, 55, 3, 131074, 32, 2, 131075, 32, 131074, 131076, 32, 65537, 131077, 32, 65537, 131078, 32, 65537, 131079, 32, 65537, 131080, 32, 65537, 131081, 32, 65537, 131082, 32, 65537, 131083, 55, 1, 131084, 32, 65537, 131085, 32, 65537, 131086, 32, 65537, 131087, 32, 65537, 131088, 32, 65537, 131089, 32, 65537, 196608, 32, 65537, 196609, 32, 65537, 196610, 34, 2, 196611, 34, 131074, 196612, 32, 65537, 196613, 32, 65537, 196614, 55, 1, 196615, 32, 65537, 196616, 32, 65537, 196617, 32, 65537, 196618, 55, 0, 196619, 32, 65537, 196620, 32, 65537, 196621, 32, 65537, 196622, 32, 65537, 196623, 32, 65537, 196624, 32, 65537, 196625, 32, 65537, 262144, 32, 65537, 262145, 34, 3, 262146, 33, 327680, 262147, 34, 131074, 262148, 32, 65537, 262149, 32, 65537, 262150, 32, 65537, 262151, 32, 65537, 262152, 32, 65537, 262153, 32, 65537, 262154, 32, 65537, 262155, 32, 65537, 262156, 32, 65537, 262157, 32, 2, 262158, 32, 131074, 262159, 32, 65537, 262160, 55, 0, 262161, 32, 65537, 327680, 32, 65537, 327681, 34, 2, 327682, 34, 65538, 327683, 33, 65537, 327684, 34, 131075, 327685, 32, 65537, 327686, 32, 65537, 327687, 32, 65537, 327688, 32, 65537, 327689, 32, 65537, 327690, 32, 65537, 327691, 1, 2, 327692, 32, 65538, 327693, 33, 327680, 327694, 32, 131073, 327695, 32, 65537, 327696, 32, 65537, 327697, 32, 65537, 393216, 32, 65537, 393217, 34, 2, 393218, 34, 131072, 393219, 55, 2, 393220, 1, 131073, 393221, 32, 65537, 393222, 32, 65537, 393223, 55, 0, 393224, 32, 65537, 393225, 32, 65537, 393226, 32, 65537, 393227, 32, 1, 393228, 34, 65538, 393229, 55, 2, 393230, 33, 65537, 393231, 32, 131074, 393232, 32, 65537, 393233, 32, 65537, 458752, 32, 65537, 458753, 1, 0, 458754, 34, 65537, 458755, 34, 65537, 458756, 34, 131073, 458757, 32, 65537, 458758, 32, 65537, 458759, 32, 65537, 458760, 32, 65537, 458761, 55, 0, 458762, 32, 65537, 458763, 34, 2, 458764, 34, 65538, 458765, 34, 65538, 458766, 34, 65538, 458767, 34, 131074, 458768, 32, 65537, 458769, 32, 65537, 524288, 32, 65537, 524289, 32, 65537, 524290, 32, 65537, 524291, 32, 65537, 524292, 32, 65537, 524293, 32, 65537, 524294, 32, 65537, 524295, 32, 65537, 524296, 32, 65537, 524297, 32, 65537, 524298, 32, 65537, 524299, 1, 0, 524300, 33, 1, 524301, 34, 65538, 524302, 34, 65538, 524303, 1, 131073, 524304, 32, 65537, 524305, 32, 65537, 589824, 32, 65537, 589825, 32, 65537, 589826, 32, 2, 589827, 34, 131075, 589828, 32, 65537, 589829, 55, 0, 589830, 32, 65537, 589831, 32, 65537, 589832, 55, 3, 589833, 55, 1, 589834, 32, 65537, 589835, 32, 65537, 589836, 32, 1, 589837, 34, 65538, 589838, 34, 65538, 589839, 34, 131074, 589840, 32, 65537, 589841, 32, 65537, 655360, 32, 65537, 655361, 32, 65537, 655362, 34, 1, 655363, 1, 131072, 655364, 32, 65537, 655365, 32, 65537, 655366, 32, 65537, 655367, 32, 65537, 655368, 32, 65537, 655369, 32, 65537, 655370, 32, 65537, 655371, 32, 65537, 655372, 32, 0, 655373, 32, 65536, 655374, 34, 65537, 655375, 32, 131072, 655376, 32, 65537, 655377, 32, 65537, 720896, 32, 65537, 720897, 32, 65537, 720898, 32, 65537, 720899, 32, 65537, 720900, 32, 65537, 720901, 32, 65537, 720902, 32, 65537, 720903, 32, 65537, 720904, 55, 0, 720905, 32, 65537, 720906, 32, 65537, 720907, 32, 65537, 720908, 32, 65537, 720909, 32, 65537, 720910, 32, 65537, 720911, 32, 65537, 720912, 32, 65537, 720913, 32, 65537, 786432, 32, 65537, 786433, 32, 65537, 786434, 55, 0, 786435, 32, 65537, 786436, 32, 65537, 786437, 55, 0, 786438, 32, 65537, 786439, 32, 65537, 786440, 32, 65537, 786441, 32, 65537, 786442, 32, 65537, 786443, 32, 65537, 786444, 32, 65537, 786445, 32, 65537, 786446, 32, 65537, 786447, 55, 0, 786448, 32, 65537, 786449, 32, 65537, 851968, 32, 65537, 851969, 32, 65537, 851970, 32, 65537, 851971, 32, 65537, 851972, 32, 65537, 851973, 32, 65537, 851974, 32, 65537, 851975, 55, 1, 851976, 32, 65537, 851977, 32, 65537, 851978, 32, 65537, 851979, 32, 65537, 851980, 32, 65537, 851981, 32, 65537, 851982, 32, 65537, 851983, 55, 0, 851984, 55, 0, 851985, 32, 65537, 917504, 32, 65537, 917505, 32, 65537, 917506, 32, 65537, 917507, 32, 65537, 917508, 32, 65537, 917509, 32, 65537, 917510, 32, 65537, 917511, 32, 65537, 917512, 32, 65537, 917513, 32, 65537, 917514, 32, 65537, 917515, 32, 65537, 917516, 32, 65537, 917517, 32, 65537, 917518, 32, 65537, 917519, 32, 65537, 917520, 32, 65537, 917521, 32, 65537, 983040, 32, 65537, 983041, 32, 65537, 983042, 32, 65537, 983043, 32, 65537, 983044, 32, 65537, 983045, 32, 65537, 983046, 32, 65537, 983047, 32, 65537, 983048, 32, 65537, 983049, 32, 65537, 983050, 32, 65537, 983051, 32, 65537, 983052, 32, 65537, 983053, 32, 65537, 983054, 32, 65537, 983055, 32, 65537, 983056, 32, 65537, 983057, 32, 65537 )
-
-[node name="Walls" type="TileMap" parent="."]
-mode = 1
-tile_set = SubResource( 1 )
-cell_size = Vector2( 32, 16 )
-cell_y_sort = true
-format = 1
-tile_data = PoolIntArray( 3, 5, 0, 5, 3, 0, 6, 12, 0, 7, 11, 0, 9, 4, 0, 11, 12, 0, 12, 3, 0, 13, 12, 0, 15, 5, 0, 17, 11, 0, 65536, 8, 0, 262142, 7, 0, 196608, 1, 0, 327680, 9, 0, 458752, 10, 0, 589824, 2, 0, 720896, 0, 0, 851968, 0, 0, 983040, 9, 0 )
-
-[node name="WallsDecorations" type="TileMap" parent="."]
-mode = 1
-tile_set = SubResource( 1 )
-cell_size = Vector2( 32, 16 )
-format = 1
-tile_data = PoolIntArray( -131070, 6, 0, -131062, 6, 0, 131071, 13, 0, 262142, 7, 0, 720894, 7, 0 )
-
-[node name="Obstacles" type="TileMap" parent="."]
-mode = 1
-tile_set = ExtResource( 1 )
-cell_size = Vector2( 32, 16 )
-cell_y_sort = true
-format = 1
-tile_data = PoolIntArray( 65541, 8, 0, 65542, 3, 0, 65543, 46, 0, 65552, 47, 0, 65553, 9, 0, 131078, 7, 0, 262145, 20, 0, 393223, 21, 0, 393228, 37, 0, 458764, 12, 0, 458765, 18, 0, 458766, 48, 0, 589838, 19, 0, 655361, 3, 0, 720897, 2, 0, 786433, 2, 0, 851969, 9, 0, 917514, 6, 0, 917517, 5, 0 )
+[node name="Layer0" parent="." instance=ExtResource( 1 )]
+sort_enabled = false
 
 [node name="Areas" type="TileMap" parent="."]
 modulate = Color( 1, 1, 1, 0.470588 )
 mode = 1
 tile_set = ExtResource( 5 )
 cell_size = Vector2( 32, 16 )
+centered_textures = true
 format = 1
 script = ExtResource( 4 )

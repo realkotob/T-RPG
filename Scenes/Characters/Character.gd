@@ -30,16 +30,6 @@ func _ready():
 	set_current_MP(get_max_MP())
 
 
-# Give the references to the children nodes and trigger their setup method
-func setup():
-	for child in get_children():
-		if "character_node" in child:
-			child.character_node = self
-		
-		if child.has_method("setup"):
-			child.setup()
-
-
 # Set the character in the given state
 func set_state(value : String):
 	states_node.set_state(value)

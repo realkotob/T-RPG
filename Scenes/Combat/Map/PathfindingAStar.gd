@@ -1,15 +1,19 @@
-extends IsoTileMap
+extends YSort
+
+var layer_scene = load("res://Scenes/Combat/Map/Layer.tscn")
 
 # Create a Astar node and store it in the variable astar_node
 onready var astar_node = AStar.new()
-onready var _half_cell_size = cell_size / 2
-onready var grounds_tilemap = get_node("Ground")
-onready var obstacles_tilemap = get_parent().get_node("YSort").get_node("Obstacles")
-onready var walls_tilemap = get_node("Walls")
+onready var _half_cell_size = Vector2(16, 8) 
+onready var ground_0_node = $Layer0/Ground
+
+onready var grounds_tilemap = ground_0_node
+onready var obstacles_tilemap = get_node_or_null("Interactives/Obstacles")
 
 var path_start_position : Vector2 setget set_path_start_position
 var path_end_position : Vector2 setget set_path_end_position
 
+var map_size = Vector2(100, 100)
 var grounds
 var obstacles
 var _point_path := PoolVector3Array()
@@ -19,14 +23,11 @@ const DRAW_COLOR = Color('#fff')
 
 
 func _ready():
-	# Define the map size, in cells
-	map_size = Vector2(100, 100)
-	
 	# Store all the passable cells into the array grounds
 	grounds = grounds_tilemap.get_used_cells()
 	
 	# Store all the unpassable cells into the array obstacles
-	obstacles = obstacles_tilemap.get_used_cells() + walls_tilemap.get_used_cells()
+	obstacles = obstacles_tilemap.get_used_cells()
 	
 	# Store all the passable cells into the array walkable_cells_list, by checking all the cells in the map to see if they are not an obstacle
 	var walkable_cells_list = astar_add_walkable_cells()
@@ -37,7 +38,6 @@ func _ready():
 
 # Determine which cells are walkale and which are not
 func astar_add_walkable_cells():
-	
 	var points_array = []
 	
 	# Go through all the cells of the map, and check if they are in the obstacles array
@@ -98,8 +98,8 @@ func calculate_point_index(point):
 # Retrun the shortest path between two points, or an empty path if there is no path to take to get there
 func find_path(world_start, world_end) -> Array:
 	# Set the start and end point
-	set_path_start_position(world_to_map(world_start))
-	set_path_end_position(world_to_map(world_end))
+	set_path_start_position(ground_0_node.world_to_map(world_start))
+	set_path_end_position(ground_0_node.world_to_map(world_end))
 	
 	# Calculate a path between this two points
 	calculate_path()
@@ -107,7 +107,7 @@ func find_path(world_start, world_end) -> Array:
 	# Convert the path from a point path, to a path of coordonates in the game world
 	var path_world = []
 	for point in _point_path:
-		var point_world = map_to_world(Vector2(point.x, point.y))
+		var point_world = ground_0_node.map_to_world(Vector2(point.x, point.y))
 		point_world.y += _half_cell_size.y
 		path_world.append(point_world)
 	
@@ -146,3 +146,13 @@ func set_path_end_position(point) -> void:
 # Check if a position is valid, return true if it is, false if it is not
 func is_position_valid(point: Vector2) -> bool:
 	return !(point in obstacles or is_outside_map_bounds(point))
+
+
+func _input(event):
+	if event.is_action_pressed("NewLayer"):
+		new_layer()
+
+func new_layer():
+	var layer_node = layer_scene.new()
+	add_child(layer_node)
+	layer_node.set_owner(get_tree().edited_scene_root)

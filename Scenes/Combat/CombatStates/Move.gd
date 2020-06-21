@@ -5,12 +5,11 @@ extends CombatStateBase
 onready var line_node := $Line
 onready var combat_states_node = get_parent()
 
-var map_node : TileMap
-var move_node : Node
-var cursor_node : Node
-var area_node : Node
 var combat_loop_node : Node
 var HUD_node : Node
+var map_node : Node
+var cursor_node : Node
+var area_node : Node
 
 var active_actor : Node
 
@@ -19,7 +18,17 @@ var path := PoolVector2Array()
 signal path_valid
 signal active_actor_turn_finished
 
-func setup():
+func _ready():
+	yield(owner, "ready")
+	
+	combat_loop_node = owner
+	map_node = owner.map_node
+	cursor_node = owner.cursor_node
+	HUD_node = owner.HUD_node
+	area_node = owner.area_node
+	
+	active_actor = owner.active_actor
+	
 	var _err
 	_err = connect("path_valid", cursor_node, "_on_path_valid")
 	_err = cursor_node.connect("cursor_change_position", self, "on_cursor_change_position")

@@ -1,7 +1,5 @@
 extends StateBase
 
-var character_node : Node
-
 var path : PoolVector2Array = []
 var target_point_world : Vector2
 var speed = 5.0
@@ -28,11 +26,11 @@ func update(_delta):
 
 # Handle the movement to the next point on the path, return true if the character is arrived
 func move_to(world_position):
-	var velocity = (world_position - character_node.global_position).normalized() * speed
-	if character_node.global_position.distance_to(world_position) <= speed:
-		character_node.global_position = world_position
+	var velocity = (world_position - owner.global_position).normalized() * speed
+	if owner.global_position.distance_to(world_position) <= speed:
+		owner.global_position = world_position
 	else:
-		character_node.global_position += velocity
+		owner.global_position += velocity
 	
-	return world_position == character_node.global_position
+	return world_position == owner.global_position
 

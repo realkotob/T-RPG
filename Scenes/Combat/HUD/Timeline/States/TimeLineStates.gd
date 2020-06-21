@@ -8,18 +8,10 @@ onready var extract_node = $Extract
 onready var move_node = $Move
 onready var insert_node = $Insert
 
-# Setup the children nodes, and set the state to Idle by default
-func setup():
-	for child in get_children():
-		if "timeline_node" in child:
-			child.timeline_node = timeline_node
-		
-		if "combat_loop_node" in child:
-			child.combat_loop_node = combat_loop_node
-		
-		if child.has_method("setup"):
-			child.setup()
-		
+func _ready():
+	yield(owner, "ready")
+	combat_loop_node = owner
+	
 	set_state("Idle")
 
 

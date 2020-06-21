@@ -12,24 +12,11 @@ var combat_loop_node : Node
 var combat_state_node : Node
 var active_actor : Object
 
-func setup():
-	for button in action_buttons_array:
-		if "combat_state_node" in button:
-			button.combat_state_node = combat_state_node
-		
-		if button.has_method("setup"):
-			button.setup()
-	
-	for label in debug_labels_array:
-		if label.has_method("setup"):
-			label.setup()
+func _ready():
 	
 	for child in get_children():
 		if "combat_loop_node" in child:
 			child.combat_loop_node = combat_loop_node
-		
-		if child.has_method("setup"):
-			child.setup()
 	
 	# Set every HUD node visible (expect the debug)
 	action_menu_node.set_visible(true)

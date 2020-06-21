@@ -6,16 +6,14 @@ var mouse_pos := Vector2()
 var cursor_cell := Vector2()
 var cursor_pos := Vector2()
 
-var map_node : TileMap
+var map_node
 
 signal cursor_change_position
 
 func _ready():
-	set_physics_process(false)
+	yield(owner, "ready")
+	map_node = owner.map_node
 
-
-func setup():
-	set_physics_process(true)
 
 
 func _physics_process(_delta):
@@ -24,8 +22,8 @@ func _physics_process(_delta):
 	mouse_pos.y += 8
 	
 	# Snap to the grid
-	cursor_cell = map_node.world_to_map(mouse_pos)
-	cursor_pos = map_node.map_to_world(cursor_cell)
+	cursor_cell = map_node.ground_0_node.world_to_map(mouse_pos)
+	cursor_pos = map_node.ground_0_node.map_to_world(cursor_cell)
 	cursor_pos.y -= 8
 	
 	if position != cursor_pos:

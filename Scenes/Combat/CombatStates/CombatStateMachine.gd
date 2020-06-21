@@ -2,11 +2,20 @@ extends StatesMachine
 
 var combat_loop_node : Node
 var HUD_node : Node
-var map_node : TileMap
+var map_node : Node
 var cursor_node : Node
 var area_node : Node
 
 var active_actor : Node
+
+func _ready():
+	yield(owner, "ready")
+	
+	combat_loop_node = owner
+	map_node = owner.map_node
+	cursor_node = owner.cursor_node
+	HUD_node = owner.HUD_node
+	area_node = owner.area_node
 
 # Setup children references
 func setup():
@@ -16,9 +25,6 @@ func setup():
 		
 		if "map_node" in state:
 			state.map_node = map_node
-		
-		if "active_actor" in state:
-			state.active_actor = active_actor
 		
 		if "cursor_node" in state:
 			state.cursor_node = cursor_node
