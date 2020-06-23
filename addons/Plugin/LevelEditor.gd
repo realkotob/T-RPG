@@ -45,7 +45,8 @@ func edit(object : Object):
 # Check if the plugin handle this node or not. 
 # If it return true trigger the edit and the make_visible callbacks
 func handles(object: Object):
-	return object is CombatMap or object.find_parent("Map")
+	return object is CombatMap or (object is Node and 
+									object.find_parent("Map"))
 
 
 # Clean-up
@@ -69,27 +70,20 @@ func make_visible(visible: bool):
 
 func _on_new_layer_pressed():
 	var undo = get_undo_redo()
-	var layer : Node = null
+	var layer = LAYER.instance()
+	
 	undo.create_action("Add new layer")
-	layer = undo.add_do_method(self, "add_layer")
-	undo.add_undo_method(self, "delete_layer", layer)
+	undo.add_do_method(self, "add_layer", layer)
+	undo.add_undo_method(edited_node, "remove_child", layer)
 	undo.commit_action()
 
 
-func add_layer():
+func add_layer(layer: Node):
 	if edited_node == null:
-		return null
-	
-	var layer = LAYER.instance()
-	edited_node.add_child(layer)
-	layer.owner = edited_node
-
-
-func delete_layer(layer: Node):
-	if layer == null:
 		return
 	
-	layer.queue_free()
+	edited_node.add_child(layer)
+	layer.owner = edited_node
 
 
 func _on_next_layer_pressed():

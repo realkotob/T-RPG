@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
-[sub_resource type="InputEventAction" id=1]
-action = "NextLayer"
+[sub_resource type="InputEventKey" id=1]
+scancode = 16777253
 
 [sub_resource type="ShortCut" id=2]
 shortcut = SubResource( 1 )
