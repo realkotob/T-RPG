@@ -29,6 +29,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Classes/IsoTileMap.gd"
 }, {
+"base": "YSort",
+"class": "MapLayer",
+"language": "GDScript",
+"path": "res://Scenes/Combat/Map/Layer.gd"
+}, {
 "base": "Node",
 "class": "StateBase",
 "language": "GDScript",
@@ -49,6 +54,7 @@ _global_script_class_icons={
 "CombatMap": "",
 "CombatStateBase": "",
 "IsoTileMap": "",
+"MapLayer": "",
 "StateBase": "",
 "StatesMachine": "",
 "TL_StateBase": ""

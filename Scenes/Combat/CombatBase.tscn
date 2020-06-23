@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://Environement/TileSet/TourInterieur.tres" type="TileSet" id=1]
 [ext_resource path="res://Scenes/Combat/Cursor/Cursor.tscn" type="PackedScene" id=2]
@@ -36,6 +36,7 @@
 [ext_resource path="res://Scenes/Combat/HUD/Timeline/States/Move.gd" type="Script" id=34]
 [ext_resource path="res://Scenes/Combat/HUD/Timeline/States/Insert.gd" type="Script" id=35]
 [ext_resource path="res://Scenes/Combat/HUD/Timeline/Timeline.gd" type="Script" id=36]
+[ext_resource path="res://Scenes/Combat/Map/Layer.gd" type="Script" id=37]
 
 [node name="Combat" type="Node2D"]
 script = ExtResource( 13 )
@@ -106,6 +107,27 @@ cell_tile_origin = 1
 cell_y_sort = true
 format = 1
 tile_data = PoolIntArray( 65541, 8, 0, 65542, 3, 0, 65543, 46, 0, 65552, 47, 0, 65553, 9, 0, 131078, 7, 0, 262145, 20, 0, 393223, 21, 0, 393228, 37, 0, 458764, 12, 0, 458765, 18, 0, 458766, 48, 0, 589838, 19, 0, 655361, 3, 0, 720897, 2, 0, 786433, 2, 0, 851969, 9, 0, 917514, 6, 0, 917517, 5, 0 )
+
+[node name="Layer2" type="YSort" parent="Map"]
+script = ExtResource( 37 )
+
+[node name="Layer3" type="YSort" parent="Map"]
+script = ExtResource( 37 )
+
+[node name="Layer4" type="YSort" parent="Map"]
+script = ExtResource( 37 )
+
+[node name="Layer5" type="YSort" parent="Map"]
+script = ExtResource( 37 )
+
+[node name="Layer6" type="YSort" parent="Map"]
+script = ExtResource( 37 )
+
+[node name="Layer7" type="YSort" parent="Map"]
+script = ExtResource( 37 )
+
+[node name="Layer8" type="YSort" parent="Map" index="9"]
+script = ExtResource( 37 )
 
 [node name="HUD" type="CanvasLayer" parent="."]
 layer = 2
