@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Characters/Character.gd"
 }, {
+"base": "YSort",
+"class": "CombatMap",
+"language": "GDScript",
+"path": "res://Scenes/Combat/Map/PathfindingAStar.gd"
+}, {
 "base": "StateBase",
 "class": "CombatStateBase",
 "language": "GDScript",
@@ -41,6 +46,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Character": "",
+"CombatMap": "",
 "CombatStateBase": "",
 "IsoTileMap": "",
 "StateBase": "",
@@ -64,6 +70,10 @@ window/vsync/use_vsync=false
 window/energy_saving/keep_screen_on=false
 window/stretch/mode="2d"
 window/stretch/aspect="keep_width"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "Plugin" )
 
 [importer_defaults]
 
@@ -93,6 +103,16 @@ texture={
 NewLayer={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777253,"unicode":0,"echo":false,"script":null)
+ ]
+}
+NextLayer={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":4,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+PreviousLayer={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":5,"pressed":false,"doubleclick":false,"script":null)
  ]
 }
 

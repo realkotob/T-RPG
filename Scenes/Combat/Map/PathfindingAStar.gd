@@ -1,11 +1,10 @@
 extends YSort
-
-var layer_scene = load("res://Scenes/Combat/Map/Layer.tscn")
+class_name CombatMap
 
 # Create a Astar node and store it in the variable astar_node
 onready var astar_node = AStar.new()
 onready var _half_cell_size = Vector2(16, 8) 
-onready var ground_0_node = $Layer0/Ground
+onready var ground_0_node = $Layer/Ground
 
 onready var grounds_tilemap = ground_0_node
 onready var obstacles_tilemap = get_node_or_null("Interactives/Obstacles")
@@ -146,13 +145,3 @@ func set_path_end_position(point) -> void:
 # Check if a position is valid, return true if it is, false if it is not
 func is_position_valid(point: Vector2) -> bool:
 	return !(point in obstacles or is_outside_map_bounds(point))
-
-
-func _input(event):
-	if event.is_action_pressed("NewLayer"):
-		new_layer()
-
-func new_layer():
-	var layer_node = layer_scene.new()
-	add_child(layer_node)
-	layer_node.set_owner(get_tree().edited_scene_root)
