@@ -77,7 +77,7 @@ func make_visible(visible: bool):
 
 func _on_new_layer_pressed():
 	var undo = get_undo_redo()
-	var layer = LAYER.instance()
+	var layer = LAYER.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
 	
 	undo.create_action("Add new layer")
 	undo.add_do_method(self, "add_layer", layer)
@@ -155,10 +155,23 @@ func select_next_previous_layer(next : bool = true):
 				change_selected_node(next_layer)
 
 
+# Set the focus on the given node
+# If the given node has a node that has the same name than the current selection
+# Set the focus on it instead
 func change_selected_node(node : Node):
 	var editor_selection = get_editor_interface().get_selection()
+	var selection_array = editor_selection.get_selected_nodes()
+	var selection_name = selection_array[0].name
+	
 	editor_selection.clear()
-	editor_selection.add_node(node)
+	
+	#### TEMPORARY ####
+#	editor_selection.add_node(node)
+	var targeted_selection = node.get_node_or_null(selection_name)
+	if targeted_selection != null:
+		editor_selection.add_node(targeted_selection)
+	else:
+		editor_selection.add_node(node)
 
 
 # Find the first parent that is a layer
@@ -181,5 +194,10 @@ func add_layer(layer: Node):
 	edited_map.add_child(layer)
 	layer.set_owner(get_tree().get_edited_scene_root())
 	
-	layer.set_position(Vector2(0, 16 * nb_layers))
+	# Tricks to get the ysort right
+	layer.set_position(nb_layers)
+	layer.set_offset(-nb_layers)
+	
+#	layer.set_position(Vector2(0, -16 * nb_layers))
+	layer.set_display_folded(false)
 	change_selected_node(layer)

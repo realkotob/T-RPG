@@ -8,7 +8,7 @@ onready var _half_cell_size = Vector2(16, 8)
 onready var ground_0_node = $Layer/Ground
 
 onready var grounds_tilemap = ground_0_node
-onready var obstacles_tilemap = get_node_or_null("Interactives/Obstacles")
+onready var obstacles_tilemap = $Layer/Obstacles
 
 var path_start_position : Vector2 setget set_path_start_position
 var path_end_position : Vector2 setget set_path_end_position
