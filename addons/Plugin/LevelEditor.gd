@@ -177,6 +177,9 @@ func add_layer(layer: Node):
 	if edited_map == null:
 		return
 	
+	var nb_layers = edited_map.count_layers()
 	edited_map.add_child(layer)
 	layer.set_owner(get_tree().get_edited_scene_root())
+	
+	layer.set_position(Vector2(0, 16 * nb_layers))
 	change_selected_node(layer)
