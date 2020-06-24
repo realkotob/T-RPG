@@ -1,4 +1,5 @@
-extends YSort
+tool
+extends Map
 class_name CombatMap
 
 # Create a Astar node and store it in the variable astar_node

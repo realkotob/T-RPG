@@ -14,7 +14,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Characters/Character.gd"
 }, {
-"base": "YSort",
+"base": "Map",
 "class": "CombatMap",
 "language": "GDScript",
 "path": "res://Scenes/Combat/Map/PathfindingAStar.gd"
@@ -28,6 +28,11 @@ _global_script_classes=[ {
 "class": "IsoTileMap",
 "language": "GDScript",
 "path": "res://Classes/IsoTileMap.gd"
+}, {
+"base": "YSort",
+"class": "Map",
+"language": "GDScript",
+"path": "res://Scenes/Combat/Map/Map.gd"
 }, {
 "base": "YSort",
 "class": "MapLayer",
@@ -54,6 +59,7 @@ _global_script_class_icons={
 "CombatMap": "",
 "CombatStateBase": "",
 "IsoTileMap": "",
+"Map": "",
 "MapLayer": "",
 "StateBase": "",
 "StatesMachine": "",
