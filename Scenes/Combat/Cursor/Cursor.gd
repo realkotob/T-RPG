@@ -12,7 +12,7 @@ signal cursor_change_position
 
 func _ready():
 	yield(owner, "ready")
-	map_node = owner.map_node
+	map_node = owner
 
 
 

@@ -1,5 +1,5 @@
 tool
-extends YSort
+extends Node2D
 class_name Map
 
 # Count the number of layers
@@ -39,3 +39,9 @@ func get_first_layer() -> MapLayer:
 		if child is MapLayer:
 			return child
 	return null
+
+
+# Return the last layer of the given map
+# Alias for get_previous_layer(get_child_count())
+func get_last_layer() -> MapLayer:
+	return get_previous_layer(get_child_count())

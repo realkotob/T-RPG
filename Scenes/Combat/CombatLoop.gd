@@ -1,7 +1,7 @@
 extends Node
 
 onready var map_node = $Map
-onready var area_node = $Map/Areas
+onready var area_node = $Map/Interactives/Areas
 onready var cursor_node = $Map/Interactives/Cursor
 onready var combat_state_node = $CombatState
 onready var HUD_node = $HUD

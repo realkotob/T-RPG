@@ -8,14 +8,15 @@ onready var _half_cell_size = Vector2(16, 8)
 onready var ground_0_node = $Layer/Ground
 
 onready var grounds_tilemap = ground_0_node
-onready var obstacles_tilemap = $Layer/Obstacles
+onready var obstacles_tilemap = $Interactives/Obstacles
+onready var area_node = $Interactives/Areas
 
 var path_start_position : Vector2 setget set_path_start_position
 var path_end_position : Vector2 setget set_path_end_position
 
-var map_size = Vector2(100, 100)
-var grounds
-var obstacles
+var map_size = Vector2(500, 500)
+var grounds : Array = []
+var obstacles : Array = []
 var _point_path := PoolVector3Array()
 
 const BASE_LINE_WIDTH = 4.0
@@ -23,6 +24,9 @@ const DRAW_COLOR = Color('#fff')
 
 
 func _ready():
+	if Engine.editor_hint:
+		return
+	
 	# Store all the passable cells into the array grounds
 	grounds = grounds_tilemap.get_used_cells()
 	
@@ -34,6 +38,14 @@ func _ready():
 	
 	# Create the connections between all the walkable cells
 	astar_connect_walkable_cells(walkable_cells_list)
+
+
+
+func init_actors_grid_pos():
+	var interactives = $Interactives
+	for child in interactives.get_children():
+		if child is Character: ### TO BE REPLACED WITH ACTOR ### 
+			child.set_grid_map_position()
 
 
 # Determine which cells are walkale and which are not
@@ -92,14 +104,14 @@ func is_outside_map_bounds(point):
 
 # Return the point index
 func calculate_point_index(point):
-	return point.x + map_size.x * point.y
+	return abs(point.x + map_size.x * point.y)
 
 
 # Retrun the shortest path between two points, or an empty path if there is no path to take to get there
-func find_path(world_start, world_end) -> Array:
+func find_path(start_cell : Vector2, end_cell : Vector2) -> Array:
 	# Set the start and end point
-	set_path_start_position(ground_0_node.world_to_map(world_start))
-	set_path_end_position(ground_0_node.world_to_map(world_end))
+	set_path_start_position(start_cell)
+	set_path_end_position(end_cell)
 	
 	# Calculate a path between this two points
 	calculate_path()
@@ -141,6 +153,70 @@ func set_path_end_position(point) -> void:
 	if !is_position_valid(point):
 		point = Vector2()
 	path_end_position = point
+
+
+# Draw the movement of the given character
+func draw_movement_area(active_actor : Character):
+	var mov = active_actor.get_current_movements()
+	var map_pos = active_actor.get_grid_map_position()
+	var walkable_cells := find_walkable_cells(map_pos, mov)
+	var walkable_cells_pos := get_cell_array_position(walkable_cells)
+	area_node.draw_area(walkable_cells_pos)
+
+
+# Take an array of cells, and return an array of corresponding positions
+func get_cell_array_position(cell_array: Array) -> PoolVector2Array:
+	var pos_array : PoolVector2Array = []
+	for cell in cell_array:
+		pos_array.append(ground_0_node.map_to_world(cell))
+	
+	return pos_array
+
+
+# Find all the walkable cells and retrun their position
+func find_walkable_cells(actor_map_pos : Vector2, actor_movements : int) -> Array:
+	
+	var walkable_cells : Array = []
+	#### THE CALCULATION SHOULD NOT BE MADE BASED ON THE CHARACTER POS ####
+	var relatives : Array
+	
+	for i in range(1, actor_movements + 1):
+		
+		# Find the adjacents cells of the current cell
+		if i == 1:
+			relatives = find_relatives([actor_map_pos], walkable_cells)
+		else:
+			relatives = find_relatives(relatives, walkable_cells)
+		
+		# Check for every points if it is valid, not already treated 
+		# and if a path exist between the actor's position and it
+		for cell in relatives:
+			if is_position_valid(cell) && !walkable_cells.has(cell):
+				
+				# Get the lenght of the path between the actor
+				var path_len = len(find_path(actor_map_pos, cell))
+				if path_len > 0 && path_len - 1 <= actor_movements:
+					walkable_cells.append(cell)
+	
+	return walkable_cells
+
+
+# Find all the relatives to an array of points, checking if they haven't been treated before, and return it in an array
+func find_relatives(point_array : Array, walkable_cells: Array) -> Array:
+	var result_array : Array = []
+	
+	for point in point_array:
+		var point_relative = PoolVector2Array([
+		Vector2(point.x + 1, point.y),
+		Vector2(point.x - 1, point.y),
+		Vector2(point.x, point.y + 1),
+		Vector2(point.x, point.y - 1)])
+		
+		for cell in point_relative:
+			if !walkable_cells.has(cell):
+				result_array.append(cell)
+	
+	return result_array
 
 
 # Check if a position is valid, return true if it is, false if it is not

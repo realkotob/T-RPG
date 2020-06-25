@@ -17,6 +17,9 @@ var current_movements : int setget set_current_movements, get_current_movements
 var current_HP : int setget set_current_HP, get_current_HP
 var current_MP : int setget set_current_MP, get_current_MP
 
+var grid_map_position := Vector2.INF setget set_grid_map_position, get_grid_map_position
+var altitude : int = 0 setget set_altitude, get_altitude
+
 # Add the node to the group allies
 func _init():
 	add_to_group("Allies")
@@ -28,6 +31,19 @@ func _ready():
 	set_current_movements(get_max_movements())
 	set_current_HP(get_max_HP())
 	set_current_MP(get_max_MP())
+
+
+func set_grid_map_position(value: Vector2):
+	grid_map_position = value
+
+func get_grid_map_position() -> Vector2:
+	return grid_map_position
+
+func set_altitude(value : int):
+	altitude = value
+
+func get_altitude() -> int:
+	return altitude
 
 
 # Set the character in the given state

@@ -202,7 +202,7 @@
 13/shapes = [  ]
 13/z_index = 0
 
-[node name="Layer" type="YSort"]
+[node name="Layer" type="Node2D"]
 script = ExtResource( 3 )
 
 [node name="Ground" type="TileMap" parent="."]
@@ -227,11 +227,4 @@ mode = 1
 tile_set = SubResource( 1 )
 cell_size = Vector2( 32, 16 )
 cell_tile_origin = 1
-format = 1
-
-[node name="Obstacles" type="TileMap" parent="."]
-mode = 1
-tile_set = ExtResource( 1 )
-cell_size = Vector2( 32, 16 )
-cell_y_sort = true
 format = 1

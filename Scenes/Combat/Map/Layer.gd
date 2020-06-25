@@ -1,4 +1,5 @@
-extends YSort
+tool
+extends Node2D
 class_name MapLayer
 
 func set_children_offset(offset : Vector2):

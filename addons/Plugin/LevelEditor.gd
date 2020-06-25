@@ -7,6 +7,8 @@ const NEW_LAYER = preload("res://Addon/Plugin/NewLayer.tscn")
 const NEXT_LAYER = preload("res://Addon/Plugin/NextLayer.tscn")
 const PREVIOUS_LAYER = preload("res://Addon/Plugin/PreviousLayer.tscn")
 
+const combat_scene = preload("res://Scenes/Combat/CombatBase.tscn")
+
 var edited_map : Node = null
 var edited_layer : Node = null
 
@@ -190,14 +192,52 @@ func add_layer(layer: Node):
 	if edited_map == null:
 		return
 	
+	var edited_scene = get_tree().get_edited_scene_root()
+#	var open_scenes = get_editor_interface().get_open_scenes()
+#
+#	print(open_scenes)
+	
 	var nb_layers = edited_map.count_layers()
-	edited_map.add_child(layer)
-	layer.set_owner(get_tree().get_edited_scene_root())
+	var last_layer = edited_map.get_last_layer()
 	
-	# Tricks to get the ysort right
-	layer.set_position(nb_layers)
-	layer.set_offset(-nb_layers)
-	
-#	layer.set_position(Vector2(0, -16 * nb_layers))
+	# Set the layer offset
+	layer.set_position(Vector2(0, nb_layers * -16))
 	layer.set_display_folded(false)
+	
+	# Set the new node to be editable
+#	var editable_instances = combat_scene._bundled.get("editable_instances")
+#	editable_instances.append("Map/Layer" + String(nb_layers + 1))
+#	combat_scene._bundled["editable_instances"] = editable_instances
+#	print(combat_scene._bundled["editable_instances"])
+	
+	edited_map.add_child_below_node(last_layer, layer)
+	layer.set_owner(edited_scene)
+	get_editor_interface().save_scene()
+	
+	make_editable(layer)
+	
 	change_selected_node(layer)
+
+
+# WIP: makes instanced scene node's children editable (aka "Editable Children")
+func make_editable(node : Node):
+
+	var root = get_editor_interface().get_edited_scene_root()
+	if not root:
+		return
+
+	var root_path = root.filename
+	if root_path.empty():
+		return
+
+	var root_scene = load(root_path)
+	var state = root_scene._bundled
+	# This should make [editable path="node"] appear in text scene once saved
+	state.editable_instances.push_back(root.get_path_to(node))
+	root_scene._bundled = state
+
+#	Current hack:
+	get_editor_interface().save_scene()
+#	or:
+	ResourceSaver.save(root_scene.resource_path, root_scene)
+	get_editor_interface().open_scene_from_path(root_scene.resource_path)

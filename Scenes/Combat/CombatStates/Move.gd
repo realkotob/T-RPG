@@ -48,7 +48,7 @@ func enter_state():
 		var pos = active_actor.get_global_position()
 		set_path(get_viewport().get_mouse_position(), pos)
 		
-		area_node.draw_movement_area(pos, active_actor.get_current_movements())
+		map_node.draw_movement_area(active_actor)
 	
 	var _err = active_actor.move_node.connect("movement_finished", self, "on_movement_finished")
 
