@@ -1,6 +1,6 @@
 extends StateBase
 
-var path : PoolVector2Array = []
+var path : Array = []
 var target_point_world : Vector2
 var speed = 5.0
 
@@ -11,12 +11,13 @@ signal movement_finished
 # Move the actor, until it's arrived to the next point
 func update(_delta):
 	if len(path) > 0:
-		target_point_world = path[0]
+		target_point_world = owner.map_node.cell_to_world(path[0])
 		var arrived_to_next_point = move_to(target_point_world)
 		
 		# If the actor is arrived to the next point, remove this point from the path and take the next for destination
 		if arrived_to_next_point == true:
-			path.remove(0)
+			var last_point = path.pop_front()
+			owner.set_grid_position(last_point)
 	
 	# If the path is empty, change the state to move
 	if len(path) == 0:

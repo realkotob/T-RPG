@@ -9,4 +9,3 @@ region = Rect2( 0, 0, 32.2939, 16.0124 )
 [node name="WalkableAreaSprite" type="Sprite"]
 self_modulate = Color( 1, 1, 1, 0.682353 )
 texture = SubResource( 1 )
-offset = Vector2( 0, 8 )

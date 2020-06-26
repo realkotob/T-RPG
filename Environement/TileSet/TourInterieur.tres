@@ -313,7 +313,7 @@
 48/z_index = 0
 55/name = "Grounds"
 55/texture = ExtResource( 1 )
-55/tex_offset = Vector2( 0, 8 )
+55/tex_offset = Vector2( 0, -8 )
 55/modulate = Color( 1, 1, 1, 1 )
 55/region = Rect2( 0, 0, 192, 288 )
 55/tile_mode = 2

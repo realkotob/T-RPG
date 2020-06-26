@@ -31,7 +31,7 @@ func _ready():
 	
 	var _err
 	_err = connect("path_valid", cursor_node, "_on_path_valid")
-	_err = cursor_node.connect("cursor_change_position", self, "on_cursor_change_position")
+	_err = cursor_node.connect("cursor_change_cell", self, "on_cursor_change_cell")
 	_err = connect("active_actor_turn_finished", combat_loop_node, "on_active_actor_turn_finished")
 
 
@@ -74,18 +74,18 @@ func _unhandled_input(event):
 
 
 # When cursor as moved, call the function that calculate a new path
-func on_cursor_change_position(cursor_pos : Vector2):
+func on_cursor_change_cell(cursor_cell : Vector2):
 	if combat_states_node.get_state() == self:
-		set_path(cursor_pos, active_actor.get_global_position())
+		set_path(cursor_cell, active_actor.get_grid_position())
 
 
-# Ask Astar for a path between current actor's position and cursor position
-func set_path(cursor_pos : Vector2, char_pos : Vector2) -> void:
-	path = map_node.find_path(char_pos, cursor_pos)
+# Ask Astar for a path between current actor's cell and the cursor's cell
+func set_path(cursor_cell : Vector2, actor_cell : Vector2) -> void:
+	path = map_node.find_path(actor_cell, cursor_cell)
 	var is_path_valid = check_path(path)
 	
 	if is_path_valid:
-		line_node.set_points(path)
+		line_node.set_points(map_node.cell_array_to_world(path))
 	else:
 		line_node.set_points([])
 	

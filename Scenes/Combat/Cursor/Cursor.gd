@@ -8,12 +8,11 @@ var cursor_pos := Vector2()
 
 var map_node
 
-signal cursor_change_position
+signal cursor_change_cell
 
 func _ready():
 	yield(owner, "ready")
 	map_node = owner
-
 
 
 func _physics_process(_delta):
@@ -24,11 +23,10 @@ func _physics_process(_delta):
 	# Snap to the grid
 	cursor_cell = map_node.ground_0_node.world_to_map(mouse_pos)
 	cursor_pos = map_node.ground_0_node.map_to_world(cursor_cell)
-	cursor_pos.y -= 8
 	
 	if position != cursor_pos:
-		# This signal is connected to and from the Overlook combat state
-		emit_signal("cursor_change_position", cursor_pos)
+		# This signal is connected to and from the Move combat state
+		emit_signal("cursor_change_cell", cursor_cell)
 	
 	# Set the cursor to the right position
 	set_position(cursor_pos)
