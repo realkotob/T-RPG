@@ -210,7 +210,6 @@ mode = 1
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 32, 16 )
 cell_tile_origin = 1
-centered_textures = true
 format = 1
 
 [node name="Walls" type="TileMap" parent="."]

@@ -18,8 +18,10 @@ var current_movements : int setget set_current_movements, get_current_movements
 var current_HP : int setget set_current_HP, get_current_HP
 var current_MP : int setget set_current_MP, get_current_MP
 
-var grid_position := Vector2.INF setget set_grid_position, get_grid_position
-var altitude : int = 0 setget set_altitude, get_altitude
+var grid_position := Vector3.INF setget set_grid_position, get_grid_position
+
+
+#### BUILT-IN FUNCTIONS ####
 
 # Add the node to the group allies
 func _init():
@@ -33,35 +35,14 @@ func _ready():
 	set_current_HP(get_max_HP())
 	set_current_MP(get_max_MP())
 
+### ACCESORS ###
 
-func set_grid_position(value: Vector2):
+func set_grid_position(value: Vector3):
 	grid_position = value
 
-func get_grid_position() -> Vector2:
+func get_grid_position() -> Vector3:
 	return grid_position
 
-func set_altitude(value : int):
-	altitude = value
-
-func get_altitude() -> int:
-	return altitude
-
-
-# Set the character in the given state
-func set_state(value : String):
-	states_node.set_state(value)
-
-
-# Move the character along the given path
-func move_along_path(path : PoolVector2Array):
-	move_node.path = path
-	set_state("Move")
-
-
-func new_turn():
-	current_actions = get_max_actions()
-
-### ACCESORS ###
 
 func get_max_HP():
 	return MaxStats.HP
@@ -109,3 +90,19 @@ func get_current_movements():
 
 func set_current_movements(value : int):
 	current_movements = value
+
+#### LOGIC ####
+
+# Set the character in the given state
+func set_state(value : String):
+	states_node.set_state(value)
+
+
+# Move the character along the given path
+func move_along_path(path : PoolVector3Array):
+	move_node.path = path
+	set_state("Move")
+
+
+func new_turn():
+	current_actions = get_max_actions()

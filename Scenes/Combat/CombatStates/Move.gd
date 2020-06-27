@@ -13,7 +13,7 @@ var area_node : Node
 
 var active_actor : Node
 
-var path := PoolVector2Array()
+var path := PoolVector3Array()
 
 signal path_valid
 signal active_actor_turn_finished
@@ -45,8 +45,9 @@ func enter_state():
 	initialize_path_value()
 	
 	if active_actor != null:
-		var pos = active_actor.get_global_position()
-		set_path(get_viewport().get_mouse_position(), pos)
+		var actor_cell = active_actor.get_grid_position()
+		var cursor_cell = cursor_node.get_cursor_cell()
+		set_path(cursor_cell, actor_cell)
 		
 		map_node.draw_movement_area(active_actor)
 	
@@ -74,16 +75,17 @@ func _unhandled_input(event):
 
 
 # When cursor as moved, call the function that calculate a new path
-func on_cursor_change_cell(cursor_cell : Vector2):
+func on_cursor_change_cell(cursor_cell : Vector3):
 	if combat_states_node.get_state() == self:
 		set_path(cursor_cell, active_actor.get_grid_position())
 
 
-# Ask Astar for a path between current actor's cell and the cursor's cell
-func set_path(cursor_cell : Vector2, actor_cell : Vector2) -> void:
-	path = map_node.find_path(actor_cell, cursor_cell)
-	var is_path_valid = check_path(path)
+# Ask the map for a path between current actor's cell and the cursor's cell
+func set_path(cursor_cell : Vector3, actor_cell : Vector3) -> void:
 	
+	path = map_node.find_path(actor_cell, cursor_cell)
+	
+	var is_path_valid = check_path(path)
 	if is_path_valid:
 		line_node.set_points(map_node.cell_array_to_world(path))
 	else:
@@ -94,7 +96,7 @@ func set_path(cursor_cell : Vector2, actor_cell : Vector2) -> void:
 
 
 # Check if the path is valid, return true if it is or false if not
-func check_path(path_to_check : PoolVector2Array) -> bool:
+func check_path(path_to_check : PoolVector3Array) -> bool:
 	if active_actor == null:
 		return false
 	
