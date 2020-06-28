@@ -1,23 +1,21 @@
-extends Node2D
+extends IsoObject
 
 onready var sprite_node = get_node("Sprite")
 
 var mouse_pos := Vector2()
-var cursor_cell := Vector3() setget set_cursor_cell, get_cursor_cell
-
 var map_node : Node
 
 signal cursor_change_cell
 
 #### ACCESSORS ####
 
-func set_cursor_cell(value: Vector3):
-	if value != cursor_cell:
-		cursor_cell = value
-		emit_signal("cursor_change_cell", cursor_cell)
+func set_grid_position(value: Vector3):
+	if value != grid_position:
+		grid_position = value
+		emit_signal("cursor_change_cell", grid_position)
 
-func get_cursor_cell() -> Vector3:
-	return cursor_cell
+func get_grid_position() -> Vector3:
+	return grid_position
 
 #### BUILT-IN FUNCTIONS ####
 
@@ -32,10 +30,10 @@ func _physics_process(_delta):
 	mouse_pos.y += 8
 	
 	# Snap to the grid
-	set_cursor_cell(map_node.get_pos_highest_cell(mouse_pos))
+	set_grid_position(map_node.get_pos_highest_cell(mouse_pos))
 	
 	# Set the cursor to the right position
-	set_position(map_node.cell_to_world(cursor_cell))
+	set_position(map_node.cell_to_world(grid_position))
 
 
 func _on_path_valid(is_path_valid : bool):

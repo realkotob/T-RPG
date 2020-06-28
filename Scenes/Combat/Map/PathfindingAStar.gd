@@ -39,6 +39,9 @@ func _ready():
 	
 	# Store every layers in the layer_ground_array
 	for child in get_children():
+		if child.name != "Layer":
+			child.set_visible(false)
+		
 		if child is MapLayer:
 			layer_ground_array.append(child.get_node("Ground"))
 	
@@ -53,8 +56,6 @@ func _ready():
 	
 	# Create the connections between all the walkable cells
 	astar_connect_walkable_cells(walkable_cells_list)
-	
-	ground_0_node.set_visible(false)
 	
 	# Give every actor, his default grid pos
 	init_actors_grid_pos()

@@ -22,7 +22,7 @@ func _process(_delta):
 
 func _draw():
 	# Draw the first layer ground
-	draw_ground_layer(0)
+	#draw_ground_layer(0)
 	
 	var sorting_array = ground_cells_array + objects_array
 	
@@ -59,7 +59,7 @@ func draw_tile(ground: TileMap, tileset: TileSet, cell: Vector2, height: int):
 
 
 # Draw the given object
-func draw_object(object: Node2D):
+func draw_object(object: IsoObject):
 	var modul = object.get_modulate()
 	var sprite = object.get_node("Sprite")
 	var texture = sprite.get_texture()
@@ -81,19 +81,25 @@ func draw_ground_layer(layer_height: int):
 # Compare two positions, return true if a must be renderer before b
 func xyz_sum_compare(a, b) -> bool:
 	var grid_pos_a
+	var height_a
 	if a is Vector3:
 		grid_pos_a = a
+		height_a = 1
 	else:
 		grid_pos_a = a.get_grid_position()
+		height_a = a.get_grid_height()
 	
 	var grid_pos_b
+	var height_b
 	if b is Vector3:
 		grid_pos_b = b
+		height_b = 1
 	else:
 		grid_pos_b = b.get_grid_position()
+		height_b = b.get_grid_height()
 	
-	var sum_a = grid_pos_a.x + grid_pos_a.y + grid_pos_a.z
-	var sum_b = grid_pos_b.x + grid_pos_b.y + grid_pos_b.z
+	var sum_a = grid_pos_a.x + grid_pos_a.y + grid_pos_a.z + height_a
+	var sum_b = grid_pos_b.x + grid_pos_b.y + grid_pos_b.z + height_b
 	
 	if sum_a == sum_b:
 		if grid_pos_a.y < grid_pos_b.y:

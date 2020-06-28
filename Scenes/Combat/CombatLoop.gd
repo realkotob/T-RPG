@@ -30,8 +30,6 @@ func _ready():
 	
 	$Renderer.set_layers_array(layers_array)
 	on_iso_object_list_changed()
-	
-	map_node.set_visible(false)
 
 
 # New turn procedure, set the new active_actor and previous_actor

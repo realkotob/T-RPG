@@ -46,7 +46,7 @@ func enter_state():
 	
 	if active_actor != null:
 		var actor_cell = active_actor.get_grid_position()
-		var cursor_cell = cursor_node.get_cursor_cell()
+		var cursor_cell = cursor_node.get_grid_position()
 		set_path(cursor_cell, actor_cell)
 		
 		map_node.draw_movement_area(active_actor)
