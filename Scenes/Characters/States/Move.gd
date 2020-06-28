@@ -14,7 +14,8 @@ func update(_delta):
 		target_point_world = owner.map_node.cell_to_world(path[0])
 		var arrived_to_next_point = move_to(target_point_world)
 		
-		# If the actor is arrived to the next point, remove this point from the path and take the next for destination
+		# If the actor is arrived to the next point, 
+		# remove this point from the path and take the next for destination
 		if arrived_to_next_point == true:
 			owner.set_grid_position(path[0])
 			path.remove(0)
@@ -25,7 +26,8 @@ func update(_delta):
 		return "Idle"
 
 
-# Handle the movement to the next point on the path, return true if the character is arrived
+# Handle the movement to the next point on the path,
+# return true if the character is arrived
 func move_to(world_position):
 	var velocity = (world_position - owner.global_position).normalized() * speed
 	if owner.global_position.distance_to(world_position) <= speed:

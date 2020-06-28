@@ -17,7 +17,8 @@ signal state_changed
 
 
 # Set the state to the first of the list
-func setup():
+func _ready():
+	yield(owner, "ready")
 	set_state(states_map[0])
 
 
@@ -33,6 +34,12 @@ func _physics_process(delta):
 func get_state() -> Object:
 	return current_state
 
+
+func get_state_name() -> String:
+	if current_state == null:
+		return ""
+	else:
+		return current_state.name
 
 # Set current_state at a new state, also set previous state, and emit a signal to notify the change, to anybody needing it 
 func set_state(new_state):

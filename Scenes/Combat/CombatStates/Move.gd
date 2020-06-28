@@ -40,7 +40,8 @@ func initialize_path_value():
 	path = []
 
 
-# When the state is entered define the actor postiton, empty the path and path array, and set a path
+# When the state is entered define the actor postiton, 
+# empty the path and path array, and set a path
 func enter_state():
 	initialize_path_value()
 	
@@ -59,7 +60,6 @@ func enter_state():
 func exit_state():
 	initialize_path_value() # Empty the path
 	line_node.set_points([]) # Empty the line
-	area_node.clear() # Clear every cells in the area tilemap
 	
 	var actor_move_node = active_actor.move_node
 	
@@ -76,12 +76,14 @@ func _unhandled_input(event):
 				active_actor.move_along_path(path) # Move the actor
 				active_actor.set_current_actions(active_actor.get_current_actions() - 1)
 				HUD_node.update_actions_left(active_actor.get_current_actions())
+				area_node.clear() # Clear every cells in the area tilemap
 
 
-# When cursor as moved, call the function that calculate a new path
+# When the cursor has moved, call the function that calculate a new path
 func on_cursor_change_cell(cursor_cell : Vector3):
 	if combat_states_node.get_state() == self:
-		set_path(cursor_cell, active_actor.get_grid_position())
+		if active_actor.get_state_name() == "Idle":
+			set_path(cursor_cell, active_actor.get_grid_position())
 
 
 # Ask the map for a path between current actor's cell and the cursor's cell
@@ -105,10 +107,7 @@ func check_path(path_to_check : PoolVector3Array) -> bool:
 		return false
 	
 	var movements = active_actor.get_current_movements()
-	if len(path_to_check) > 0 and len(path_to_check) - 1 <= movements:
-		return true
-	else:
-		return false
+	return len(path_to_check) > 0 and len(path_to_check) - 1 <= movements
 
 
 # Trigerred when the movement is finished

@@ -3,8 +3,12 @@ extends Node2D
 var layers_array : Array = [] setget set_layers_array
 var objects_array : Array = [] setget set_objects_array
 var ground_cells_array : Array = []
+
 const tile_size = Vector2(32, 32)
 const cell_size = Vector2(32, 16)
+
+var focused_object : Actor = null
+
 
 func set_layers_array(array: Array):
 	layers_array = array
@@ -21,9 +25,6 @@ func _process(_delta):
 
 
 func _draw():
-	# Draw the first layer ground
-	#draw_ground_layer(0)
-	
 	var sorting_array = ground_cells_array + objects_array
 	
 	sorting_array.sort_custom(self, "xyz_sum_compare")
@@ -43,19 +44,40 @@ func draw_cellv(cell3D: Vector3):
 	draw_tile(ground, tileset, cell, int(cell3D.z))
 
 
+# Draw the given tile from the given tilemap
 func draw_tile(ground: TileMap, tileset: TileSet, cell: Vector2, height: int):
+	if !(cell in ground.get_used_cells()):
+		return
+	
 	var is_centered : int = ground.get_tile_origin()
-	if cell in ground.get_used_cells():
-		var tile_id = ground.get_cellv(cell)
-		var autotile_pos = ground.get_cell_autotile_coord(int(cell.x), int(cell.y))
-		var stream_texture = tileset.tile_get_texture(tile_id)
-		var atlas_texture = AtlasTexture.new()
-		atlas_texture.set_atlas(stream_texture)
-		atlas_texture.set_region(Rect2(autotile_pos * tile_size, tile_size))
-		var world_height = Vector2(0, -16 * height)
-		var centered_offset = (cell_size / 2 * is_centered)
-		var pos = ground.map_to_world(cell) + world_height - centered_offset
-		draw_texture(atlas_texture, pos)
+	var modul : Color = ground.get_modulate()
+	
+	if focused_object != null:
+		var focus_cell = focused_object.get_grid_position()
+		
+		# Set the color to transparent if the tile is right below the focus cell
+		if cell.x >= focus_cell.x && cell.x <= focus_cell.x + 1:
+			if cell.y >= focus_cell.y && cell.y <= focus_cell.y + 1:
+				if height >= focus_cell.z + 1:
+					modul.a = 0.65
+	
+	# Get the tile id and the position of the cell in the autotile
+	var tile_id = ground.get_cellv(cell)
+	var autotile_pos = ground.get_cell_autotile_coord(int(cell.x), int(cell.y))
+	
+	# Get the texture
+	var stream_texture = tileset.tile_get_texture(tile_id)
+	var atlas_texture = AtlasTexture.new()
+	atlas_texture.set_atlas(stream_texture)
+	atlas_texture.set_region(Rect2(autotile_pos * tile_size, tile_size))
+	
+	# Set the texture to the right position
+	var world_height = Vector2(0, -16 * height)
+	var centered_offset = (cell_size / 2 * is_centered)
+	var pos = ground.map_to_world(cell) + world_height - centered_offset
+	
+	# Draw the texture
+	draw_texture(atlas_texture, pos, modul)
 
 
 # Draw the given object

@@ -18,6 +18,8 @@ func _ready():
 	active_actor = actors_order[0]
 	HUD_node.set_active_actor(active_actor)
 	HUD_node.generate_timeline(actors_order)
+	$Renderer.focused_object = active_actor
+	
 	
 	# Feed the renderer with the actors and layers and hide it
 	var layers_array : Array = []
@@ -36,6 +38,8 @@ func _ready():
 func new_turn():
 	previous_actor = active_actor
 	active_actor = actors_order[0]
+	
+	$Renderer.focused_object = active_actor
 	
 	# Triggers the new_turn method of the new active_actor
 	active_actor.new_turn()

@@ -32,62 +32,55 @@ func _ready():
 	set_current_HP(get_max_HP())
 	set_current_MP(get_max_MP())
 
+
 ### ACCESORS ###
 
 func get_max_HP():
 	return MaxStats.HP
 
-
 func get_max_MP():
 	return MaxStats.MP
-
 
 func get_max_actions():
 	return MaxStats.Actions
 
-
 func get_max_movements():
 	return MaxStats.Movements
-
 
 func get_current_HP():
 	return current_HP
 
-
 func set_current_HP(value : int):
 	current_HP = value
-
 
 func get_current_MP():
 	return current_MP
 
-
 func set_current_MP(value : int):
 	current_MP = value
-
 
 func set_current_actions(value : int):
 	current_actions = value
 
-
 func get_current_actions():
 	return current_actions
-
 
 func get_current_movements():
 	return current_movements
 
-
 func set_current_movements(value : int):
 	current_movements = value
 
-
-#### LOGIC ####
-
-# Set the character in the given state
 func set_state(value : String):
 	states_node.set_state(value)
 
+func get_state() -> Object:
+	return states_node.get_state()
+
+func get_state_name() -> String:
+	return states_node.get_state_name()
+
+#### LOGIC ####
 
 # Move the character along the given path
 func move_along_path(path : PoolVector3Array):
@@ -97,6 +90,7 @@ func move_along_path(path : PoolVector3Array):
 
 func new_turn():
 	current_actions = get_max_actions()
+
 
 func get_height() -> int:
 	return int(grid_position.z)
