@@ -10,7 +10,7 @@
 script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 0.263519, -20.4799 )
+position = Vector2( 0, -20 )
 texture = ExtResource( 2 )
 __meta__ = {
 "_edit_lock_": true

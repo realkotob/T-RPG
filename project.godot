@@ -9,7 +9,12 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Node2D",
+"base": "IsoObject",
+"class": "Actor",
+"language": "GDScript",
+"path": "res://AbstractClasses/Actor.gd"
+}, {
+"base": "Actor",
 "class": "Character",
 "language": "GDScript",
 "path": "res://Scenes/Characters/Character.gd"
@@ -24,10 +29,15 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/CombatStates/CombatStateBase.gd"
 }, {
+"base": "Node2D",
+"class": "IsoObject",
+"language": "GDScript",
+"path": "res://AbstractClasses/IsoObject.gd"
+}, {
 "base": "TileMap",
 "class": "IsoTileMap",
 "language": "GDScript",
-"path": "res://Classes/IsoTileMap.gd"
+"path": "res://AbstractClasses/IsoTileMap.gd"
 }, {
 "base": "Node2D",
 "class": "Map",
@@ -42,12 +52,12 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "StateBase",
 "language": "GDScript",
-"path": "res://Classes/StateBase.gd"
+"path": "res://AbstractClasses/StateBase.gd"
 }, {
 "base": "Node",
 "class": "StatesMachine",
 "language": "GDScript",
-"path": "res://Classes/StateMachine.gd"
+"path": "res://AbstractClasses/StateMachine.gd"
 }, {
 "base": "StateBase",
 "class": "TL_StateBase",
@@ -55,9 +65,11 @@ _global_script_classes=[ {
 "path": "res://Scenes/Combat/HUD/Timeline/States/TL_StateBase.gd"
 } ]
 _global_script_class_icons={
+"Actor": "",
 "Character": "",
 "CombatMap": "",
 "CombatStateBase": "",
+"IsoObject": "",
 "IsoTileMap": "",
 "Map": "",
 "MapLayer": "",

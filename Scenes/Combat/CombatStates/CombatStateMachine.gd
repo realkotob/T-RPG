@@ -16,27 +16,6 @@ func _ready():
 	cursor_node = owner.cursor_node
 	HUD_node = owner.HUD_node
 	area_node = owner.area_node
-
-# Setup children references
-func setup():
-	for state in states_map:
-		if "combat_loop_node" in state:
-			state.combat_loop_node = combat_loop_node
-		
-		if "map_node" in state:
-			state.map_node = map_node
-		
-		if "cursor_node" in state:
-			state.cursor_node = cursor_node
-		
-		if "area_node" in state:
-			state.area_node = area_node
-		
-		if "HUD_node" in state:
-			state.HUD_node = HUD_node
-		
-		if state.has_method("setup"):
-			state.setup()
 	
 	# Connect the state_changed signal to the HUD
 	var _err = connect("state_changed", HUD_node, "on_combat_state_changed")

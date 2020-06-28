@@ -51,7 +51,8 @@ func enter_state():
 		
 		map_node.draw_movement_area(active_actor)
 	
-	var _err = active_actor.move_node.connect("movement_finished", self, "on_movement_finished")
+	if !active_actor.move_node.is_connected("movement_finished", self, "on_movement_finished"):
+		var _err = active_actor.move_node.connect("movement_finished", self, "on_movement_finished")
 
 
 # Empty the path variable when the state is exited and 
@@ -60,7 +61,10 @@ func exit_state():
 	line_node.set_points([]) # Empty the line
 	area_node.clear() # Clear every cells in the area tilemap
 	
-	active_actor.move_node.disconnect("movement_finished", self, "on_movement_finished")
+	var actor_move_node = active_actor.move_node
+	
+	if actor_move_node.has_user_signal("movement_finished"):
+		actor_move_node.disconnect("movement_finished", self, "on_movement_finished")
 
 
 # On click, give the active actor its destination
@@ -109,8 +113,8 @@ func check_path(path_to_check : PoolVector3Array) -> bool:
 
 # Trigerred when the movement is finished
 func on_movement_finished():
-	combat_states_node.set_state("Overlook") # Set the state to overlook
-	
 	# If the active actor no longer has actions points, triggers a new turn 
 	if active_actor.get_current_actions() == 0:
 		emit_signal("active_actor_turn_finished")
+	else:
+		combat_states_node.set_state("Overlook")

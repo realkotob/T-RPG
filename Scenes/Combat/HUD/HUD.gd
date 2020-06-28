@@ -7,6 +7,7 @@ onready var debug_labels_array = debug_node.get_children()
 onready var active_actor_infos_node = $ActiveActorInfos
 onready var actions_left_node = $ActiveActorInfos/ActionsLeft
 onready var timeline_node = $TimeLineStates/Timeline
+onready var height_node = $ActiveActorInfos/Height
 
 var combat_loop_node : Node
 var combat_state_node : Node
@@ -39,6 +40,11 @@ func move_timeline(current_actors_order: Array, future_actors_order: Array):
 # Called at the end of a turn by the combat Node
 func update_timeline_order(actor_order : Array):
 	timeline_node.update_timeline_order(actor_order)
+
+
+# Update the height display
+func update_height(height: int):
+	height_node.set_text("H: " + String(height))
 
 
 # Set the whole actor HUD visible/invisible

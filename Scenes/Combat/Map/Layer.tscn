@@ -204,6 +204,9 @@
 
 [node name="Layer" type="Node2D"]
 script = ExtResource( 3 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Ground" type="TileMap" parent="."]
 mode = 1
@@ -211,6 +214,9 @@ tile_set = ExtResource( 1 )
 cell_size = Vector2( 32, 16 )
 cell_tile_origin = 1
 format = 1
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Walls" type="TileMap" parent="."]
 mode = 1
@@ -219,6 +225,9 @@ cell_size = Vector2( 32, 16 )
 cell_tile_origin = 1
 cell_y_sort = true
 format = 1
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="WallsDecorations" type="TileMap" parent="."]
 z_index = 1
@@ -227,3 +236,6 @@ tile_set = SubResource( 1 )
 cell_size = Vector2( 32, 16 )
 cell_tile_origin = 1
 format = 1
+__meta__ = {
+"_edit_lock_": true
+}

@@ -9,8 +9,6 @@ onready var HUD_node = $HUD
 onready var allies_array : Array = get_tree().get_nodes_in_group("Allies")
 onready var actors_order : Array = allies_array
 
-onready var children_array = get_children()
-
 var active_actor : Node
 var previous_actor : Node = null
 
@@ -20,6 +18,20 @@ func _ready():
 	active_actor = actors_order[0]
 	HUD_node.set_active_actor(active_actor)
 	HUD_node.generate_timeline(actors_order)
+	
+	# Feed the renderer with the actors and layers and hide it
+	var layers_array : Array = []
+	for child in map_node.get_children():
+		if child is MapLayer:
+			layers_array.append(child)
+	
+	for actor in actors_order:
+		actor.set_visible(false)
+	
+	$Renderer.set_layers_array(layers_array)
+	on_iso_object_list_changed()
+	
+	map_node.set_visible(false)
 
 
 # New turn procedure, set the new active_actor and previous_actor
@@ -33,6 +45,7 @@ func new_turn():
 	# Propagate the active actor where its needed
 	HUD_node.set_active_actor(active_actor)
 	combat_state_node.set_active_actor(active_actor)
+	combat_state_node.set_state("Overlook")
 
 
 # End of turn procedure, called right before a new turn start
@@ -42,6 +55,7 @@ func end_turn():
 	first_become_last(future_actors_order)
 	
 	HUD_node.move_timeline(actors_order, future_actors_order)
+	yield()
 
 
 # Put the first actor of the array at the last position
@@ -61,3 +75,9 @@ func on_timeline_movement_finished():
 	actors_order = future_actors_order
 	HUD_node.update_timeline_order(actors_order)
 	new_turn()
+
+
+# Update the iso object list of the renderer
+# Called each time a iso object is added or removed from the scene
+func on_iso_object_list_changed():
+	$Renderer.set_objects_array(get_tree().get_nodes_in_group("IsoObject"))

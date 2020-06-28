@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="InputEventKey" id=1]
+scancode = 16777253
+
+[sub_resource type="ShortCut" id=2]
+shortcut = SubResource( 1 )
+
+[node name="NewLayer" type="Button"]
+margin_left = 541.505
+margin_top = 43.3706
+margin_right = 631.505
+margin_bottom = 63.3706
+shortcut = SubResource( 2 )
+text = "New Layer"
+__meta__ = {
+"_edit_use_anchors_": false
+}

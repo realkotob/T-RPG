@@ -2,7 +2,6 @@ tool
 extends Map
 class_name CombatMap
 
-# Create a Astar node and store it in the variable astar_node
 onready var astar_node = AStar.new()
 
 onready var ground_0_node = $Layer/Ground
@@ -55,6 +54,8 @@ func _ready():
 	# Create the connections between all the walkable cells
 	astar_connect_walkable_cells(walkable_cells_list)
 	
+	ground_0_node.set_visible(false)
+	
 	# Give every actor, his default grid pos
 	init_actors_grid_pos()
 
@@ -80,6 +81,16 @@ func find_2D_cell(cell : Vector2, grid: PoolVector3Array = grounds) -> Vector3:
 	return Vector3.INF
 
 
+# Return the layer at the given height
+func get_layer(height: int) -> MapLayer:
+	return layer_ground_array[height].get_parent()
+
+
+# Return the id of the layer at the given height
+func get_layer_id(height: int) -> int:
+	return get_layer(height).get_index()
+
+
 # Return the highest layer where the given cell is used
 # If the given cell is nowhere: return -1
 func get_cell_highest_layer(cell : Vector2) -> int:
@@ -102,11 +113,9 @@ func get_pos_highest_cell(pos: Vector2) -> Vector3:
 
 # Give every actor, his default grid pos
 func init_actors_grid_pos():
-	var interactives = $Interactives
-	for child in interactives.get_children():
-		if child is Character: ### TO BE REPLACED WITH ACTOR ### 
-			child.set_grid_position(get_pos_highest_cell(child.position))
-			child.map_node = self
+	for actor in get_tree().get_nodes_in_group("Actors"):
+		actor.map_node = self
+		actor.set_grid_position(get_pos_highest_cell(actor.position))
 
 
 # Determine which cells are walkale and which are not
@@ -172,11 +181,6 @@ func find_path(start_cell: Vector3, end_cell: Vector3) -> PoolVector3Array:
 	# Calculate a path between this two points
 	calculate_path()
 	
-	# Convert the Vector3 path in a Vector2 path
-#	var cell_path : Array = []
-#	for point in cell_path:
-#		cell_path.append(Vector2(point.x, point.y))
-	
 	return cell_path
 
 
@@ -196,14 +200,14 @@ func calculate_path():
 
 
 # Draw the movement of the given character
-func draw_movement_area(active_actor : Character):
+func draw_movement_area(active_actor : Actor):
 	var mov = active_actor.get_current_movements()
 	var map_pos = active_actor.get_grid_position()
 	var walkable_cells := find_reachable_cells(map_pos, mov)
-	var walkable_cells_pos := cell_array_to_world(walkable_cells)
-	area_node.draw_area(walkable_cells_pos)
+	area_node.draw_area(walkable_cells)
 
 
+# Take a cell and return its world position
 func cell_to_world(cell: Vector3) -> Vector2:
 	var pos = ground_0_node.map_to_world(Vector2(cell.x, cell.y))
 	pos.y -= cell.z * 16
@@ -259,9 +263,9 @@ func find_relatives(point_array : PoolVector3Array, reachable_cells: PoolVector3
 		Vector2(cell.x, cell.y + 1),
 		Vector2(cell.x, cell.y - 1)])
 		
-		for cell in point_relative:
+		for relative in point_relative:
 			# If the current cell asn't been treated yet
-			var cell3D = find_2D_cell(cell, grounds)
+			var cell3D = find_2D_cell(relative, grounds)
 			if not cell3D in reachable_cells:
 				result_array.append(cell3D)
 	

@@ -1,8 +1,9 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=37 format=2]
 
+[ext_resource path="res://Scenes/Combat/Renderer/Renderer.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Combat/HUD/ActionMenu/CombatButton.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Characters/Character.tscn" type="PackedScene" id=4]
-[ext_resource path="res://GUI_theme/transparant_UI_theme.tres" type="Theme" id=5]
+[ext_resource path="res://Global/GUI_theme/transparant_UI_theme.tres" type="Theme" id=5]
 [ext_resource path="res://Scenes/Combat/Map/Map.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/Combat/HUD/Timeline/States/TimeLineStates.gd" type="Script" id=7]
 [ext_resource path="res://Scenes/Combat/HUD/Timeline/States/Idle.gd" type="Script" id=8]
@@ -78,14 +79,14 @@ script = ExtResource( 20 )
 [node name="Interactives" parent="Map" index="0"]
 z_index = 99
 
-[node name="Hart" parent="Map/Interactives" index="2" instance=ExtResource( 4 )]
-position = Vector2( 275.586, 143.414 )
+[node name="Hart" parent="Map/Interactives" index="3" instance=ExtResource( 4 )]
+position = Vector2( 272.916, 222.837 )
 portrait = ExtResource( 23 )
 timeline_port = ExtResource( 33 )
 MaxStats = ExtResource( 31 )
 
-[node name="Ella" parent="Map/Interactives" index="3" instance=ExtResource( 4 )]
-position = Vector2( 207.5, 197 )
+[node name="Ella" parent="Map/Interactives" index="4" instance=ExtResource( 4 )]
+position = Vector2( 246.878, 162.294 )
 portrait = ExtResource( 30 )
 timeline_port = ExtResource( 33 )
 MaxStats = ExtResource( 31 )
@@ -105,12 +106,17 @@ position = Vector2( 0, -32 )
 [node name="Ground" parent="Map/Layer3" index="0"]
 tile_data = PoolIntArray( -196584, 55, 393218, -196583, 55, 393218, -131048, 55, 393218, -131047, 55, 393218, -65512, 55, 393218, -65511, 55, 393218 )
 
+[node name="Renderer" type="Node2D" parent="."]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
 [node name="HUD" type="CanvasLayer" parent="."]
 layer = 2
 script = ExtResource( 11 )
 
 [node name="ActiveActorInfos" type="Control" parent="HUD"]
-visible = false
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -185.0
@@ -239,6 +245,21 @@ margin_left = 28.0
 margin_right = 38.0
 margin_bottom = 15.0
 
+[node name="Height" type="Label" parent="HUD/ActiveActorInfos"]
+anchor_left = -0.364
+anchor_top = 0.219
+anchor_right = -0.13
+anchor_bottom = 0.609
+margin_left = -0.0239944
+margin_top = -0.0160007
+margin_right = -0.079998
+margin_bottom = 0.0239983
+custom_fonts/font = ExtResource( 27 )
+text = "H:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="ActionMenu" type="VBoxContainer" parent="HUD"]
 anchor_left = 1.0
 anchor_top = 0.5
@@ -256,38 +277,38 @@ __meta__ = {
 
 [node name="Move" parent="HUD/ActionMenu" instance=ExtResource( 3 )]
 margin_left = 0.0
-margin_top = 16.0
+margin_top = 11.0
 margin_right = 54.0
-margin_bottom = 35.0
+margin_bottom = 32.0
 theme = ExtResource( 5 )
 text = "MOVE"
 
 [node name="Attack" parent="HUD/ActionMenu" instance=ExtResource( 3 )]
 margin_left = 0.0
-margin_top = 31.0
+margin_top = 28.0
 margin_right = 54.0
-margin_bottom = 50.0
+margin_bottom = 49.0
 text = "ATTACK"
 
 [node name="Skills" parent="HUD/ActionMenu" instance=ExtResource( 3 )]
 margin_left = 0.0
-margin_top = 46.0
+margin_top = 45.0
 margin_right = 54.0
-margin_bottom = 65.0
+margin_bottom = 66.0
 text = "SKILLS"
 
 [node name="Items" parent="HUD/ActionMenu" instance=ExtResource( 3 )]
 margin_left = 0.0
-margin_top = 61.0
+margin_top = 62.0
 margin_right = 54.0
-margin_bottom = 80.0
+margin_bottom = 83.0
 text = "ITEMS"
 
 [node name="Wait" parent="HUD/ActionMenu" instance=ExtResource( 3 )]
 margin_left = 0.0
-margin_top = 76.0
+margin_top = 79.0
 margin_right = 54.0
-margin_bottom = 95.0
+margin_bottom = 100.0
 text = "WAIT"
 
 [node name="Debug" type="VBoxContainer" parent="HUD"]

@@ -3,9 +3,9 @@ extends EditorPlugin
 
 const LAYER = preload("res://Scenes/Combat/Map/Layer.tscn")
 
-const NEW_LAYER = preload("res://Addon/Plugin/NewLayer.tscn")
-const NEXT_LAYER = preload("res://Addon/Plugin/NextLayer.tscn")
-const PREVIOUS_LAYER = preload("res://Addon/Plugin/PreviousLayer.tscn")
+const NEW_LAYER = preload("res://addons/Plugin/NewLayer.tscn")
+const NEXT_LAYER = preload("res://addons/Plugin/NextLayer.tscn")
+const PREVIOUS_LAYER = preload("res://addons/Plugin/PreviousLayer.tscn")
 
 const combat_scene = preload("res://Scenes/Combat/CombatBase.tscn")
 
