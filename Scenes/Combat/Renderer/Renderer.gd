@@ -1,14 +1,19 @@
 extends Node2D
 
+const tile_size = Vector2(32, 32)
+const cell_size = Vector2(32, 16)
+
 var layers_array : Array = [] setget set_layers_array
 var objects_array : Array = [] setget set_objects_array
 var ground_cells_array : Array = []
 
-const tile_size = Vector2(32, 32)
-const cell_size = Vector2(32, 16)
+var focus_array : Array = [] setget set_focus_array, get_focus_array
 
-var focused_object : Actor = null
+func set_focus_array(array: Array):
+	focus_array = array
 
+func get_focus_array() -> Array:
+	return focus_array
 
 func set_layers_array(array: Array):
 	layers_array = array
@@ -52,8 +57,8 @@ func draw_tile(ground: TileMap, tileset: TileSet, cell: Vector2, height: int):
 	var is_centered : int = ground.get_tile_origin()
 	var modul : Color = ground.get_modulate()
 	
-	if focused_object != null:
-		var focus_cell = focused_object.get_grid_position()
+	for object in focus_array:
+		var focus_cell = object.get_grid_position()
 		
 		# Set the color to transparent if the tile is right below the focus cell
 		if cell.x >= focus_cell.x && cell.x <= focus_cell.x + 1:

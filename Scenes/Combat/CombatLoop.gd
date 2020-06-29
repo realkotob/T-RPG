@@ -18,8 +18,7 @@ func _ready():
 	active_actor = actors_order[0]
 	HUD_node.set_active_actor(active_actor)
 	HUD_node.generate_timeline(actors_order)
-	$Renderer.focused_object = active_actor
-	
+	on_focus_changed()
 	
 	# Feed the renderer with the actors and layers and hide it
 	var layers_array : Array = []
@@ -38,8 +37,7 @@ func _ready():
 func new_turn():
 	previous_actor = active_actor
 	active_actor = actors_order[0]
-	
-	$Renderer.focused_object = active_actor
+	on_focus_changed()
 	
 	# Triggers the new_turn method of the new active_actor
 	active_actor.new_turn()
@@ -78,6 +76,9 @@ func on_timeline_movement_finished():
 	HUD_node.update_timeline_order(actors_order)
 	new_turn()
 
+
+func on_focus_changed():
+	$Renderer.set_focus_array([active_actor, cursor_node])
 
 # Update the iso object list of the renderer
 # Called each time a iso object is added or removed from the scene
