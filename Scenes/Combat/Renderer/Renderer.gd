@@ -57,12 +57,13 @@ func draw_tile(ground: TileMap, tileset: TileSet, cell: Vector2, height: int):
 	var is_centered : int = ground.get_tile_origin()
 	var modul : Color = ground.get_modulate()
 	
+	# Handle the tile transparancy
 	for object in focus_array:
 		var focus_cell = object.get_grid_position()
 		
 		# Set the color to transparent if the tile is right below the focus cell
-		if cell.x >= focus_cell.x && cell.x <= focus_cell.x + 1:
-			if cell.y >= focus_cell.y && cell.y <= focus_cell.y + 1:
+		if cell.x >= focus_cell.x + (height - focus_cell.z) - 1 && cell.x <= focus_cell.x + (height - focus_cell.z):
+			if cell.y >= focus_cell.y + (height - focus_cell.z) - 1 && cell.y == focus_cell.y + (height - focus_cell.z):
 				if height >= focus_cell.z + 1:
 					modul.a = 0.65
 	

@@ -9,13 +9,31 @@ onready var HUD_node = $HUD
 onready var allies_array : Array = get_tree().get_nodes_in_group("Allies")
 onready var actors_order : Array = allies_array
 
-var active_actor : Node
-var previous_actor : Node = null
+var active_actor : Actor setget set_active_actor, get_active_actor
+var previous_actor : Actor = null
 
 var future_actors_order : Array
 
+signal active_actor_changed
+
+#### ACCESSORS ####
+
+func set_active_actor(value: Actor):
+	if value != active_actor:
+		active_actor = value
+		emit_signal("active_actor_changed", active_actor)
+
+func get_active_actor() -> Actor:
+	return active_actor
+
+#### BUILT-IN FUNCTION ####
+
 func _ready():
-	active_actor = actors_order[0]
+	var _err = connect("active_actor_changed", $DebugPanel, "_on_active_actor_changed")
+	_err = cursor_node.connect("cell_changed", $DebugPanel, "_on_cursor_pos_changed")
+	_err = cursor_node.connect("max_z_changed", $DebugPanel, "_on_cursor_max_z_changed")
+	
+	set_active_actor(actors_order[0])
 	HUD_node.set_active_actor(active_actor)
 	HUD_node.generate_timeline(actors_order)
 	on_focus_changed()
@@ -36,7 +54,7 @@ func _ready():
 # New turn procedure, set the new active_actor and previous_actor
 func new_turn():
 	previous_actor = active_actor
-	active_actor = actors_order[0]
+	set_active_actor(actors_order[0])
 	on_focus_changed()
 	
 	# Triggers the new_turn method of the new active_actor

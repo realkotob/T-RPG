@@ -1,6 +1,7 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://Scenes/Combat/Renderer/Renderer.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Combat/DebugPanel.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/Combat/HUD/ActionMenu/CombatButton.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Characters/Character.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Global/GUI_theme/transparant_UI_theme.tres" type="Theme" id=5]
@@ -355,6 +356,56 @@ script = ExtResource( 35 )
 
 [node name="Timeline" type="Node2D" parent="HUD/TimeLineStates"]
 script = ExtResource( 36 )
+
+[node name="DebugPanel" type="CanvasLayer" parent="."]
+layer = 3
+script = ExtResource( 2 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DebugPanel"]
+margin_left = 1.7818
+margin_top = 285.088
+margin_right = 152.782
+margin_bottom = 370.088
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ActiveActor" type="Label" parent="DebugPanel/VBoxContainer"]
+margin_right = 151.0
+margin_bottom = 14.0
+text = "Active Actor:"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="ActiveActorPos" type="Label" parent="DebugPanel/VBoxContainer"]
+margin_top = 18.0
+margin_right = 151.0
+margin_bottom = 32.0
+text = "Active Actor's Pos:"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CursorMaxZ" type="Label" parent="DebugPanel/VBoxContainer"]
+margin_top = 36.0
+margin_right = 151.0
+margin_bottom = 50.0
+text = "Cursor max_z:"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CursorPos" type="Label" parent="DebugPanel/VBoxContainer"]
+margin_top = 54.0
+margin_right = 151.0
+margin_bottom = 85.0
+text = "Cursor Pos:
+"
+__meta__ = {
+"_edit_lock_": true
+}
 
 [editable path="Map"]
 

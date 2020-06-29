@@ -82,6 +82,10 @@ func find_2D_cell(cell : Vector2, grid: PoolVector3Array = grounds) -> Vector3:
 	return Vector3.INF
 
 
+# Return the cell in the ground 0 grid pointed by the given position
+func world_to_ground0(pos : Vector2):
+	return ground_0_node.world_to_map(pos)
+
 # Return the layer at the given height
 func get_layer(height: int) -> MapLayer:
 	return layer_ground_array[height].get_parent()
@@ -102,9 +106,15 @@ func get_cell_highest_layer(cell : Vector2) -> int:
 
 
 # Return the highest cell in the grid at the given world position
-func get_pos_highest_cell(pos: Vector2) -> Vector3:
+# Can optionaly find it starting from a given layer (To ignore higher layers)
+func get_pos_highest_cell(pos: Vector2, max_layer: int = 0) -> Vector3:
 	var ground_0_cell_2D = ground_0_node.world_to_map(pos)
-	for i in range(layer_ground_array.size() - 1, -1, -1):
+	
+	var nb_grounds = layer_ground_array.size()
+	if max_layer == 0 or max_layer > nb_grounds:
+		max_layer = nb_grounds
+		
+	for i in range(max_layer - 1, -1, -1):
 		var current_cell_2D = ground_0_cell_2D + Vector2(i, i)
 		var current_cell_3D = Vector3(current_cell_2D.x, current_cell_2D.y, i)
 		if current_cell_3D in grounds:

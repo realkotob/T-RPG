@@ -31,7 +31,7 @@ func _ready():
 	
 	var _err
 	_err = connect("path_valid", cursor_node, "_on_path_valid")
-	_err = cursor_node.connect("cursor_change_cell", self, "on_cursor_change_cell")
+	_err = cursor_node.connect("cell_changed", self, "on_cursor_change_cell")
 	_err = connect("active_actor_turn_finished", combat_loop_node, "on_active_actor_turn_finished")
 
 
