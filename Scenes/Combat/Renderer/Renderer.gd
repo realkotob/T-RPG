@@ -9,6 +9,14 @@ var ground_cells_array : Array = []
 
 var focus_array : Array = [] setget set_focus_array, get_focus_array
 
+enum type_priority{
+	TILE,
+	AREA,
+	CURSOR,
+	OBSTACLE,
+	ACTOR
+}
+
 func set_focus_array(array: Array):
 	focus_array = array
 
@@ -18,7 +26,7 @@ func get_focus_array() -> Array:
 func set_layers_array(array: Array):
 	layers_array = array
 	for i in range(1, layers_array.size()):
-		for cell in layers_array[i].get_node("Ground").get_used_cells():
+		for cell in layers_array[i].get_used_cells():
 			ground_cells_array.append(Vector3(cell.x, cell.y, i))
 
 func set_objects_array(array: Array):
@@ -42,7 +50,7 @@ func _draw():
 
 # Draw a single given cell
 func draw_cellv(cell3D: Vector3):
-	var ground = layers_array[cell3D.z].get_node("Ground")
+	var ground = layers_array[cell3D.z]
 	var tileset = ground.get_tileset()
 	var cell = Vector2(cell3D.x, cell3D.y)
 	
@@ -110,6 +118,21 @@ func draw_ground_layer(layer_height: int):
 		draw_tile(ground, tileset, cell, layer_height)
 
 
+func get_type_priority(thing) -> int:
+	if thing is Vector3:
+		return type_priority.TILE
+	elif thing is TileArea:
+		return type_priority.AREA
+	elif thing is Cursor:
+		return type_priority.CURSOR
+	elif thing is Obstacle:
+		return type_priority.OBSTACLE
+	elif thing is Actor:
+		return type_priority.ACTOR
+	
+	return -1
+
+
 # Compare two positions, return true if a must be renderer before b
 func xyz_sum_compare(a, b) -> bool:
 	var grid_pos_a
@@ -137,11 +160,6 @@ func xyz_sum_compare(a, b) -> bool:
 		if grid_pos_a.y < grid_pos_b.y:
 			return true
 		else:
-			if (a is Vector3) && !(b is Vector3):
-				return true
-			elif !(a is Actor) && (b is Actor):
-				return true
-			else:
-				return false
+			return get_type_priority(a) < get_type_priority(b)
 	else:
 		return sum_a < sum_b

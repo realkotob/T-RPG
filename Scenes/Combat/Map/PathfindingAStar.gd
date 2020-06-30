@@ -4,7 +4,7 @@ class_name CombatMap
 
 onready var astar_node = AStar.new()
 
-onready var ground_0_node = $Layer/Ground
+onready var layer_0_node = $Layer
 onready var area_node = $Interactives/Areas
 
 var layer_array : Array
@@ -16,6 +16,8 @@ var path_end_position : Vector3 setget set_path_end_position
 var grounds : PoolVector3Array = []
 var obstacles : PoolVector3Array = []
 var cell_path : PoolVector3Array = []
+
+var is_ready : bool = false
 
 #### ACCESSORS ####
 
@@ -41,14 +43,14 @@ func _ready():
 	for child in get_children():
 		if child is MapLayer:
 			layer_array.append(child)
-			layer_ground_array.append(child.get_node("Ground"))
+			layer_ground_array.append(child)
 	
 	# Hide every nodes that the engine should be rendering (except ground0)
 	hide_all_rendered_nodes(self)
 	
 	# Store all the passable cells into the array grounds
-	grounds = fetch_cells("Ground")
-	obstacles = fetch_cells("Obstacles") + fetch_cells("Walls")
+	grounds = fetch_ground()
+	obstacles = []
 	
 	# Store all the passable cells into the array walkable_cells_list, by checking all the cells in the map to see if they are not an obstacle
 	var walkable_cells = astar_add_walkable_cells(grounds)
@@ -58,6 +60,8 @@ func _ready():
 	
 	# Give every actor, his default grid pos
 	init_actors_grid_pos()
+	
+	is_ready = true
 
 
 # Recursivly search for the deepest node of every branch
@@ -66,7 +70,7 @@ func _ready():
 func hide_all_rendered_nodes(node: Node):
 	if node.get_child_count() == 0:
 		if node is Sprite or node is TileMap or node is AnimatedSprite:
-			if node != ground_0_node:
+			if node != layer_0_node:
 				node.set_visible(false)
 	else:
 		for child in node.get_children():
@@ -75,11 +79,10 @@ func hide_all_rendered_nodes(node: Node):
 
 # Get the highest cell of every cells in the 2D plan,
 # Returns a 3 dimentional coordinates array of cells
-func fetch_cells(tilemap_name: String) -> PoolVector3Array:
+func fetch_ground() -> PoolVector3Array:
 	var feed_array : PoolVector3Array = []
 	for i in range(layer_array.size() - 1, -1, -1):
-		var tilemap_layer = layer_array[i].get_node(tilemap_name)
-		for cell in tilemap_layer.get_used_cells():
+		for cell in layer_array[i].get_used_cells():
 			if find_2D_cell(Vector2(cell.x, cell.y), feed_array) == Vector3.INF:
 				feed_array.append(Vector3(cell.x, cell.y, i))
 	
@@ -97,7 +100,7 @@ func find_2D_cell(cell : Vector2, grid: PoolVector3Array = grounds) -> Vector3:
 
 # Return the cell in the ground 0 grid pointed by the given position
 func world_to_ground0(pos : Vector2):
-	return ground_0_node.world_to_map(pos)
+	return layer_0_node.world_to_map(pos)
 
 # Return the layer at the given height
 func get_layer(height: int) -> MapLayer:
@@ -121,7 +124,7 @@ func get_cell_highest_layer(cell : Vector2) -> int:
 # Return the highest cell in the grid at the given world position
 # Can optionaly find it starting from a given layer (To ignore higher layers)
 func get_pos_highest_cell(pos: Vector2, max_layer: int = 0) -> Vector3:
-	var ground_0_cell_2D = ground_0_node.world_to_map(pos)
+	var ground_0_cell_2D = layer_0_node.world_to_map(pos)
 	
 	var nb_grounds = layer_ground_array.size()
 	if max_layer == 0 or max_layer > nb_grounds:
@@ -236,7 +239,7 @@ func draw_movement_area(active_actor : Actor):
 
 # Take a cell and return its world position
 func cell_to_world(cell: Vector3) -> Vector2:
-	var pos = ground_0_node.map_to_world(Vector2(cell.x, cell.y))
+	var pos = layer_0_node.map_to_world(Vector2(cell.x, cell.y))
 	pos.y -= cell.z * 16 - 8
 	return pos
 

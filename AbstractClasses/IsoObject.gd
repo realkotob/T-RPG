@@ -1,12 +1,21 @@
 extends Node2D
 class_name IsoObject
 
+var map_node : Map = null setget set_map_node, get_map_node
 var grid_position := Vector3.INF setget set_grid_position, get_grid_position
 export var grid_height : int = 1 setget set_grid_height, get_grid_height
 
 signal iso_object_created
 signal iso_object_destroyed
 
+
+#### ACCESSORS ####
+
+func set_map_node(value: Map):
+	map_node = value
+
+func get_map_node() -> Map:
+	return map_node
 
 func set_grid_position(value: Vector3):
 	grid_position = value
@@ -20,7 +29,16 @@ func set_grid_height(value : int):
 func get_grid_height() -> int:
 	return grid_height
 
+
+#### BUILT-IN ####
+
 func _ready():
+	map_node = get_tree().get_current_scene().get_node("Map")
+	if !map_node.is_ready:
+		yield(map_node, "ready")
+	
+	set_grid_position(map_node.get_pos_highest_cell(position))
+	
 	var combat_node = get_tree().get_current_scene()
 	
 	var _err = connect("iso_object_created", combat_node, "on_iso_object_list_changed")
@@ -28,6 +46,8 @@ func _ready():
 	add_to_group("IsoObject")
 	emit_signal("iso_object_created")
 
+
+#### LOGIC ####
 
 func destroy():
 	remove_from_group("IsoObject")

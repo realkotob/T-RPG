@@ -1,9 +1,9 @@
 extends IsoObject
+class_name Cursor
 
 onready var sprite_node = get_node("Sprite")
 
 var mouse_pos := Vector2()
-var map_node : Node
 var grid2D_position := Vector2.ZERO
 var max_z : int = INF setget set_max_z, get_max_z
 var current_cell_max_z : int = INF

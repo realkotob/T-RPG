@@ -1,4 +1,5 @@
 extends Node
+class_name CombatLoop
 
 onready var map_node = $Map
 onready var area_node = $Map/Interactives/Areas
@@ -13,6 +14,7 @@ var active_actor : Actor setget set_active_actor, get_active_actor
 var previous_actor : Actor = null
 
 var future_actors_order : Array
+var is_ready : bool = false
 
 signal active_actor_changed
 
@@ -33,6 +35,8 @@ func _ready():
 	_err = cursor_node.connect("cell_changed", $DebugPanel, "_on_cursor_pos_changed")
 	_err = cursor_node.connect("max_z_changed", $DebugPanel, "_on_cursor_max_z_changed")
 	
+	propagate_call("set_map_node", [map_node])
+	
 	set_active_actor(actors_order[0])
 	HUD_node.set_active_actor(active_actor)
 	HUD_node.generate_timeline(actors_order)
@@ -49,6 +53,8 @@ func _ready():
 	
 	$Renderer.set_layers_array(layers_array)
 	on_iso_object_list_changed()
+	
+	is_ready = true
 
 
 # New turn procedure, set the new active_actor and previous_actor

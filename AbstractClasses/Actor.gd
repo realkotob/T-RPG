@@ -4,7 +4,6 @@ class_name Actor
 onready var states_node = $States
 onready var move_node = $States/Move
 
-var map_node : Node
 var area_node : TileMap
 var timeline_port_node : Node
 
