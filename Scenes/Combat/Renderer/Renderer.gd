@@ -72,13 +72,14 @@ func draw_tile(ground: TileMap, tileset: TileSet, cell: Vector2, height: int):
 	
 	# Get the tile id and the position of the cell in the autotile
 	var tile_id = ground.get_cellv(cell)
-	var autotile_pos = ground.get_cell_autotile_coord(int(cell.x), int(cell.y))
+	var tile_tileset_pos = tileset.tile_get_region(tile_id).position
+	var autotile_coord = ground.get_cell_autotile_coord(int(cell.x), int(cell.y))
 	
 	# Get the texture
 	var stream_texture = tileset.tile_get_texture(tile_id)
 	var atlas_texture = AtlasTexture.new()
 	atlas_texture.set_atlas(stream_texture)
-	atlas_texture.set_region(Rect2(autotile_pos * tile_size, tile_size))
+	atlas_texture.set_region(Rect2(tile_tileset_pos + (autotile_coord * tile_size), tile_size))
 	
 	# Set the texture to the right position
 	var world_height = Vector2(0, -16 * height + 8)
