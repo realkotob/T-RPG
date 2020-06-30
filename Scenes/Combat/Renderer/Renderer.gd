@@ -61,11 +61,14 @@ func draw_tile(ground: TileMap, tileset: TileSet, cell: Vector2, height: int):
 	for object in focus_array:
 		var focus_cell = object.get_grid_position()
 		
+		var height_dif = (height - focus_cell.z)
+		var virtual_focus = Vector2(focus_cell.x + height_dif, focus_cell.y + height_dif)
+		
 		# Set the color to transparent if the tile is right below the focus cell
-		if cell.x >= focus_cell.x + (height - focus_cell.z) - 1 && cell.x <= focus_cell.x + (height - focus_cell.z):
-			if cell.y >= focus_cell.y + (height - focus_cell.z) - 1 && cell.y == focus_cell.y + (height - focus_cell.z):
-				if height >= focus_cell.z + 1:
-					modul.a = 0.65
+		if cell.x <= virtual_focus.x && cell.x >= virtual_focus.x - 1:
+			if cell.y <= virtual_focus.y && cell.y >= virtual_focus.y - 1:
+				if height_dif >= 1:
+					modul.a = clamp(1.0 - (height_dif * 0.5), 0.2, 1.0)
 	
 	# Get the tile id and the position of the cell in the autotile
 	var tile_id = ground.get_cellv(cell)
