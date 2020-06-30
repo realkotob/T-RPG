@@ -31,7 +31,7 @@ func _process(_delta):
 
 func _draw():
 	var sorting_array = ground_cells_array + objects_array
-	
+
 	sorting_array.sort_custom(self, "xyz_sum_compare")
 	for thing in sorting_array:
 		if thing is Vector3:
@@ -81,7 +81,7 @@ func draw_tile(ground: TileMap, tileset: TileSet, cell: Vector2, height: int):
 	atlas_texture.set_region(Rect2(autotile_pos * tile_size, tile_size))
 	
 	# Set the texture to the right position
-	var world_height = Vector2(0, -16 * height)
+	var world_height = Vector2(0, -16 * height + 8)
 	var centered_offset = (cell_size / 2 * is_centered)
 	var pos = ground.map_to_world(cell) + world_height - centered_offset
 	

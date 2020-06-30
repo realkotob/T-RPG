@@ -5,9 +5,9 @@ class_name CombatMap
 onready var astar_node = AStar.new()
 
 onready var ground_0_node = $Layer/Ground
-onready var obstacles_tilemap = $Interactives/Obstacles
 onready var area_node = $Interactives/Areas
 
+var layer_array : Array
 var layer_ground_array : Array
 
 var path_start_position : Vector3 setget set_path_start_position
@@ -39,38 +39,51 @@ func _ready():
 	
 	# Store every layers in the layer_ground_array
 	for child in get_children():
-		if child.name != "Layer":
-			child.set_visible(false)
-		
 		if child is MapLayer:
+			layer_array.append(child)
 			layer_ground_array.append(child.get_node("Ground"))
 	
-	# Store all the passable cells into the array grounds
-	grounds = generate_walakable_grounds()
+	# Hide every nodes that the engine should be rendering (except ground0)
+	hide_all_rendered_nodes(self)
 	
-	# Store all the unpassable cells into the array obstacles
-	obstacles = obstacles_tilemap.get_used_cells()
+	# Store all the passable cells into the array grounds
+	grounds = fetch_cells("Ground")
+	obstacles = fetch_cells("Obstacles") + fetch_cells("Walls")
 	
 	# Store all the passable cells into the array walkable_cells_list, by checking all the cells in the map to see if they are not an obstacle
-	var walkable_cells_list = astar_add_walkable_cells(grounds)
+	var walkable_cells = astar_add_walkable_cells(grounds)
 	
 	# Create the connections between all the walkable cells
-	astar_connect_walkable_cells(walkable_cells_list)
+	astar_connect_walkable_cells(walkable_cells)
 	
 	# Give every actor, his default grid pos
 	init_actors_grid_pos()
 
 
+# Recursivly search for the deepest node of every branch
+# If the deepest node is a Sprite, an AnimatedSprite or a TileMap: hide it
+# Exeception withe the ground0 (Bescause its rendered by the engine) 
+func hide_all_rendered_nodes(node: Node):
+	if node.get_child_count() == 0:
+		if node is Sprite or node is TileMap or node is AnimatedSprite:
+			if node != ground_0_node:
+				node.set_visible(false)
+	else:
+		for child in node.get_children():
+			hide_all_rendered_nodes(child)
+
+
 # Get the highest cell of every cells in the 2D plan,
 # Returns a 3 dimentional coordinates array of cells
-func generate_walakable_grounds() -> PoolVector3Array:
-	var walkable_grounds : PoolVector3Array = []
-	for i in range(layer_ground_array.size() - 1, -1, -1):
-		for cell in layer_ground_array[i].get_used_cells():
-			if find_2D_cell(Vector2(cell.x, cell.y), walkable_grounds) == Vector3.INF:
-				walkable_grounds.append(Vector3(cell.x, cell.y, i))
+func fetch_cells(tilemap_name: String) -> PoolVector3Array:
+	var feed_array : PoolVector3Array = []
+	for i in range(layer_array.size() - 1, -1, -1):
+		var tilemap_layer = layer_array[i].get_node(tilemap_name)
+		for cell in tilemap_layer.get_used_cells():
+			if find_2D_cell(Vector2(cell.x, cell.y), feed_array) == Vector3.INF:
+				feed_array.append(Vector3(cell.x, cell.y, i))
 	
-	return walkable_grounds
+	return feed_array
 
 
 # Find if a cell x and y is already in the Vector3 grid, and returns it
@@ -135,6 +148,9 @@ func astar_add_walkable_cells(cell_array : PoolVector3Array):
 	
 	# Go through all the cells of the map, and check if they are in the obstacles array
 	for cell in cell_array:
+		if cell in obstacles:
+			continue
+		
 		# Add the last cell checked in the array of points we will create in the astar_node
 		passable_cell_array.append(cell)
 		
@@ -221,7 +237,7 @@ func draw_movement_area(active_actor : Actor):
 # Take a cell and return its world position
 func cell_to_world(cell: Vector3) -> Vector2:
 	var pos = ground_0_node.map_to_world(Vector2(cell.x, cell.y))
-	pos.y -= cell.z * 16
+	pos.y -= cell.z * 16 - 8
 	return pos
 
 

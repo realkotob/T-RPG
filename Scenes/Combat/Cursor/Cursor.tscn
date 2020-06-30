@@ -5,7 +5,6 @@
 [ext_resource path="res://Scenes/Combat/Cursor/CursorSprite.gd" type="Script" id=3]
 
 [node name="Cursor" type="Node2D"]
-position = Vector2( 67.299, 183.853 )
 script = ExtResource( 1 )
 grid_height = 2
 
