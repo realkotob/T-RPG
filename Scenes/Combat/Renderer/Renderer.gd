@@ -155,25 +155,20 @@ func xyz_sum_compare(a, b) -> bool:
 	
 	var sum_a = grid_pos_a.x + grid_pos_a.y + grid_pos_a.z + height_a
 	var sum_b = grid_pos_b.x + grid_pos_b.y + grid_pos_b.z + height_b
-	
+
+	# First compare the sum x + y + z + heigth
+	# Then compare z, then x, then y
+	# If nothing worked, sort by type
 	if sum_a == sum_b:
-#		if sum_a - grid_pos_a.z < sum_b - grid_pos_b.z:
-#			return true
-		if grid_pos_a.z < grid_pos_b.z:
-			return true
-		if grid_pos_a.z > grid_pos_b.z:
-			return false
-#		elif grid_pos_a.x + grid_pos_a.y < grid_pos_b.x + grid_pos_b.y:
-#			return true
-		elif grid_pos_a.x < grid_pos_b.x:
-			return true
-		elif grid_pos_a.x > grid_pos_b.x:
-			return false
-		elif grid_pos_a.y < grid_pos_b.y:
-			return true
-		elif grid_pos_a.y > grid_pos_b.y:
-			return false
+		if grid_pos_a.z == grid_pos_b.z:
+			if grid_pos_a.x == grid_pos_b.x:
+				if grid_pos_a.y == grid_pos_b.y:
+					return get_type_priority(a) < get_type_priority(b)
+				else:
+					return grid_pos_a.y < grid_pos_b.y
+			else:
+				return grid_pos_a.x < grid_pos_b.x
 		else:
-			return get_type_priority(a) < get_type_priority(b)
+			return grid_pos_a.z < grid_pos_b.z
 	else:
 		return sum_a < sum_b
