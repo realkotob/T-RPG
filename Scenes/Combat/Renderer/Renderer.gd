@@ -68,7 +68,7 @@ func draw_tile(ground: TileMap, tileset: TileSet, cell: Vector2, height: int):
 	
 	# Handle the tile transparancy
 	for object in focus_array:
-		var focus_cell = object.get_grid_position()
+		var focus_cell = object.get_current_cell()
 		
 		var height_dif = (height - focus_cell.z)
 		var virtual_focus = Vector2(focus_cell.x + height_dif, focus_cell.y + height_dif)
@@ -143,7 +143,7 @@ func xyz_sum_compare(a, b) -> bool:
 		grid_pos_a = a
 		height_a = 1
 	else:
-		grid_pos_a = a.get_grid_position()
+		grid_pos_a = a.get_current_cell()
 		height_a = a.get_grid_height()
 	
 	var grid_pos_b
@@ -152,7 +152,7 @@ func xyz_sum_compare(a, b) -> bool:
 		grid_pos_b = b
 		height_b = 1
 	else:
-		grid_pos_b = b.get_grid_position()
+		grid_pos_b = b.get_current_cell()
 		height_b = b.get_grid_height()
 	
 	var sum_a = grid_pos_a.x + grid_pos_a.y + grid_pos_a.z + height_a

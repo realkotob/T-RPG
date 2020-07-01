@@ -2,7 +2,7 @@ extends Node2D
 class_name IsoObject
 
 var map_node : Map = null setget set_map_node, get_map_node
-var grid_position := Vector3.INF setget set_grid_position, get_grid_position
+var current_cell := Vector3.INF setget set_current_cell, get_current_cell
 
 var is_ready : bool = false
 
@@ -21,14 +21,14 @@ func set_map_node(value: Map):
 func get_map_node() -> Map:
 	return map_node
 	
-func set_grid_position(value: Vector3):
-	var value_changed : bool = value != grid_position
-	grid_position = value
+func set_current_cell(value: Vector3):
+	var value_changed : bool = value != current_cell
+	current_cell = value
 	if value_changed && is_ready:
 		emit_signal("position_changed")
 
-func get_grid_position() -> Vector3:
-	return grid_position
+func get_current_cell() -> Vector3:
+	return current_cell
 
 func set_grid_height(value : int):
 	var value_changed : bool = value != grid_height
@@ -59,8 +59,8 @@ func _ready():
 	
 	# If the grid position hasn't been defined when instancied
 	# Define it based on the world position
-	if get_grid_position() == Vector3.INF:
-		set_grid_position(map_node.get_pos_highest_cell(position))
+	if get_current_cell() == Vector3.INF:
+		set_current_cell(map_node.get_pos_highest_cell(position))
 	
 	var _err = connect("created", combat_node, "on_iso_object_list_changed")
 	_err = connect("destroyed", combat_node, "on_iso_object_list_changed")

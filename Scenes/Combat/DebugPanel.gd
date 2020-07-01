@@ -24,4 +24,4 @@ func _on_active_actor_changed(active_actor: Actor):
 	_on_active_actor_pos_changed(active_actor)
 
 func _on_active_actor_pos_changed(active_actor: Actor):
-	$VBoxContainer/ActiveActorPos.text = "Active Actor's Pos: " + String(active_actor.get_grid_position())
+	$VBoxContainer/ActiveActorPos.text = "Active Actor's Pos: " + String(active_actor.get_current_cell())

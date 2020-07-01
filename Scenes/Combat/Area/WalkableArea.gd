@@ -25,7 +25,7 @@ func draw_area(cell_array : Array) -> void:
 		var pos = owner.cell_to_world(cell)
 		var new_area = MOVE_AREA_SPRITE.instance()
 		new_area.set_map_node(get_parent())
-		new_area.set_grid_position(cell)
+		new_area.set_current_cell(cell)
 		new_area.set_position(pos)
 		add_child(new_area)
 	

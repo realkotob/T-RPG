@@ -17,7 +17,7 @@ func update(_delta):
 		# If the actor is arrived to the next point, 
 		# remove this point from the path and take the next for destination
 		if arrived_to_next_point == true:
-			owner.set_grid_position(path[0])
+			owner.set_current_cell(path[0])
 			path.remove(0)
 	
 	# If the path is empty, change the state to move

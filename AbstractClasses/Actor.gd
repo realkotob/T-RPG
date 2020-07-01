@@ -100,4 +100,4 @@ func new_turn():
 
 
 func get_height() -> int:
-	return int(grid_position.z)
+	return int(current_cell.z)

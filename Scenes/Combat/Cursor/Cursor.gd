@@ -14,12 +14,12 @@ signal max_z_changed
 
 #### ACCESSORS ####
 
-func set_grid_position(value: Vector3):
-	if value != grid_position && value != Vector3.INF:
+func set_current_cell(value: Vector3):
+	if value != current_cell && value != Vector3.INF:
 		if map_node.is_position_valid(value):
-			previous_cell = grid_position
-			grid_position = value
-			emit_signal("cell_changed", grid_position, previous_cell)
+			previous_cell = current_cell
+			current_cell = value
+			emit_signal("cell_changed", current_cell, previous_cell)
 
 
 func set_max_z(value : int):
@@ -47,7 +47,7 @@ func _process(_delta):
 func update_cursor_pos():
 	# Get the mouse position
 	mouse_pos = get_global_mouse_position()
-	mouse_pos.y += 8
+	mouse_pos.y += 4
 	
 	# Snap to the grid
 	var new_grid2D_pos = map_node.world_to_ground0(mouse_pos)
@@ -61,13 +61,13 @@ func update_cursor_pos():
 		if next_cell == null:
 			next_cell = map_node.get_pos_highest_cell(mouse_pos)
 		
-		set_grid_position(next_cell)
+		set_current_cell(next_cell)
 		
-		current_cell_max_z = int(next_cell.z)
-		set_max_z(int(grid_position.z + 1))
+		current_cell_max_z = cell_stack.size() - 1
+		set_max_z(int(current_cell.z + 1))
 	
 	# Set the cursor to the right position
-	set_position(map_node.cell_to_world(grid_position))
+	set_position(map_node.cell_to_world(current_cell))
 
 
 
@@ -75,10 +75,10 @@ func _input(event):
 	if event is InputEventMouseButton:
 		if Input.is_action_just_pressed("PreviousLayer"):
 			set_max_z(int(max_z - 1))
-			set_grid_position(map_node.get_pos_highest_cell(mouse_pos, max_z))
+			set_current_cell(map_node.get_pos_highest_cell(mouse_pos, max_z))
 		if Input.is_action_just_pressed("NextLayer"):
 			set_max_z(int(max_z + 1))
-			set_grid_position(map_node.get_pos_highest_cell(mouse_pos, max_z))
+			set_current_cell(map_node.get_pos_highest_cell(mouse_pos, max_z))
 
 
 func _on_path_valid(is_path_valid : bool):

@@ -17,6 +17,7 @@ var active_actor: Actor = null setget set_active_actor
 
 var is_ready : bool = false
 
+
 #### ACCESSORS ####
 
 func set_obstacles(array: Array):
@@ -31,6 +32,7 @@ func get_obstacles() -> Array:
 
 func set_active_actor(value : Actor):
 	active_actor = value
+
 
 #### BUILT-IN FUNCTIONS ####
 
@@ -62,8 +64,6 @@ func _ready():
 
 
 #### LOGIC ####
-
-
 
 # Return an array of cells at the given world position
 func get_cell_stack_at_pos(world_pos: Vector2) -> PoolVector3Array:
@@ -158,7 +158,7 @@ func get_pos_highest_cell(pos: Vector2, max_layer: int = 0) -> Vector3:
 func init_actors_grid_pos():
 	for actor in get_tree().get_nodes_in_group("Actors"):
 		actor.map_node = self
-		actor.set_grid_position(get_pos_highest_cell(actor.position))
+		actor.set_current_cell(get_pos_highest_cell(actor.position))
 
 
 # Return true if the given cell is outside the map bounds
@@ -170,7 +170,7 @@ func is_outside_map_bounds(cell: Vector3):
 # Draw the movement of the given character
 func draw_movement_area():
 	var mov = active_actor.get_current_movements()
-	var map_pos = active_actor.get_grid_position()
+	var map_pos = active_actor.get_current_cell()
 	var reachable_cells = pathfinding.find_reachable_cells(map_pos, mov)
 	area_node.draw_area(reachable_cells)
 
@@ -196,7 +196,7 @@ func cell_array_to_world(cell_array: PoolVector3Array) -> PoolVector2Array:
 # Return true if the given cell is occupied by an obstacle
 func is_cell_in_obstacle(cell: Vector3) -> bool:
 	for obst in obstacles:
-		if cell == obst.get_grid_position():
+		if cell == obst.get_current_cell():
 			return true
 	return false
 
