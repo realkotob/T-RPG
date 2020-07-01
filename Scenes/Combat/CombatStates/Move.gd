@@ -85,7 +85,7 @@ func on_cursor_change_cell(cursor_cell : Vector3):
 # Ask the map for a path between current actor's cell and the cursor's cell
 func set_path(cursor_cell : Vector3, actor_cell : Vector3) -> void:
 	
-	path = map_node.find_path(actor_cell, cursor_cell)
+	path = map_node.pathfinding.find_path(actor_cell, cursor_cell)
 	
 	var is_path_valid = check_path(path)
 	if is_path_valid:
