@@ -7,6 +7,7 @@ var mouse_pos := Vector2()
 var grid2D_position := Vector2.ZERO
 var max_z : int = INF setget set_max_z, get_max_z
 var current_cell_max_z : int = INF
+var previous_cell := Vector3.INF
 
 signal cell_changed
 signal max_z_changed
@@ -16,8 +17,9 @@ signal max_z_changed
 func set_grid_position(value: Vector3):
 	if value != grid_position && value != Vector3.INF:
 		if map_node.is_position_valid(value):
+			previous_cell = grid_position
 			grid_position = value
-			emit_signal("cell_changed", grid_position)
+			emit_signal("cell_changed", grid_position, previous_cell)
 
 
 func set_max_z(value : int):
@@ -51,9 +53,17 @@ func update_cursor_pos():
 	var new_grid2D_pos = map_node.world_to_ground0(mouse_pos)
 	if new_grid2D_pos != grid2D_position:
 		grid2D_position = new_grid2D_pos
-		var highest_cell = map_node.get_pos_highest_cell(mouse_pos)
-		current_cell_max_z = int(highest_cell.z)
-		set_grid_position(highest_cell)
+		
+		var cell_stack = map_node.get_cell_stack_at_pos(mouse_pos)
+		var next_cell = find_same_x_cell(cell_stack, previous_cell)
+		if next_cell == null:
+			next_cell = find_same_y_cell(cell_stack, previous_cell)
+		if next_cell == null:
+			next_cell = map_node.get_pos_highest_cell(mouse_pos)
+		
+		set_grid_position(next_cell)
+		
+		current_cell_max_z = int(next_cell.z)
 		set_max_z(int(grid_position.z + 1))
 	
 	# Set the cursor to the right position
@@ -73,3 +83,21 @@ func _input(event):
 
 func _on_path_valid(is_path_valid : bool):
 	sprite_node.change_color(is_path_valid)
+
+
+# find a cell in the array that has the same x than the previous_cell and return it
+# Return null if no cell were found
+func find_same_x_cell(cell_stack: PoolVector3Array, prev_cell: Vector3):
+	for cell in cell_stack:
+		if cell.x == prev_cell.x:
+			return cell
+	return null
+
+
+# find a cell in the array that has the same y than the previous_cell and return it
+# Return null if no cell were found
+func find_same_y_cell(cell_stack: PoolVector3Array, prev_cell: Vector3):
+	for cell in cell_stack:
+		if cell.y == prev_cell.y:
+			return cell
+	return null

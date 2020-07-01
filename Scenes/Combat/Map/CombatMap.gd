@@ -61,6 +61,25 @@ func _ready():
 	is_ready = true
 
 
+#### LOGIC ####
+
+
+
+# Return an array of cells at the given world position
+func get_cell_stack_at_pos(world_pos: Vector2) -> PoolVector3Array:
+	var cell_stack : PoolVector3Array = [] 
+	var highest_cell = get_pos_highest_cell(world_pos)
+	cell_stack.append(highest_cell)
+	
+	for z in range(highest_cell.z - 1, -1, -1):
+		var cell_2D = layer_array[z].world_to_map(world_pos)
+		var cell_3D = Vector3(cell_2D.x, cell_2D.y, z)
+		if is_position_valid(cell_3D):
+			cell_stack.append(cell_3D)
+	
+	return cell_stack
+
+
 # Recursivly search for the deepest node of every branch
 # If the deepest node is a Sprite, an AnimatedSprite or a TileMap: hide it
 # Exeception withe the ground0 (Bescause its rendered by the engine) 
@@ -119,7 +138,7 @@ func get_cell_highest_layer(cell : Vector2) -> int:
 
 
 # Return the highest cell in the grid at the given world position
-# Can optionaly find it starting from a given layer (To ignore higher layers)
+# Can optionaly find it, starting from a given layer (To ignore higher layers)
 func get_pos_highest_cell(pos: Vector2, max_layer: int = 0) -> Vector3:
 	var ground_0_cell_2D = layer_0_node.world_to_map(pos)
 	
