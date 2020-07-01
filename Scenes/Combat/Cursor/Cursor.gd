@@ -15,8 +15,9 @@ signal max_z_changed
 
 func set_grid_position(value: Vector3):
 	if value != grid_position && value != Vector3.INF:
-		grid_position = value
-		emit_signal("cell_changed", grid_position)
+		if map_node.is_position_valid(value):
+			grid_position = value
+			emit_signal("cell_changed", grid_position)
 
 
 func set_max_z(value : int):

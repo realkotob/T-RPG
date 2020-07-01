@@ -46,10 +46,6 @@ func enter_state():
 	initialize_path_value()
 	
 	if active_actor != null:
-		var actor_cell = active_actor.get_grid_position()
-		var cursor_cell = cursor_node.get_grid_position()
-		set_path(cursor_cell, actor_cell)
-		
 		map_node.draw_movement_area(active_actor)
 	
 	if !active_actor.move_node.is_connected("movement_finished", self, "on_movement_finished"):

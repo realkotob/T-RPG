@@ -104,7 +104,21 @@ func on_timeline_movement_finished():
 func on_focus_changed():
 	$Renderer.set_focus_array([active_actor, cursor_node])
 
+
+#### SHOULD BE CALLED ONLY ONCE AT THE START OF THE SCENE ####
 # Update the iso object list of the renderer
 # Called each time a iso object is added or removed from the scene
 func on_iso_object_list_changed():
-	$Renderer.set_objects_array(get_tree().get_nodes_in_group("IsoObject"))
+	var iso_object_array = get_tree().get_nodes_in_group("IsoObject")
+	$Renderer.set_objects_array(iso_object_array)
+	$Map.set_obstacles(fetch_obstacles(iso_object_array))
+
+
+# Get every unpassable object form the IsoOject group 
+func fetch_obstacles(iso_object_array: Array) -> Array:
+	var unpassable_objects : Array = []
+	for object in iso_object_array:
+		if !object.is_passable():
+			unpassable_objects.append(object)
+	
+	return unpassable_objects

@@ -118,6 +118,7 @@ func draw_ground_layer(layer_height: int):
 		draw_tile(ground, tileset, cell, layer_height)
 
 
+# Return the value of the drawing priority of the given object type
 func get_type_priority(thing) -> int:
 	if thing is Vector3:
 		return type_priority.TILE
