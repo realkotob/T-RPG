@@ -33,13 +33,15 @@ func get_grid_height() -> int:
 #### BUILT-IN ####
 
 func _ready():
-	map_node = get_tree().get_current_scene().get_node("Map")
+	var combat_node = get_tree().get_current_scene()
+	map_node = combat_node.get_node("Map")
 	if !map_node.is_ready:
 		yield(map_node, "ready")
 	
-	set_grid_position(map_node.get_pos_highest_cell(position))
-	
-	var combat_node = get_tree().get_current_scene()
+	# If the grid position hasn't been defined when instancied
+	# Define it based on the world position
+	if get_grid_position() == Vector3.INF:
+		set_grid_position(map_node.get_pos_highest_cell(position))
 	
 	var _err = connect("iso_object_created", combat_node, "on_iso_object_list_changed")
 	_err = connect("iso_object_destroyed", combat_node, "on_iso_object_list_changed")

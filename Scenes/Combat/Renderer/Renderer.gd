@@ -157,8 +157,22 @@ func xyz_sum_compare(a, b) -> bool:
 	var sum_b = grid_pos_b.x + grid_pos_b.y + grid_pos_b.z + height_b
 	
 	if sum_a == sum_b:
-		if grid_pos_a.y < grid_pos_b.y:
+#		if sum_a - grid_pos_a.z < sum_b - grid_pos_b.z:
+#			return true
+		if grid_pos_a.z < grid_pos_b.z:
 			return true
+		if grid_pos_a.z > grid_pos_b.z:
+			return false
+#		elif grid_pos_a.x + grid_pos_a.y < grid_pos_b.x + grid_pos_b.y:
+#			return true
+		elif grid_pos_a.x < grid_pos_b.x:
+			return true
+		elif grid_pos_a.x > grid_pos_b.x:
+			return false
+		elif grid_pos_a.y < grid_pos_b.y:
+			return true
+		elif grid_pos_a.y > grid_pos_b.y:
+			return false
 		else:
 			return get_type_priority(a) < get_type_priority(b)
 	else:
