@@ -13,6 +13,8 @@ var cell_path : PoolVector3Array = []
 
 var obstacles : Array = [] setget set_obstacles, get_obstacles
 
+var active_actor: Actor = null setget set_active_actor
+
 var is_ready : bool = false
 
 #### ACCESSORS ####
@@ -21,11 +23,14 @@ func set_obstacles(array: Array):
 	if array != obstacles:
 		obstacles = array
 		var walkable_cells = pathfinding.set_walkable_cells(grounds)
-		pathfinding.connect_walkable_cells(walkable_cells)
+		pathfinding.connect_walkable_cells(walkable_cells, active_actor)
 
 
 func get_obstacles() -> Array:
 	return obstacles
+
+func set_active_actor(value : Actor):
+	active_actor = value
 
 #### BUILT-IN FUNCTIONS ####
 
@@ -44,12 +49,14 @@ func _ready():
 	# Store all the passable cells into the array grounds
 	grounds = fetch_ground()
 	
+	yield(owner, "ready")
+	
 	# Store all the passable cells into the array walkable_cells_list, 
 	# by checking all the cells in the map to see if they are not an obstacle
 	var walkable_cells = pathfinding.set_walkable_cells(grounds)
 	
 	# Create the connections between all the walkable cells
-	pathfinding.connect_walkable_cells(walkable_cells)
+	pathfinding.connect_walkable_cells(walkable_cells, active_actor)
 	
 	is_ready = true
 
@@ -142,7 +149,7 @@ func is_outside_map_bounds(cell: Vector3):
 
 
 # Draw the movement of the given character
-func draw_movement_area(active_actor : Actor):
+func draw_movement_area():
 	var mov = active_actor.get_current_movements()
 	var map_pos = active_actor.get_grid_position()
 	var reachable_cells = pathfinding.find_reachable_cells(map_pos, mov)

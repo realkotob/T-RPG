@@ -46,7 +46,7 @@ func enter_state():
 	initialize_path_value()
 	
 	if active_actor != null:
-		map_node.draw_movement_area(active_actor)
+		map_node.draw_movement_area()
 	
 	if !active_actor.move_node.is_connected("movement_finished", self, "on_movement_finished"):
 		var _err = active_actor.move_node.connect("movement_finished", self, "on_movement_finished")

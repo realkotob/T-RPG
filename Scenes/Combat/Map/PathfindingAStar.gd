@@ -25,7 +25,9 @@ func set_walkable_cells(cell_array : PoolVector3Array):
 
 
 # Connect walkables cells together
-func connect_walkable_cells(cells_array: PoolVector3Array):
+func connect_walkable_cells(cells_array: PoolVector3Array, active_actor: Actor):
+	
+	var max_height = active_actor.get_jump_max_height()
 	for cell in cells_array:
 		# Store the current cell's index we are checking in cell_index
 		var cell_index = compute_cell_index(cell)
@@ -39,19 +41,35 @@ func connect_walkable_cells(cells_array: PoolVector3Array):
 		
 		# Loop through the for relative points of the current cell
 		for cell_relative in cell_relative_array:
-			var cell3D_relative = Vector3(cell_relative.x, 
-								cell_relative.y, cell.z)
+			var cell_rel_z = map_node.get_cell_highest_layer(cell_relative)
+			var cell3D_rel = Vector3(cell_relative.x, 
+								cell_relative.y, cell_rel_z)
 			
-			var cell_relative_index = compute_cell_index(cell3D_relative)
+			var cell_rel_index = compute_cell_index(cell3D_rel)
 			
-			# If the current relative cell is outside the map, or if it is not inside the astar_node, skip to the next relative
+			# If the current relative cell is outside the map, 
+			# or if it is not inside the astar_node, skip to the next relative
 			if map_node.find_2D_cell(cell_relative, cells_array) == Vector3.INF:
 				continue
-			if not astar_node.has_point(cell_relative_index):
+			if not astar_node.has_point(cell_rel_index):
 				continue
 			
-			# If not, add a connection with the origin cell
-			astar_node.connect_points(cell_index, cell_relative_index, true)
+			var height_dif = cell.z - cell_rel_z
+			
+			# If the points are already connected, skip to the next iteration
+			if astar_node.are_points_connected(cell_index, cell_rel_index):
+				continue
+			
+			# If the height diference is too high, continue to the next
+			var is_close_enough = height_dif < max_height
+			if is_close_enough:
+				astar_node.connect_points(cell_index, 
+						cell_rel_index, true)
+			else:
+				if cell.z > cell_rel_z:
+					astar_node.connect_points(cell_index, 
+						cell_rel_index, false)
+
 
 
 # Retrun the shortest path between two points, or an empty path if there is no path to take to get there

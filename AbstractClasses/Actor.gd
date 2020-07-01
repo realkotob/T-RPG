@@ -16,6 +16,8 @@ var current_movements : int setget set_current_movements, get_current_movements
 var current_HP : int setget set_current_HP, get_current_HP
 var current_MP : int setget set_current_MP, get_current_MP
 
+var jump_max_height : int = 2 setget set_jump_max_height, get_jump_max_height
+
 #### BUILT-IN FUNCTIONS ####
 
 # Add the node to the group allies
@@ -78,6 +80,12 @@ func get_state() -> Object:
 
 func get_state_name() -> String:
 	return states_node.get_state_name()
+
+func set_jump_max_height(value : int):
+	jump_max_height = value
+
+func get_jump_max_height() -> int:
+	return jump_max_height
 
 #### LOGIC ####
 

@@ -36,8 +36,8 @@ func _ready():
 	_err = cursor_node.connect("max_z_changed", $DebugPanel, "_on_cursor_max_z_changed")
 	
 	propagate_call("set_map_node", [map_node])
+	propagate_call("set_active_actor", [actors_order[0]])
 	
-	set_active_actor(actors_order[0])
 	HUD_node.set_active_actor(active_actor)
 	HUD_node.generate_timeline(actors_order)
 	on_focus_changed()
@@ -60,7 +60,7 @@ func _ready():
 # New turn procedure, set the new active_actor and previous_actor
 func new_turn():
 	previous_actor = active_actor
-	set_active_actor(actors_order[0])
+	propagate_call("set_active_actor", [actors_order[0]])
 	on_focus_changed()
 	
 	# Triggers the new_turn method of the new active_actor
