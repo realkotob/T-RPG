@@ -29,6 +29,7 @@ func set_layers_array(array: Array):
 		for cell in layers_array[i].get_used_cells():
 			ground_cells_array.append(Vector3(cell.x, cell.y, i))
 
+
 func set_objects_array(array: Array):
 	objects_array = array
 

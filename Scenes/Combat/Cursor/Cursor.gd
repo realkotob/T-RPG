@@ -33,6 +33,7 @@ func get_max_z() -> int:
 #### BUILT-IN FUNCTIONS ####
 
 func _ready():
+	
 	yield(owner, "ready")
 	map_node = owner
 

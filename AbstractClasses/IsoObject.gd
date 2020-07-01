@@ -64,7 +64,6 @@ func _ready():
 	
 	var _err = connect("created", combat_node, "on_iso_object_list_changed")
 	_err = connect("destroyed", combat_node, "on_iso_object_list_changed")
-	_err = connect("position_changed", combat_node, "on_iso_object_list_changed")
 	add_to_group("IsoObject")
 	
 	# If the scene is already loaded (ie if the object is instanciated later)
