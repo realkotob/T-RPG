@@ -75,12 +75,10 @@ func draw_tile(ground: TileMap, tileset: TileSet, cell: Vector2, height: int):
 		var height_dif = (height - focus_cell.z)
 		var cell_v3 = Vector3(cell.x, cell.y, height)
 		
-		var left_dead : bool = is_cell_in_dead_angle_left(focus_cell, cell_v3)
-		var right_dead : bool = is_cell_in_dead_angle_right(focus_cell, cell_v3)
-		
-		if (left_dead or right_dead) or \
-			(is_cell_in_front(focus_cell, cell_v3) and \
-			is_cell_close_enough(focus_cell, cell_v3, height_dif)):
+		if (is_cell_in_front(focus_cell, cell_v3) and \
+		is_cell_close_enough(focus_cell, cell_v3, height_dif)) or \
+		(is_cell_in_dead_angle_left(focus_cell, cell_v3) or \
+		is_cell_in_dead_angle_right(focus_cell, cell_v3)):
 			if cell_v3 != focus_cell:
 				modul.a = 0.3
 
@@ -161,25 +159,24 @@ func is_cell_in_front(focus_cell: Vector3, cell: Vector3) -> bool:
 
 
 func is_cell_in_dead_angle_right(focus_cell: Vector3, cell: Vector3) -> bool:
-	var upper_left_cell := Vector3(focus_cell.x -1, focus_cell.y, focus_cell.z +1)
-	var cell_in_dead_angle : bool = false
+	var upper_left_cell = Vector3(focus_cell.x, focus_cell.y + 1, focus_cell.z+1)
+	if upper_left_cell in sorting_array:
+		return false
 	
-	if !upper_left_cell in sorting_array:
-		return (cell.z == focus_cell.z + 1) && \
-			(cell.x == focus_cell.x + 2 && cell.y == focus_cell.y + 1)
-	
-	return cell_in_dead_angle	
+	return cell.z == focus_cell.z + 1 && \
+		cell.x == focus_cell.x + 1 && \
+		cell.y == focus_cell.y + 2
 
 
 func is_cell_in_dead_angle_left(focus_cell: Vector3, cell: Vector3) -> bool:
-	var upper_right_cell := Vector3(focus_cell.x, focus_cell.y -1, focus_cell.z + 1)
-	var cell_in_dead_angle : bool = false
+	var upper_left_cell = Vector3(focus_cell.x + 1, focus_cell.y, focus_cell.z+1)
+	if upper_left_cell in sorting_array:
+		return false
 	
-	if !upper_right_cell in sorting_array:
-		return (cell.z == focus_cell.z + 1) && \
-			(cell.y == focus_cell.y + 2 && cell.x == focus_cell.x + 1)
-	
-	return cell_in_dead_angle
+	return cell.z == focus_cell.z + 1 && \
+		cell.y == focus_cell.y + 1 && \
+		cell.x == focus_cell.x + 2
+
 
 # Compare two positions, return true if a must be renderer before b
 func xyz_sum_compare(a, b) -> bool:
