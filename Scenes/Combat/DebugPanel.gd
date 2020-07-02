@@ -12,9 +12,8 @@ func _input(_event):
 
 #### SIGNALS REACTION ####
 
-func _on_cursor_pos_changed(pos: Vector3, last_cell: Vector3):
+func _on_cursor_pos_changed(pos: Vector3):
 	$VBoxContainer/CursorPos.text = "Cursor Pos: " + String(pos)
-	$VBoxContainer/CursorLastCell.text = "Cursor Last Cell: " + String(last_cell)
 
 func _on_cursor_max_z_changed(max_z: int):
 	$VBoxContainer/CursorMaxZ.text = "Cursor max_z: " + String(max_z)

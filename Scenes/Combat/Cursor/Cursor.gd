@@ -7,7 +7,6 @@ var mouse_pos := Vector2()
 var grid2D_position := Vector2.ZERO
 var max_z : int = INF setget set_max_z, get_max_z
 var current_cell_max_z : int = INF
-var previous_cell := Vector3.INF
 
 signal cell_changed
 signal max_z_changed
@@ -17,9 +16,8 @@ signal max_z_changed
 func set_current_cell(value: Vector3):
 	if value != current_cell && value != Vector3.INF:
 		if map_node.is_position_valid(value):
-			previous_cell = current_cell
 			current_cell = value
-			emit_signal("cell_changed", current_cell, previous_cell)
+			emit_signal("cell_changed", current_cell)
 
 
 func set_max_z(value : int):
@@ -31,11 +29,9 @@ func set_max_z(value : int):
 func get_max_z() -> int:
 	return max_z
 
-
 #### BUILT-IN FUNCTIONS ####
 
 func _ready():
-	
 	yield(owner, "ready")
 	map_node = owner
 
@@ -47,21 +43,14 @@ func _process(_delta):
 func update_cursor_pos():
 	# Get the mouse position
 	mouse_pos = get_global_mouse_position()
-	mouse_pos.y += 4
 	
 	# Snap to the grid
-	var new_grid2D_pos = map_node.world_to_ground0(mouse_pos)
-	if new_grid2D_pos != grid2D_position:
-		grid2D_position = new_grid2D_pos
+	var new_grid2D_cell = map_node.world_to_ground_z(mouse_pos, 0)
+	if new_grid2D_cell != grid2D_position:
+		grid2D_position = new_grid2D_cell
 		
 		var cell_stack = map_node.get_cell_stack_at_pos(mouse_pos)
-		var next_cell = find_same_x_cell(cell_stack, previous_cell)
-		if next_cell == null:
-			next_cell = find_same_y_cell(cell_stack, previous_cell)
-		if next_cell == null:
-			next_cell = map_node.get_pos_highest_cell(mouse_pos)
-		
-		set_current_cell(next_cell)
+		set_current_cell(find_wanted_cell(cell_stack))
 		
 		current_cell_max_z = cell_stack.size() - 1
 		set_max_z(int(current_cell.z + 1))
@@ -70,34 +59,53 @@ func update_cursor_pos():
 	set_position(map_node.cell_to_world(current_cell))
 
 
-
-func _input(event):
-	if event is InputEventMouseButton:
-		if Input.is_action_just_pressed("PreviousLayer"):
-			set_max_z(int(max_z - 1))
-			set_current_cell(map_node.get_pos_highest_cell(mouse_pos, max_z))
-		if Input.is_action_just_pressed("NextLayer"):
-			set_max_z(int(max_z + 1))
-			set_current_cell(map_node.get_pos_highest_cell(mouse_pos, max_z))
+func _input(_event):
+	if Input.is_action_just_pressed("PreviousLayer"):
+		var cell_stack = Array(map_node.get_cell_stack_at_pos(mouse_pos))
+		var index = cell_stack.find(current_cell)
+		index = wrapi(index - 1, 0, cell_stack.size())
+		set_current_cell(cell_stack[index])
+		
+	if Input.is_action_just_pressed("NextLayer"):
+		var cell_stack = Array(map_node.get_cell_stack_at_pos(mouse_pos))
+		var index = cell_stack.find(current_cell)
+		index = wrapi(index + 1, 0, cell_stack.size())
+		set_current_cell(cell_stack[index])
 
 
 func _on_path_valid(is_path_valid : bool):
 	sprite_node.change_color(is_path_valid)
 
 
-# find a cell in the array that has the same x than the previous_cell and return it
-# Return null if no cell were found
-func find_same_x_cell(cell_stack: PoolVector3Array, prev_cell: Vector3):
-	for cell in cell_stack:
-		if cell.x == prev_cell.x:
-			return cell
-	return null
+# Try to get the cell the player wanted to point at and returns it
+func find_wanted_cell(cell_stack : PoolVector3Array) -> Vector3:
+	var next_cell := Vector3.INF
+	
+	if cell_stack.size() > 1:
+		next_cell = find_nearest_z_cell(cell_stack, current_cell)
+	else:
+		next_cell = map_node.get_pos_highest_cell(mouse_pos)
+
+# Get the highest cell at the mouse position based on the current cell z
+#### DOESN'T BEHAVE AS EXPECTED FOR NOW ####
+#	if next_cell == Vector3.INF:
+#		var ground0_cell = map_node.world_to_ground_z(mouse_pos, current_cell.z)
+#		return map_node.find_2D_cell(ground0_cell)
+	
+	return next_cell
 
 
-# find a cell in the array that has the same y than the previous_cell and return it
-# Return null if no cell were found
-func find_same_y_cell(cell_stack: PoolVector3Array, prev_cell: Vector3):
+func find_nearest_z_cell(cell_stack: PoolVector3Array, cur_cell: Vector3) -> Vector3:
+	var nearest_z_cell = Vector3.INF
+	var closest_cell_diff : float = INF
 	for cell in cell_stack:
-		if cell.y == prev_cell.y:
+		var new_dif = abs(cur_cell.z - cell.z) 
+		if new_dif == 0:
 			return cell
-	return null
+		if new_dif < closest_cell_diff:
+			nearest_z_cell = cell
+			closest_cell_diff = new_dif
+	
+	return nearest_z_cell
+
+

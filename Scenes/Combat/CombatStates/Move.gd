@@ -76,7 +76,7 @@ func _unhandled_input(event):
 
 
 # When the cursor has moved, call the function that calculate a new path
-func on_cursor_change_cell(cursor_cell : Vector3, _prevous_cell: Vector3):
+func on_cursor_change_cell(cursor_cell : Vector3):
 	if combat_states_node.get_state() == self:
 		if active_actor.get_state_name() == "Idle":
 			set_path(cursor_cell, active_actor.get_current_cell())

@@ -11,6 +11,7 @@ var layer_array : Array
 var grounds : PoolVector3Array = []
 var cell_path : PoolVector3Array = []
 
+var walkable_cells : PoolVector3Array = []
 var obstacles : Array = [] setget set_obstacles, get_obstacles
 
 var active_actor: Actor = null setget set_active_actor
@@ -23,7 +24,7 @@ var is_ready : bool = false
 func set_obstacles(array: Array):
 	if array != obstacles:
 		obstacles = array
-		var walkable_cells = pathfinding.set_walkable_cells(grounds)
+		walkable_cells = pathfinding.set_walkable_cells(grounds)
 		pathfinding.connect_walkable_cells(walkable_cells, active_actor)
 
 
@@ -55,7 +56,7 @@ func _ready():
 	
 	# Store all the passable cells into the array walkable_cells_list, 
 	# by checking all the cells in the map to see if they are not an obstacle
-	var walkable_cells = pathfinding.set_walkable_cells(grounds)
+	walkable_cells = pathfinding.set_walkable_cells(grounds)
 	
 	# Create the connections between all the walkable cells
 	pathfinding.connect_walkable_cells(walkable_cells, active_actor)
@@ -72,7 +73,8 @@ func get_cell_stack_at_pos(world_pos: Vector2) -> PoolVector3Array:
 	cell_stack.append(highest_cell)
 	
 	for z in range(highest_cell.z - 1, -1, -1):
-		var cell_2D = layer_array[z].world_to_map(world_pos)
+		var world_pos_adapted = Vector2(world_pos.x, world_pos.y + 16 * z)
+		var cell_2D = layer_array[z].world_to_map(world_pos_adapted)
 		var cell_3D = Vector3(cell_2D.x, cell_2D.y, z)
 		if is_position_valid(cell_3D):
 			cell_stack.append(cell_3D)
@@ -82,7 +84,7 @@ func get_cell_stack_at_pos(world_pos: Vector2) -> PoolVector3Array:
 
 # Recursivly search for the deepest node of every branch
 # If the deepest node is a Sprite, an AnimatedSprite or a TileMap: hide it
-# Exeception withe the ground0 (Bescause its rendered by the engine) 
+# Exeception with the ground0 (Bescause its rendered by the engine) 
 func hide_all_rendered_nodes(node: Node):
 	if node.get_child_count() == 0:
 		if node is Sprite or node is TileMap or node is AnimatedSprite:
@@ -105,7 +107,7 @@ func fetch_ground() -> PoolVector3Array:
 	return feed_array
 
 
-# Find if a cell x and y is in the Vector3 grid, and returns it
+# Find if a cell x and y is in the heightmap grid, and returns it
 # Return Vector3.INF if nothing was found
 func find_2D_cell(cell : Vector2, grid: PoolVector3Array = grounds) -> Vector3:
 	for grid_cell in grid:
@@ -115,8 +117,9 @@ func find_2D_cell(cell : Vector2, grid: PoolVector3Array = grounds) -> Vector3:
 
 
 # Return the cell in the ground 0 grid pointed by the given position
-func world_to_ground0(pos : Vector2):
-	return layer_0_node.world_to_map(pos)
+func world_to_ground_z(pos : Vector2, z : int = 0):
+	pos.y -= z * 16
+	return layer_array[z].world_to_map(pos)
 
 # Return the layer at the given height
 func get_layer(height: int) -> MapLayer:
@@ -203,4 +206,9 @@ func is_cell_in_obstacle(cell: Vector3) -> bool:
 
 # Check if a position is valid, return true if it is, false if it is not
 func is_position_valid(cell: Vector3) -> bool:
-	return !is_cell_in_obstacle(cell) && !is_outside_map_bounds(cell)
+	var no_obstacle : bool = !is_cell_in_obstacle(cell)
+	var inside_boundes : bool = !is_outside_map_bounds(cell)
+	var is_walkable : bool = cell in walkable_cells
+	return no_obstacle && inside_boundes && is_walkable 
+
+
