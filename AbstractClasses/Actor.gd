@@ -16,6 +16,8 @@ var current_movements : int setget set_current_movements, get_current_movements
 var current_HP : int setget set_current_HP, get_current_HP
 var current_MP : int setget set_current_MP, get_current_MP
 
+var action_modifier : int = 0 setget set_action_modifier, get_action_modifier
+
 var jump_max_height : int = 2 setget set_jump_max_height, get_jump_max_height
 
 #### BUILT-IN FUNCTIONS ####
@@ -87,6 +89,12 @@ func set_jump_max_height(value : int):
 func get_jump_max_height() -> int:
 	return jump_max_height
 
+func set_action_modifier(value: int):
+	action_modifier = value
+
+func get_action_modifier() -> int:
+	return action_modifier
+
 #### LOGIC ####
 
 # Move the character along the given path
@@ -96,8 +104,10 @@ func move_along_path(path : PoolVector3Array):
 
 
 func new_turn():
-	current_actions = get_max_actions()
-
+	if owner.active_actor != self:
+		return
+	set_current_actions(get_max_actions() + action_modifier)
+	action_modifier = 0
 
 func get_height() -> int:
 	return int(current_cell.z)

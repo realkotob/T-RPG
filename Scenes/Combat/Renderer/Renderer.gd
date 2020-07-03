@@ -116,7 +116,7 @@ func draw_object(object: IsoObject):
 		var focus_cell = focus_object.get_current_cell()
 		var height_dif = (height - focus_cell.z)
 		
-		if object in focus_array:
+		if object in focus_array or object is TileArea:
 			continue
 		
 		if is_cell_transparent(focus_cell, cell, height_dif):

@@ -11,6 +11,3 @@ func set_active_actor(actor: Node):
 	# Update the portrait in the portrait_node
 	if "portrait" in active_actor:
 		portrait_node.set_texture(active_actor.portrait)
-	
-	# Update the actions display by feeding it
-	actions_left_node.update_display(active_actor.get_current_actions())

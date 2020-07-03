@@ -38,7 +38,6 @@ func _ready():
 	propagate_call("set_map_node", [map_node])
 	propagate_call("set_active_actor", [actors_order[0]])
 	
-	HUD_node.set_active_actor(active_actor)
 	HUD_node.generate_timeline(actors_order)
 	on_focus_changed()
 	
@@ -48,27 +47,17 @@ func _ready():
 		if child is MapLayer:
 			layers_array.append(child)
 	
-	for actor in actors_order:
-		actor.set_visible(false)
-	
 	$Renderer.set_layers_array(layers_array)
 	on_iso_object_list_changed()
 	
 	is_ready = true
+	
+	propagate_call("new_turn")
 
 
 # New turn procedure, set the new active_actor and previous_actor
 func new_turn():
-	previous_actor = active_actor
-	propagate_call("set_active_actor", [actors_order[0]])
-	on_focus_changed()
-	
-	# Triggers the new_turn method of the new active_actor
-	active_actor.new_turn()
-	
 	# Propagate the active actor where its needed
-	HUD_node.set_active_actor(active_actor)
-	combat_state_node.set_active_actor(active_actor)
 	combat_state_node.set_state("Overlook")
 
 
@@ -79,7 +68,10 @@ func end_turn():
 	first_become_last(future_actors_order)
 	
 	HUD_node.move_timeline(actors_order, future_actors_order)
-	yield()
+	
+	previous_actor = active_actor
+	propagate_call("set_active_actor", [actors_order[0]])
+	on_focus_changed()
 
 
 # Put the first actor of the array at the last position
@@ -98,7 +90,9 @@ func on_active_actor_turn_finished():
 func on_timeline_movement_finished():
 	actors_order = future_actors_order
 	HUD_node.update_timeline_order(actors_order)
-	new_turn()
+	
+	# Triggers the new_turn method of the new active_actor
+	propagate_call("new_turn")
 
 
 func on_focus_changed():

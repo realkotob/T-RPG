@@ -11,12 +11,9 @@ var map_node : Node
 var cursor_node : Node
 var area_node : Node
 
-var active_actor : Node
-
 var path := PoolVector3Array()
 
 signal path_valid
-signal active_actor_turn_finished
 
 func _ready():
 	yield(owner, "ready")
@@ -27,12 +24,9 @@ func _ready():
 	HUD_node = owner.HUD_node
 	area_node = owner.area_node
 	
-	active_actor = owner.active_actor
-	
 	var _err
 	_err = connect("path_valid", cursor_node, "_on_path_valid")
 	_err = cursor_node.connect("cell_changed", self, "on_cursor_change_cell")
-	_err = connect("active_actor_turn_finished", combat_loop_node, "on_active_actor_turn_finished")
 
 
 # Empty the path and potential path arrays
@@ -110,6 +104,6 @@ func check_path(path_to_check : PoolVector3Array) -> bool:
 func on_movement_finished():
 	# If the active actor no longer has actions points, triggers a new turn 
 	if active_actor.get_current_actions() == 0:
-		emit_signal("active_actor_turn_finished")
+		emit_signal("turn_finished")
 	else:
 		combat_states_node.set_state("Overlook")
