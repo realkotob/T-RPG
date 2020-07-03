@@ -1,4 +1,5 @@
 extends Button
+class_name CombatOptionButton
 
 signal action_pressed
 

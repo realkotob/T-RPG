@@ -11,14 +11,15 @@ export var portrait : Texture
 export var timeline_port : Texture
 export var MaxStats : Resource
 
-var current_actions : int setget set_current_actions, get_current_actions
-var current_movements : int setget set_current_movements, get_current_movements
-var current_HP : int setget set_current_HP, get_current_HP
-var current_MP : int setget set_current_MP, get_current_MP
+var current_actions : int = 0 setget set_current_actions, get_current_actions
+var current_movements : int = 0 setget set_current_movements, get_current_movements
+var current_HP : int = 0 setget set_current_HP, get_current_HP
+var current_MP : int = 0 setget set_current_MP, get_current_MP
 
 var action_modifier : int = 0 setget set_action_modifier, get_action_modifier
-
 var jump_max_height : int = 2 setget set_jump_max_height, get_jump_max_height
+
+signal action_spent
 
 #### BUILT-IN FUNCTIONS ####
 
@@ -30,6 +31,9 @@ func _init():
 
 # Set the current stats to the starting stats
 func _ready():
+	var combat_node = get_tree().get_current_scene()
+	var _err = connect("action_spent", combat_node, "on_action_spent")
+	
 	set_current_actions(get_max_actions())
 	set_current_movements(get_max_movements())
 	set_current_HP(get_max_HP())
@@ -63,7 +67,10 @@ func set_current_MP(value : int):
 	current_MP = value
 
 func set_current_actions(value : int):
+	var callback : bool = value < current_actions
 	current_actions = value
+	if callback:
+		emit_signal("action_spent")
 
 func get_current_actions():
 	return current_actions
@@ -108,6 +115,7 @@ func new_turn():
 		return
 	set_current_actions(get_max_actions() + action_modifier)
 	action_modifier = 0
+
 
 func get_height() -> int:
 	return int(current_cell.z)

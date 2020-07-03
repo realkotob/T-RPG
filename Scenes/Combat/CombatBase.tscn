@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://Scenes/Combat/Renderer/Renderer.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Combat/DebugPanel.gd" type="Script" id=2]
@@ -13,9 +13,8 @@
 [ext_resource path="res://Scenes/Combat/HUD/HUD.gd" type="Script" id=11]
 [ext_resource path="res://Scenes/Combat/CombatStates/Overlook.gd" type="Script" id=12]
 [ext_resource path="res://Scenes/Combat/CombatLoop.gd" type="Script" id=13]
-[ext_resource path="res://Scenes/Combat/HUD/Debug/ActiveActorLabel.gd" type="Script" id=14]
+[ext_resource path="res://Scenes/Combat/HUD/ActionMenu/WaitButton.gd" type="Script" id=14]
 [ext_resource path="res://Scenes/Combat/CombatStates/CombatStateMachine.gd" type="Script" id=15]
-[ext_resource path="res://Scenes/Combat/HUD/Debug/CombatStateLabel.gd" type="Script" id=16]
 [ext_resource path="res://Scenes/Combat/CombatStates/Attack.gd" type="Script" id=17]
 [ext_resource path="res://Scenes/Combat/CombatStates/Skills.gd" type="Script" id=18]
 [ext_resource path="res://Scenes/Combat/CombatStates/Items.gd" type="Script" id=19]
@@ -30,7 +29,6 @@
 [ext_resource path="res://Scenes/Combat/ActionsLeft.gd" type="Script" id=29]
 [ext_resource path="res://Scenes/Characters/Ella/Portrait/Ella (transparant).png" type="Texture" id=30]
 [ext_resource path="res://Scenes/Characters/CptHart/HartStats.tres" type="Resource" id=31]
-[ext_resource path="res://Scenes/Combat/HUD/Debug/Actions.gd" type="Script" id=32]
 [ext_resource path="res://Scenes/Characters/CptHart/Timeline/HartTL.png" type="Texture" id=33]
 [ext_resource path="res://Scenes/Combat/HUD/Timeline/States/Move.gd" type="Script" id=34]
 [ext_resource path="res://Scenes/Combat/HUD/Timeline/States/Insert.gd" type="Script" id=35]
@@ -318,32 +316,7 @@ margin_top = 79.0
 margin_right = 54.0
 margin_bottom = 100.0
 text = "WAIT"
-
-[node name="Debug" type="VBoxContainer" parent="HUD"]
-margin_left = -293.401
-margin_top = -58.9641
-margin_right = -188.401
-margin_bottom = 51.0359
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="CombatState" type="Label" parent="HUD/Debug"]
-margin_right = 105.0
-margin_bottom = 14.0
-script = ExtResource( 16 )
-
-[node name="ActiveActor" type="Label" parent="HUD/Debug"]
-margin_top = 18.0
-margin_right = 105.0
-margin_bottom = 32.0
 script = ExtResource( 14 )
-
-[node name="Actions" type="Label" parent="HUD/Debug"]
-margin_top = 36.0
-margin_right = 105.0
-margin_bottom = 50.0
-script = ExtResource( 32 )
 
 [node name="TimeLineStates" type="Node2D" parent="HUD"]
 position = Vector2( 4.9756, 7.12211 )
