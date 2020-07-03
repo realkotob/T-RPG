@@ -3,6 +3,8 @@ extends Node2D
 const tile_size = Vector2(32, 32)
 const cell_size = Vector2(32, 16)
 
+const transparency : float = 0.27
+
 var layers_array : Array = [] setget set_layers_array
 var objects_array : Array = [] setget set_objects_array
 var ground_cells_array : Array = []
@@ -75,24 +77,8 @@ func draw_tile(ground: TileMap, tileset: TileSet, cell: Vector2, height: int):
 		var height_dif = (height - focus_cell.z)
 		var cell_v3 = Vector3(cell.x, cell.y, height)
 		
-		if (is_cell_in_front(focus_cell, cell_v3) and \
-		is_cell_close_enough(focus_cell, cell_v3, height_dif)) or \
-		(is_cell_in_dead_angle_left(focus_cell, cell_v3) or \
-		is_cell_in_dead_angle_right(focus_cell, cell_v3)):
-			if cell_v3 != focus_cell:
-				modul.a = 0.3
-
-
-#		var virtual_focus = Vector2(focus_cell.x + height_dif, focus_cell.y + height_dif)
-#
-#		# Set the color to transparent if the tile is right below the focus cell
-#		if cell.x <= virtual_focus.x && cell.x >= virtual_focus.x - height_dif:
-#			if cell.y <= virtual_focus.y && cell.y >= virtual_focus.y - height_dif:
-#				if height_dif >= 1:
-#					modul.a = clamp(1.0 - (height_dif * 0.3), 0.2, 1.0)
-		
-	
-	
+		if is_cell_transparent(focus_cell, cell_v3, height_dif):
+				modul.a = transparency
 	
 	# Get the tile id and the position of the cell in the autotile
 	var tile_id = ground.get_cellv(cell)
@@ -122,6 +108,20 @@ func draw_object(object: IsoObject):
 	var sprite_centered = sprite.is_centered()
 	var sprite_pos = sprite.get_global_position()
 	var pos = sprite_pos - (texture.get_size() / 2) * int(sprite_centered)
+	
+	var height = object.get_grid_height()
+	var cell = object.get_current_cell()
+	# Handle the tile transparancy
+	for focus_object in focus_array:
+		var focus_cell = focus_object.get_current_cell()
+		var height_dif = (height - focus_cell.z)
+		
+		if object in focus_array:
+			continue
+		
+		if is_cell_transparent(focus_cell, cell, height_dif):
+				modul.a = transparency
+	
 	draw_texture(texture, pos, modul)
 
 
@@ -149,6 +149,15 @@ func get_type_priority(thing) -> int:
 	
 	return -1
 
+# Return true if the given cell should be transparent
+func is_cell_transparent(focus_cell: Vector3, cell: Vector3, height_dif : int) -> bool :
+	if (is_cell_in_front(focus_cell, cell) and \
+	is_cell_close_enough(focus_cell, cell, height_dif)) or \
+	(is_cell_in_dead_angle_left(focus_cell, cell) or \
+	is_cell_in_dead_angle_right(focus_cell, cell)):
+		if cell != focus_cell:
+			return true
+	return false
 
 func is_cell_close_enough(focus_cell: Vector3, cell: Vector3, height_dif : int) -> bool:
 	return abs(cell.x - focus_cell.x) <= height_dif && abs(cell.y - focus_cell.y) <= height_dif
@@ -160,7 +169,7 @@ func is_cell_in_front(focus_cell: Vector3, cell: Vector3) -> bool:
 
 func is_cell_in_dead_angle_right(focus_cell: Vector3, cell: Vector3) -> bool:
 	var upper_left_cell = Vector3(focus_cell.x, focus_cell.y + 1, focus_cell.z + 1)
-	var left_down_cell = Vector3(focus_cell.x + 1, focus_cell.y, focus_cell.z + 1)
+	var right_down_cell = Vector3(focus_cell.x + 1, focus_cell.y, focus_cell.z + 1)
 	
 	if upper_left_cell in sorting_array:
 		return false
@@ -168,7 +177,7 @@ func is_cell_in_dead_angle_right(focus_cell: Vector3, cell: Vector3) -> bool:
 	return cell.z == focus_cell.z + 1 && \
 		cell.x == focus_cell.x + 1 && \
 		cell.y == focus_cell.y + 2 && \
-		left_down_cell in sorting_array
+		right_down_cell in sorting_array
 
 
 func is_cell_in_dead_angle_left(focus_cell: Vector3, cell: Vector3) -> bool:
