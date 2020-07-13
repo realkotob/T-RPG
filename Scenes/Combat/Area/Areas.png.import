@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Areas.png-b01f59e06d206b94c57a800faf0ebb00.stex"
+path="res://.import/Areas.png-729c605dbe602f7939a62cbd52d05d5a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Areas.png"
-dest_files=[ "res://.import/Areas.png-b01f59e06d206b94c57a800faf0ebb00.stex" ]
+source_file="res://Scenes/Combat/Area/Areas.png"
+dest_files=[ "res://.import/Areas.png-729c605dbe602f7939a62cbd52d05d5a.stex" ]
 
 [params]
 

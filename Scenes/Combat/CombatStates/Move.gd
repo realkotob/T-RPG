@@ -13,6 +13,8 @@ var area_node : Node
 
 var path := PoolVector3Array()
 
+var is_moving : bool = false
+
 signal path_valid
 
 func _ready():
@@ -29,6 +31,11 @@ func _ready():
 	_err = cursor_node.connect("cell_changed", self, "on_cursor_change_cell")
 
 
+func _process(_delta):
+	if is_moving:
+		move_actor()
+
+
 # Empty the path and potential path arrays
 func initialize_path_value():
 	path = []
@@ -41,20 +48,12 @@ func enter_state():
 	
 	if active_actor != null:
 		map_node.draw_movement_area()
-	
-	if !active_actor.move_node.is_connected("movement_finished", self, "on_movement_finished"):
-		var _err = active_actor.move_node.connect("movement_finished", self, "on_movement_finished")
 
 
 # Empty the path variable when the state is exited and 
 func exit_state():
 	initialize_path_value() # Empty the path
 	line_node.set_points([]) # Empty the line
-	
-	var actor_move_node = active_actor.move_node
-	
-	if actor_move_node.has_user_signal("movement_finished"):
-		actor_move_node.disconnect("movement_finished", self, "on_movement_finished")
 
 
 # On click, give the active actor its destination
@@ -63,7 +62,7 @@ func _unhandled_input(event):
 	if event is InputEventMouseButton && combat_states_node.get_state() == self:
 		if event.get_button_index() == BUTTON_LEFT && event.pressed:
 			if check_path(path):
-				active_actor.move_along_path(path) # Move the actor
+				is_moving = true
 				active_actor.set_current_actions(active_actor.get_current_actions() - 1)
 				HUD_node.update_actions_left(active_actor.get_current_actions())
 				area_node.clear() # Clear every cells in the area tilemap
@@ -100,8 +99,25 @@ func check_path(path_to_check : PoolVector3Array) -> bool:
 	return len(path_to_check) > 0 and len(path_to_check) - 1 <= movements
 
 
+func move_actor():
+	if len(path) > 0:
+		var target_point_world = owner.map_node.cell_to_world(path[0])
+		var arrived_to_next_point = active_actor.move_to(target_point_world)
+		
+		# If the actor is arrived to the next point, 
+		# remove this point from the path and take the next for destination
+		if arrived_to_next_point == true:
+			active_actor.set_current_cell(path[0])
+			path.remove(0)
+	
+	if len(path) == 0:
+		is_moving = false
+		active_actor.set_state("Idle")
+		movement_finished()
+
+
 # Trigerred when the movement is finished
-func on_movement_finished():
+func movement_finished():
 	# If the active actor no longer has actions points, triggers a new turn 
 	if active_actor.get_current_actions() == 0:
 		emit_signal("turn_finished")

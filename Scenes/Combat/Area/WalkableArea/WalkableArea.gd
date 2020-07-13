@@ -1,6 +1,6 @@
 extends Node2D
 
-const MOVE_AREA_SPRITE = preload("res://Scenes/Combat/Area/WalkableAreaSprite.tscn")
+const MOVE_AREA = preload("res://Scenes/Combat/Area/WalkableArea/WalkableArea.tscn")
 
 signal area_created
 signal area_destroyed
@@ -23,7 +23,7 @@ func clear():
 func draw_area(cell_array : Array) -> void:
 	for cell in cell_array:
 		var pos = owner.cell_to_world(cell)
-		var new_area = MOVE_AREA_SPRITE.instance()
+		var new_area = MOVE_AREA.instance()
 		new_area.set_map_node(get_parent())
 		new_area.set_current_cell(cell)
 		new_area.set_position(pos)

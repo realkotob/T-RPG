@@ -16,5 +16,5 @@ func set_active_actor(value : Actor):
 func _ready():
 	var _err = connect("turn_finished", owner, "on_active_actor_turn_finished")
 
-func prout():
+func turn_finish():
 	emit_signal("turn_finished")
