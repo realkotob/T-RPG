@@ -19,6 +19,8 @@ var current_MP : int = 0 setget set_current_MP, get_current_MP
 var action_modifier : int = 0 setget set_action_modifier, get_action_modifier
 var jump_max_height : int = 2 setget set_jump_max_height, get_jump_max_height
 
+var move_speed : float = 300
+
 signal action_spent
 
 #### BUILT-IN FUNCTIONS ####

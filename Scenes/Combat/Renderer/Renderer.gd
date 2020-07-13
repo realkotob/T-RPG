@@ -102,8 +102,8 @@ func draw_tile(ground: TileMap, tileset: TileSet, cell: Vector2, height: int):
 
 # Draw the given object
 func draw_object(object: IsoObject):
-	var modul = object.get_modulate()
 	var sprite = object.get_node("Sprite")
+	var modul = sprite.get_modulate()
 	var texture = sprite.get_texture()
 	var sprite_centered = sprite.is_centered()
 	var sprite_pos = sprite.get_global_position()

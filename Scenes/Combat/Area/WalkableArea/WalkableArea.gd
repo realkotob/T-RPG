@@ -1,6 +1,13 @@
 extends Node2D
 
 const MOVE_AREA = preload("res://Scenes/Combat/Area/WalkableArea/WalkableArea.tscn")
+const DAMAGE_AREA = preload("res://Scenes/Combat/Area/DamageArea/DamageArea.tscn")
+
+enum area_type {
+	MOVE
+	DAMAGE
+}
+
 
 signal area_created
 signal area_destroyed
@@ -19,11 +26,16 @@ func clear():
 	emit_signal("area_destroyed")
 
 
-# Draw the given area
-func draw_area(cell_array : Array) -> void:
+# Draw the given area, at the given positions contained in the cell_array
+func draw_area(cell_array : Array, type: int = area_type.MOVE) -> void:
+	var new_area_type: PackedScene = null
+	match(type):
+		area_type.MOVE: new_area_type = MOVE_AREA
+		area_type.DAMAGE: new_area_type = DAMAGE_AREA
+	
 	for cell in cell_array:
 		var pos = owner.cell_to_world(cell)
-		var new_area = MOVE_AREA.instance()
+		var new_area = new_area_type.instance()
 		new_area.set_map_node(get_parent())
 		new_area.set_current_cell(cell)
 		new_area.set_position(pos)

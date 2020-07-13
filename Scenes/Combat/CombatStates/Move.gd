@@ -31,9 +31,9 @@ func _ready():
 	_err = cursor_node.connect("cell_changed", self, "on_cursor_change_cell")
 
 
-func _process(_delta):
+func _process(delta: float):
 	if is_moving:
-		move_actor()
+		move_actor(delta)
 
 
 # Empty the path and potential path arrays
@@ -99,10 +99,10 @@ func check_path(path_to_check : PoolVector3Array) -> bool:
 	return len(path_to_check) > 0 and len(path_to_check) - 1 <= movements
 
 
-func move_actor():
+func move_actor(delta: float):
 	if len(path) > 0:
 		var target_point_world = owner.map_node.cell_to_world(path[0])
-		var arrived_to_next_point = active_actor.move_to(target_point_world)
+		var arrived_to_next_point = active_actor.move_to(delta, target_point_world)
 		
 		# If the actor is arrived to the next point, 
 		# remove this point from the path and take the next for destination
