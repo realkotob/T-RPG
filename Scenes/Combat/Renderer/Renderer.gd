@@ -13,7 +13,7 @@ var sorting_array : Array = []
 
 var focus_array : Array = [] setget set_focus_array, get_focus_array
 
-enum type_priority{
+enum type_priority {
 	TILE,
 	AREA,
 	CURSOR,
@@ -158,6 +158,7 @@ func is_cell_transparent(focus_cell: Vector3, cell: Vector3, height_dif : int) -
 		if cell != focus_cell:
 			return true
 	return false
+
 
 func is_cell_close_enough(focus_cell: Vector3, cell: Vector3, height_dif : int) -> bool:
 	return abs(cell.x - focus_cell.x) <= height_dif && abs(cell.y - focus_cell.y) <= height_dif

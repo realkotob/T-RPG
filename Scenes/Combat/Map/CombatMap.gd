@@ -209,6 +209,23 @@ func is_position_valid(cell: Vector3) -> bool:
 	var no_obstacle : bool = !is_cell_in_obstacle(cell)
 	var inside_boundes : bool = !is_outside_map_bounds(cell)
 	var is_walkable : bool = cell in walkable_cells
+	
 	return no_obstacle && inside_boundes && is_walkable 
 
 
+# Get the adjacent cells of the given one
+func get_adjacent_cells(cell: Vector3):
+	var adjacents : PoolVector3Array = []
+	var relatives : Array = [
+		Vector2(cell.x + 1, cell.y),
+		Vector2(cell.x, cell.y + 1),
+		Vector2(cell.x - 1, cell.y),
+		Vector2(cell.x, cell.y - 1)
+	]
+	
+	for relative in relatives:
+		var adj = find_2D_cell(relative)
+		if adj != Vector3.INF:
+			adjacents.append(adj)
+	
+	return adjacents
