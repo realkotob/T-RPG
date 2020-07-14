@@ -7,25 +7,18 @@ onready var combat_states_node = get_parent()
 
 var combat_loop_node : Node
 var HUD_node : Node
-var cursor_node : Node
-var area_node : Node
 
 var path := PoolVector3Array()
 
 var is_moving : bool = false
 
-signal path_valid
-
 func _ready():
 	yield(owner, "ready")
 	
 	combat_loop_node = owner
-	cursor_node = owner.cursor_node
 	HUD_node = owner.HUD_node
-	area_node = owner.area_node
 	
 	var _err
-	_err = connect("path_valid", cursor_node, "_on_path_valid")
 	_err = cursor_node.connect("cell_changed", self, "on_cursor_change_cell")
 
 
@@ -81,11 +74,10 @@ func set_path(cursor_cell : Vector3, actor_cell : Vector3) -> void:
 	var is_path_valid = check_path(path)
 	if is_path_valid:
 		line_node.set_points(map_node.cell_array_to_world(path))
+		cursor_node.change_color(Color.white)
 	else:
 		line_node.set_points([])
-	
-	# Notify the cursor that the path is valid
-	emit_signal("path_valid", is_path_valid)
+		cursor_node.change_color(Color.red)
 
 
 # Check if the path is valid, return true if it is or false if not

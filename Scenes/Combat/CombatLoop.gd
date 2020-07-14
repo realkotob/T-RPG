@@ -25,6 +25,7 @@ func set_active_actor(value: Actor):
 		active_actor = value
 		emit_signal("active_actor_changed", active_actor)
 
+
 func get_active_actor() -> Actor:
 	return active_actor
 
@@ -37,6 +38,8 @@ func _ready():
 	
 	propagate_call("set_map_node", [map_node])
 	propagate_call("set_active_actor", [actors_order[0]])
+	propagate_call("set_cursor_node", [cursor_node])
+	propagate_call("set_area_node", [area_node])
 	
 	HUD_node.generate_timeline(actors_order)
 	on_focus_changed()

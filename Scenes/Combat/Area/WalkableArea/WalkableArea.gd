@@ -1,4 +1,5 @@
 extends Node2D
+class_name AreaContainer
 
 const MOVE_AREA = preload("res://Scenes/Combat/Area/WalkableArea/WalkableArea.tscn")
 const DAMAGE_AREA = preload("res://Scenes/Combat/Area/DamageArea/DamageArea.tscn")
@@ -42,3 +43,12 @@ func draw_area(cell_array : Array, type: int = area_type.MOVE) -> void:
 		add_child(new_area)
 	
 	emit_signal("area_created")
+
+
+# Return the cell position of every area currently drawn in an array
+func get_area_cells() -> PoolVector3Array:
+	var area_cell_array : PoolVector3Array = []
+	for child in get_children():
+		area_cell_array.append(child.get_current_cell())
+	
+	return area_cell_array

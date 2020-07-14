@@ -81,21 +81,23 @@ z_index = 99
 [node name="Cursor" parent="Map/Interactives" index="1"]
 position = Vector2( 352, 200 )
 
-[node name="Hart" parent="Map/Interactives" index="2" instance=ExtResource( 4 )]
+[node name="Actors" type="Node2D" parent="Map/Interactives" index="2"]
+
+[node name="Hart" parent="Map/Interactives/Actors" instance=ExtResource( 4 )]
 position = Vector2( 288, 216 )
 grid_height = 2
 portrait = ExtResource( 23 )
 timeline_port = ExtResource( 33 )
 MaxStats = ExtResource( 31 )
 
-[node name="Ella" parent="Map/Interactives" index="3" instance=ExtResource( 4 )]
+[node name="Ella" parent="Map/Interactives/Actors" instance=ExtResource( 4 )]
 position = Vector2( 224, 168 )
 grid_height = 2
 portrait = ExtResource( 30 )
 timeline_port = ExtResource( 33 )
 MaxStats = ExtResource( 31 )
 
-[node name="Obstacles" type="Node2D" parent="Map/Interactives" index="4"]
+[node name="Obstacles" type="Node2D" parent="Map/Interactives" index="3"]
 __meta__ = {
 "_edit_lock_": true
 }

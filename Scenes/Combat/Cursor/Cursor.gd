@@ -73,8 +73,8 @@ func _input(_event):
 		set_current_cell(cell_stack[index])
 
 
-func _on_path_valid(is_path_valid : bool):
-	sprite_node.change_color(is_path_valid)
+func change_color(color : Color):
+	sprite_node.set_modulate(color)
 
 
 # Try to get the cell the player wanted to point at and returns it

@@ -3,7 +3,10 @@ extends StateBase
 class_name CombatStateBase
 
 var active_actor : Actor setget set_active_actor
-var map_node : Node setget set_map_node
+
+var map_node : CombatMap setget set_map_node
+var cursor_node : IsoObject setget set_cursor_node
+var area_node : Node setget set_area_node
 
 signal turn_finished
 
@@ -12,8 +15,14 @@ signal turn_finished
 func set_active_actor(value : Actor):
 	active_actor = value
 
-func set_map_node(value: Node):
+func set_map_node(value: CombatMap):
 	map_node = value
+
+func set_cursor_node(value: IsoObject):
+	cursor_node = value
+
+func set_area_node(value : Node):
+	area_node = value
 
 #### BUILT-IN FUCNTIONS ####
 

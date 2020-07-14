@@ -27,7 +27,6 @@ func set_obstacles(array: Array):
 		walkable_cells = pathfinding.set_walkable_cells(grounds)
 		pathfinding.connect_walkable_cells(walkable_cells, active_actor)
 
-
 func get_obstacles() -> Array:
 	return obstacles
 
@@ -121,6 +120,7 @@ func world_to_ground_z(pos : Vector2, z : int = 0):
 	pos.y -= z * 16
 	return layer_array[z].world_to_map(pos)
 
+
 # Return the layer at the given height
 func get_layer(height: int) -> MapLayer:
 	return layer_array[height].get_parent()
@@ -169,7 +169,6 @@ func is_outside_map_bounds(cell: Vector3):
 	return !(cell in grounds)
 
 
-
 # Draw the movement of the given character
 func draw_movement_area():
 	var mov = active_actor.get_current_movements()
@@ -211,6 +210,19 @@ func is_position_valid(cell: Vector3) -> bool:
 	var is_walkable : bool = cell in walkable_cells
 	
 	return no_obstacle && inside_boundes && is_walkable 
+
+
+# Return the actor or obstacle placed on the given cell
+# Return null if the cell is empty
+func get_object_on_cell(cell: Vector3) -> IsoObject:
+	var objects_array = $Interactives/Actors.get_children()
+	objects_array += $Interactives/Obstacles.get_children()
+	
+	for object in objects_array:
+		if object.get_current_cell() == cell:
+			return object
+	
+	return null
 
 
 # Get the adjacent cells of the given one
