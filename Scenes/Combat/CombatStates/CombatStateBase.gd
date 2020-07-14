@@ -29,5 +29,16 @@ func set_area_node(value : Node):
 func _ready():
 	var _err = connect("turn_finished", owner, "on_active_actor_turn_finished")
 
+# Undo option
+func _input(event):
+	if event.is_action_pressed("ui_cancel"):
+		get_parent().set_state("Overlook")
+
+
+#### LOGIC ####
+
+func exit_state():
+	area_node.clear()
+
 func turn_finish():
 	emit_signal("turn_finished")

@@ -45,6 +45,7 @@ func enter_state():
 func exit_state():
 	initialize_path_value() # Empty the path
 	line_node.set_points([]) # Empty the line
+	area_node.clear()
 
 
 # On click, give the active actor its destination

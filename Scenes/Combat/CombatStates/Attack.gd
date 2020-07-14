@@ -10,6 +10,8 @@ func enter_state():
 	generate_reachable_aera()
 	on_cursor_changed_cell(Vector3.ZERO)
 
+func exit_state():
+	area_node.clear()
 
 # Order the area to draw the reachable cells
 func generate_reachable_aera():
