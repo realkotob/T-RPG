@@ -14,10 +14,13 @@ signal max_z_changed
 #### ACCESSORS ####
 
 func set_current_cell(value: Vector3):
-	if value != current_cell && value != Vector3.INF:
+	if value != current_cell:
+		current_cell = value
 		if map_node.is_position_valid(value):
-			current_cell = value
 			emit_signal("cell_changed", current_cell)
+			return
+	
+	change_color(Color.transparent)
 
 
 func set_max_z(value : int):
@@ -83,7 +86,7 @@ func find_wanted_cell(cell_stack : PoolVector3Array) -> Vector3:
 	
 	if cell_stack.size() > 1:
 		next_cell = find_nearest_z_cell(cell_stack, current_cell)
-	else:
+	elif cell_stack.size() == 1:
 		next_cell = map_node.get_pos_highest_cell(mouse_pos)
 
 # Get the highest cell at the mouse position based on the current cell z

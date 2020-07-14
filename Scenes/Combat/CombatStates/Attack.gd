@@ -8,8 +8,10 @@ func _ready():
 
 func enter_state():
 	generate_reachable_aera()
+	on_cursor_changed_cell(Vector3.ZERO)
 
 
+# Order the area to draw the reachable cells
 func generate_reachable_aera():
 	var actor_cell = active_actor.get_current_cell()
 	var adjacents = map_node.get_adjacent_cells(actor_cell)

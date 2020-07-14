@@ -67,9 +67,10 @@ func _ready():
 
 # Return an array of cells at the given world position
 func get_cell_stack_at_pos(world_pos: Vector2) -> PoolVector3Array:
-	var cell_stack : PoolVector3Array = [] 
+	var cell_stack : PoolVector3Array = []
 	var highest_cell = get_pos_highest_cell(world_pos)
-	cell_stack.append(highest_cell)
+	if highest_cell != Vector3.INF:
+		cell_stack.append(highest_cell)
 	
 	for z in range(highest_cell.z - 1, -1, -1):
 		var world_pos_adapted = Vector2(world_pos.x, world_pos.y + 16 * z)
