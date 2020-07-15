@@ -48,6 +48,14 @@ func hide_active_actor_infos(value : bool):
 	active_actor_infos_node.set_visble(!value)
 
 
+# Disable/unable every action button (taking the situation in account)
+func set_every_option_disabled(value: bool):
+	for action in action_buttons_array:
+		action.set_disabled(value)
+		if value == false:
+			action.update_active()
+
+
 # Update the display of actions left each time it's called
 # Usually called on each new turn, and after each actions
 # Can also be called when a malus is applied to the actor

@@ -40,6 +40,7 @@ func _ready():
 	propagate_call("set_active_actor", [actors_order[0]])
 	propagate_call("set_cursor_node", [cursor_node])
 	propagate_call("set_area_node", [area_node])
+	propagate_call("set_HUD_node", [HUD_node])
 	
 	HUD_node.generate_timeline(actors_order)
 	on_focus_changed()

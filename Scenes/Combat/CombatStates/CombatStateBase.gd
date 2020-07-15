@@ -7,6 +7,7 @@ var active_actor : Actor setget set_active_actor
 var map_node : CombatMap setget set_map_node
 var cursor_node : IsoObject setget set_cursor_node
 var area_node : Node setget set_area_node
+var HUD_node : CanvasLayer setget set_HUD_node
 
 signal turn_finished
 
@@ -24,6 +25,9 @@ func set_cursor_node(value: IsoObject):
 func set_area_node(value : Node):
 	area_node = value
 
+func set_HUD_node(value: CanvasLayer):
+	HUD_node = value
+
 #### BUILT-IN FUCNTIONS ####
 
 func _ready():
@@ -37,8 +41,12 @@ func _input(event):
 
 #### LOGIC ####
 
+func enter_state():
+	HUD_node.set_every_option_disabled(true)
+
 func exit_state():
 	area_node.clear()
+	HUD_node.set_every_option_disabled(false)
 
 func turn_finish():
 	emit_signal("turn_finished")

@@ -16,3 +16,6 @@ func _ready():
 # Notify the CombatState node which button has been pressed
 func on_pressed():
 	emit_signal("action_pressed", name)
+
+func update_active():
+	pass

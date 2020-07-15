@@ -6,7 +6,6 @@ onready var line_node := $Line
 onready var combat_states_node = get_parent()
 
 var combat_loop_node : Node
-var HUD_node : Node
 
 var path := PoolVector3Array()
 
@@ -36,6 +35,7 @@ func initialize_path_value():
 # empty the path and path array, and set a path
 func enter_state():
 	initialize_path_value()
+	HUD_node.set_every_option_disabled(true)
 	
 	if active_actor != null:
 		map_node.draw_movement_area()
@@ -46,6 +46,7 @@ func exit_state():
 	initialize_path_value() # Empty the path
 	line_node.set_points([]) # Empty the line
 	area_node.clear()
+	HUD_node.set_every_option_disabled(false)
 
 
 # On click, give the active actor its destination
