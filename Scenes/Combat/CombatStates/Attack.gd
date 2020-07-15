@@ -2,9 +2,14 @@ extends CombatStateBase
 
 #### COMBAT ATTACK STATE ####
 
+#### BUILT-IN ####
+
 func _ready():
 	yield(owner, "ready")
 	var _err = cursor_node.connect("cell_changed", self, "on_cursor_changed_cell")
+
+
+#### VIRTUAL FUNCTIONS ####
 
 func enter_state():
 	generate_reachable_aera()
@@ -14,6 +19,9 @@ func enter_state():
 func exit_state():
 	area_node.clear()
 	HUD_node.set_every_option_disabled(false)
+
+
+#### LOGIC ####
 
 # Order the area to draw the reachable cells
 func generate_reachable_aera():
@@ -37,6 +45,8 @@ func is_cursor_on_target() -> bool:
 	var obj = map_node.get_object_on_cell(cursor_cell)
 	return cursor_cell in area_node.get_area_cells() && obj
 
+
+#### SIGNAL RESPONSES ####
 
 # Adapt the cursor color
 func on_cursor_changed_cell(_cursor_cell : Vector3):

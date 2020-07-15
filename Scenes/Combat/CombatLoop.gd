@@ -59,6 +59,8 @@ func _ready():
 	propagate_call("new_turn")
 
 
+#### LOGIC ####
+
 # New turn procedure, set the new active_actor and previous_actor
 func new_turn():
 	# Propagate the active actor where its needed
