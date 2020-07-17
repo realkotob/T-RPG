@@ -14,12 +14,11 @@ func _ready():
 func enter_state():
 	generate_reachable_aera()
 	on_cursor_changed_cell(Vector3.ZERO)
-	HUD_node.set_every_option_disabled(true)
+	HUD_node.set_every_option_disabled()
 
 
 func exit_state():
 	area_node.clear()
-	HUD_node.set_every_option_disabled(false)
 
 
 #### LOGIC ####

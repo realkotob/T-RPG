@@ -49,11 +49,18 @@ func hide_active_actor_infos(value : bool):
 
 
 # Disable/unable every action button (taking the situation in account)
-func set_every_option_disabled(value: bool):
+func set_every_option_disabled():
 	for action in action_buttons_array:
-		action.set_disabled(value)
-		if value == false:
-			action.update_active()
+		action.set_disabled(true)
+
+
+# Update accessible actions (usally called by overlook state) 
+func update_unabled_actions(move: bool, attack: bool, item : bool, skill: bool, wait: bool):
+	$ActionMenu/Move.set_disabled(!move)
+	$ActionMenu/Attack.set_disabled(!attack)
+	$ActionMenu/Items.set_disabled(!item)
+	$ActionMenu/Skills.set_disabled(!skill)
+	$ActionMenu/Wait.set_disabled(!wait)
 
 
 # Update the display of actions left each time it's called
