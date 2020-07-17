@@ -226,6 +226,27 @@ func get_object_on_cell(cell: Vector3) -> IsoObject:
 	return null
 
 
+# Get every cells in the given range
+func get_cells_in_range(origin: Vector3, ran: int) -> PoolVector3Array:
+	var cells_in_range : PoolVector3Array = [origin]
+	var treated_cells = PoolVector3Array()
+	for _i in range (ran):
+		for cell in cells_in_range:
+			# Discard already treated cells
+			if cell in treated_cells:
+				continue
+			
+			var relatives = get_adjacent_cells(cell)
+			for rel in relatives:
+				if not rel in cells_in_range:
+					cells_in_range.append(rel)
+			
+			# Add the current cell to treate cells
+			treated_cells.append(cell)
+	
+	return cells_in_range
+
+
 # Get the adjacent cells of the given one
 func get_adjacent_cells(cell: Vector3):
 	var adjacents : PoolVector3Array = []

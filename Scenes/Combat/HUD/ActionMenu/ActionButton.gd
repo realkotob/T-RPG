@@ -3,6 +3,8 @@ class_name CombatOptionButton
 
 signal action_pressed
 
+#### BUILT-IN ####
+
 func _ready():
 	yield(owner, "ready")
 	
@@ -19,3 +21,4 @@ func on_pressed():
 
 func update_active():
 	pass
+

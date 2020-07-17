@@ -15,6 +15,7 @@ var current_actions : int = 0 setget set_current_actions, get_current_actions
 var current_movements : int = 0 setget set_current_movements, get_current_movements
 var current_HP : int = 0 setget set_current_HP, get_current_HP
 var current_MP : int = 0 setget set_current_MP, get_current_MP
+var current_attack_range : int = 0 setget set_current_attack_range, get_current_attack_range
 
 var action_modifier : int = 0 setget set_action_modifier, get_action_modifier
 var jump_max_height : int = 2 setget set_jump_max_height, get_jump_max_height
@@ -40,21 +41,25 @@ func _ready():
 	set_current_movements(get_max_movements())
 	set_current_HP(get_max_HP())
 	set_current_MP(get_max_MP())
+	set_current_attack_range(get_attack_range())
 
 
 ### ACCESORS ###
 
 func get_max_HP():
-	return MaxStats.HP
+	return MaxStats.get_HP()
 
 func get_max_MP():
-	return MaxStats.MP
+	return MaxStats.get_MP()
 
 func get_max_actions():
-	return MaxStats.Actions
+	return MaxStats.get_actions()
 
 func get_max_movements():
-	return MaxStats.Movements
+	return MaxStats.get_movements()
+
+func get_attack_range():
+	return MaxStats.get_attack_range()
 
 func get_current_HP():
 	return current_HP
@@ -67,6 +72,12 @@ func get_current_MP():
 
 func set_current_MP(value : int):
 	current_MP = value
+
+func set_current_attack_range(value: int):
+	current_attack_range = value
+
+func get_current_attack_range() -> int:
+	return current_attack_range
 
 func set_current_actions(value : int):
 	var callback : bool = value < current_actions
@@ -106,10 +117,9 @@ func get_action_modifier() -> int:
 
 #### LOGIC ####
 
-# Move the character along the given path
-func move_along_path(path : PoolVector3Array):
-	move_node.path = path
+func move_to(delta: float, world_pos: Vector2) -> bool:
 	set_state("Move")
+	return $States/Move.move_to(delta, world_pos)
 
 
 func new_turn():
@@ -119,5 +129,6 @@ func new_turn():
 	action_modifier = 0
 
 
+# Return the altitude of the current cell of the character
 func get_height() -> int:
 	return int(current_cell.z)

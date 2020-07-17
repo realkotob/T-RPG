@@ -16,6 +16,7 @@ func enter_state():
 	on_cursor_changed_cell(Vector3.ZERO)
 	HUD_node.set_every_option_disabled(true)
 
+
 func exit_state():
 	area_node.clear()
 	HUD_node.set_every_option_disabled(false)
@@ -26,8 +27,9 @@ func exit_state():
 # Order the area to draw the reachable cells
 func generate_reachable_aera():
 	var actor_cell = active_actor.get_current_cell()
-	var adjacents = map_node.get_adjacent_cells(actor_cell)
-	map_node.area_node.draw_area(adjacents, 1)
+	var actor_range = active_actor.get_current_attack_range()
+	var reachables = map_node.get_cells_in_range(actor_cell, actor_range)
+	map_node.area_node.draw_area(reachables, 1)
 
 
 # Target choice

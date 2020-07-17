@@ -3,41 +3,47 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends Resource
 
-class_name BaseStats
+export var HP : int setget set_HP, get_HP
+export var MP : int setget set_MP, get_MP
+export var actions : int setget set_actions, get_actions
+export var movements : int setget set_movements, get_movements
+export var attack_range : int setget set_attack_range, get_attack_range
 
-export var HP : int setget HP_set, HP_get
-export var MP : int setget MP_set, MP_get
-export var Actions : int setget actions_set, actions_get
-export var Movements : int setget movements_set, movements_get
-
-func HP_set(value : int):
+func set_HP(value : int):
 	HP = max(0, value) as int
 
-func HP_get():
+func get_HP() -> int:
 	return HP
 
-func MP_set(value : int):
+func set_MP(value : int):
 	MP = max(0, value) as int
 
-func MP_get():
+func get_MP() -> int:
 	return MP
 
-func actions_set(value : int):
-	Actions = max(0, value) as int
+func set_actions(value : int):
+	actions = max(0, value) as int
 
-func actions_get():
-	return Actions
+func get_actions() -> int:
+	return actions
 
-func movements_set(value : int):
-	Movements = max(0, value) as int
+func set_movements(value : int):
+	movements = max(0, value) as int
 
-func movements_get():
-	return Movements
+func get_movements() -> int:
+	return movements
+
+func set_attack_range(value: int):
+	attack_range = value
+
+func get_attack_range() -> int:
+	return attack_range
 "
 
 [resource]
 script = SubResource( 1 )
 HP = 20
 MP = 10
-Actions = 2
-Movements = 5
+actions = 2
+movements = 5
+attack_range = 2
