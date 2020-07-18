@@ -101,28 +101,52 @@ func draw_tile(ground: TileMap, tileset: TileSet, cell: Vector2, height: int):
 
 
 # Draw the given object
-func draw_object(object: IsoObject):
-	var sprite = object.get_node("Sprite")
+func draw_object(obj: IsoObject):
+	var height = obj.get_grid_height()
+	var cell = obj.get_current_cell()
+	var a : float = 1.0
+	
+	# Handle the object transparancy
+	for focus_object in focus_array:
+		var focus_cell = focus_object.get_current_cell()
+		var height_dif = (height - focus_cell.z)
+		
+		if obj in focus_array or obj is TileArea:
+			continue
+		
+		if is_cell_transparent(focus_cell, cell, height_dif):
+			a = transparency
+	
+	# Draw the composing elements of the object
+	for child in obj.get_children():
+		if child is Sprite:
+			draw_sprite(child, a)
+		if child is Label:
+			draw_label(child)
+
+
+
+# Draw the given sprite
+func draw_sprite(sprite : Sprite, a : float = 1.0):
 	var modul = sprite.get_modulate()
+	if modul.a > a:
+		modul.a = a
 	var texture = sprite.get_texture()
 	var sprite_centered = sprite.is_centered()
 	var sprite_pos = sprite.get_global_position()
 	var pos = sprite_pos - (texture.get_size() / 2) * int(sprite_centered)
 	
-	var height = object.get_grid_height()
-	var cell = object.get_current_cell()
-	# Handle the tile transparancy
-	for focus_object in focus_array:
-		var focus_cell = focus_object.get_current_cell()
-		var height_dif = (height - focus_cell.z)
-		
-		if object in focus_array or object is TileArea:
-			continue
-		
-		if is_cell_transparent(focus_cell, cell, height_dif):
-				modul.a = transparency
-	
 	draw_texture(texture, pos, modul)
+
+
+# Draw the given label
+func draw_label(label: Label):
+	var font = label.get_theme().get_default_font()
+	var pos = label.get_rect().position
+	var text = label.text
+	for i in range(text.length()):
+		var i_max = clamp(i + 1, 0, text.length() - 1)
+		var _err = draw_char(font, pos, text[i], text[i_max])
 
 
 # Draw the whole layer of the given height

@@ -19,6 +19,3 @@ func _ready():
 func on_pressed():
 	emit_signal("action_pressed", name)
 
-func update_active():
-	pass
-
