@@ -39,16 +39,7 @@ func can_move() -> bool:
 
 # Check if the actor can attack (ie if a target is reachable)
 func can_attack() -> bool:
-	var actor_cell = active_actor.get_current_cell()
-	var actor_range = active_actor.get_current_attack_range()
-	var reachables = map_node.get_cells_in_range(actor_cell, actor_range)
-	
-	for cell in reachables:
-		var obj = map_node.get_object_on_cell(cell)
-		if obj is Actor or obj is Obstacle:
-			if obj != active_actor:
-				return true
-	return false
+	return map_node.has_target_reachable()
 
 func can_use_item() -> bool:
 	return true

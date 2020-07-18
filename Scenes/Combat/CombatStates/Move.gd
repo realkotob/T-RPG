@@ -65,6 +65,8 @@ func on_cursor_change_cell(cursor_cell : Vector3):
 	if combat_states_node.get_state() == self:
 		if active_actor.get_state_name() == "Idle":
 			set_path(cursor_cell, active_actor.get_current_cell())
+			var targets = map_node.count_reachable_targets(cursor_cell)
+			cursor_node.set_targets(targets)
 
 
 # Ask the map for a path between current actor's cell and the cursor's cell

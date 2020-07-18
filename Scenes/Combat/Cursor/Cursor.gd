@@ -97,7 +97,8 @@ func find_wanted_cell(cell_stack : PoolVector3Array) -> Vector3:
 	
 	return next_cell
 
-
+# Find the nearest cell on the z axis, in the cell stack,
+# from the previous cell
 func find_nearest_z_cell(cell_stack: PoolVector3Array, cur_cell: Vector3) -> Vector3:
 	var nearest_z_cell = Vector3.INF
 	var closest_cell_diff : float = INF
@@ -111,4 +112,6 @@ func find_nearest_z_cell(cell_stack: PoolVector3Array, cur_cell: Vector3) -> Vec
 	
 	return nearest_z_cell
 
-
+# Update the target counter label with a new given value
+func set_targets(targets: int):
+	$Targets.set_text(String(targets))
