@@ -1,3 +1,3 @@
-extends Actor
+extends Ally
 class_name Character
 

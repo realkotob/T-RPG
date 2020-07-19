@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Ella (transparant).png-c6de8e1cfcad41e80a8c14a0c24e7981.stex"
+path="res://.import/Ella (transparant).png-2cb25c817308f044c3e3d67b3fd22a77.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/Characters/Ella/Portrait/Ella (transparant).png"
-dest_files=[ "res://.import/Ella (transparant).png-c6de8e1cfcad41e80a8c14a0c24e7981.stex" ]
+source_file="res://Scenes/Actors/Allies/Ella/Portrait/Ella (transparant).png"
+dest_files=[ "res://.import/Ella (transparant).png-2cb25c817308f044c3e3d67b3fd22a77.stex" ]
 
 [params]
 

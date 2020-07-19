@@ -8,7 +8,7 @@ onready var combat_state_node = $CombatState
 onready var HUD_node = $HUD
 
 onready var allies_array : Array = get_tree().get_nodes_in_group("Allies")
-onready var actors_order : Array = allies_array
+onready var actors_order : Array = get_tree().get_nodes_in_group("Actors")
 
 var active_actor : Actor setget set_active_actor, get_active_actor
 var previous_actor : Actor = null

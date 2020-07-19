@@ -216,7 +216,8 @@ func is_position_valid(cell: Vector3) -> bool:
 # Return the actor or obstacle placed on the given cell
 # Return null if the cell is empty
 func get_object_on_cell(cell: Vector3) -> IsoObject:
-	var objects_array = $Interactives/Actors.get_children()
+	var objects_array = get_tree().get_nodes_in_group("Allies")
+	objects_array += get_tree().get_nodes_in_group("Enemies")
 	objects_array += $Interactives/Obstacles.get_children()
 	
 	for object in objects_array:
@@ -272,21 +273,27 @@ func has_target_reachable() -> bool:
 	
 	for cell in reachables:
 		var obj = get_object_on_cell(cell)
-		if obj is Actor or obj is Obstacle:
-			if obj != active_actor:
-				return true
+		if obj == null:
+			continue
+		
+		if obj.is_in_group("Enemies") or obj is Obstacle:
+			return true
 	return false
 
 
 # Return the number of targets reachable by the active actor 
-func count_reachable_targets(active_cell: Vector3 = active_actor.get_current_cell()) -> int:
+func count_reachable_enemies(active_cell: Vector3 = active_actor.get_current_cell()) -> int:
 	var actor_range = active_actor.get_current_attack_range()
 	var reachables = get_cells_in_range(active_cell, actor_range)
 	var count : int = 0
 	
 	for cell in reachables:
 		var obj = get_object_on_cell(cell)
-		if obj is Actor or obj is Obstacle:
-			if obj != active_actor:
+		
+		if obj == null:
+			continue
+		
+		if obj is Actor:
+			if obj.is_in_group("Enemies"):
 				count += 1
 	return count

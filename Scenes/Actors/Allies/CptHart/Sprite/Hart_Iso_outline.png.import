@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Hart_Iso_outline.png-84915432fb7645a136656deab4fbb287.stex"
+path="res://.import/Hart_Iso_outline.png-70ca65ec74705314a6e61293ad1b7b7e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/Characters/CptHart/Sprite/Hart_Iso_outline.png"
-dest_files=[ "res://.import/Hart_Iso_outline.png-84915432fb7645a136656deab4fbb287.stex" ]
+source_file="res://Scenes/Actors/Allies/CptHart/Sprite/Hart_Iso_outline.png"
+dest_files=[ "res://.import/Hart_Iso_outline.png-70ca65ec74705314a6e61293ad1b7b7e.stex" ]
 
 [params]
 

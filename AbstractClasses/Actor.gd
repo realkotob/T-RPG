@@ -28,7 +28,6 @@ signal action_spent
 
 # Add the node to the group allies
 func _init():
-	add_to_group("Allies")
 	add_to_group("Actors")
 
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/HartTL.png-60bd38dd5d71560ae5582643ff5702bc.stex"
+path="res://.import/EllaTL.png-e25d45524e3b9a0f1f552fb072ee32f1.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/Characters/CptHart/Timeline/HartTL.png"
-dest_files=[ "res://.import/HartTL.png-60bd38dd5d71560ae5582643ff5702bc.stex" ]
+source_file="res://Scenes/Actors/Allies/Ella/Timeline/EllaTL.png"
+dest_files=[ "res://.import/EllaTL.png-e25d45524e3b9a0f1f552fb072ee32f1.stex" ]
 
 [params]
 

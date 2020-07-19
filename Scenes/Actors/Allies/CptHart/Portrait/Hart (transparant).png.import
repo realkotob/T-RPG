@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Hart (transparant).png-949fb3edbb98f901e7604cad92b37d33.stex"
+path="res://.import/Hart (transparant).png-0bb56f8b525b7be7313988827386deb7.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/Characters/CptHart/Portrait/Hart (transparant).png"
-dest_files=[ "res://.import/Hart (transparant).png-949fb3edbb98f901e7604cad92b37d33.stex" ]
+source_file="res://Scenes/Actors/Allies/CptHart/Portrait/Hart (transparant).png"
+dest_files=[ "res://.import/Hart (transparant).png-0bb56f8b525b7be7313988827386deb7.stex" ]
 
 [params]
 
