@@ -121,9 +121,7 @@ func move_to(delta: float, world_pos: Vector2) -> bool:
 	return $States/Move.move_to(delta, world_pos)
 
 
-func new_turn():
-	if owner.active_actor != self:
-		return
+func turn_start():
 	set_current_actions(get_max_actions() + action_modifier)
 	action_modifier = 0
 

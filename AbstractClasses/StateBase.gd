@@ -2,6 +2,8 @@ extends Node
 
 class_name StateBase
 
+onready var states_machine = get_parent()
+
 #### Abstract base class for a State in a state machine ####
 
 # Called when the current state of the state machine is set to this node

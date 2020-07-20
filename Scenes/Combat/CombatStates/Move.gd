@@ -56,7 +56,6 @@ func _unhandled_input(event):
 			if check_path(path):
 				is_moving = true
 				active_actor.set_current_actions(active_actor.get_current_actions() - 1)
-				HUD_node.update_actions_left(active_actor.get_current_actions())
 				area_node.clear() # Clear every cells in the area tilemap
 
 

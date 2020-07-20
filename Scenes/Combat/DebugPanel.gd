@@ -12,6 +12,12 @@ func _input(_event):
 
 #### SIGNALS REACTION ####
 
+func _on_timeline_state_changed(state_name):
+	$VBoxContainer/TimelineState.text = "Timeline State: " + state_name
+
+func _on_combat_state_changed(state_name: String):
+	$VBoxContainer/CombatState.text = "Combat State: " + state_name
+
 func _on_cursor_pos_changed(pos: Vector3):
 	$VBoxContainer/CursorPos.text = "Cursor Pos: " + String(pos)
 

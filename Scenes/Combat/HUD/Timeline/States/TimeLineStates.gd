@@ -12,24 +12,26 @@ func _ready():
 	yield(owner, "ready")
 	combat_loop_node = owner
 	
+	var _err = connect("state_changed", owner.get_node("DebugPanel"), "_on_timeline_state_changed")
+	
 	set_state("Idle")
 
 
 # Move the timeline so it matches the future_actors_order
-func move_timeline(actors_array: Array, future_actors_order: Array):
+func move_timeline(actors_order: Array, future_actors_order: Array):
 	
 	# Check if the two array size corresponds, print a error message and return if not
-	if len(actors_array) != len(future_actors_order):
+	if len(actors_order) != len(future_actors_order):
 		print("ERROR: move_timeline() - The actors_array array size doesn't correspond the future_actors_order")
 		return
 	
 	var actors_to_move_down : Array = []
 	var actors_to_move_up : Array = []
 	
-	sort_actors_by_destination(actors_array, future_actors_order, actors_to_move_down, actors_to_move_up)
+	sort_actors_by_destination(actors_order, future_actors_order, actors_to_move_down, actors_to_move_up)
 	
 	# Give every portrait its new destination
-	for actor in actors_array:
+	for actor in actors_order:
 		actor.timeline_port_node.timeline_id_dest = future_actors_order.find(actor)
 	
 	# Give every state the array of portraits

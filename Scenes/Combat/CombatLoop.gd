@@ -7,8 +7,8 @@ onready var cursor_node = $Map/Interactives/Cursor
 onready var combat_state_node = $CombatState
 onready var HUD_node = $HUD
 
-onready var allies_array : Array = get_tree().get_nodes_in_group("Allies")
-onready var actors_order : Array = get_tree().get_nodes_in_group("Actors")
+onready var allies_array : Array = get_tree().get_nodes_in_group("Allies") setget set_future_actors_order
+onready var actors_order : Array = get_tree().get_nodes_in_group("Actors") setget set_actors_order
 
 var active_actor : Actor setget set_active_actor, get_active_actor
 var previous_actor : Actor = null
@@ -26,6 +26,12 @@ func set_active_actor(value: Actor):
 		emit_signal("active_actor_changed", active_actor)
 
 
+func set_actors_order(value: Array):
+	actors_order = value.duplicate()
+
+func set_future_actors_order(value: Array):
+	future_actors_order = value.duplicate()
+
 func get_active_actor() -> Actor:
 	return active_actor
 
@@ -36,11 +42,11 @@ func _ready():
 	_err = cursor_node.connect("cell_changed", $DebugPanel, "_on_cursor_pos_changed")
 	_err = cursor_node.connect("max_z_changed", $DebugPanel, "_on_cursor_max_z_changed")
 	
-	propagate_call("set_map_node", [map_node])
-	propagate_call("set_active_actor", [actors_order[0]])
-	propagate_call("set_cursor_node", [cursor_node])
-	propagate_call("set_area_node", [area_node])
-	propagate_call("set_HUD_node", [HUD_node])
+	propagate_call("set_map_node", [map_node], true)
+	propagate_call("set_active_actor", [actors_order[0]], true)
+	propagate_call("set_cursor_node", [cursor_node], true)
+	propagate_call("set_area_node", [area_node], true)
+	propagate_call("set_HUD_node", [HUD_node], true)
 	
 	HUD_node.generate_timeline(actors_order)
 	on_focus_changed()
@@ -56,35 +62,50 @@ func _ready():
 	
 	is_ready = true
 	
-	propagate_call("new_turn")
+	# First turn trigger
+	propagate_call("new_turn", [], true)
 
 
 #### LOGIC ####
 
 # New turn procedure, set the new active_actor and previous_actor
 func new_turn():
-	# Propagate the active actor where its needed
+	previous_actor = active_actor
+	propagate_call("set_active_actor", [actors_order[0]], true)
+	on_focus_changed()
+	
+	HUD_node.update_actions_left(active_actor.get_current_actions())
+	
 	combat_state_node.set_state("Overlook")
+	active_actor.turn_start()
 
 
 # End of turn procedure, called right before a new turn start
 func end_turn():
 	# Change the order of the timeline
-	future_actors_order = actors_order
+	set_future_actors_order(actors_order)
 	first_become_last(future_actors_order)
 	
 	HUD_node.move_timeline(actors_order, future_actors_order)
-	
-	previous_actor = active_actor
-	propagate_call("set_active_actor", [actors_order[0]])
-	on_focus_changed()
 
 
 # Put the first actor of the array at the last position
 func first_become_last(array : Array) -> void:
-	array.append(array[0])
-	array.pop_front()
+	var first = array.pop_front()
+	array.append(first)
 
+
+# Get every unpassable object form the IsoOject group 
+func fetch_obstacles(iso_object_array: Array) -> Array:
+	var unpassable_objects : Array = []
+	for object in iso_object_array:
+		if !object.is_passable():
+			unpassable_objects.append(object)
+	
+	return unpassable_objects
+
+
+#### SIGNALS ####
 
 # Triggered when the active actor finished his turn
 func on_active_actor_turn_finished():
@@ -94,11 +115,11 @@ func on_active_actor_turn_finished():
 # Triggered when the timeline movement is finished
 # Update the order of children nodes in the hierachy of the timeline to match the actor order
 func on_timeline_movement_finished():
-	actors_order = future_actors_order
+	set_actors_order(future_actors_order)
 	HUD_node.update_timeline_order(actors_order)
 	
-	# Triggers the new_turn method of the new active_actor
-	propagate_call("new_turn")
+	# Call the new turn
+	propagate_call("new_turn", [], true)
 
 
 func on_focus_changed():
@@ -114,14 +135,8 @@ func on_iso_object_list_changed():
 
 
 func on_action_spent():
-	propagate_call("on_new_action")
+	HUD_node.update_actions_left(active_actor.get_current_actions())
 
 
-# Get every unpassable object form the IsoOject group 
-func fetch_obstacles(iso_object_array: Array) -> Array:
-	var unpassable_objects : Array = []
-	for object in iso_object_array:
-		if !object.is_passable():
-			unpassable_objects.append(object)
-	
-	return unpassable_objects
+func on_actor_wait():
+	combat_state_node.set_state("Wait")

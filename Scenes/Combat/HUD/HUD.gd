@@ -28,8 +28,8 @@ func generate_timeline(actors_array : Array):
 
 
 # Called when a turn end, move the timeline to be in the right disposition
-func move_timeline(current_actors_order: Array, future_actors_order: Array):
-	$TimeLineStates.move_timeline(current_actors_order, future_actors_order)
+func move_timeline(current_order: Array, future_order: Array):
+	$TimeLineStates.move_timeline(current_order, future_order)
 
 
 # Rearrange the hierarchy of nodes of the timeline so it correspond the actors order
@@ -69,8 +69,3 @@ func update_unabled_actions(move: bool, attack: bool, item : bool, skill: bool, 
 func update_actions_left(value : int):
 	var actions_left = clamp(value, 0, 3) as int
 	actions_left_node.update_display(actions_left)
-
-
-# Change the combat state label
-func on_combat_state_changed(_state : Node):
-	pass

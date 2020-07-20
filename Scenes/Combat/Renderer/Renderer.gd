@@ -105,6 +105,7 @@ func draw_object(obj: IsoObject):
 	var height = obj.get_grid_height()
 	var cell = obj.get_current_cell()
 	var a : float = 1.0
+	var mod = obj.get_modulate()
 	
 	# Handle the object transparancy
 	for focus_object in focus_array:
@@ -120,17 +121,21 @@ func draw_object(obj: IsoObject):
 	# Draw the composing elements of the object
 	for child in obj.get_children():
 		if child is Sprite:
-			draw_sprite(child, a)
+			draw_sprite(child, a, mod)
 		if child is Label:
 			draw_label(child)
 
 
-
 # Draw the given sprite
-func draw_sprite(sprite : Sprite, a : float = 1.0):
+func draw_sprite(sprite : Sprite, a : float = 1.0, mod = Color.white):
 	var modul = sprite.get_modulate()
+	
+	if mod != Color.white:
+		modul = mod
+		
 	if modul.a > a:
 		modul.a = a
+	
 	var texture = sprite.get_texture()
 	var sprite_centered = sprite.is_centered()
 	var sprite_pos = sprite.get_global_position()

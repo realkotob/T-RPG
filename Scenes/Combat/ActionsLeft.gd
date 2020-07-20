@@ -54,11 +54,11 @@ func update_display(new_value: int):
 	
 	# If the new value is the actions_left, 
 	# or if the actions_left would be negative after this method : abort
-	if new_value == actions_left or actions_left + offset < 0:
+	if actions_node_array == [] or new_value == actions_left or actions_left + offset < 0:
 		return
 
 	var empty_actions = 0
-
+	
 	# If we are substracting from the current amount of actions,
 	# Set the first action from which we will loop to be the first non-empty action
 	if offset < 0:

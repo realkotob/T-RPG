@@ -64,4 +64,4 @@ func set_state(new_state):
 	if new_state != null:
 		current_state.enter_state()
 	
-	emit_signal("state_changed", current_state)
+	emit_signal("state_changed", current_state.name)

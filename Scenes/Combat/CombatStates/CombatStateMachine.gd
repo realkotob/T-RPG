@@ -11,13 +11,14 @@ func set_active_actor(actor : Actor):
 func set_HUD_node(value: CanvasLayer):
 	HUD_node = value
 
+
 #### BUILT-IN #####
 
 func _ready():
 	yield(owner, "ready")
 	
-	# Connect the state_changed signal to the HUD
-	var _err = connect("state_changed", HUD_node, "on_combat_state_changed")
+	var debug_panel = owner.get_node("DebugPanel")
+	var _err = connect("state_changed", debug_panel, "_on_combat_state_changed")
 	
 	# Set the state to be the first one
 	set_state(states_map[0])
