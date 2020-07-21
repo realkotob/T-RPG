@@ -13,14 +13,18 @@ func enter_state():
 	var actor_height = active_actor.get_height()
 	owner.HUD_node.update_height(actor_height)
 	
-	var move = can_move()
-	var attack = can_attack()
-	var skill = can_use_skill()
-	var item = can_use_item()
-	var wait = can_wait()
 	
-	HUD_node.update_unabled_actions(move, attack, skill, item, wait)
-
+	# Update the actions
+	if active_actor is Ally:
+		var move = can_move()
+		var attack = can_attack()
+		var skill = can_use_skill()
+		var item = can_use_item()
+		var wait = can_wait()
+		
+		HUD_node.update_unabled_actions(move, attack, skill, item, wait)
+	else:
+		HUD_node.set_every_action_disabled()
 
 # Called when the current state of the state machine is switched to another one
 func exit_state():

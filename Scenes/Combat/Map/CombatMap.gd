@@ -65,6 +65,19 @@ func _ready():
 
 #### LOGIC ####
 
+# Recursivly search for the deepest node of every branch
+# If the deepest node is a Sprite, an AnimatedSprite or a TileMap: hide it
+# Exeception with the ground0 (Bescause its rendered by the engine) 
+func hide_all_rendered_nodes(node: Node):
+	if node.get_child_count() == 0:
+		if node is CanvasItem and not node is Control:
+			if node != layer_0_node:
+				node.set_visible(false) 
+	else:
+		for child in node.get_children():
+			hide_all_rendered_nodes(child)
+
+
 # Return an array of cells at the given world position
 func get_cell_stack_at_pos(world_pos: Vector2) -> PoolVector3Array:
 	var cell_stack : PoolVector3Array = []
@@ -80,19 +93,6 @@ func get_cell_stack_at_pos(world_pos: Vector2) -> PoolVector3Array:
 			cell_stack.append(cell_3D)
 	
 	return cell_stack
-
-
-# Recursivly search for the deepest node of every branch
-# If the deepest node is a Sprite, an AnimatedSprite or a TileMap: hide it
-# Exeception with the ground0 (Bescause its rendered by the engine) 
-func hide_all_rendered_nodes(node: Node):
-	if node.get_child_count() == 0:
-		if node is Sprite or node is TileMap or node is AnimatedSprite:
-			if node != layer_0_node:
-				node.set_visible(false)
-	else:
-		for child in node.get_children():
-			hide_all_rendered_nodes(child)
 
 
 # Get the highest cell of every cells in the 2D plan,

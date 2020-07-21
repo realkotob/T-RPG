@@ -112,6 +112,12 @@ func find_nearest_z_cell(cell_stack: PoolVector3Array, cur_cell: Vector3) -> Vec
 	
 	return nearest_z_cell
 
+
+# Show/Hide the targets counter
+func hide_target_counter(value: bool):
+	$Targets.set_visible(!value)
+
+
 # Update the target counter label with a new given value
 func set_targets(targets: int):
 	$Targets.set_text(String(targets))

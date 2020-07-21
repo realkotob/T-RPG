@@ -14,7 +14,7 @@ func _ready():
 func enter_state():
 	generate_reachable_aera()
 	on_cursor_changed_cell(Vector3.ZERO)
-	HUD_node.set_every_option_disabled()
+	HUD_node.set_every_action_disabled()
 
 
 func exit_state():

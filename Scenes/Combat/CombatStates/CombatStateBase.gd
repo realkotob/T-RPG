@@ -42,7 +42,7 @@ func _input(event):
 #### LOGIC ####
 
 func enter_state():
-	HUD_node.set_every_option_disabled()
+	HUD_node.set_every_action_disabled()
 
 func exit_state():
 	area_node.clear()

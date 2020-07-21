@@ -49,7 +49,7 @@ func hide_active_actor_infos(value : bool):
 
 
 # Disable/unable every action button (taking the situation in account)
-func set_every_option_disabled():
+func set_every_action_disabled():
 	for action in action_buttons_array:
 		action.set_disabled(true)
 

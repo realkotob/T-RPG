@@ -122,8 +122,8 @@ func draw_object(obj: IsoObject):
 	for child in obj.get_children():
 		if child is Sprite:
 			draw_sprite(child, a, mod)
-		if child is Label:
-			draw_label(child)
+#		if child is Label:
+#			draw_label(child)
 
 
 # Draw the given sprite
@@ -144,14 +144,20 @@ func draw_sprite(sprite : Sprite, a : float = 1.0, mod = Color.white):
 	draw_texture(texture, pos, modul)
 
 
+#### NOT WORKING FOR NOW, LABELS ARE RENDERED BY THE ENGINE ####
 # Draw the given label
 func draw_label(label: Label):
 	var font = label.get_theme().get_default_font()
 	var pos = label.get_rect().position
 	var text = label.text
 	for i in range(text.length()):
-		var i_max = clamp(i + 1, 0, text.length() - 1)
-		var _err = draw_char(font, pos, text[i], text[i_max])
+		var i_max = i + 1
+		var next
+		
+		if i_max >= text.length(): next = ""
+		else: next = text[i_max]
+		
+		var _err = draw_char(font, pos, text[i], next)
 
 
 # Draw the whole layer of the given height
@@ -247,7 +253,7 @@ func xyz_sum_compare(a, b) -> bool:
 	var sum_b = grid_pos_b.x + grid_pos_b.y + grid_pos_b.z + height_b
 
 	# First compare the sum x + y + z + heigth
-	# Then compare z, then x, then y
+	# Then compare y, then x, then z
 	# If nothing worked, sort by type
 	if sum_a == sum_b:
 		if grid_pos_a.y == grid_pos_b.y:

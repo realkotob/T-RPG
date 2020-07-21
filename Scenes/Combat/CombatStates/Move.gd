@@ -35,10 +35,11 @@ func initialize_path_value():
 # empty the path and path array, and set a path
 func enter_state():
 	initialize_path_value()
-	HUD_node.set_every_option_disabled()
+	HUD_node.set_every_action_disabled()
 	
 	if active_actor != null:
 		map_node.draw_movement_area()
+		cursor_node.hide_target_counter(false)
 
 
 # Empty the path variable when the state is exited and 
@@ -46,6 +47,7 @@ func exit_state():
 	initialize_path_value() # Empty the path
 	line_node.set_points([]) # Empty the line
 	area_node.clear()
+	cursor_node.hide_target_counter(true)
 
 
 # On click, give the active actor its destination
