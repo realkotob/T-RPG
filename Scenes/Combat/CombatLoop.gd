@@ -10,6 +10,8 @@ onready var HUD_node = $HUD
 onready var allies_array : Array = get_tree().get_nodes_in_group("Allies") setget set_future_actors_order
 onready var actors_order : Array = get_tree().get_nodes_in_group("Actors") setget set_actors_order
 
+var focused_objects_array : Array = []
+
 var active_actor : Actor setget set_active_actor, get_active_actor
 var previous_actor : Actor = null
 
@@ -22,7 +24,9 @@ signal active_actor_changed
 
 func set_active_actor(value: Actor):
 	if value != active_actor:
+		focused_objects_array.erase(active_actor)
 		active_actor = value
+		focused_objects_array.append(active_actor)
 		emit_signal("active_actor_changed", active_actor)
 
 
@@ -49,7 +53,7 @@ func _ready():
 	propagate_call("set_HUD_node", [HUD_node], true)
 	
 	HUD_node.generate_timeline(actors_order)
-	on_focus_changed()
+	focused_objects_array = [cursor_node, active_actor]
 	
 	# Feed the renderer with the actors and layers and hide it
 	var layers_array : Array = []
@@ -132,6 +136,17 @@ func on_iso_object_list_changed():
 	var iso_object_array = get_tree().get_nodes_in_group("IsoObject")
 	$Renderer.set_objects_array(iso_object_array)
 	$Map.set_obstacles(fetch_obstacles(iso_object_array))
+
+
+# Update the focus objects by adding a new one
+func on_object_focused(focus_obj: IsoObject):
+	focused_objects_array.append(focus_obj)
+	$Renderer.set_focus_array(focused_objects_array)
+
+
+# Update the focus objects by erasing an old one
+func on_object_unfocused(focus_obj: IsoObject):
+	focused_objects_array.erase(focus_obj)
 
 
 func on_action_spent():

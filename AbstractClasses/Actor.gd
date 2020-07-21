@@ -1,4 +1,4 @@
-extends IsoObject
+extends DamagableObject
 class_name Actor
 
 onready var states_node = $States
@@ -13,7 +13,6 @@ export var MaxStats : Resource
 
 var current_actions : int = 0 setget set_current_actions, get_current_actions
 var current_movements : int = 0 setget set_current_movements, get_current_movements
-var current_HP : int = 0 setget set_current_HP, get_current_HP
 var current_MP : int = 0 setget set_current_MP, get_current_MP
 var current_attack_range : int = 0 setget set_current_attack_range, get_current_attack_range
 
