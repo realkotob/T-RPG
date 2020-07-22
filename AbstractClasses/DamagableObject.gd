@@ -89,7 +89,8 @@ func destroy():
 #### SIGNAL RESPONSES ####
 
 func _on_mouse_entered():
-	show_infos()
+	if not self == owner.active_actor:
+		show_infos()
 
 func _on_mouse_exited():
 	hide_infos()
