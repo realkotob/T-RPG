@@ -63,7 +63,7 @@ func update_display(new_value: int):
 	# Set the first action from which we will loop to be the first non-empty action
 	if offset < 0:
 		empty_actions = get_child_count() - count_active_actions()
-
+	
 	# Make the appropriate lights appear/disapear
 	for i in range(abs(offset)):
 		actions_node_array[i + empty_actions].set_active(offset > 0)

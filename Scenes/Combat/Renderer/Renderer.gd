@@ -128,13 +128,8 @@ func draw_object(obj: IsoObject):
 
 # Draw the given sprite
 func draw_sprite(sprite : Sprite, a : float = 1.0, mod = Color.white):
-	var modul = sprite.get_modulate()
-	
-	if mod != Color.white:
-		modul = mod
-		
-	if modul.a > a:
-		modul.a = a
+	var modul = sprite.get_modulate().blend(mod)
+	modul.a = a
 	
 	var texture = sprite.get_texture()
 	var sprite_centered = sprite.is_centered()

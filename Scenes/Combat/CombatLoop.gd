@@ -25,7 +25,10 @@ signal active_actor_changed
 func set_active_actor(value: Actor):
 	if value != active_actor:
 		focused_objects_array.erase(active_actor)
+		if active_actor:
+			active_actor.set_passable(false)
 		active_actor = value
+		active_actor.set_passable(true)
 		focused_objects_array.append(active_actor)
 		emit_signal("active_actor_changed", active_actor)
 

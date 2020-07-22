@@ -93,4 +93,5 @@ func _on_mouse_entered():
 		show_infos()
 
 func _on_mouse_exited():
-	hide_infos()
+	if not self == owner.active_actor:
+		hide_infos()
