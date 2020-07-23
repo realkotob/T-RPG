@@ -268,7 +268,7 @@ func get_adjacent_cells(cell: Vector3):
 # Return true if at least one target is reachable by the active actor
 func has_target_reachable() -> bool:
 	var actor_cell = active_actor.get_current_cell()
-	var actor_range = active_actor.get_current_attack_range()
+	var actor_range = active_actor.get_current_range()
 	var reachables = get_cells_in_range(actor_cell, actor_range)
 	
 	for cell in reachables:
@@ -283,7 +283,7 @@ func has_target_reachable() -> bool:
 
 # Return the number of targets reachable by the active actor 
 func count_reachable_enemies(active_cell: Vector3 = active_actor.get_current_cell()) -> int:
-	var actor_range = active_actor.get_current_attack_range()
+	var actor_range = active_actor.get_current_range()
 	var reachables = get_cells_in_range(active_cell, actor_range)
 	var count : int = 0
 	

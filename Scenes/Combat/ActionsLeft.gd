@@ -72,6 +72,7 @@ func update_display(new_value: int):
 	actions_left = new_value
 
 
+# Return the number of action currently active
 func count_active_actions() -> int:
 	var nb = 0
 	for child in get_children():

@@ -11,10 +11,14 @@ export var portrait : Texture
 export var timeline_port : Texture
 export var MaxStats : Resource
 
+export var weapon : Resource setget set_weapon, get_weapon
+
 var current_actions : int = 0 setget set_current_actions, get_current_actions
 var current_movements : int = 0 setget set_current_movements, get_current_movements
 var current_MP : int = 0 setget set_current_MP, get_current_MP
-var current_attack_range : int = 0 setget set_current_attack_range, get_current_attack_range
+
+var default_range : int = 1 setget set_default_range, get_default_range
+var current_range : int = 1 setget set_current_range, get_current_range
 
 var action_modifier : int = 0 setget set_action_modifier, get_action_modifier
 var jump_max_height : int = 2 setget set_jump_max_height, get_jump_max_height
@@ -39,7 +43,7 @@ func _ready():
 	set_current_movements(get_max_movements())
 	set_current_HP(get_max_HP())
 	set_current_MP(get_max_MP())
-	set_current_attack_range(get_attack_range())
+	set_current_range(get_default_range())
 
 
 ### ACCESORS ###
@@ -56,9 +60,6 @@ func get_max_actions():
 func get_max_movements():
 	return MaxStats.get_movements()
 
-func get_attack_range():
-	return MaxStats.get_attack_range()
-
 func get_current_HP():
 	return current_HP
 
@@ -71,11 +72,17 @@ func get_current_MP():
 func set_current_MP(value : int):
 	current_MP = value
 
-func set_current_attack_range(value: int):
-	current_attack_range = value
+func set_default_range(value: int):
+	default_range = value
 
-func get_current_attack_range() -> int:
-	return current_attack_range
+func get_default_range() -> int:
+	return default_range
+
+func set_current_range(value: int):
+	current_range = value
+
+func get_current_range() -> int:
+	return current_range
 
 func set_current_actions(value : int):
 	var callback : bool = value < current_actions
@@ -113,6 +120,15 @@ func set_action_modifier(value: int):
 func get_action_modifier() -> int:
 	return action_modifier
 
+func set_weapon(value: Weapon):
+	weapon = value
+
+func get_weapon() -> Resource:
+	return weapon
+
+func get_defense() -> int:
+	return MaxStats.get_defense()
+
 #### LOGIC ####
 
 func move_to(delta: float, world_pos: Vector2) -> bool:
@@ -124,6 +140,10 @@ func turn_start():
 	set_current_actions(get_max_actions() + action_modifier)
 	action_modifier = 0
 
+
+func hurt(damage: int):
+	set_current_HP(get_current_HP() - damage)
+	set_state("Hurt")
 
 # Return the altitude of the current cell of the character
 func get_height() -> int:

@@ -61,7 +61,8 @@ func _unhandled_input(event):
 				area_node.clear() # Clear every cells in the area tilemap
 
 
-# When the cursor has moved, call the function that calculate a new path
+# When the cursor has moved, 
+# call the function that calculate a new path
 func on_cursor_change_cell(cursor_cell : Vector3):
 	if combat_states_node.get_state() == self:
 		if active_actor.get_state_name() == "Idle":
@@ -86,7 +87,7 @@ func set_path(cursor_cell : Vector3, actor_cell : Vector3) -> void:
 
 # Check if the path is valid, return true if it is or false if not
 func check_path(path_to_check : PoolVector3Array) -> bool:
-	if active_actor == null:
+	if active_actor == null or path.size() <= 1:
 		return false
 	
 	var movements = active_actor.get_current_movements()

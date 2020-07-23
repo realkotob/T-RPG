@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://Scenes/Combat/Renderer/Renderer.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Combat/DebugPanel.gd" type="Script" id=2]
@@ -15,21 +15,18 @@
 [ext_resource path="res://Scenes/Combat/CombatLoop.gd" type="Script" id=13]
 [ext_resource path="res://Scenes/Actors/Enemies/Enemy.gd" type="Script" id=14]
 [ext_resource path="res://Scenes/Combat/CombatStates/CombatStateMachine.gd" type="Script" id=15]
+[ext_resource path="res://Scenes/Actors/Allies/Character.gd" type="Script" id=16]
 [ext_resource path="res://Scenes/Combat/CombatStates/Attack.gd" type="Script" id=17]
 [ext_resource path="res://Scenes/Combat/CombatStates/Skills.gd" type="Script" id=18]
 [ext_resource path="res://Scenes/Combat/CombatStates/Items.gd" type="Script" id=19]
 [ext_resource path="res://Scenes/Combat/CombatStates/Wait.gd" type="Script" id=20]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/ActiveActorInfos.gd" type="Script" id=21]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Portrait/PortBorder.png" type="Texture" id=22]
-[ext_resource path="res://Scenes/Actors/Allies/CptHart/Portrait/Hart (transparant).png" type="Texture" id=23]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Jauge/JaugeBorder.png" type="Texture" id=24]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Portrait/PortBackGround.png" type="Texture" id=25]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Jauge/Jauge.png" type="Texture" id=26]
 [ext_resource path="res://Fonts/BoldCapitalPixel.tres" type="DynamicFont" id=27]
-[ext_resource path="res://Scenes/Actors/Allies/Ella/Portrait/Ella (transparant).png" type="Texture" id=28]
 [ext_resource path="res://Scenes/Combat/ActionsLeft.gd" type="Script" id=29]
-[ext_resource path="res://Scenes/Actors/Allies/CptHart/HartStats.tres" type="Resource" id=31]
-[ext_resource path="res://Scenes/Actors/Allies/CptHart/Timeline/HartTL.png" type="Texture" id=33]
 [ext_resource path="res://Scenes/Combat/HUD/Timeline/States/Move.gd" type="Script" id=34]
 [ext_resource path="res://Scenes/Combat/HUD/Timeline/States/Insert.gd" type="Script" id=35]
 [ext_resource path="res://Scenes/Combat/HUD/Timeline/Timeline.gd" type="Script" id=36]
@@ -90,26 +87,20 @@ position = Vector2( 352, 200 )
 
 [node name="Hart" parent="Map/Interactives/Actors/Allies" instance=ExtResource( 4 )]
 position = Vector2( 288, 216 )
-portrait = ExtResource( 23 )
-timeline_port = ExtResource( 33 )
-MaxStats = ExtResource( 31 )
+script = ExtResource( 16 )
+grid_height = 1
 
 [node name="Ella" parent="Map/Interactives/Actors/Allies" instance=ExtResource( 4 )]
 position = Vector2( 224, 168 )
-portrait = ExtResource( 28 )
-timeline_port = ExtResource( 33 )
-MaxStats = ExtResource( 31 )
+script = ExtResource( 16 )
+grid_height = 1
 
 [node name="Enemies" type="Node2D" parent="Map/Interactives/Actors"]
 
 [node name="Enemy1" parent="Map/Interactives/Actors/Enemies" instance=ExtResource( 4 )]
-modulate = Color( 0.921569, 0.0235294, 0.0235294, 1 )
+modulate = Color( 1, 0, 0, 1 )
 position = Vector2( 320, 136 )
 script = ExtResource( 14 )
-grid_height = 1
-portrait = ExtResource( 23 )
-timeline_port = ExtResource( 33 )
-MaxStats = ExtResource( 31 )
 
 [node name="Obstacles" type="Node2D" parent="Map/Interactives" index="3"]
 __meta__ = {

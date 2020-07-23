@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://AbstractClasses/Weapon.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+attack = 1
+attack_range = 1
+range_type = 0

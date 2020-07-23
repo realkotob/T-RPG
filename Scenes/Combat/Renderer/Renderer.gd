@@ -127,9 +127,13 @@ func draw_object(obj: IsoObject):
 
 
 # Draw the given sprite
-func draw_sprite(sprite : Sprite, a : float = 1.0, mod = Color.white):
-	var modul = sprite.get_modulate().blend(mod)
-	modul.a = a
+func draw_sprite(sprite : Sprite, a : float = 1.0, obj_modul = Color.white):
+	var modul = sprite.get_modulate()
+	
+	if obj_modul != Color.white:
+		modul = modul.blend(obj_modul)
+	if a < modul.a:
+		modul.a = a
 	
 	var texture = sprite.get_texture()
 	var sprite_centered = sprite.is_centered()
@@ -178,6 +182,7 @@ func get_type_priority(thing) -> int:
 		return type_priority.ACTOR
 	
 	return -1
+
 
 # Return true if the given cell should be transparent
 func is_cell_transparent(focus_cell: Vector3, cell: Vector3, height_dif : int) -> bool :

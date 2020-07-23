@@ -18,7 +18,8 @@ func set_current_cell(value: Vector3):
 		current_cell = value
 		if map_node.is_position_valid(value):
 			emit_signal("cell_changed", current_cell)
-			return
+			
+		return
 	
 	change_color(Color.transparent)
 
