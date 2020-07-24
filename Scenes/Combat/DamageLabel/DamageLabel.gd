@@ -35,7 +35,7 @@ func animate(tween_node: Tween):
 		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT, 0.2)
 	
 	_err = tween_node.interpolate_property(self, "modulate",
-		Color.white, Color.transparent, 2,
+		Color.white, Color.transparent, 1.6,
 		Tween.TRANS_LINEAR, Tween.EASE_OUT, 0.4)
 	
 	_err = tween_node.interpolate_property(self, "position",

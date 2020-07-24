@@ -91,7 +91,7 @@ func hide_infos():
 
 func hurt(damage: int):
 	set_current_HP(get_current_HP() - damage)
-	$AnimationPlayer.play("WhiteFlash")
+	$AnimationPlayer.play("RedFlash")
 	
 	yield($AnimationPlayer, "animation_finished")
 	emit_signal("hurt_animation_finished")

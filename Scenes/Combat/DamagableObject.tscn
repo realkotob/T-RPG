@@ -3,7 +3,7 @@
 [ext_resource path="res://AbstractClasses/DamagableObject.gd" type="Script" id=1]
 
 [sub_resource type="Animation" id=1]
-resource_name = "WhiteFlash"
+resource_name = "RedFlash"
 length = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
@@ -15,7 +15,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.1, 0.2 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 100, 100, 100, 1 ), Color( 1, 1, 1, 1 ) ]
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [node name="DamagableObject" type="Node2D"]
@@ -28,4 +28,4 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/WhiteFlash = SubResource( 1 )
+anims/RedFlash = SubResource( 1 )
