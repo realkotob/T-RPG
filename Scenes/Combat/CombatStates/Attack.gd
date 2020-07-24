@@ -48,7 +48,7 @@ func _unhandled_input(event):
 func instance_damage_label(damage: int, target: DamagableObject):
 	var damage_label = DAMAGE_LABEL_SCENE.instance()
 	damage_label.set_global_position(target.get_global_position())
-	damage_label.set_text(String(damage))
+	damage_label.set_damage(damage)
 	
 	owner.call_deferred("add_child", damage_label)
 
