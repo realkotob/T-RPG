@@ -8,3 +8,7 @@ func enter_state():
 	
 	yield(anim_player, "animation_finished")
 	states_machine.set_state("Idle")
+
+
+func exit_state():
+	owner.emit_signal("hurt_animation_finished")

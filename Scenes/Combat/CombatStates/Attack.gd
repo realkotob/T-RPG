@@ -43,6 +43,9 @@ func _unhandled_input(event):
 				var damage = compute_damage(active_actor, target)
 				instance_damage_label(damage, target)
 				target.hurt(damage)
+				
+				yield(target, "hurt_animation_finished")
+				states_machine.set_state("Overlook")
 
 
 func instance_damage_label(damage: int, target: DamagableObject):

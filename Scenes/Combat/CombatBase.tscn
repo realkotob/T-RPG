@@ -1,7 +1,7 @@
 [gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://Scenes/Combat/Renderer/Renderer.gd" type="Script" id=1]
-[ext_resource path="res://Scenes/Combat/DebugPanel.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/Combat/DebugPanel/DebugPanel.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/Combat/HUD/ActionMenu/CombatButton.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Actors/Allies/Character.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Global/GUI_theme/transparant_UI_theme.tres" type="Theme" id=5]
@@ -89,11 +89,13 @@ position = Vector2( 352, 200 )
 position = Vector2( 288, 216 )
 script = ExtResource( 16 )
 grid_height = 1
+passable = true
 
 [node name="Ella" parent="Map/Interactives/Actors/Allies" instance=ExtResource( 4 )]
 position = Vector2( 224, 168 )
 script = ExtResource( 16 )
 grid_height = 1
+passable = true
 
 [node name="Enemies" type="Node2D" parent="Map/Interactives/Actors"]
 
@@ -101,6 +103,7 @@ grid_height = 1
 modulate = Color( 1, 0, 0, 1 )
 position = Vector2( 320, 136 )
 script = ExtResource( 14 )
+passable = true
 
 [node name="Obstacles" type="Node2D" parent="Map/Interactives" index="3"]
 __meta__ = {

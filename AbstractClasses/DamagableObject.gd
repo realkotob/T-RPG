@@ -6,11 +6,14 @@ const LIFEBAR_SCENE = preload("res://Scenes/Combat/LifeBar/LifeBar.tscn")
 var current_HP : int = 0 setget set_current_HP, get_current_HP
 var max_HP : int = 0 setget set_max_HP, get_max_HP
 
+export var defense : int = 0 setget set_defense, get_defense
+
 var lifebar : Control
 var clickable_area : Area2D
 
 signal focused
 signal unfocused
+signal hurt_animation_finished
 
 #### ACCESSORS ####
 
@@ -25,6 +28,12 @@ func set_max_HP(value: int):
 
 func get_max_HP() -> int:
 	return max_HP
+
+func set_defense(value: int):
+	defense = value
+
+func get_defense() -> int:
+	return defense
 
 #### BUILT-IN FUNCTIONS ####
 
@@ -78,6 +87,14 @@ func show_infos():
 func hide_infos():
 	lifebar.set_visible(false)
 	emit_signal("unfocused", self)
+
+
+func hurt(damage: int):
+	set_current_HP(get_current_HP() - damage)
+	$AnimationPlayer.play("WhiteFlash")
+	
+	yield($AnimationPlayer, "animation_finished")
+	emit_signal("hurt_animation_finished")
 
 
 func destroy():

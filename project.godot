@@ -97,7 +97,7 @@ _global_script_classes=[ {
 "base": "DamagableObject",
 "class": "Obstacle",
 "language": "GDScript",
-"path": "res://AbstractClasses/Obstacles.gd"
+"path": "res://AbstractClasses/Obstacle.gd"
 }, {
 "base": "Node",
 "class": "PathFinding",
