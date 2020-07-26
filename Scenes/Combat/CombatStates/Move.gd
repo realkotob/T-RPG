@@ -11,6 +11,8 @@ var path := PoolVector3Array()
 
 var is_moving : bool = false
 
+#### BUILT-IN FUNCTIONS ####
+
 func _ready():
 	yield(owner, "ready")
 	
@@ -26,10 +28,7 @@ func _process(delta: float):
 		move_actor(delta)
 
 
-# Empty the path and potential path arrays
-func initialize_path_value():
-	path = []
-
+#### VIRTUAL FUNCTIONS ####
 
 # When the state is entered define the actor postiton, 
 # empty the path and path array, and set a path
@@ -50,26 +49,7 @@ func exit_state():
 	cursor_node.hide_target_counter(true)
 
 
-# On click, give the active actor its destination
-# Triggers the player movement
-func _unhandled_input(event):
-	if event is InputEventMouseButton && combat_states_node.get_state() == self:
-		if event.get_button_index() == BUTTON_LEFT && event.pressed:
-			if check_path(path):
-				is_moving = true
-				active_actor.set_current_actions(active_actor.get_current_actions() - 1)
-				area_node.clear() # Clear every cells in the area tilemap
-
-
-# When the cursor has moved, 
-# call the function that calculate a new path
-func on_cursor_change_cell(cursor_cell : Vector3):
-	if combat_states_node.get_state() == self:
-		if active_actor.get_state_name() == "Idle":
-			set_path(cursor_cell, active_actor.get_current_cell())
-			var targets = map_node.count_reachable_enemies(cursor_cell)
-			cursor_node.set_targets(targets)
-
+#### LOGIC ####
 
 # Ask the map for a path between current actor's cell and the cursor's cell
 func set_path(cursor_cell : Vector3, actor_cell : Vector3) -> void:
@@ -94,6 +74,7 @@ func check_path(path_to_check : PoolVector3Array) -> bool:
 	return len(path_to_check) > 0 and len(path_to_check) - 1 <= movements
 
 
+# Move the active_actor along the path
 func move_actor(delta: float):
 	if len(path) > 0:
 		var target_point_world = owner.map_node.cell_to_world(path[0])
@@ -111,10 +92,34 @@ func move_actor(delta: float):
 		movement_finished()
 
 
+# Empty the path and potential path arrays
+func initialize_path_value():
+	path = []
+
+
+#### SIGNAL REPONSES ####
+
+# On click, give the active actor its destination
+# Triggers the player movement
+func _unhandled_input(event):
+	if event is InputEventMouseButton && combat_states_node.get_state() == self:
+		if event.get_button_index() == BUTTON_LEFT && event.pressed:
+			if check_path(path):
+				is_moving = true
+				active_actor.decrement_current_action()
+				area_node.clear() # Clear every cells in the area tilemap
+
+
+# When the cursor has moved, 
+# call the function that calculate a new path
+func on_cursor_change_cell(cursor_cell : Vector3):
+	if combat_states_node.get_state() == self:
+		if active_actor.get_state_name() == "Idle":
+			set_path(cursor_cell, active_actor.get_current_cell())
+			var targets = map_node.count_reachable_enemies(cursor_cell)
+			cursor_node.set_targets(targets)
+
+
 # Trigerred when the movement is finished
 func movement_finished():
-	# If the active actor no longer has actions points, triggers a new turn 
-	if active_actor.get_current_actions() == 0:
-		emit_signal("turn_finished")
-	else:
-		combat_states_node.set_state("Overlook")
+	combat_states_node.set_state("Overlook")

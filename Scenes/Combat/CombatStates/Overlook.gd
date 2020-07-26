@@ -12,7 +12,6 @@ func _ready():
 
 # Called when the current state of the state machine is set to this node
 func enter_state():
-	var active_actor = owner.active_actor
 	var actor_height = active_actor.get_height()
 	owner.HUD_node.update_height(actor_height)
 	
@@ -27,6 +26,7 @@ func enter_state():
 		HUD_node.update_unabled_actions(move, attack, skill, item, wait)
 	else:
 		HUD_node.set_every_action_disabled()
+
 
 # Called when the current state of the state machine is switched to another one
 func exit_state():
@@ -59,5 +59,6 @@ func can_use_item() -> bool:
 func can_use_skill() -> bool:
 	return true
 
+# Check if the active actor can move
 func can_wait() -> bool:
 	return active_actor.get_current_actions() >= active_actor.get_max_actions()

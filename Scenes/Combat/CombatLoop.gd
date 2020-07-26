@@ -26,9 +26,9 @@ func set_active_actor(value: Actor):
 	if value != active_actor:
 		focused_objects_array.erase(active_actor)
 		if active_actor:
-			active_actor.set_passable(false)
+			active_actor.set_active(false)
 		active_actor = value
-		active_actor.set_passable(true)
+		active_actor.set_active(true)
 		focused_objects_array.append(active_actor)
 		emit_signal("active_actor_changed", active_actor)
 
@@ -79,12 +79,13 @@ func _ready():
 func new_turn():
 	previous_actor = active_actor
 	propagate_call("set_active_actor", [actors_order[0]], true)
+	
 	on_focus_changed()
 	
-	HUD_node.update_actions_left(active_actor.get_current_actions())
-	
 	combat_state_node.set_state("Overlook")
+	
 	active_actor.turn_start()
+	HUD_node.update_actions_left(active_actor.get_current_actions())
 
 
 # End of turn procedure, called right before a new turn start
@@ -154,6 +155,9 @@ func on_object_unfocused(focus_obj: IsoObject):
 
 func on_action_spent():
 	HUD_node.update_actions_left(active_actor.get_current_actions())
+	
+	if active_actor.get_current_actions() == 0:
+		end_turn()
 
 
 func on_actor_wait():

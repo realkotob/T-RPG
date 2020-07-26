@@ -67,5 +67,4 @@ func update_unabled_actions(move: bool, attack: bool, item : bool, skill: bool, 
 # Usually called on each new turn, and after each actions
 # Can also be called when a malus is applied to the actor
 func update_actions_left(value : int):
-	var actions_left = clamp(value, 0, 3) as int
-	actions_left_node.update_display(actions_left)
+	actions_left_node.update_display(value)

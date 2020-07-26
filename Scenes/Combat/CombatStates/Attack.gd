@@ -43,17 +43,20 @@ func _unhandled_input(event):
 				var damage = compute_damage(active_actor, target)
 				instance_damage_label(damage, target)
 				target.hurt(damage)
+				active_actor.decrement_current_action()
 				
 				yield(target, "hurt_animation_finished")
 				states_machine.set_state("Overlook")
 
 
+# Instanciate a damage label with the given amount on top of the given target
 func instance_damage_label(damage: int, target: DamagableObject):
 	var damage_label = DAMAGE_LABEL_SCENE.instance()
 	damage_label.set_global_position(target.get_global_position())
 	damage_label.set_damage(damage)
 	
 	owner.call_deferred("add_child", damage_label)
+
 
 # Return the target designated by the cursor
 func get_cursor_target() -> DamagableObject:

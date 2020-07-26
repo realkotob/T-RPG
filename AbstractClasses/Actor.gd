@@ -6,6 +6,7 @@ onready var move_node = $States/Move
 
 var area_node : TileMap
 var timeline_port_node : Node
+var active : bool = false
 
 export var portrait : Texture
 export var timeline_port : Texture
@@ -47,6 +48,13 @@ func _ready():
 
 
 ### ACCESORS ###
+
+func set_active(value: bool):
+	active = value
+	if active:
+		turn_start()
+	else:
+		turn_finish()
 
 func get_max_HP():
 	return MaxStats.get_HP()
@@ -129,17 +137,24 @@ func get_weapon() -> Resource:
 func get_defense() -> int:
 	return MaxStats.get_defense()
 
-#### LOGIC ####
-
-func move_to(delta: float, world_pos: Vector2) -> bool:
-	set_state("Move")
-	return $States/Move.move_to(delta, world_pos)
-
+#### CALLBACKS ####
 
 func turn_start():
 	set_current_actions(get_max_actions() + action_modifier)
 	action_modifier = 0
 
+func turn_finish():
+	pass
+
+#### LOGIC ####
+
+func decrement_current_action(amount : int = 1):
+	set_current_actions(get_current_actions() - amount)
+
+
+func move_to(delta: float, world_pos: Vector2) -> bool:
+	set_state("Move")
+	return $States/Move.move_to(delta, world_pos)
 
 func hurt(damage: int):
 	set_current_HP(get_current_HP() - damage)

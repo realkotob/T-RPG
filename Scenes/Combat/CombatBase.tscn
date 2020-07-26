@@ -88,13 +88,11 @@ position = Vector2( 352, 200 )
 [node name="Hart" parent="Map/Interactives/Actors/Allies" instance=ExtResource( 4 )]
 position = Vector2( 288, 216 )
 script = ExtResource( 16 )
-grid_height = 1
 passable = true
 
 [node name="Ella" parent="Map/Interactives/Actors/Allies" instance=ExtResource( 4 )]
 position = Vector2( 224, 168 )
 script = ExtResource( 16 )
-grid_height = 1
 passable = true
 
 [node name="Enemies" type="Node2D" parent="Map/Interactives/Actors"]
