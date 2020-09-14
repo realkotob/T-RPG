@@ -12,6 +12,9 @@ func set_active_actor(value: Actor):
 func get_active_actor() -> Actor:
 	return active_actor
 
+
+#### LOGIC ####
+
 # Create or destroy the right number of action to corespond the amount of action
 # the active actor has
 func update_action_number():

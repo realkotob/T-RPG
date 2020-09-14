@@ -116,6 +116,18 @@ func find_2D_cell(cell : Vector2, grid: PoolVector3Array = grounds) -> Vector3:
 	return Vector3.INF
 
 
+# Take an array of 2D cells and convert it to 3D cells using the height map
+# Each cell returned in the array is the highest at the given 2D position
+func array2D_to_grid_cells(line2D: Array) -> PoolVector3Array:
+	var cell_array : PoolVector3Array = []
+	for point in line2D:
+		var cell = find_2D_cell(point)
+		if cell != Vector3.INF:
+			cell_array.append(cell)
+	
+	return cell_array
+
+
 # Return the cell in the ground 0 grid pointed by the given position
 func world_to_ground_z(pos : Vector2, z : int = 0):
 	pos.y -= z * 16

@@ -19,8 +19,7 @@ func _ready():
 	combat_loop_node = owner
 	HUD_node = owner.HUD_node
 	
-	var _err
-	_err = cursor_node.connect("cell_changed", self, "on_cursor_change_cell")
+	var _err = cursor_node.connect("cell_changed", self, "on_cursor_change_cell")
 
 
 func _process(delta: float):
