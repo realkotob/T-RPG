@@ -8,5 +8,6 @@ func create():
 	pass
 
 func destroy():
-	remove_from_group("IsoObject")
+	if is_in_group("IsoObject"):
+		remove_from_group("IsoObject")
 	queue_free()

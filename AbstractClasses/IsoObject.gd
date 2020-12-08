@@ -15,20 +15,16 @@ signal position_changed
 
 #### ACCESSORS ####
 
-func set_map_node(value: Map):
-	map_node = value
+func set_map_node(value: Map): map_node = value
+func get_map_node() -> Map: return map_node
 
-func get_map_node() -> Map:
-	return map_node
-	
 func set_current_cell(value: Vector3):
 	var value_changed : bool = value != current_cell
 	current_cell = value
 	if value_changed && is_ready:
 		emit_signal("position_changed")
 
-func get_current_cell() -> Vector3:
-	return current_cell
+func get_current_cell() -> Vector3: return current_cell
 
 func set_grid_height(value : int):
 	var value_changed : bool = value != grid_height
@@ -36,8 +32,7 @@ func set_grid_height(value : int):
 	if value_changed && is_ready:
 		emit_signal("position_changed")
 
-func get_grid_height() -> int:
-	return grid_height
+func get_grid_height() -> int: return grid_height
 
 func set_passable(value : bool):
 	var value_changed : bool = value != passable
@@ -45,8 +40,7 @@ func set_passable(value : bool):
 	if value_changed && is_ready:
 		emit_signal("position_changed")
 
-func is_passable() -> bool:
-	return passable
+func is_passable() -> bool: return passable
 
 #### BUILT-IN ####
 
@@ -54,11 +48,7 @@ func _ready():
 	var combat_node = get_tree().get_current_scene()
 	map_node = combat_node.get_node("Map")
 	
-	if !map_node:
-		return
-	
-	if !map_node.is_ready:
-		yield(map_node, "ready")
+	if !map_node.is_ready: yield(map_node, "ready")
 	
 	# If the grid position hasn't been defined when instancied
 	# Define it based on the world position
@@ -78,8 +68,10 @@ func _ready():
 
 #### LOGIC ####
 
+
 func create():
 	emit_signal("created")
+
 
 func destroy():
 	remove_from_group("IsoObject")

@@ -3,8 +3,8 @@ class_name DamagableObject
 
 const LIFEBAR_SCENE = preload("res://Scenes/Combat/LifeBar/LifeBar.tscn")
 
+export var max_HP : int = 0 setget set_max_HP, get_max_HP
 var current_HP : int = 0 setget set_current_HP, get_current_HP
-var max_HP : int = 0 setget set_max_HP, get_max_HP
 
 export var defense : int = 0 setget set_defense, get_defense
 
@@ -18,16 +18,17 @@ signal hurt_animation_finished
 #### ACCESSORS ####
 
 func set_current_HP(value: int):
-	current_HP = value
+	if value >= 0 && value <= get_max_HP() && value != current_HP:
+		current_HP = value
+		if value == 0 :
+			destroy()
 
-func get_current_HP() -> int:
-	return current_HP
+func get_current_HP() -> int: return current_HP
 
 func set_max_HP(value: int):
 	max_HP = value
 
-func get_max_HP() -> int:
-	return max_HP
+func get_max_HP() -> int: return max_HP
 
 func set_defense(value: int):
 	defense = value
@@ -43,6 +44,7 @@ func _ready():
 	var _err = connect("focused", owner, "on_object_focused")
 	_err = connect("unfocused", owner, "on_object_unfocused")
 	
+	current_HP = max_HP
 	
 	generate_lifebar()
 	generate_clickable_area()
@@ -101,7 +103,10 @@ func destroy():
 	remove_from_group("IsoObject")
 	emit_signal("destroyed")
 	emit_signal("unfocused", self)
+	EXPLODE.scatter_sprite(self, 16)
 	queue_free()
+
+
 
 #### SIGNAL RESPONSES ####
 

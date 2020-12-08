@@ -73,7 +73,7 @@ func compute_damage(attacker: Actor, target: DamagableObject) -> int:
 	var att = attacker.get_weapon().get_attack()
 	var def = target.get_defense()
 	
-	return int(clamp(def - att, 0.0, INF))
+	return int(clamp(att - def, 0.0, INF))
 
 
 #### SIGNAL RESPONSES ####
