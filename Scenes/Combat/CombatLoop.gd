@@ -6,6 +6,7 @@ onready var area_node = $Map/Interactives/Areas
 onready var cursor_node = $Map/Interactives/Cursor
 onready var combat_state_node = $CombatState
 onready var HUD_node = $HUD
+onready var debug_panel = $DebugPanel
 
 onready var allies_array : Array = get_tree().get_nodes_in_group("Allies") setget set_future_actors_order
 onready var actors_order : Array = get_tree().get_nodes_in_group("Actors") setget set_actors_order
@@ -25,8 +26,7 @@ signal active_actor_changed
 func set_active_actor(value: Actor):
 	if value != active_actor:
 		focused_objects_array.erase(active_actor)
-		if active_actor:
-			active_actor.set_active(false)
+		if active_actor != null: active_actor.set_active(false)
 		active_actor = value
 		active_actor.set_active(true)
 		focused_objects_array.append(active_actor)
@@ -45,8 +45,9 @@ func get_active_actor() -> Actor:
 #### BUILT-IN ####
 
 func _ready():
-	var _err = connect("active_actor_changed", $DebugPanel, "_on_active_actor_changed")
-	_err = cursor_node.connect("max_z_changed", $DebugPanel, "_on_cursor_max_z_changed")
+	var _err = connect("active_actor_changed", debug_panel, "_on_active_actor_changed")
+	_err = cursor_node.connect("max_z_changed", debug_panel, "_on_cursor_max_z_changed")
+	_err = combat_state_node.connect("state_changed", debug_panel, "_on_combat_state_changed")
 	
 	HUD_node.generate_timeline(actors_order)
 	focused_objects_array = [cursor_node, active_actor]

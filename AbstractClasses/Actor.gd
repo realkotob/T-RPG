@@ -63,10 +63,16 @@ func get_max_actions(): return MaxStats.get_actions()
 func get_max_movements(): return MaxStats.get_movements()
 
 func get_current_HP(): return current_HP
-func set_current_HP(value : int): current_HP = value
+func set_current_HP(value : int):
+	if value >= 0 && value <= get_max_HP() && value != current_HP:
+		current_HP = value
+		Events.emit_signal("actor_stats_changed", self)
 
 func get_current_MP(): return current_MP
-func set_current_MP(value: int): current_MP = value
+func set_current_MP(value: int): 
+	if value >= 0 && value <= get_max_MP() && value != current_MP:
+		current_MP = value
+		Events.emit_signal("actor_stats_changed", self)
 
 func set_default_range(value: int): default_range = value
 func get_default_range() -> int: return default_range

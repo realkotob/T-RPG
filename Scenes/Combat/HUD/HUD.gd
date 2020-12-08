@@ -7,8 +7,6 @@ onready var actions_left_node = $ActiveActorInfos/ActionsLeft
 onready var timeline_node = $TimeLineStates/Timeline
 onready var height_node = $ActiveActorInfos/Height
 
-var combat_state_node : Node
-
 func _ready():
 	action_menu_node.set_visible(true)
 	active_actor_infos_node.set_visible(true)
