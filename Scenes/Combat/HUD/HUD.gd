@@ -7,15 +7,9 @@ onready var actions_left_node = $ActiveActorInfos/ActionsLeft
 onready var timeline_node = $TimeLineStates/Timeline
 onready var height_node = $ActiveActorInfos/Height
 
-var combat_loop_node : Node
 var combat_state_node : Node
 
 func _ready():
-	for child in get_children():
-		if "combat_loop_node" in child:
-			child.combat_loop_node = combat_loop_node
-	
-	# Set every HUD node visible (expect the debug)
 	action_menu_node.set_visible(true)
 	active_actor_infos_node.set_visible(true)
 	timeline_node.set_visible(true)
@@ -66,5 +60,5 @@ func update_unabled_actions(move: bool, attack: bool, item : bool, skill: bool, 
 # Update the display of actions left each time it's called
 # Usually called on each new turn, and after each actions
 # Can also be called when a malus is applied to the actor
-func update_actions_left(value : int):
-	actions_left_node.update_display(value)
+func update_actions_left(actor: Actor):
+	actions_left_node.update_display(actor)

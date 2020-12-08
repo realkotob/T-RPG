@@ -6,17 +6,17 @@ onready var actions_left_node = $ActionsLeft
 const ALLY_COLOR = Color("496d6f")
 const ENEMY_COLOR = Color.red
 
-var active_actor : Node setget set_active_actor
 
-func set_active_actor(actor: Node):
-	active_actor = actor
+func _ready():
+	var _err = Events.connect("combat_new_turn_started", self, "on_combat_new_turn_started")
 
-func new_turn():
+
+func on_combat_new_turn_started(actor: Actor):
 	# Update the portrait in the portrait_node
-	portrait_node.set_texture(active_actor.portrait)
+	portrait_node.set_texture(actor.portrait)
 	
 	# Update the portrait background
-	if active_actor is Enemy:
+	if actor is Enemy:
 		$PortraitContainer/Background.set_modulate(ENEMY_COLOR)
 	else:
 		$PortraitContainer/Background.set_modulate(ALLY_COLOR)

@@ -56,41 +56,23 @@ func set_active(value: bool):
 	else:
 		turn_finish()
 
-func get_max_HP():
-	return MaxStats.get_HP()
+func get_max_HP(): return MaxStats.get_HP()
+func get_max_MP(): return MaxStats.get_MP()
 
-func get_max_MP():
-	return MaxStats.get_MP()
+func get_max_actions(): return MaxStats.get_actions()
+func get_max_movements(): return MaxStats.get_movements()
 
-func get_max_actions():
-	return MaxStats.get_actions()
+func get_current_HP(): return current_HP
+func set_current_HP(value : int): current_HP = value
 
-func get_max_movements():
-	return MaxStats.get_movements()
+func get_current_MP(): return current_MP
+func set_current_MP(value: int): current_MP = value
 
-func get_current_HP():
-	return current_HP
+func set_default_range(value: int): default_range = value
+func get_default_range() -> int: return default_range
 
-func set_current_HP(value : int):
-	current_HP = value
-
-func get_current_MP():
-	return current_MP
-
-func set_current_MP(value : int):
-	current_MP = value
-
-func set_default_range(value: int):
-	default_range = value
-
-func get_default_range() -> int:
-	return default_range
-
-func set_current_range(value: int):
-	current_range = value
-
-func get_current_range() -> int:
-	return current_range
+func set_current_range(value: int): current_range = value
+func get_current_range() -> int: return current_range
 
 func set_current_actions(value : int):
 	var callback : bool = value < current_actions
@@ -98,44 +80,26 @@ func set_current_actions(value : int):
 	if callback:
 		emit_signal("action_spent")
 
-func get_current_actions():
-	return current_actions
+func get_current_actions(): return current_actions
 
-func get_current_movements():
-	return current_movements
+func get_current_movements(): return current_movements
 
-func set_current_movements(value : int):
-	current_movements = value
+func set_current_movements(value : int): current_movements = value
 
-func set_state(value : String):
-	states_node.set_state(value)
+func set_state(value : String): states_node.set_state(value)
+func get_state() -> Object: return states_node.get_state()
+func get_state_name() -> String: return states_node.get_state_name()
 
-func get_state() -> Object:
-	return states_node.get_state()
+func set_jump_max_height(value : int): jump_max_height = value
+func get_jump_max_height() -> int: return jump_max_height
 
-func get_state_name() -> String:
-	return states_node.get_state_name()
+func set_action_modifier(value: int): action_modifier = value
+func get_action_modifier() -> int: return action_modifier
 
-func set_jump_max_height(value : int):
-	jump_max_height = value
+func set_weapon(value: Weapon): weapon = value
+func get_weapon() -> Resource: return weapon
 
-func get_jump_max_height() -> int:
-	return jump_max_height
-
-func set_action_modifier(value: int):
-	action_modifier = value
-
-func get_action_modifier() -> int:
-	return action_modifier
-
-func set_weapon(value: Weapon):
-	weapon = value
-
-func get_weapon() -> Resource:
-	return weapon
-
-func get_defense() -> int:
-	return MaxStats.get_defense()
+func get_defense() -> int: return MaxStats.get_defense()
 
 #### CALLBACKS ####
 

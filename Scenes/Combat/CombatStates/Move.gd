@@ -17,9 +17,8 @@ func _ready():
 	yield(owner, "ready")
 	
 	combat_loop_node = owner
-	HUD_node = owner.HUD_node
 	
-	var _err = cursor_node.connect("cell_changed", self, "on_cursor_change_cell")
+	var _err = Events.connect("cursor_cell_changed", self, "_on_cursor_cell_changed")
 
 
 func _process(delta: float):
@@ -33,19 +32,19 @@ func _process(delta: float):
 # empty the path and path array, and set a path
 func enter_state():
 	initialize_path_value()
-	HUD_node.set_every_action_disabled()
+	owner.HUD_node.set_every_action_disabled()
 	
-	if active_actor != null:
-		map_node.draw_movement_area()
-		cursor_node.hide_target_counter(false)
+	if owner.active_actor != null:
+		owner.map_node.draw_movement_area()
+		owner.cursor_node.hide_target_counter(false)
 
 
 # Empty the path variable when the state is exited and 
 func exit_state():
 	initialize_path_value() # Empty the path
 	line_node.set_points([]) # Empty the line
-	area_node.clear()
-	cursor_node.hide_target_counter(true)
+	owner.area_node.clear()
+	owner.cursor_node.hide_target_counter(true)
 
 
 #### LOGIC ####
@@ -53,23 +52,23 @@ func exit_state():
 # Ask the map for a path between current actor's cell and the cursor's cell
 func set_path(cursor_cell : Vector3, actor_cell : Vector3) -> void:
 	
-	path = map_node.pathfinding.find_path(actor_cell, cursor_cell)
+	path = owner.map_node.pathfinding.find_path(actor_cell, cursor_cell)
 	
 	var is_path_valid = check_path(path)
 	if is_path_valid:
-		line_node.set_points(map_node.cell_array_to_world(path))
-		cursor_node.change_color(Color.white)
+		line_node.set_points(owner.map_node.cell_array_to_world(path))
+		owner.cursor_node.change_color(Color.white)
 	else:
 		line_node.set_points([])
-		cursor_node.change_color(Color.red)
+		owner.cursor_node.change_color(Color.red)
 
 
 # Check if the path is valid, return true if it is or false if not
 func check_path(path_to_check : PoolVector3Array) -> bool:
-	if active_actor == null or path.size() <= 1:
+	if owner.active_actor == null or path.size() <= 1:
 		return false
 	
-	var movements = active_actor.get_current_movements()
+	var movements = owner.active_actor.get_current_movements()
 	return len(path_to_check) > 0 and len(path_to_check) - 1 <= movements
 
 
@@ -77,17 +76,17 @@ func check_path(path_to_check : PoolVector3Array) -> bool:
 func move_actor(delta: float):
 	if len(path) > 0:
 		var target_point_world = owner.map_node.cell_to_world(path[0])
-		var arrived_to_next_point = active_actor.move_to(delta, target_point_world)
+		var arrived_to_next_point = owner.active_actor.move_to(delta, target_point_world)
 		
 		# If the actor is arrived to the next point, 
 		# remove this point from the path and take the next for destination
 		if arrived_to_next_point == true:
-			active_actor.set_current_cell(path[0])
+			owner.active_actor.set_current_cell(path[0])
 			path.remove(0)
 	
 	if len(path) == 0:
 		is_moving = false
-		active_actor.set_state("Idle")
+		owner.active_actor.set_state("Idle")
 		movement_finished()
 
 
@@ -105,18 +104,19 @@ func _unhandled_input(event):
 		if event.get_button_index() == BUTTON_LEFT && event.pressed:
 			if check_path(path):
 				is_moving = true
-				active_actor.decrement_current_action()
-				area_node.clear() # Clear every cells in the area tilemap
+				owner.active_actor.decrement_current_action()
+				owner.area_node.clear() # Clear every cells in the area tilemap
 
 
 # When the cursor has moved, 
 # call the function that calculate a new path
-func on_cursor_change_cell(cursor_cell : Vector3):
+func _on_cursor_cell_changed(cursor: Cursor):
 	if combat_states_node.get_state() == self:
-		if active_actor.get_state_name() == "Idle":
-			set_path(cursor_cell, active_actor.get_current_cell())
-			var targets = map_node.count_reachable_enemies(cursor_cell)
-			cursor_node.set_targets(targets)
+		if owner.active_actor.get_state_name() == "Idle":
+			var cursor_cell = cursor.get_current_cell()
+			set_path(cursor_cell, owner.active_actor.get_current_cell())
+			var targets = owner.map_node.count_reachable_enemies(cursor_cell)
+			cursor.set_targets(targets)
 
 
 # Trigerred when the movement is finished

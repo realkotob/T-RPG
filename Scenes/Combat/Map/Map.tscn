@@ -6,7 +6,6 @@
 [ext_resource path="res://Scenes/Combat/Area/WalkableArea/WalkableArea.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/Combat/Cursor/Cursor.tscn" type="PackedScene" id=6]
 
-
 [node name="Map" type="Node2D"]
 script = ExtResource( 2 )
 
@@ -22,3 +21,5 @@ script = ExtResource( 4 )
 [node name="Cursor" parent="Interactives" instance=ExtResource( 6 )]
 
 [node name="Layer" parent="." instance=ExtResource( 1 )]
+
+[editable path="Layer"]

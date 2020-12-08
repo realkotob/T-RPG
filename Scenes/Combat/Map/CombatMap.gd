@@ -14,8 +14,6 @@ var cell_path : PoolVector3Array = []
 var walkable_cells : PoolVector3Array = []
 var obstacles : Array = [] setget set_obstacles, get_obstacles
 
-var active_actor: Actor = null setget set_active_actor
-
 var is_ready : bool = false
 
 
@@ -25,13 +23,10 @@ func set_obstacles(array: Array):
 	if array != obstacles:
 		obstacles = array
 		walkable_cells = pathfinding.set_walkable_cells(grounds)
-		pathfinding.connect_walkable_cells(walkable_cells, active_actor)
+		pathfinding.connect_walkable_cells(walkable_cells, owner.active_actor)
 
 func get_obstacles() -> Array:
 	return obstacles
-
-func set_active_actor(value : Actor):
-	active_actor = value
 
 
 #### BUILT-IN FUNCTIONS ####
@@ -58,7 +53,7 @@ func _ready():
 	walkable_cells = pathfinding.set_walkable_cells(grounds)
 	
 	# Create the connections between all the walkable cells
-	pathfinding.connect_walkable_cells(walkable_cells, active_actor)
+	pathfinding.connect_walkable_cells(walkable_cells, owner.active_actor)
 	
 	is_ready = true
 
@@ -184,8 +179,8 @@ func is_outside_map_bounds(cell: Vector3):
 
 # Draw the movement of the given character
 func draw_movement_area():
-	var mov = active_actor.get_current_movements()
-	var map_pos = active_actor.get_current_cell()
+	var mov = owner.active_actor.get_current_movements()
+	var map_pos = owner.active_actor.get_current_cell()
 	var reachable_cells = pathfinding.find_reachable_cells(map_pos, mov)
 	area_node.draw_area(reachable_cells)
 
@@ -278,9 +273,9 @@ func get_adjacent_cells(cell: Vector3):
 	return adjacents
 
 # Return true if at least one target is reachable by the active actor
-func has_target_reachable() -> bool:
-	var actor_cell = active_actor.get_current_cell()
-	var actor_range = active_actor.get_current_range()
+func has_target_reachable(actor: Actor) -> bool:
+	var actor_cell = actor.get_current_cell()
+	var actor_range = actor.get_current_range()
 	var reachables = get_cells_in_range(actor_cell, actor_range)
 	
 	for cell in reachables:
@@ -294,8 +289,8 @@ func has_target_reachable() -> bool:
 
 
 # Return the number of targets reachable by the active actor 
-func count_reachable_enemies(active_cell: Vector3 = active_actor.get_current_cell()) -> int:
-	var actor_range = active_actor.get_current_range()
+func count_reachable_enemies(active_cell: Vector3 = owner.active_actor.get_current_cell()) -> int:
+	var actor_range = owner.active_actor.get_current_range()
 	var reachables = get_cells_in_range(active_cell, actor_range)
 	var count : int = 0
 	

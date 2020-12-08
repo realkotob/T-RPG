@@ -8,7 +8,6 @@ var grid2D_position := Vector2.ZERO
 var max_z : int = INF setget set_max_z, get_max_z
 var current_cell_max_z : int = INF
 
-signal cell_changed
 signal max_z_changed
 
 #### ACCESSORS ####
@@ -17,7 +16,7 @@ func set_current_cell(value: Vector3):
 	if value != current_cell:
 		current_cell = value
 		if map_node.is_position_valid(value):
-			emit_signal("cell_changed", current_cell)
+			Events.emit_signal("cursor_cell_changed", self)
 			
 		return
 	

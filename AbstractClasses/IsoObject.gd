@@ -54,6 +54,9 @@ func _ready():
 	var combat_node = get_tree().get_current_scene()
 	map_node = combat_node.get_node("Map")
 	
+	if !map_node:
+		return
+	
 	if !map_node.is_ready:
 		yield(map_node, "ready")
 	
@@ -67,7 +70,7 @@ func _ready():
 	add_to_group("IsoObject")
 	
 	# If the scene is already loaded (ie if the object is instanciated later)
-	if combat_node.is_ready == true:
+	if !combat_node.get("is_ready") or combat_node.is_ready == true:
 		create()
 	
 	is_ready = true

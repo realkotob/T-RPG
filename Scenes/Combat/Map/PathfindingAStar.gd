@@ -26,6 +26,7 @@ func set_walkable_cells(cell_array : PoolVector3Array):
 
 # Connect walkables cells together
 func connect_walkable_cells(cells_array: PoolVector3Array, active_actor: Actor):
+	if active_actor == null: return
 	
 	var max_height = active_actor.get_jump_max_height()
 	for cell in cells_array:

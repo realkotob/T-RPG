@@ -2,23 +2,15 @@ extends HBoxContainer
 
 onready var action_node_scene = preload("res://Scenes/Combat/HUD/ActorInfos/Actions/ActionLeft.tscn")
 
-var active_actor : Actor setget set_active_actor, get_active_actor
-
 #### ACCESSORS ####
-
-func set_active_actor(value: Actor):
-	active_actor = value
-
-func get_active_actor() -> Actor:
-	return active_actor
 
 
 #### LOGIC ####
 
 # Create or destroy the right number of action to corespond the amount of action
 # the active actor has
-func update_action_number():
-	var max_action = active_actor.get_max_actions() + active_actor.get_action_modifier()
+func update_action_number(actor: Actor):
+	var max_action = actor.get_max_actions() + actor.get_action_modifier()
 	
 	var nb_icon = get_child_count()
 	var diff = max_action - nb_icon
@@ -34,8 +26,9 @@ func update_action_number():
 
 # Make the lights appear/disappear,
 # based on the difference between the new value and actions_left
-func update_display(new_value: int):
-	update_action_number()
+func update_display(actor: Actor):
+	update_action_number(actor)
+	var new_value = actor.get_current_actions()
 	
 	var active_action = count_active_actions()
 	var offset = new_value - active_action
@@ -57,6 +50,8 @@ func update_display(new_value: int):
 	# Make the appropriate lights appear/disapear
 	var activate : bool = offset > 0
 	for i in range(abs(offset)):
+		if i + unactive_actions >= actions_node_array.size():
+			break
 		actions_node_array[i + unactive_actions].set_active(activate)
 
 

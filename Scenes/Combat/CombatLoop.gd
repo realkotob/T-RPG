@@ -42,18 +42,11 @@ func set_future_actors_order(value: Array):
 func get_active_actor() -> Actor:
 	return active_actor
 
-#### BUILT-IN FUNCTION ####
+#### BUILT-IN ####
 
 func _ready():
 	var _err = connect("active_actor_changed", $DebugPanel, "_on_active_actor_changed")
-	_err = cursor_node.connect("cell_changed", $DebugPanel, "_on_cursor_pos_changed")
 	_err = cursor_node.connect("max_z_changed", $DebugPanel, "_on_cursor_max_z_changed")
-	
-	propagate_call("set_map_node", [map_node], true)
-	propagate_call("set_active_actor", [actors_order[0]], true)
-	propagate_call("set_cursor_node", [cursor_node], true)
-	propagate_call("set_area_node", [area_node], true)
-	propagate_call("set_HUD_node", [HUD_node], true)
 	
 	HUD_node.generate_timeline(actors_order)
 	focused_objects_array = [cursor_node, active_actor]
@@ -70,7 +63,7 @@ func _ready():
 	is_ready = true
 	
 	# First turn trigger
-	propagate_call("new_turn", [], true)
+	new_turn()
 
 
 #### LOGIC ####
@@ -78,14 +71,15 @@ func _ready():
 # New turn procedure, set the new active_actor and previous_actor
 func new_turn():
 	previous_actor = active_actor
-	propagate_call("set_active_actor", [actors_order[0]], true)
+	set_active_actor(actors_order[0])
 	
 	on_focus_changed()
 	
 	combat_state_node.set_state("Overlook")
 	
 	active_actor.turn_start()
-	HUD_node.update_actions_left(active_actor.get_current_actions())
+	HUD_node.update_actions_left(active_actor)
+	Events.emit_signal("combat_new_turn_started", active_actor)
 
 
 # End of turn procedure, called right before a new turn start
@@ -127,7 +121,7 @@ func on_timeline_movement_finished():
 	HUD_node.update_timeline_order(actors_order)
 	
 	# Call the new turn
-	propagate_call("new_turn", [], true)
+	new_turn()
 
 
 func on_focus_changed():
@@ -154,7 +148,7 @@ func on_object_unfocused(focus_obj: IsoObject):
 
 
 func on_action_spent():
-	HUD_node.update_actions_left(active_actor.get_current_actions())
+	HUD_node.update_actions_left(active_actor)
 	
 	if active_actor.get_current_actions() == 0:
 		end_turn()

@@ -1,7 +1,5 @@
 extends StatesMachine
 
-var combat_loop_node : Node
-
 onready var timeline_node = $Timeline
 onready var idle_node = $Idle
 onready var extract_node = $Extract
@@ -10,7 +8,6 @@ onready var insert_node = $Insert
 
 func _ready():
 	yield(owner, "ready")
-	combat_loop_node = owner
 	
 	var _err = connect("state_changed", owner.get_node("DebugPanel"), "_on_timeline_state_changed")
 	
