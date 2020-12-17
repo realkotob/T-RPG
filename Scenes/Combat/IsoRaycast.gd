@@ -1,4 +1,5 @@
 extends Node
+class_name IsoRaycast
 
 onready var map_node = get_parent()
 

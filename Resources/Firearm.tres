@@ -5,5 +5,5 @@
 [resource]
 script = ExtResource( 1 )
 attack = 10
-attack_range = 3
+attack_range = 1
 range_type = 0

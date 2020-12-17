@@ -4,6 +4,9 @@ class_name CombatStateBase
 
 signal turn_finished
 
+var combat_loop : CombatLoop = null
+
+
 #### ACCESSORS ####
 
 
@@ -11,6 +14,9 @@ signal turn_finished
 
 func _ready():
 	var _err = connect("turn_finished", owner, "on_active_actor_turn_finished")
+	
+	yield(owner, "ready")
+	combat_loop = owner
 
 # Undo option
 func _input(event):

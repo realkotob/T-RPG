@@ -14,17 +14,11 @@ export var range_type : int = RANGE_TYPES.CIRCLE
 
 #### ACCESSORS ####
 
-func set_attack(value: int):
-	attack = value
+func set_attack(value: int): attack = value
+func get_attack() -> int: return attack
 
-func get_attack() -> int:
-	return attack
-
-func set_attack_range(value: int):
-	attack_range = value
-
-func get_attack_range() -> int:
-	return attack_range
+func set_attack_range(value: int): attack_range = value
+func get_attack_range() -> int: return attack_range
 
 #### BUILT-IN ####
 

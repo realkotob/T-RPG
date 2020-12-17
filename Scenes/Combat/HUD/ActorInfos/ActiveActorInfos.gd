@@ -12,7 +12,7 @@ const ENEMY_COLOR = Color.red
 
 func _ready():
 	var _err = Events.connect("combat_new_turn_started", self, "_on_combat_new_turn_started")
-	_err = Events.connect("actor_stats_changed", self, "_on_actor_stats_changed")
+	_err = Events.connect("active_actor_stats_changed", self, "_on_active_actor_stats_changed")
 
 
 #### LOGIC ####
@@ -43,5 +43,5 @@ func _on_combat_new_turn_started(actor: Actor):
 	update_portrait(actor)
 	update_jauges(actor)
 
-func _on_actor_stats_changed(actor: Actor):
+func _on_active_actor_stats_changed(actor: Actor):
 	update_jauges(actor)

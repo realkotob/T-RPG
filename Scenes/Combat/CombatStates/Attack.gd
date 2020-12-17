@@ -7,7 +7,6 @@ const DAMAGE_LABEL_SCENE := preload("res://Scenes/Combat/DamageLabel/DamageLabel
 #### BUILT-IN ####
 
 func _ready():
-	yield(owner, "ready")
 	var _err = Events.connect("cursor_cell_changed", self, "on_cursor_changed_cell")
 
 
@@ -16,21 +15,22 @@ func _ready():
 func enter_state():
 	generate_reachable_aera()
 #	on_cursor_changed_cell(Vector3.ZERO)
-	owner.HUD_node.set_every_action_disabled()
+	combat_loop.HUD_node.set_every_action_disabled()
 
 
 func exit_state():
-	owner.area_node.clear()
+	combat_loop.area_node.clear()
 
 
 #### LOGIC ####
 
 # Order the area to draw the reachable cells
 func generate_reachable_aera():
-	var actor_cell = owner.active_actor.get_current_cell()
-	var actor_range = owner.active_actor.get_current_range()
-	var reachables = owner.map_node.get_cells_in_range(actor_cell, actor_range)
-	owner.area_node.draw_area(reachables, 1)
+	var active_actor : Actor = combat_loop.active_actor
+	var actor_cell = active_actor.get_current_cell()
+	var actor_range = active_actor.get_current_range()
+	var reachables = combat_loop.map_node.get_cells_in_range(actor_cell, actor_range)
+	combat_loop.area_node.draw_area(reachables, AreaContainer.area_type.DAMAGE)
 
 
 # Target choice
@@ -40,10 +40,10 @@ func _unhandled_input(event):
 			
 			var target = get_cursor_target()
 			if target:
-				var damage = compute_damage(owner.active_actor, target)
+				var damage = compute_damage(combat_loop.active_actor, target)
 				instance_damage_label(damage, target)
 				target.hurt(damage)
-				owner.active_actor.decrement_current_action()
+				combat_loop.active_actor.decrement_current_action()
 				
 				yield(target, "hurt_animation_finished")
 				states_machine.set_state("Overlook")
@@ -55,14 +55,14 @@ func instance_damage_label(damage: int, target: DamagableObject):
 	damage_label.set_global_position(target.get_global_position())
 	damage_label.set_damage(damage)
 	
-	owner.call_deferred("add_child", damage_label)
+	combat_loop.call_deferred("add_child", damage_label)
 
 
 # Return the target designated by the cursor
 func get_cursor_target() -> DamagableObject:
-	var cursor_cell = owner.cursor_node.get_current_cell()
-	var object = owner.map_node.get_object_on_cell(cursor_cell)
-	if object is DamagableObject && cursor_cell in owner.area_node.get_area_cells():
+	var cursor_cell = combat_loop.cursor_node.get_current_cell()
+	var object = combat_loop.map_node.get_object_on_cell(cursor_cell)
+	if object is DamagableObject && cursor_cell in combat_loop.area_node.get_area_cells():
 		return object
 	else:
 		return null

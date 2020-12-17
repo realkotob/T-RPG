@@ -238,7 +238,7 @@ func get_object_on_cell(cell: Vector3) -> IsoObject:
 func get_cells_in_range(origin: Vector3, ran: int) -> PoolVector3Array:
 	var cells_in_range : PoolVector3Array = [origin]
 	var treated_cells = PoolVector3Array()
-	for _i in range (ran):
+	for _i in range(ran + 1):
 		for cell in cells_in_range:
 			# Discard already treated cells
 			if cell in treated_cells:

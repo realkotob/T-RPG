@@ -14,12 +14,13 @@ export var MaxStats : Resource
 
 export var weapon : Resource setget set_weapon, get_weapon
 
+var equipment : Array = []
+
 var current_actions : int = 0 setget set_current_actions, get_current_actions
 var current_movements : int = 0 setget set_current_movements, get_current_movements
 var current_MP : int = 0 setget set_current_MP, get_current_MP
 
 var default_range : int = 1 setget set_default_range, get_default_range
-var current_range : int = 1 setget set_current_range, get_current_range
 
 var action_modifier : int = 0 setget set_action_modifier, get_action_modifier
 var jump_max_height : int = 2 setget set_jump_max_height, get_jump_max_height
@@ -44,7 +45,7 @@ func _ready():
 	set_current_movements(get_max_movements())
 	set_current_HP(get_max_HP())
 	set_current_MP(get_max_MP())
-	set_current_range(get_default_range())
+	update_equipment()
 
 
 ### ACCESORS ###
@@ -66,19 +67,23 @@ func get_current_HP(): return current_HP
 func set_current_HP(value : int):
 	if value >= 0 && value <= get_max_HP() && value != current_HP:
 		current_HP = value
-		Events.emit_signal("actor_stats_changed", self)
+		Events.emit_signal("active_actor_stats_changed", self)
 
 func get_current_MP(): return current_MP
 func set_current_MP(value: int): 
 	if value >= 0 && value <= get_max_MP() && value != current_MP:
 		current_MP = value
-		Events.emit_signal("actor_stats_changed", self)
+		Events.emit_signal("active_actor_stats_changed", self)
 
 func set_default_range(value: int): default_range = value
 func get_default_range() -> int: return default_range
 
-func set_current_range(value: int): current_range = value
-func get_current_range() -> int: return current_range
+func get_current_range() -> int: 
+	var current_range = get_default_range()
+	for item in equipment:
+		if item.has_method("get_attack_range"):
+			current_range += item.get_attack_range()
+	return current_range
 
 func set_current_actions(value : int):
 	var callback : bool = value < current_actions
@@ -117,6 +122,10 @@ func turn_finish():
 	pass
 
 #### LOGIC ####
+
+func update_equipment():
+	equipment = [weapon]
+
 
 func decrement_current_action(amount : int = 1):
 	set_current_actions(get_current_actions() - amount)
