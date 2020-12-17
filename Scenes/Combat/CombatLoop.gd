@@ -20,6 +20,7 @@ var future_actors_order : Array
 var is_ready : bool = false
 
 signal active_actor_changed
+signal actor_action_finished(actor)
 
 #### ACCESSORS ####
 
@@ -42,6 +43,9 @@ func set_future_actors_order(value: Array):
 func get_active_actor() -> Actor:
 	return active_actor
 
+func set_state(state_name: String):
+	combat_state_node.set_state(state_name)
+
 #### BUILT-IN ####
 
 func _ready():
@@ -61,10 +65,10 @@ func _ready():
 	$Renderer.set_layers_array(layers_array)
 	on_iso_object_list_changed()
 	
-	is_ready = true
-	
 	# First turn trigger
 	new_turn()
+	
+	is_ready = true
 
 
 #### LOGIC ####
@@ -151,9 +155,14 @@ func on_object_unfocused(focus_obj: IsoObject):
 func on_action_spent():
 	HUD_node.update_actions_left(active_actor)
 	
+	yield(self, "actor_action_finished")
 	if active_actor.get_current_actions() == 0:
 		end_turn()
+	else:
+		set_state("Overlook")
 
 
 func on_actor_wait():
-	combat_state_node.set_state("Wait")
+	set_state("Wait")
+
+

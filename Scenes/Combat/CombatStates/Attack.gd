@@ -39,15 +39,16 @@ func _unhandled_input(event):
 	if event is InputEventMouseButton && get_parent().get_state() == self:
 		if event.get_button_index() == BUTTON_LEFT && event.pressed:
 			
+			var active_actor = combat_loop.active_actor
 			var target = get_cursor_target()
 			if target:
-				var damage = compute_damage(combat_loop.active_actor, target)
+				var damage = compute_damage(active_actor, target)
 				instance_damage_label(damage, target)
 				target.hurt(damage)
 				combat_loop.active_actor.decrement_current_action()
 				
 				yield(target, "hurt_animation_finished")
-				states_machine.set_state("Overlook")
+				owner.emit_signal("actor_action_finished", active_actor)
 
 
 # Instanciate a damage label with the given amount on top of the given target

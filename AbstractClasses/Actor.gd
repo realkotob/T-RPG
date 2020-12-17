@@ -14,6 +14,8 @@ export var MaxStats : Resource
 
 export var weapon : Resource setget set_weapon, get_weapon
 
+var items : Array = []
+var skills : Array = []
 var equipment : Array = []
 
 var current_actions : int = 0 setget set_current_actions, get_current_actions
@@ -94,6 +96,7 @@ func set_weapon(value: Weapon): weapon = value
 func get_weapon() -> Resource: return weapon
 
 func get_defense() -> int: return MaxStats.get_defense()
+
 
 #### BUILT-IN ####
 

@@ -9,8 +9,8 @@ static func get_line(map_node: Map, origin: Vector3, dest: Vector3) -> PoolVecto
 
 
 # Get every cells visible between the origin and the destination
-static func get_line_of_sight(map_node: Map, h: int, line: PoolVector3Array) -> PoolVector3Array:
-	var origin = line[0] + Vector3(0, 0, h)
+static func get_line_of_sight(map_node: Map, _h: int, line: PoolVector3Array) -> PoolVector3Array:
+	var origin = line[0]# + Vector3(0, 0, h - 1)
 	var dest = line[-1]
 	var line_of_sight : PoolVector3Array = []
 	var to_dest_slope = get_slope(origin, dest)
@@ -27,16 +27,16 @@ static func get_line_of_sight(map_node: Map, h: int, line: PoolVector3Array) -> 
 			var obj_cell = obj.get_current_cell()
 			var obj_height = obj.get_grid_height()
 			obj_visible_point = obj_cell
-			obj_visible_point.z += obj_height
+			obj_visible_point.z += obj_height - 1
 			current_slope = get_slope(origin, obj_visible_point)
 		
 		line_of_sight.append(cell)
 		
 		if current_slope > to_dest_slope:
 			if obj:
-				if obj_visible_point.z > origin.z:
+				if obj_visible_point.z >= origin.z:
 					break
-			elif cell.z > origin.z:
+			elif cell.z >= origin.z:
 				 break
 	
 	return line_of_sight

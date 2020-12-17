@@ -51,14 +51,13 @@ func can_move() -> bool:
 
 # Check if the actor can attack (ie if a target is reachable)
 func can_attack() -> bool:
-	return true
-#	return owner.map_node.has_target_reachable(owner.active_actor)
+	return owner.map_node.has_target_reachable(owner.active_actor)
 
 func can_use_item() -> bool:
-	return true
+	return !owner.active_actor.items.empty()
 
 func can_use_skill() -> bool:
-	return true
+	return !owner.active_actor.skills.empty()
 
 # Check if the active actor can move
 func can_wait() -> bool:

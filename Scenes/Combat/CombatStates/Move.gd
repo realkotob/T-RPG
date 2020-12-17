@@ -20,7 +20,6 @@ func _ready():
 	
 	var _err = Events.connect("cursor_cell_changed", self, "_on_cursor_cell_changed")
 
-
 func _process(delta: float):
 	if is_moving:
 		move_actor(delta)
@@ -87,7 +86,7 @@ func move_actor(delta: float):
 	if len(path) == 0:
 		is_moving = false
 		owner.active_actor.set_state("Idle")
-		movement_finished()
+		owner.emit_signal("actor_action_finished", owner.active_actor)
 
 
 # Empty the path and potential path arrays
@@ -117,8 +116,3 @@ func _on_cursor_cell_changed(cursor: Cursor):
 			set_path(cursor_cell, owner.active_actor.get_current_cell())
 			var targets = owner.map_node.count_reachable_enemies(cursor_cell)
 			cursor.set_targets(targets)
-
-
-# Trigerred when the movement is finished
-func movement_finished():
-	combat_states_node.set_state("Overlook")
