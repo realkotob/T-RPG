@@ -14,8 +14,8 @@ func on_cursor_changed_cell(cursor: Cursor):
 		return
 	
 	var cursor_cell = cursor.get_current_cell()
-	owner.area_node.clear()
-	var iso_raycast_node = owner.map_node.get_node("IsoRaycast")
-	var actor_cell = owner.active_actor.get_current_cell()
-	var line = iso_raycast_node.get_line_of_sight(actor_cell, cursor_cell)
-	owner.area_node.draw_area(line)
+	combat_loop.area_node.clear()
+	var actor_cell = combat_loop.active_actor.get_current_cell()
+	
+	var line = IsoRaycast.get_line(combat_loop.map_node, actor_cell, cursor_cell)
+	combat_loop.area_node.draw_area(line)

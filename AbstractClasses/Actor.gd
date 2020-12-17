@@ -29,24 +29,6 @@ var move_speed : float = 300
 
 signal action_spent
 
-#### BUILT-IN FUNCTIONS ####
-
-# Add the node to the group allies
-func _init():
-	add_to_group("Actors")
-
-
-# Set the current stats to the starting stats
-func _ready():
-	var combat_node = get_tree().get_current_scene()
-	var _err = connect("action_spent", combat_node, "on_action_spent")
-	
-	set_current_actions(get_max_actions())
-	set_current_movements(get_max_movements())
-	set_current_HP(get_max_HP())
-	set_current_MP(get_max_MP())
-	update_equipment()
-
 
 ### ACCESORS ###
 
@@ -79,7 +61,9 @@ func set_default_range(value: int): default_range = value
 func get_default_range() -> int: return default_range
 
 func get_current_range() -> int: 
-	var current_range = get_default_range()
+	var current_range = get_default_range() if weapon == null else 0
+	if !weapon: return current_range
+	
 	for item in equipment:
 		if item.has_method("get_attack_range"):
 			current_range += item.get_attack_range()
@@ -93,9 +77,8 @@ func set_current_actions(value : int):
 
 func get_current_actions(): return current_actions
 
-func get_current_movements(): return current_movements
-
 func set_current_movements(value : int): current_movements = value
+func get_current_movements(): return current_movements
 
 func set_state(value : String): states_node.set_state(value)
 func get_state() -> Object: return states_node.get_state()
@@ -111,6 +94,25 @@ func set_weapon(value: Weapon): weapon = value
 func get_weapon() -> Resource: return weapon
 
 func get_defense() -> int: return MaxStats.get_defense()
+
+#### BUILT-IN ####
+
+# Add the node to the group allies
+func _init():
+	add_to_group("Actors")
+
+
+# Set the current stats to the starting stats
+func _ready():
+	var combat_node = get_tree().get_current_scene()
+	var _err = connect("action_spent", combat_node, "on_action_spent")
+	
+	set_current_actions(get_max_actions())
+	set_current_movements(get_max_movements())
+	set_current_HP(get_max_HP())
+	set_current_MP(get_max_MP())
+	update_equipment()
+
 
 #### CALLBACKS ####
 

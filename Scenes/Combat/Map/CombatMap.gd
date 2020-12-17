@@ -238,7 +238,7 @@ func get_object_on_cell(cell: Vector3) -> IsoObject:
 func get_cells_in_range(origin: Vector3, ran: int) -> PoolVector3Array:
 	var cells_in_range : PoolVector3Array = [origin]
 	var treated_cells = PoolVector3Array()
-	for _i in range(ran + 1):
+	for _i in range(ran):
 		for cell in cells_in_range:
 			# Discard already treated cells
 			if cell in treated_cells:
@@ -255,10 +255,30 @@ func get_cells_in_range(origin: Vector3, ran: int) -> PoolVector3Array:
 	return cells_in_range
 
 
+# Get the reachable cells in the given range. Returns a PoolVector3Array of visible & reachable cells
+func get_reachable_cells(origin: Vector3, h: int, ran: int) -> PoolVector3Array:
+	var ranged_cells = get_cells_in_range(origin, ran)
+	var reachable_cells := PoolVector3Array()
+	
+	for i in range(ranged_cells.size()):
+		var cell = ranged_cells[-i - 1]
+		
+		if cell in reachable_cells: continue
+		
+		var line = IsoRaycast.get_line(self, origin, cell)
+		
+		var valid_cells = IsoRaycast.get_line_of_sight(self, h, line)
+		for c in valid_cells:
+			if not c in reachable_cells:
+				reachable_cells.append(c)
+	
+	return reachable_cells
+
+
 # Get the adjacent cells of the given one
 func get_adjacent_cells(cell: Vector3):
 	var adjacents : PoolVector3Array = []
-	var relatives : Array = [
+	var relatives : Array = [ 
 		Vector2(cell.x + 1, cell.y),
 		Vector2(cell.x, cell.y + 1),
 		Vector2(cell.x - 1, cell.y),
