@@ -8,6 +8,7 @@ func _ready():
 	yield(owner, "ready")
 	var _err = Events.connect("cursor_cell_changed", self, "on_cursor_changed_cell")
 
+
 #### VIRTUALS ####
 
 # Called when the current state of the state machine is set to this node

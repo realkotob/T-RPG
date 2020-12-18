@@ -20,6 +20,7 @@ var future_actors_order : Array
 var is_ready : bool = false
 
 signal active_actor_changed
+#warning-ignore:unused_signal
 signal actor_action_finished(actor)
 
 #### ACCESSORS ####
@@ -45,6 +46,7 @@ func get_active_actor() -> Actor:
 
 func set_state(state_name: String):
 	combat_state_node.set_state(state_name)
+
 
 #### BUILT-IN ####
 

@@ -292,6 +292,7 @@ func get_adjacent_cells(cell: Vector3):
 	
 	return adjacents
 
+
 # Return true if at least one target is reachable by the active actor
 func has_target_reachable(actor: Actor) -> bool:
 	var actor_cell = actor.get_current_cell()

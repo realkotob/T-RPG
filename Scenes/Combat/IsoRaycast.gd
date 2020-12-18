@@ -9,37 +9,38 @@ static func get_line(map_node: Map, origin: Vector3, dest: Vector3) -> PoolVecto
 
 
 # Get every cells visible between the origin and the destination
-static func get_line_of_sight(map_node: Map, _h: int, line: PoolVector3Array) -> PoolVector3Array:
-	var origin = line[0]# + Vector3(0, 0, h - 1)
+static func get_line_of_sight(map_node: Map, h: int, line: PoolVector3Array) -> PoolVector3Array:
+	var origin = line[0] + Vector3(0, 0, h)
 	var dest = line[-1]
+	var line_xz = get_line_2D(Vector2(origin.x, origin.z), Vector2(dest.x, dest.z))
 	var line_of_sight : PoolVector3Array = []
-	var to_dest_slope = get_slope(origin, dest)
+	
 	for cell in line:
-		if cell == origin: continue
-		
+		if cell == line[0]: continue
+
+		var max_z = find_smallest_y(line_xz, cell.x)
+		var current_z = cell.z
 		var obj : IsoObject = map_node.get_object_on_cell(cell)
-		var obj_visible_point = cell
-		var current_slope : int = 0
 		
-		if obj == null: # Empty cell
-			current_slope = get_slope(origin, cell)
-		else: # Cell with an object
-			var obj_cell = obj.get_current_cell()
-			var obj_height = obj.get_grid_height()
-			obj_visible_point = obj_cell
-			obj_visible_point.z += obj_height - 1
-			current_slope = get_slope(origin, obj_visible_point)
+		if obj != null:
+			current_z += obj.get_grid_height()
 		
 		line_of_sight.append(cell)
-		
-		if current_slope > to_dest_slope:
-			if obj:
-				if obj_visible_point.z >= origin.z:
-					break
-			elif cell.z >= origin.z:
-				 break
+		if current_z > max_z: 
+			break
 	
 	return line_of_sight
+
+
+# Find the point with the given y that has the 
+# smallest y and returns the value of the y
+static func find_smallest_y(line2D: PoolVector3Array, x: int):
+	var smallest_y = INF
+	for point in line2D:
+		if point.x != x: continue
+		if point.y < smallest_y:
+			smallest_y = point.y
+	return smallest_y
 
 
 # Get the height dif between the two given cells

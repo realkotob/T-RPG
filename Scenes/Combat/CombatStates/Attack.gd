@@ -14,7 +14,6 @@ func _ready():
 
 func enter_state():
 	generate_reachable_aera()
-#	on_cursor_changed_cell(Vector3.ZERO)
 	combat_loop.HUD_node.set_every_action_disabled()
 
 

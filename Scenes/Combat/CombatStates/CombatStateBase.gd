@@ -4,6 +4,7 @@ class_name CombatStateBase
 
 signal turn_finished
 
+var state_machine : StatesMachine = null
 var combat_loop : CombatLoop = null
 
 
@@ -17,6 +18,7 @@ func _ready():
 	
 	yield(owner, "ready")
 	combat_loop = owner
+	state_machine = get_parent()
 
 # Undo option
 func _input(event):

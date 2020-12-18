@@ -20,8 +20,6 @@ signal hurt_animation_finished
 func set_current_HP(value: int):
 	if value >= 0 && value <= get_max_HP() && value != current_HP:
 		current_HP = value
-		if value == 0 :
-			destroy()
 
 func get_current_HP() -> int: return current_HP
 
@@ -94,9 +92,13 @@ func hide_infos():
 func hurt(damage: int):
 	set_current_HP(get_current_HP() - damage)
 	$AnimationPlayer.play("RedFlash")
-	
 	yield($AnimationPlayer, "animation_finished")
 	emit_signal("hurt_animation_finished")
+	
+	if get_current_HP() == 0:
+		destroy()
+	
+
 
 
 func destroy():
