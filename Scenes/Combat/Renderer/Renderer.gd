@@ -10,7 +10,7 @@ var objects_array : Array = [] setget set_objects_array
 var ground_cells_array : Array = []
 
 var sorting_array : Array = []
-var visible_cells := PoolVector3Array()
+var visible_cells := PoolVector3Array() setget set_visible_cells, get_visible_cells
 
 var focus_array : Array = [] setget set_focus_array, get_focus_array
 
@@ -37,14 +37,14 @@ func set_layers_array(array: Array):
 func set_objects_array(array: Array):
 	objects_array = array
 
+func set_visible_cells(value: PoolVector3Array): visible_cells = value
+func get_visible_cells() -> PoolVector3Array: return visible_cells
 
 #### BUILT-IN ####
 
-func _ready() -> void:
-	var _err = Events.connect("visible_cells_changed", self, "_on_visible_cells_changed")
-
 func _process(_delta):
 	update()
+
 
 func _draw():
 	sorting_array = ground_cells_array + objects_array
@@ -115,7 +115,7 @@ func draw_object(obj: IsoObject):
 	var cell = obj.get_current_cell()
 	var a : float = 1.0
 	var mod = obj.get_modulate()
-	var is_visible : bool = cell in visible_cells or obj is TileArea
+	var is_visible : bool = obj.is_currently_visible() or obj is TileArea
 	
 	if !is_visible:
 		if obj is Enemy:
@@ -296,11 +296,3 @@ func xyz_sum_compare(a, b) -> bool:
 
 
 #### SIGNAL RESPONSES ####
-
-func _on_visible_cells_changed():
-	var allies_array = get_tree().get_nodes_in_group("Allies")
-	visible_cells = []
-	for ally in allies_array:
-		for cell in ally.view_field:
-			if not cell in visible_cells:
-				visible_cells.append(cell)

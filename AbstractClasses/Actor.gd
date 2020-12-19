@@ -29,7 +29,7 @@ var jump_max_height : int = 2 setget set_jump_max_height, get_jump_max_height
 
 var move_speed : float = 300
 
-var view_field = PoolVector3Array()
+var view_field = PoolVector3Array() setget set_view_field, get_view_field
 
 signal action_spent
 
@@ -104,6 +104,13 @@ func get_defense() -> int: return MaxStats.get_defense()
 
 func get_view_range() -> int: return MaxStats.get_view_range()
 
+func set_view_field(value: PoolVector3Array):
+	if value != view_field:
+		view_field = value
+		if self.is_class("Ally"):
+			Events.emit_signal("visible_cells_changed")
+
+func get_view_field() -> PoolVector3Array: return view_field
 
 #### BUILT-IN ####
 
@@ -154,11 +161,3 @@ func hurt(damage: int):
 # Return the altitude of the current cell of the character
 func get_altitude() -> int:
 	return int(current_cell.z)
-
-
-func update_view_field(new_view_field: PoolVector3Array):
-	if new_view_field != view_field:
-		view_field = new_view_field
-		
-		if self.is_class("Ally"):
-			Events.emit_signal("visible_cells_changed")

@@ -5,6 +5,7 @@ var map_node : Map = null setget set_map_node, get_map_node
 var current_cell := Vector3.INF setget set_current_cell, get_current_cell
 
 var is_ready : bool = false
+var currently_visible : bool = true setget set_currently_visible, is_currently_visible
 
 export var grid_height : int = 1 setget set_height, get_height
 export var passable : bool = true setget set_passable, is_passable
@@ -41,6 +42,9 @@ func set_passable(value : bool):
 		emit_signal("position_changed")
 
 func is_passable() -> bool: return passable
+
+func set_currently_visible(value: bool): currently_visible = value
+func is_currently_visible() -> bool: return currently_visible
 
 #### BUILT-IN ####
 

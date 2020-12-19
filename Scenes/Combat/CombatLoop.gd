@@ -20,6 +20,8 @@ var future_actors_order : Array
 var is_ready : bool = false
 var fog_of_war : bool = true
 
+var visible_cells := PoolVector3Array()
+
 signal active_actor_changed
 #warning-ignore:unused_signal
 signal actor_action_finished(actor)
@@ -51,10 +53,11 @@ func set_state(state_name: String):
 
 #### BUILT-IN ####
 
-func _ready():
+func _ready() -> void:
 	var _err = connect("active_actor_changed", debug_panel, "_on_active_actor_changed")
 	_err = cursor_node.connect("max_z_changed", debug_panel, "_on_cursor_max_z_changed")
 	_err = combat_state_node.connect("state_changed", debug_panel, "_on_combat_state_changed")
+	_err = Events.connect("visible_cells_changed", self, "_on_visible_cells_changed")
 	
 	HUD_node.generate_timeline(actors_order)
 	focused_objects_array = [cursor_node, active_actor]
@@ -172,3 +175,15 @@ func on_actor_wait():
 	set_state("Wait")
 
 
+func _on_visible_cells_changed():
+	visible_cells = []
+	for ally in allies_array:
+		for cell in ally.get_view_field():
+			if not cell in visible_cells:
+				visible_cells.append(cell)
+	
+	for obj in get_tree().get_nodes_in_group("IsoObject"):
+		obj.set_currently_visible(obj.get_current_cell() in visible_cells)
+	
+	
+	$Renderer.set_visible_cells(visible_cells)

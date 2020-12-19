@@ -79,9 +79,10 @@ func generate_clickable_area():
 
 # Show the known actors infos
 func show_infos():
-	lifebar.update()
-	lifebar.set_visible(true)
-	emit_signal("focused", self)
+	if is_currently_visible():
+		lifebar.update()
+		lifebar.set_visible(true)
+		emit_signal("focused", self)
 
 # Hide the infos 
 func hide_infos():
@@ -97,9 +98,6 @@ func hurt(damage: int):
 	
 	if get_current_HP() == 0:
 		destroy()
-	
-
-
 
 func destroy():
 	remove_from_group("IsoObject")
@@ -107,7 +105,6 @@ func destroy():
 	emit_signal("unfocused", self)
 	EXPLODE.scatter_sprite(self, 16)
 	queue_free()
-
 
 
 #### SIGNAL RESPONSES ####

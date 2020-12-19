@@ -300,7 +300,7 @@ func update_view_field(actor: Actor):
 	var actor_height = actor.get_height()
 	
 	var visible_cells = get_reachable_cells(actor_cell, actor_height, view_range, true)
-	actor.view_field = visible_cells
+	actor.set_view_field(visible_cells)
 	Events.emit_signal("visible_cells_changed")
 
 
