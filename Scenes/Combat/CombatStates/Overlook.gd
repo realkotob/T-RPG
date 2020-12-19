@@ -13,25 +13,33 @@ func _ready():
 
 # Called when the current state of the state machine is set to this node
 func enter_state():
-	var actor_height = owner.active_actor.get_height()
-	owner.HUD_node.update_height(actor_height)
+	if !owner.is_ready:
+		yield(owner, "ready")
+	
+	var active_actor = combat_loop.active_actor
+	var actor_height = active_actor.get_height()
+	combat_loop.HUD_node.update_height(actor_height)
 	
 	# Update the actions
-	if owner.active_actor is Ally:
+	if active_actor is Ally:
 		var move = can_move()
 		var attack = can_attack()
 		var skill = can_use_skill()
 		var item = can_use_item()
 		var wait = can_wait()
 		
-		owner.HUD_node.update_unabled_actions(move, attack, skill, item, wait)
+		combat_loop.HUD_node.update_unabled_actions(move, attack, skill, item, wait)
 	else:
-		owner.HUD_node.set_every_action_disabled()
+		combat_loop.HUD_node.set_every_action_disabled()
+	
+	# Update the view field in case of fog of war
+	if combat_loop.fog_of_war:
+		combat_loop.map_node.update_view_field(active_actor)
 
 
 # Called when the current state of the state machine is switched to another one
 func exit_state():
-	pass
+	combat_loop.area_node.clear()
 
 
 #### SIGNAL RESPONSES ####

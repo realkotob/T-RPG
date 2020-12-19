@@ -23,7 +23,7 @@ static func get_line_of_sight(map_node: Map, h: int, line: PoolVector3Array) -> 
 		var obj : IsoObject = map_node.get_object_on_cell(cell)
 		
 		if obj != null:
-			current_z += obj.get_grid_height()
+			current_z += obj.get_height()
 		
 		line_of_sight.append(cell)
 		if current_z > max_z: 

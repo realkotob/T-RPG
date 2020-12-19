@@ -1,14 +1,12 @@
 extends Node2D
 class_name AreaContainer
 
-const MOVE_AREA = preload("res://Scenes/Combat/Area/WalkableArea/WalkableArea.tscn")
-const DAMAGE_AREA = preload("res://Scenes/Combat/Area/DamageArea/DamageArea.tscn")
 
-enum area_type {
-	MOVE
-	DAMAGE
+var area_dict = {
+	"move" : preload("res://Scenes/Combat/Area/WalkableArea/WalkableArea.tscn"),
+	"damage" : preload("res://Scenes/Combat/Area/DamageArea/DamageArea.tscn"),
+	"view": preload("res://Scenes/Combat/Area/ViewArea/ViewArea.tscn")
 }
-
 
 signal area_created
 signal area_destroyed
@@ -28,11 +26,12 @@ func clear():
 
 
 # Draw the given area, at the given positions contained in the cell_array
-func draw_area(cell_array : Array, type: int = area_type.MOVE) -> void:
+func draw_area(cell_array : Array, area_type_name: String) -> void:
 	var new_area_type: PackedScene = null
-	match(type):
-		area_type.MOVE: new_area_type = MOVE_AREA
-		area_type.DAMAGE: new_area_type = DAMAGE_AREA
+	
+	var area_dict_keys = area_dict.keys()
+	if area_type_name in area_dict_keys:
+		new_area_type = area_dict[area_type_name]
 	
 	for cell in cell_array:
 		var pos = owner.cell_to_world(cell)

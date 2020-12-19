@@ -10,3 +10,4 @@ actions = 2
 movements = 5
 attack_range = 3
 defense = 3
+view_range = 5

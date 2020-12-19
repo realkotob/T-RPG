@@ -16,7 +16,6 @@ var obstacles : Array = [] setget set_obstacles, get_obstacles
 
 var is_ready : bool = false
 
-
 #### ACCESSORS ####
 
 func set_obstacles(array: Array):
@@ -66,8 +65,7 @@ func _ready():
 func hide_all_rendered_nodes(node: Node):
 	if node.get_child_count() == 0:
 		if node is CanvasItem and not node is Control:
-			if node != layer_0_node:
-				node.set_visible(false) 
+			node.set_visible(false) 
 	else:
 		for child in node.get_children():
 			hide_all_rendered_nodes(child)
@@ -182,7 +180,7 @@ func draw_movement_area():
 	var mov = owner.active_actor.get_current_movements()
 	var map_pos = owner.active_actor.get_current_cell()
 	var reachable_cells = pathfinding.find_reachable_cells(map_pos, mov)
-	area_node.draw_area(reachable_cells)
+	area_node.draw_area(reachable_cells, "move")
 
 
 # Take a cell and return its world position
@@ -256,9 +254,12 @@ func get_cells_in_range(origin: Vector3, ran: int) -> PoolVector3Array:
 
 
 # Get the reachable cells in the given range. Returns a PoolVector3Array of visible & reachable cells
-func get_reachable_cells(origin: Vector3, h: int, ran: int) -> PoolVector3Array:
+func get_reachable_cells(origin: Vector3, h: int, ran: int, include_self_cell: bool = false) -> PoolVector3Array:
 	var ranged_cells = get_cells_in_range(origin, ran)
 	var reachable_cells := PoolVector3Array()
+	
+	if include_self_cell:
+		reachable_cells.append(origin)
 	
 	for i in range(ranged_cells.size()):
 		var cell = ranged_cells[-i - 1]
@@ -291,6 +292,16 @@ func get_adjacent_cells(cell: Vector3):
 			adjacents.append(adj)
 	
 	return adjacents
+
+
+func update_view_field(actor: Actor):
+	var view_range = actor.get_view_range()
+	var actor_cell = actor.get_current_cell()
+	var actor_height = actor.get_height()
+	
+	var visible_cells = get_reachable_cells(actor_cell, actor_height, view_range, true)
+	actor.view_field = visible_cells
+	Events.emit_signal("visible_cells_changed")
 
 
 # Return true if at least one target is reachable by the active actor

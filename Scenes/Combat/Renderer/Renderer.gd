@@ -10,6 +10,7 @@ var objects_array : Array = [] setget set_objects_array
 var ground_cells_array : Array = []
 
 var sorting_array : Array = []
+var visible_cells := PoolVector3Array()
 
 var focus_array : Array = [] setget set_focus_array, get_focus_array
 
@@ -21,15 +22,14 @@ enum type_priority {
 	ACTOR
 }
 
-func set_focus_array(array: Array):
-	focus_array = array
+#### ACCESSORS ####
 
-func get_focus_array() -> Array:
-	return focus_array
+func set_focus_array(array: Array): focus_array = array
+func get_focus_array() -> Array: return focus_array
 
 func set_layers_array(array: Array):
 	layers_array = array
-	for i in range(1, layers_array.size()):
+	for i in range(layers_array.size()):
 		for cell in layers_array[i].get_used_cells():
 			ground_cells_array.append(Vector3(cell.x, cell.y, i))
 
@@ -38,9 +38,13 @@ func set_objects_array(array: Array):
 	objects_array = array
 
 
+#### BUILT-IN ####
+
+func _ready() -> void:
+	var _err = Events.connect("visible_cells_changed", self, "_on_visible_cells_changed")
+
 func _process(_delta):
 	update()
-
 
 func _draw():
 	sorting_array = ground_cells_array + objects_array
@@ -51,6 +55,9 @@ func _draw():
 			draw_cellv(thing)
 		else:
 			draw_object(thing)
+
+
+#### LOGIC ####
 
 
 # Draw a single given cell
@@ -70,14 +77,16 @@ func draw_tile(ground: TileMap, tileset: TileSet, cell: Vector2, height: int):
 	var is_centered : int = ground.get_tile_origin()
 	var modul : Color = ground.get_modulate()
 	
+	var cell3D = Vector3(cell.x, cell.y, height)
+	if not cell3D in visible_cells:
+		modul = Color.gray
+	
 	# Handle the tile transparancy
 	for object in focus_array:
 		var focus_cell = object.get_current_cell()
-		
 		var height_dif = (height - focus_cell.z)
-		var cell_v3 = Vector3(cell.x, cell.y, height)
 		
-		if is_cell_transparent(focus_cell, cell_v3, height_dif):
+		if is_cell_transparent(focus_cell, cell3D, height_dif):
 				modul.a = transparency
 	
 	# Get the tile id and the position of the cell in the autotile
@@ -102,10 +111,17 @@ func draw_tile(ground: TileMap, tileset: TileSet, cell: Vector2, height: int):
 
 # Draw the given object
 func draw_object(obj: IsoObject):
-	var height = obj.get_grid_height()
+	var height = obj.get_height()
 	var cell = obj.get_current_cell()
 	var a : float = 1.0
 	var mod = obj.get_modulate()
+	var is_visible : bool = cell in visible_cells or obj is TileArea
+	
+	if !is_visible:
+		if obj is Enemy:
+			mod = Color.transparent
+		else:
+			mod = Color.gray
 	
 	# Handle the object transparancy
 	for focus_object in focus_array:
@@ -122,16 +138,20 @@ func draw_object(obj: IsoObject):
 	for child in obj.get_children():
 		if child is Sprite:
 			draw_sprite(child, a, mod)
-#		if child is Label:
-#			draw_label(child)
 
 
 # Draw the given sprite
 func draw_sprite(sprite : Sprite, a : float = 1.0, obj_modul = Color.white):
 	var modul = sprite.get_modulate()
+	var region_rect = sprite.get_rect()
+	var is_region_enabled = sprite.is_region()
 	
-	if obj_modul != Color.white:
-		modul = modul.blend(obj_modul)
+	if obj_modul in [Color.gray, Color.transparent]:
+		modul = obj_modul
+	else:
+		if obj_modul != Color.white:
+			modul = modul.blend(obj_modul)
+	
 	if a < modul.a:
 		modul.a = a
 	
@@ -140,7 +160,12 @@ func draw_sprite(sprite : Sprite, a : float = 1.0, obj_modul = Color.white):
 	var sprite_pos = sprite.get_global_position()
 	var pos = sprite_pos - (texture.get_size() / 2) * int(sprite_centered)
 	
-	draw_texture(texture, pos, modul)
+	if is_region_enabled:
+		### INVESTIGATE THIS WEIRD x-axis 16 PIXELS OFFSET ###
+		draw_texture_rect_region(texture, Rect2(pos + Vector2(16, 0), region_rect.size), 
+					Rect2(Vector2.ZERO, region_rect.size), modul)
+	else:
+		draw_texture(texture, pos, modul)
 
 
 #### NOT WORKING FOR NOW, LABELS ARE RENDERED BY THE ENGINE ####
@@ -238,7 +263,7 @@ func xyz_sum_compare(a, b) -> bool:
 		height_a = 1
 	else:
 		grid_pos_a = a.get_current_cell()
-		height_a = a.get_grid_height()
+		height_a = a.get_height()
 	
 	var grid_pos_b
 	var height_b
@@ -247,7 +272,7 @@ func xyz_sum_compare(a, b) -> bool:
 		height_b = 1
 	else:
 		grid_pos_b = b.get_current_cell()
-		height_b = b.get_grid_height()
+		height_b = b.get_height()
 	
 	var sum_a = grid_pos_a.x + grid_pos_a.y + grid_pos_a.z + height_a
 	var sum_b = grid_pos_b.x + grid_pos_b.y + grid_pos_b.z + height_b
@@ -268,3 +293,14 @@ func xyz_sum_compare(a, b) -> bool:
 			return grid_pos_a.y < grid_pos_b.y
 	else:
 		return sum_a < sum_b
+
+
+#### SIGNAL RESPONSES ####
+
+func _on_visible_cells_changed():
+	var allies_array = get_tree().get_nodes_in_group("Allies")
+	visible_cells = []
+	for ally in allies_array:
+		for cell in ally.view_field:
+			if not cell in visible_cells:
+				visible_cells.append(cell)

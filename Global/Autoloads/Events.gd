@@ -5,6 +5,7 @@ extends Node
 #### MAP EVENTS ####
 
 signal cursor_cell_changed(cursor)
+signal visible_cells_changed()
 
 #### COMBAT EVENTS ####
 

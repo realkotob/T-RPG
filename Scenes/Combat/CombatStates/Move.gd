@@ -73,20 +73,24 @@ func check_path(path_to_check : PoolVector3Array) -> bool:
 
 # Move the active_actor along the path
 func move_actor(delta: float):
+	var active_actor = combat_loop.active_actor
+	
 	if len(path) > 0:
 		var target_point_world = owner.map_node.cell_to_world(path[0])
-		var arrived_to_next_point = owner.active_actor.move_to(delta, target_point_world)
+		var arrived_to_next_point = active_actor.move_to(delta, target_point_world)
 		
 		# If the actor is arrived to the next point, 
 		# remove this point from the path and take the next for destination
 		if arrived_to_next_point == true:
-			owner.active_actor.set_current_cell(path[0])
+			active_actor.set_current_cell(path[0])
 			path.remove(0)
 	
 	if len(path) == 0:
 		is_moving = false
-		owner.active_actor.set_state("Idle")
-		owner.emit_signal("actor_action_finished", owner.active_actor)
+		active_actor.set_state("Idle")
+		combat_loop.map_node.update_view_field(active_actor)
+		owner.emit_signal("actor_action_finished", active_actor)
+
 
 
 # Empty the path and potential path arrays

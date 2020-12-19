@@ -18,6 +18,7 @@ var previous_actor : Actor = null
 
 var future_actors_order : Array
 var is_ready : bool = false
+var fog_of_war : bool = true
 
 signal active_actor_changed
 #warning-ignore:unused_signal
@@ -66,6 +67,9 @@ func _ready():
 	
 	$Renderer.set_layers_array(layers_array)
 	on_iso_object_list_changed()
+	
+	for actor in actors_order:
+		map_node.update_view_field(actor)
 	
 	# First turn trigger
 	new_turn()

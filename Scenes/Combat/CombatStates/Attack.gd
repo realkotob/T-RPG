@@ -30,7 +30,7 @@ func generate_reachable_aera():
 	var actor_range = active_actor.get_current_range()
 	var actor_height = active_actor.get_height()
 	var reachables = combat_loop.map_node.get_reachable_cells(actor_cell, actor_height, actor_range)
-	combat_loop.area_node.draw_area(reachables, AreaContainer.area_type.DAMAGE)
+	combat_loop.area_node.draw_area(reachables, "damage")
 
 
 # Target choice

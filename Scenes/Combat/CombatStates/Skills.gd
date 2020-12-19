@@ -18,4 +18,4 @@ func on_cursor_changed_cell(cursor: Cursor):
 	var actor_cell = combat_loop.active_actor.get_current_cell()
 	
 	var line = IsoRaycast.get_line(combat_loop.map_node, actor_cell, cursor_cell)
-	combat_loop.area_node.draw_area(line)
+	combat_loop.area_node.draw_area(line, "view")
