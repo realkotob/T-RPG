@@ -7,6 +7,7 @@ onready var cursor_node = $Map/Interactives/Cursor
 onready var combat_state_node = $CombatState
 onready var HUD_node = $HUD
 onready var debug_panel = $DebugPanel
+onready var pathfinder = $Map/Pathfinding
 
 onready var allies_array : Array = get_tree().get_nodes_in_group("Allies") setget set_future_actors_order
 onready var actors_order : Array = get_tree().get_nodes_in_group("Actors") setget set_actors_order
@@ -58,6 +59,7 @@ func _ready() -> void:
 	_err = cursor_node.connect("max_z_changed", debug_panel, "_on_cursor_max_z_changed")
 	_err = combat_state_node.connect("state_changed", debug_panel, "_on_combat_state_changed")
 	_err = Events.connect("visible_cells_changed", self, "_on_visible_cells_changed")
+	_err = area_node.connect("area_created", self, "on_area_created")
 	
 	HUD_node.generate_timeline(actors_order)
 	focused_objects_array = [cursor_node, active_actor]
@@ -68,9 +70,6 @@ func _ready() -> void:
 		if child is MapLayer:
 			layers_array.append(child)
 	
-	$Renderer.set_layers_array(layers_array)
-	on_iso_object_list_changed()
-	
 	for actor in actors_order:
 		map_node.update_view_field(actor)
 	
@@ -78,6 +77,12 @@ func _ready() -> void:
 	new_turn()
 	
 	is_ready = true
+	
+	var iso_object_array = get_tree().get_nodes_in_group("IsoObject")
+	$Renderer.set_layers_array(layers_array)
+	$Renderer.init_rendering_queue(iso_object_array)
+
+	$Map.set_obstacles(fetch_obstacles(iso_object_array))
 
 
 #### LOGIC ####
@@ -138,17 +143,11 @@ func on_timeline_movement_finished():
 	new_turn()
 
 
+func on_area_created():
+	$Renderer.update_rendering_queue()
+
 func on_focus_changed():
 	$Renderer.set_focus_array([active_actor, cursor_node])
-
-
-# Update the iso object list of the renderer
-# Called each time a iso object is added or removed from the scene
-func on_iso_object_list_changed():
-	var iso_object_array = get_tree().get_nodes_in_group("IsoObject")
-	$Renderer.set_objects_array(iso_object_array)
-	$Map.set_obstacles(fetch_obstacles(iso_object_array))
-
 
 # Update the focus objects by adding a new one
 func on_object_focused(focus_obj: IsoObject):

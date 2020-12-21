@@ -10,10 +10,6 @@ var currently_visible : bool = true setget set_currently_visible, is_currently_v
 export var grid_height : int = 1 setget set_height, get_height
 export var passable : bool = true setget set_passable, is_passable
 
-signal created
-signal destroyed
-signal position_changed
-
 #### ACCESSORS ####
 
 func set_map_node(value: Map): map_node = value
@@ -23,7 +19,7 @@ func set_current_cell(value: Vector3):
 	var value_changed : bool = value != current_cell
 	current_cell = value
 	if value_changed && is_ready:
-		emit_signal("position_changed")
+		Events.emit_signal("iso_object_cell_changed", self)
 
 func get_current_cell() -> Vector3: return current_cell
 
@@ -31,16 +27,11 @@ func set_height(value : int):
 	var value_changed : bool = value != grid_height
 	grid_height = value
 	if value_changed && is_ready:
-		emit_signal("position_changed")
+		Events.emit_signal("iso_object_cell_changed", self)
 
 func get_height() -> int: return grid_height
 
-func set_passable(value : bool):
-	var value_changed : bool = value != passable
-	passable = value
-	if value_changed && is_ready:
-		emit_signal("position_changed")
-
+func set_passable(value : bool): passable = value
 func is_passable() -> bool: return passable
 
 func set_currently_visible(value: bool): currently_visible = value
@@ -59,13 +50,8 @@ func _ready():
 	if get_current_cell() == Vector3.INF:
 		set_current_cell(map_node.get_pos_highest_cell(position))
 	
-	var _err = connect("created", combat_node, "on_iso_object_list_changed")
-	_err = connect("destroyed", combat_node, "on_iso_object_list_changed")
 	add_to_group("IsoObject")
-	
-	# If the scene is already loaded (ie if the object is instanciated later)
-	if !combat_node.get("is_ready") or combat_node.is_ready == true:
-		create()
+	create()
 	
 	is_ready = true
 
@@ -74,10 +60,10 @@ func _ready():
 
 
 func create():
-	emit_signal("created")
+	Events.emit_signal("iso_object_added", self)
 
 
 func destroy():
 	remove_from_group("IsoObject")
-	emit_signal("destroyed")
+	Events.emit_signal("iso_object_removed", self)
 	queue_free()

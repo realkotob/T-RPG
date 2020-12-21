@@ -11,11 +11,6 @@ var area_dict = {
 signal area_created
 signal area_destroyed
 
-func _ready():
-	var combat_node = get_tree().get_current_scene()
-	var _err = connect("area_created", combat_node, "on_iso_object_list_changed")
-	_err = connect("area_destroyed", combat_node, "on_iso_object_list_changed")
-
 
 # Destroy every area instance
 func clear():

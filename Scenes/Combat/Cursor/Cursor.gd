@@ -17,7 +17,7 @@ func set_current_cell(value: Vector3):
 		current_cell = value
 		if map_node.is_position_valid(value):
 			Events.emit_signal("cursor_cell_changed", self)
-			
+			Events.emit_signal("iso_object_cell_changed", self)
 		return
 	
 	change_color(Color.transparent)
@@ -68,7 +68,7 @@ func _input(_event):
 		var index = cell_stack.find(current_cell)
 		index = wrapi(index - 1, 0, cell_stack.size())
 		set_current_cell(cell_stack[index])
-		
+	
 	if Input.is_action_just_pressed("NextLayer"):
 		var cell_stack = Array(map_node.get_cell_stack_at_pos(mouse_pos))
 		var index = cell_stack.find(current_cell)

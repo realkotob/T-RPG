@@ -6,10 +6,9 @@ const cell_size = Vector2(32, 16)
 const transparency : float = 0.27
 
 var layers_array : Array = [] setget set_layers_array
-var objects_array : Array = [] setget set_objects_array
-var ground_cells_array : Array = []
+var cells_array : Array = []
 
-var sorting_array : Array = []
+var rendering_queue : Array = []
 var visible_cells := PoolVector3Array() setget set_visible_cells, get_visible_cells
 
 var focus_array : Array = [] setget set_focus_array, get_focus_array
@@ -31,26 +30,24 @@ func set_layers_array(array: Array):
 	layers_array = array
 	for i in range(layers_array.size()):
 		for cell in layers_array[i].get_used_cells():
-			ground_cells_array.append(Vector3(cell.x, cell.y, i))
-
-
-func set_objects_array(array: Array):
-	objects_array = array
+			cells_array.append(Vector3(cell.x, cell.y, i))
 
 func set_visible_cells(value: PoolVector3Array): visible_cells = value
 func get_visible_cells() -> PoolVector3Array: return visible_cells
 
 #### BUILT-IN ####
 
+func _ready() -> void:
+	var _err = Events.connect("iso_object_cell_changed", self, "on_iso_object_cell_changed")
+	_err = Events.connect("iso_object_added", self, "on_iso_object_added")
+	_err = Events.connect("iso_object_removed", self, "on_iso_object_removed")
+
+
 func _process(_delta):
 	update()
 
-
 func _draw():
-	sorting_array = ground_cells_array + objects_array
-
-	sorting_array.sort_custom(self, "xyz_sum_compare")
-	for thing in sorting_array:
+	for thing in rendering_queue:
 		if thing is Vector3:
 			draw_cellv(thing)
 		else:
@@ -58,6 +55,32 @@ func _draw():
 
 
 #### LOGIC ####
+
+func init_rendering_queue(objects_array: Array):
+	rendering_queue = cells_array.duplicate() + objects_array
+	update_rendering_queue()
+
+# Update the rendering queue, by recomputing the entire rendering order
+# This method has a pretty high performance cost, 
+# if only one IsoObject is moving, call reorder_iso_obj_in_queue instead
+func update_rendering_queue():
+	rendering_queue.sort_custom(self, "xyz_sum_compare")
+
+
+# Replace the given obj at the right position in the rendering queue
+func add_iso_obj_in_queue(obj: IsoObject):
+	for i in range(rendering_queue.size()):
+		if xyz_sum_compare(obj, rendering_queue[i]):
+			rendering_queue.insert(i, obj)
+			break
+
+# Replace the given obj at the right position in the rendering queue
+func reorder_iso_obj_in_queue(obj: IsoObject):
+	rendering_queue.erase(obj)
+	for i in range(rendering_queue.size()):
+		if xyz_sum_compare(obj, rendering_queue[i]):
+			rendering_queue.insert(i, obj)
+			break
 
 
 # Draw a single given cell
@@ -81,13 +104,14 @@ func draw_tile(ground: TileMap, tileset: TileSet, cell: Vector2, height: int):
 	if not cell3D in visible_cells:
 		modul = Color.gray
 	
+	### HIGH PERFORMANCE COST ###
 	# Handle the tile transparancy
-	for object in focus_array:
-		var focus_cell = object.get_current_cell()
-		var height_dif = (height - focus_cell.z)
-		
-		if is_cell_transparent(focus_cell, cell3D, height_dif):
-				modul.a = transparency
+#	for object in focus_array:
+#		var focus_cell = object.get_current_cell()
+#		var height_dif = (height - focus_cell.z)
+#
+#		if is_cell_transparent(focus_cell, cell3D, height_dif):
+#				modul.a = transparency
 	
 	# Get the tile id and the position of the cell in the autotile
 	var tile_id = ground.get_cellv(cell)
@@ -232,26 +256,26 @@ func is_cell_in_dead_angle_right(focus_cell: Vector3, cell: Vector3) -> bool:
 	var upper_left_cell = Vector3(focus_cell.x, focus_cell.y + 1, focus_cell.z + 1)
 	var right_down_cell = Vector3(focus_cell.x + 1, focus_cell.y, focus_cell.z + 1)
 	
-	if upper_left_cell in sorting_array:
+	if upper_left_cell in rendering_queue:
 		return false
 	
 	return cell.z == focus_cell.z + 1 && \
 		cell.x == focus_cell.x + 1 && \
 		cell.y == focus_cell.y + 2 && \
-		right_down_cell in sorting_array
+		right_down_cell in rendering_queue
 
 
 func is_cell_in_dead_angle_left(focus_cell: Vector3, cell: Vector3) -> bool:
 	var upper_right_cell = Vector3(focus_cell.x + 1, focus_cell.y, focus_cell.z + 1)
 	var left_down_cell = Vector3(focus_cell.x, focus_cell.y + 1, focus_cell.z + 1)
 	
-	if upper_right_cell in sorting_array:
+	if upper_right_cell in rendering_queue:
 		return false
 	
 	return cell.z == focus_cell.z + 1 && \
 		cell.y == focus_cell.y + 1 && \
 		cell.x == focus_cell.x + 2 && \
-		left_down_cell in sorting_array
+		left_down_cell in rendering_queue
 
 
 # Compare two positions, return true if a must be renderer before b
@@ -296,3 +320,17 @@ func xyz_sum_compare(a, b) -> bool:
 
 
 #### SIGNAL RESPONSES ####
+
+func on_iso_object_cell_changed(obj: IsoObject):
+	if obj in rendering_queue: 
+		reorder_iso_obj_in_queue(obj)
+	else:
+		add_iso_obj_in_queue(obj)
+
+func on_iso_object_added(obj: IsoObject):
+	if not obj in rendering_queue: 
+		add_iso_obj_in_queue(obj)
+
+func on_iso_object_removed(obj: IsoObject):
+	if obj in rendering_queue:
+		rendering_queue.erase(obj)

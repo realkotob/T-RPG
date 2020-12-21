@@ -109,6 +109,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/Map/PathfindingAStar.gd"
 }, {
+"base": "Node2D",
+"class": "RenderLayer",
+"language": "GDScript",
+"path": "res://Scenes/IsoRenderer/RenderLayer.gd"
+}, {
 "base": "Node",
 "class": "StateBase",
 "language": "GDScript",
@@ -155,6 +160,7 @@ _global_script_class_icons={
 "MapLayer": "",
 "Obstacle": "",
 "PathFinding": "",
+"RenderLayer": "",
 "StateBase": "",
 "StatesMachine": "",
 "TL_StateBase": "",

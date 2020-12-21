@@ -8,6 +8,7 @@ atlas = ExtResource( 2 )
 region = Rect2( 32, 0, 32, 16 )
 
 [node name="DamageArea" instance=ExtResource( 1 )]
+grid_height = 0
 
 [node name="Sprite" parent="." index="0"]
 texture = SubResource( 1 )

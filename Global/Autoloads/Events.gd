@@ -6,6 +6,10 @@ extends Node
 
 signal cursor_cell_changed(cursor)
 signal visible_cells_changed()
+signal iso_object_cell_changed(iso_object)
+
+signal iso_object_added(iso_object)
+signal iso_object_removed(iso_object)
 
 #### COMBAT EVENTS ####
 

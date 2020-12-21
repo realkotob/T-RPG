@@ -47,6 +47,8 @@ func _ready():
 	
 	yield(owner, "ready")
 	
+	var _err = Events.connect("iso_object_cell_changed", self, "on_iso_object_cell_changed")
+	
 	# Store all the passable cells into the array walkable_cells_list, 
 	# by checking all the cells in the map to see if they are not an obstacle
 	walkable_cells = pathfinding.set_walkable_cells(grounds)
@@ -337,3 +339,8 @@ func count_reachable_enemies(active_cell: Vector3 = owner.active_actor.get_curre
 			if obj.is_in_group("Enemies"):
 				count += 1
 	return count
+
+
+func on_iso_object_cell_changed(iso_object: IsoObject):
+	if iso_object is Ally:
+		update_view_field(iso_object)

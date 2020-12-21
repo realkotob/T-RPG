@@ -51,7 +51,7 @@ func exit_state():
 # Ask the map for a path between current actor's cell and the cursor's cell
 func set_path(cursor_cell : Vector3, actor_cell : Vector3) -> void:
 	
-	path = owner.map_node.pathfinding.find_path(actor_cell, cursor_cell)
+	path = combat_loop.pathfinder.find_path(actor_cell, cursor_cell)
 	
 	var is_path_valid = check_path(path)
 	if is_path_valid:

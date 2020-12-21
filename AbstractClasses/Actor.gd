@@ -33,7 +33,6 @@ var view_field = PoolVector3Array() setget set_view_field, get_view_field
 
 signal action_spent
 
-
 ### ACCESORS ###
 
 func is_class(value: String): return value == "Actor" or .is_class(value)

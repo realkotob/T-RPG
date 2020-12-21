@@ -12,7 +12,7 @@
 
 [node name="Actor" instance=ExtResource( 9 )]
 script = ExtResource( 1 )
-grid_height = 2
+grid_height = 4
 passable = false
 MaxStats = ExtResource( 7 )
 weapon = ExtResource( 8 )
