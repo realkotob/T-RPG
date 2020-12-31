@@ -3,6 +3,8 @@ class_name Cursor
 
 onready var sprite_node = get_node("Sprite")
 
+var map_node = null
+
 var mouse_pos := Vector2()
 var grid2D_position := Vector2.ZERO
 var max_z : int = INF setget set_max_z, get_max_z

@@ -31,7 +31,6 @@ func draw_area(cell_array : Array, area_type_name: String) -> void:
 	for cell in cell_array:
 		var pos = owner.cell_to_world(cell)
 		var new_area = new_area_type.instance()
-		new_area.set_map_node(get_parent())
 		new_area.set_current_cell(cell)
 		new_area.set_position(pos)
 		add_child(new_area)

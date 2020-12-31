@@ -1,9 +1,14 @@
 extends Node2D
 
-const tile_size = Vector2(32, 32)
-const cell_size = Vector2(32, 16)
+const TILE_SIZE = Vector2(32, 32)
+const CELL_SIZE = Vector2(32, 16)
+const TRANSPARENCY : float = 0.27
 
-const transparency : float = 0.27
+const COLOR_SCHEME = {
+	"visible" : Color.white,
+	"barely_visible": Color.lightgray,
+	"not_visible" : Color.darkgray
+}
 
 var layers_array : Array = [] setget set_layers_array
 var cells_array : Array = []
@@ -102,7 +107,9 @@ func draw_tile(ground: TileMap, tileset: TileSet, cell: Vector2, height: int):
 	
 	var cell3D = Vector3(cell.x, cell.y, height)
 	if not cell3D in visible_cells:
-		modul = Color.gray
+		modul = COLOR_SCHEME["not_visible"]
+	elif is_cell_in_view_field_border(cell3D):
+		modul = COLOR_SCHEME["barely_visible"]
 	
 	### HIGH PERFORMANCE COST ###
 	# Handle the tile transparancy
@@ -111,7 +118,7 @@ func draw_tile(ground: TileMap, tileset: TileSet, cell: Vector2, height: int):
 #		var height_dif = (height - focus_cell.z)
 #
 #		if is_cell_transparent(focus_cell, cell3D, height_dif):
-#				modul.a = transparency
+#				modul.a = TRANSPARENCY
 	
 	# Get the tile id and the position of the cell in the autotile
 	var tile_id = ground.get_cellv(cell)
@@ -122,11 +129,11 @@ func draw_tile(ground: TileMap, tileset: TileSet, cell: Vector2, height: int):
 	var stream_texture = tileset.tile_get_texture(tile_id)
 	var atlas_texture = AtlasTexture.new()
 	atlas_texture.set_atlas(stream_texture)
-	atlas_texture.set_region(Rect2(tile_tileset_pos + (autotile_coord * tile_size), tile_size))
+	atlas_texture.set_region(Rect2(tile_tileset_pos + (autotile_coord * TILE_SIZE), TILE_SIZE))
 	
 	# Set the texture to the right position
 	var world_height = Vector2(0, -16 * height + 8)
-	var centered_offset = (cell_size / 2 * is_centered)
+	var centered_offset = (CELL_SIZE / 2 * is_centered)
 	var pos = ground.map_to_world(cell) + world_height - centered_offset
 	
 	# Draw the texture
@@ -145,7 +152,7 @@ func draw_object(obj: IsoObject):
 		if obj is Enemy:
 			mod = Color.transparent
 		else:
-			mod = Color.gray
+			mod = Color.darkgray
 	
 	# Handle the object transparancy
 	for focus_object in focus_array:
@@ -156,7 +163,7 @@ func draw_object(obj: IsoObject):
 			continue
 		
 		if is_cell_transparent(focus_cell, cell, height_dif):
-			a = transparency
+			a = TRANSPARENCY
 	
 	# Draw the composing elements of the object
 	for child in obj.get_children():
@@ -170,7 +177,7 @@ func draw_sprite(sprite : Sprite, a : float = 1.0, obj_modul = Color.white):
 	var region_rect = sprite.get_rect()
 	var is_region_enabled = sprite.is_region()
 	
-	if obj_modul in [Color.gray, Color.transparent]:
+	if obj_modul in [Color.darkgray, Color.transparent]:
 		modul = obj_modul
 	else:
 		if obj_modul != Color.white:
@@ -276,6 +283,16 @@ func is_cell_in_dead_angle_left(focus_cell: Vector3, cell: Vector3) -> bool:
 		cell.y == focus_cell.y + 1 && \
 		cell.x == focus_cell.x + 2 && \
 		left_down_cell in rendering_queue
+
+
+# Returns true if the given cell is a the border of the view field
+# Meanings it has at least one non visible adjacent tile
+func is_cell_in_view_field_border(cell: Vector3) -> bool:
+	var adjacents = Map.get_adjacent_cells(cell)
+	for adj_cell in adjacents:
+		if Map.find_2D_cell(adj_cell, visible_cells) == Vector3.INF:
+			return true
+	return false
 
 
 # Compare two positions, return true if a must be renderer before b

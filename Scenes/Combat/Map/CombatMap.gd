@@ -8,7 +8,6 @@ onready var pathfinding = $Pathfinding
 
 var layer_array : Array
 
-var grounds : PoolVector3Array = []
 var cell_path : PoolVector3Array = []
 
 var walkable_cells : PoolVector3Array = []
@@ -48,6 +47,7 @@ func _ready():
 	yield(owner, "ready")
 	
 	var _err = Events.connect("iso_object_cell_changed", self, "on_iso_object_cell_changed")
+	_err = Events.connect("cursor_world_pos_changed", self, "on_cursor_world_pos_changed")
 	
 	# Store all the passable cells into the array walkable_cells_list, 
 	# by checking all the cells in the map to see if they are not an obstacle
@@ -55,6 +55,9 @@ func _ready():
 	
 	# Create the connections between all the walkable cells
 	pathfinding.connect_walkable_cells(walkable_cells, owner.active_actor)
+	
+	for obj in get_tree().get_nodes_in_group("IsoObject"):
+		obj.set_current_cell(get_pos_highest_cell(obj.position))
 	
 	is_ready = true
 
@@ -102,21 +105,12 @@ func fetch_ground() -> PoolVector3Array:
 	return feed_array
 
 
-# Find if a cell x and y is in the heightmap grid, and returns it
-# Return Vector3.INF if nothing was found
-func find_2D_cell(cell : Vector2, grid: PoolVector3Array = grounds) -> Vector3:
-	for grid_cell in grid:
-		if (cell.x == grid_cell.x) && (cell.y == grid_cell.y):
-			return grid_cell
-	return Vector3.INF
-
-
 # Take an array of 2D cells and convert it to 3D cells using the height map
 # Each cell returned in the array is the highest at the given 2D position
 func array2D_to_grid_cells(line2D: Array) -> PoolVector3Array:
 	var cell_array : PoolVector3Array = []
 	for point in line2D:
-		var cell = find_2D_cell(point)
+		var cell = find_2D_cell_in_grounds(point)
 		if cell != Vector3.INF:
 			cell_array.append(cell)
 	
@@ -244,7 +238,7 @@ func get_cells_in_range(origin: Vector3, ran: int) -> PoolVector3Array:
 			if cell in treated_cells:
 				continue
 			
-			var relatives = get_adjacent_cells(cell)
+			var relatives = get_existing_adjacent_cells(cell)
 			for rel in relatives:
 				if not rel in cells_in_range:
 					cells_in_range.append(rel)
@@ -276,24 +270,6 @@ func get_reachable_cells(origin: Vector3, h: int, ran: int, include_self_cell: b
 				reachable_cells.append(c)
 	
 	return reachable_cells
-
-
-# Get the adjacent cells of the given one
-func get_adjacent_cells(cell: Vector3):
-	var adjacents : PoolVector3Array = []
-	var relatives : Array = [ 
-		Vector2(cell.x + 1, cell.y),
-		Vector2(cell.x, cell.y + 1),
-		Vector2(cell.x - 1, cell.y),
-		Vector2(cell.x, cell.y - 1)
-	]
-	
-	for relative in relatives:
-		var adj = find_2D_cell(relative)
-		if adj != Vector3.INF:
-			adjacents.append(adj)
-	
-	return adjacents
 
 
 func update_view_field(actor: Actor):

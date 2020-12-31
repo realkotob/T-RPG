@@ -2,6 +2,49 @@ tool
 extends Node2D
 class_name Map
 
+var grounds : PoolVector3Array = []
+
+#### LOGIC ####
+
+
+# Find if a cell x and y is in the heightmap grid, and returns it
+# Return Vector3.INF if nothing was found
+static func find_2D_cell(cell : Vector2, grid: PoolVector3Array) -> Vector3:
+	for grid_cell in grid:
+		if (cell.x == grid_cell.x) && (cell.y == grid_cell.y):
+			return grid_cell
+	return Vector3.INF
+
+
+func find_2D_cell_in_grounds(cell: Vector2) -> Vector3:
+	return find_2D_cell(cell, grounds)
+
+
+# Get the adjacent cells of the given one
+func get_existing_adjacent_cells(cell: Vector3) -> PoolVector3Array:
+	var adjacents : PoolVector3Array = []
+	var relatives = get_adjacent_cells(cell)
+	
+	for relative_cell in relatives:
+		var adj = find_2D_cell(relative_cell, grounds)
+		if adj != Vector3.INF:
+			adjacents.append(adj)
+	
+	return adjacents
+
+
+# Get the adjacents cells of the given one 
+# This method DOSEN'T check if the cells exists. If you need to do so, 
+# use get_existing_adjacent_cells instead
+static func get_adjacent_cells(cell: Vector3) -> Array:
+	return [ 
+		Vector2(cell.x + 1, cell.y),
+		Vector2(cell.x, cell.y + 1),
+		Vector2(cell.x - 1, cell.y),
+		Vector2(cell.x, cell.y - 1)
+	]
+
+
 # Count the number of layers
 func count_layers() -> int:
 	var counter : int = 0
