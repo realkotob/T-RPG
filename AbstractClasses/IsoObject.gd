@@ -50,6 +50,7 @@ func create():
 
 
 func destroy():
-	remove_from_group("IsoObject")
+	if is_in_group("IsoObject"):
+		remove_from_group("IsoObject")
 	Events.emit_signal("iso_object_removed", self)
 	queue_free()

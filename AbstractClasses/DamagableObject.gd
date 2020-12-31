@@ -100,11 +100,9 @@ func hurt(damage: int):
 		destroy()
 
 func destroy():
-	remove_from_group("IsoObject")
-	emit_signal("destroyed")
 	emit_signal("unfocused", self)
 	EXPLODE.scatter_sprite(self, 16)
-	queue_free()
+	.destroy()
 
 
 #### SIGNAL RESPONSES ####
