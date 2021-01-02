@@ -63,10 +63,15 @@ func instance_damage_label(damage: int, target: DamagableObject):
 func get_cursor_target() -> DamagableObject:
 	var cursor_cell = combat_loop.cursor_node.get_current_cell()
 	var object = combat_loop.map_node.get_object_on_cell(cursor_cell)
-	if object is DamagableObject && cursor_cell in combat_loop.area_node.get_area_cells():
-		return object
-	else:
+	var reachables_cells = combat_loop.area_node.get_area_cells()
+	var view_field = combat_loop.active_actor.get_view_field()
+	
+	# Check if the target is reachable
+	if !object is DamagableObject or !cursor_cell in reachables_cells or\
+	   !cursor_cell in view_field:
 		return null
+	
+	return object
 
 
 # Return the amount of damage the attacker inflict to the target
