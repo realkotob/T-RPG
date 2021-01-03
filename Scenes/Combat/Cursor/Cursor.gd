@@ -99,6 +99,7 @@ func find_wanted_cell(cell_stack : PoolVector3Array) -> Vector3:
 	
 	return next_cell
 
+
 # Find the nearest cell on the z axis, in the cell stack,
 # from the previous cell
 func find_nearest_z_cell(cell_stack: PoolVector3Array, cur_cell: Vector3) -> Vector3:

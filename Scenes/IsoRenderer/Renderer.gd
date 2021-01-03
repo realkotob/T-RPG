@@ -164,8 +164,6 @@ func draw_tile(ground: TileMap, tileset: TileSet, cell: Vector2, height: int):
 # MIGHT BE OPTIMIZED BY COMPLETELY REMOVE USAGE OF THE ORIGIN OBJECT
 # LESS REFERENCE CALL AND BETTER DATA CONTIGUITY
 func draw_object_part(part: IsoObjectRenderPart):
-#	var cell = part.get_current_cell()
-#	var a : float = 1.0
 	var obj = part.get_object_ref()
 	var mod = part.get_modulate()
 	var is_visible : bool = obj.is_currently_visible() or obj is TileArea
@@ -215,7 +213,9 @@ func scatter_iso_object(obj: IsoObject) -> Array:
 	var sprite_pos = sprite.get_position()
 	
 	#### THIS NEED TO TAKE ALPHA IN ACOUNT ####
-	var mod = sprite.get_modulate().blend(obj.get_modulate())
+	var obj_modul = obj.get_modulate()
+	var sprite_modul = sprite.get_modulate()
+	var result_modul = obj_modul.linear_interpolate(sprite_modul, 0.5)
 	
 	var part_size = Vector2(texture_size.x, texture_size.y / height)
 	for i in range(height):
@@ -229,53 +229,54 @@ func scatter_iso_object(obj: IsoObject) -> Array:
 		
 		var part_cell = obj_cell + Vector3(0, 0, height - i)
 		
-		var part = IsoObjectRenderPart.new(obj, part_texture, part_cell, offset, mod)
+		var part = IsoObjectRenderPart.new(obj, part_texture, part_cell, offset, result_modul)
 		scattered_obj.append(part)
+	
 	return scattered_obj
 
 
-# Draw the given sprite
-func draw_sprite(sprite : Sprite, a : float = 1.0, obj_modul = Color.white):
-	var modul = sprite.get_modulate()
-	var region_rect = sprite.get_rect()
-	var is_region_enabled = sprite.is_region()
-	
-	if obj_modul in [Color.darkgray, Color.transparent]:
-		modul = obj_modul
-	else:
-		if obj_modul != Color.white:
-			modul = modul.blend(obj_modul)
-	
-	if a < modul.a:
-		modul.a = a
-	
-	var texture = sprite.get_texture()
-	var sprite_centered = sprite.is_centered()
-	var sprite_pos = sprite.get_global_position()
-	var pos = sprite_pos - (texture.get_size() / 2) * int(sprite_centered)
-	
-	if is_region_enabled:
-		### INVESTIGATE THIS WEIRD x-axis 16 PIXELS OFFSET ###
-		draw_texture_rect_region(texture, Rect2(pos + Vector2(16, 0), region_rect.size), 
-					Rect2(Vector2.ZERO, region_rect.size), modul)
-	else:
-		draw_texture(texture, pos, modul)
-
-
-#### NOT WORKING FOR NOW, LABELS ARE RENDERED BY THE ENGINE ####
-# Draw the given label
-func draw_label(label: Label):
-	var font = label.get_theme().get_default_font()
-	var pos = label.get_rect().position
-	var text = label.text
-	for i in range(text.length()):
-		var i_max = i + 1
-		var next
-		
-		if i_max >= text.length(): next = ""
-		else: next = text[i_max]
-		
-		var _err = draw_char(font, pos, text[i], next)
+## Draw the given sprite
+#func draw_sprite(sprite : Sprite, a : float = 1.0, obj_modul = Color.white):
+#	var modul = sprite.get_modulate()
+#	var region_rect = sprite.get_rect()
+#	var is_region_enabled = sprite.is_region()
+#
+#	if obj_modul in [Color.darkgray, Color.transparent]:
+#		modul = obj_modul
+#	else:
+#		if obj_modul != Color.white:
+#			modul = modul.blend(obj_modul)
+#
+#	if a < modul.a:
+#		modul.a = a
+#
+#	var texture = sprite.get_texture()
+#	var sprite_centered = sprite.is_centered()
+#	var sprite_pos = sprite.get_global_position()
+#	var pos = sprite_pos - (texture.get_size() / 2) * int(sprite_centered)
+#
+#	if is_region_enabled:
+#		### INVESTIGATE THIS WEIRD x-axis 16 PIXELS OFFSET ###
+#		draw_texture_rect_region(texture, Rect2(pos + Vector2(16, 0), region_rect.size), 
+#					Rect2(Vector2.ZERO, region_rect.size), modul)
+#	else:
+#		draw_texture(texture, pos, modul)
+#
+#
+##### NOT WORKING FOR NOW, LABELS ARE RENDERED BY THE ENGINE ####
+## Draw the given label
+#func draw_label(label: Label):
+#	var font = label.get_theme().get_default_font()
+#	var pos = label.get_rect().position
+#	var text = label.text
+#	for i in range(text.length()):
+#		var i_max = i + 1
+#		var next
+#
+#		if i_max >= text.length(): next = ""
+#		else: next = text[i_max]
+#
+#		var _err = draw_char(font, pos, text[i], next)
 
 
 # Draw the whole layer of the given height
@@ -299,13 +300,13 @@ func is_obj_in_rendering_queue(obj: IsoObject):
 func get_type_priority(thing) -> int:
 	if thing is Vector3:
 		return type_priority.TILE
-	elif thing is TileArea:
+	elif thing.get_object_ref() is TileArea:
 		return type_priority.AREA
-	elif thing is Cursor:
+	elif thing.get_object_ref() is Cursor:
 		return type_priority.CURSOR
-	elif thing is Obstacle:
+	elif thing.get_object_ref() is Obstacle:
 		return type_priority.OBSTACLE
-	elif thing is Actor:
+	elif thing.get_object_ref() is Actor:
 		return type_priority.ACTOR
 	
 	return -1
