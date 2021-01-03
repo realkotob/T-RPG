@@ -56,14 +56,18 @@ func _draw():
 		if thing is Vector3:
 			draw_cellv(thing)
 		else:
-			draw_object(thing)
+			draw_object_part(thing)
 
 
 #### LOGIC ####
 
 func init_rendering_queue(objects_array: Array):
-	rendering_queue = cells_array.duplicate() + objects_array
+	rendering_queue = cells_array.duplicate()
+	for obj in objects_array:
+		var parts_array = scatter_iso_object(obj)
+		rendering_queue += parts_array
 	update_rendering_queue()
+
 
 # Update the rendering queue, by recomputing the entire rendering order
 # This method has a pretty high performance cost, 
@@ -74,18 +78,33 @@ func update_rendering_queue():
 
 # Replace the given obj at the right position in the rendering queue
 func add_iso_obj_in_queue(obj: IsoObject):
-	for i in range(rendering_queue.size()):
-		if xyz_sum_compare(obj, rendering_queue[i]):
-			rendering_queue.insert(i, obj)
-			break
+	var parts_array = scatter_iso_object(obj)
+	
+	for part in parts_array:
+		for i in range(rendering_queue.size()):
+			if xyz_sum_compare(part, rendering_queue[i]):
+				rendering_queue.insert(i, part)
+				break
+
+
+# Adds every obj contained in the given array in the rendering queue by 
+# scattering them in render parts
+func add_iso_obj_in_queue_array(obj_array: Array):
+	for obj in obj_array:
+		add_iso_obj_in_queue(obj)
+
+
+# Remove the given object from the rendering queue
+func remove_iso_obj_from_queue(obj: IsoObject):
+	for elem in rendering_queue:
+		if elem is IsoObjectRenderPart && elem.get_object_ref() == obj:
+			rendering_queue.erase(elem)
+
 
 # Replace the given obj at the right position in the rendering queue
 func reorder_iso_obj_in_queue(obj: IsoObject):
-	rendering_queue.erase(obj)
-	for i in range(rendering_queue.size()):
-		if xyz_sum_compare(obj, rendering_queue[i]):
-			rendering_queue.insert(i, obj)
-			break
+	remove_iso_obj_from_queue(obj)
+	add_iso_obj_in_queue(obj)
 
 
 # Draw a single given cell
@@ -112,6 +131,7 @@ func draw_tile(ground: TileMap, tileset: TileSet, cell: Vector2, height: int):
 		modul = COLOR_SCHEME["barely_visible"]
 	
 	### HIGH PERFORMANCE COST ###
+	### MIGHT BE UNECCESSARY WITH A SEE THROUGH SHADER ###
 	# Handle the tile transparancy
 #	for object in focus_array:
 #		var focus_cell = object.get_current_cell()
@@ -140,11 +160,13 @@ func draw_tile(ground: TileMap, tileset: TileSet, cell: Vector2, height: int):
 	draw_texture(atlas_texture, pos, modul)
 
 
-# Draw the given object
-func draw_object(obj: IsoObject):
-	var height = obj.get_height()
-	var cell = obj.get_current_cell()
+# Draw the given object part
+# MIGHT BE OPTIMIZED BY COMPLETELY REMOVE USAGE OF THE ORIGIN OBJECT
+# LESS REFERENCE CALL AND BETTER DATA CONTIGUITY
+func draw_object_part(part: IsoObjectRenderPart):
+#	var cell = part.get_current_cell()
 	var a : float = 1.0
+	var obj = part.get_object_ref()
 	var mod = obj.get_modulate()
 	var is_visible : bool = obj.is_currently_visible() or obj is TileArea
 	
@@ -154,21 +176,45 @@ func draw_object(obj: IsoObject):
 		else:
 			mod = Color.darkgray
 	
-	# Handle the object transparancy
-	for focus_object in focus_array:
-		var focus_cell = focus_object.get_current_cell()
-		var height_dif = (height - focus_cell.z)
-		
-		if obj in focus_array or obj is TileArea:
-			continue
-		
-		if is_cell_transparent(focus_cell, cell, height_dif):
-			a = TRANSPARENCY
+#	# Handle the object transparancy
+#	for focus_object in focus_array:
+#		var focus_cell = focus_object.get_current_cell()
+#		var height_dif = (height - focus_cell.z)
+#
+#		if obj in focus_array or obj is TileArea:
+#			continue
+#
+#		if is_cell_transparent(focus_cell, cell, height_dif):
+#			a = TRANSPARENCY
 	
 	# Draw the composing elements of the object
 	for child in obj.get_children():
 		if child is Sprite:
 			draw_sprite(child, a, mod)
+
+
+# Scatters a texture in the given number of smaller height, then returns it in an array
+## ONLY HANDLE VERTICAL SCATTERING - MULTIPLE TILES WIDE OBJECTS ARE NOT SUPPORTED ##
+func scatter_iso_object(obj: IsoObject) -> Array:
+	var scattered_obj : Array = []
+	
+	#### NEED TO BE DYNAMIC ####
+	var texture = obj.get_node("Sprite").get_texture()
+	
+	var height = obj.get_height()
+	var obj_cell = obj.get_current_cell()
+	var texture_size = texture.get_size()
+	
+	var part_size = Vector2(texture_size.x, texture_size.y / height)
+	for i in range(height):
+		var part_texture = AtlasTexture.new()
+		part_texture.set_atlas(texture)
+		part_texture.set_region(Rect2(Vector2(0, part_size.y * i), part_size))
+		
+		var part_cell = obj_cell + Vector3(0, 0, height - i)
+		var part = IsoObjectRenderPart.new(obj, part_texture, part_cell)
+		scattered_obj.append(part)
+	return scattered_obj
 
 
 # Draw the given sprite
@@ -222,6 +268,14 @@ func draw_ground_layer(layer_height: int):
 	
 	for cell in ground.get_used_cells():
 		draw_tile(ground, tileset, cell, layer_height)
+
+
+# Check if the given object have at least one part of it in the rendering queue
+func is_obj_in_rendering_queue(obj: IsoObject):
+	for elem in rendering_queue:
+		if elem is IsoObjectRenderPart && elem.get_object_ref() == obj:
+			return true
+	return false 
 
 
 # Return the value of the drawing priority of the given object type
@@ -297,26 +351,11 @@ func is_cell_in_view_field_border(cell: Vector3) -> bool:
 
 # Compare two positions, return true if a must be renderer before b
 func xyz_sum_compare(a, b) -> bool:
-	var grid_pos_a
-	var height_a
-	if a is Vector3:
-		grid_pos_a = a
-		height_a = 1
-	else:
-		grid_pos_a = a.get_current_cell()
-		height_a = a.get_height()
+	var grid_pos_a = a if a is Vector3 else a.get_current_cell()
+	var grid_pos_b = b if b is Vector3 else b.get_current_cell()
 	
-	var grid_pos_b
-	var height_b
-	if b is Vector3:
-		grid_pos_b = b
-		height_b = 1
-	else:
-		grid_pos_b = b.get_current_cell()
-		height_b = b.get_height()
-	
-	var sum_a = grid_pos_a.x + grid_pos_a.y + grid_pos_a.z + height_a
-	var sum_b = grid_pos_b.x + grid_pos_b.y + grid_pos_b.z + height_b
+	var sum_a = grid_pos_a.x + grid_pos_a.y + grid_pos_a.z
+	var sum_b = grid_pos_b.x + grid_pos_b.y + grid_pos_b.z
 
 	# First compare the sum x + y + z + heigth
 	# Then compare y, then x, then z
@@ -339,15 +378,13 @@ func xyz_sum_compare(a, b) -> bool:
 #### SIGNAL RESPONSES ####
 
 func on_iso_object_cell_changed(obj: IsoObject):
-	if obj in rendering_queue: 
+	if is_obj_in_rendering_queue(obj):
 		reorder_iso_obj_in_queue(obj)
 	else:
 		add_iso_obj_in_queue(obj)
 
 func on_iso_object_added(obj: IsoObject):
-	if not obj in rendering_queue: 
-		add_iso_obj_in_queue(obj)
+	add_iso_obj_in_queue(obj)
 
 func on_iso_object_removed(obj: IsoObject):
-	if obj in rendering_queue:
-		rendering_queue.erase(obj)
+	remove_iso_obj_from_queue(obj)

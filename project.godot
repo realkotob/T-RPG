@@ -80,6 +80,11 @@ _global_script_classes=[ {
 "path": "res://AbstractClasses/IsoObject.gd"
 }, {
 "base": "Node",
+"class": "IsoObjectRenderPart",
+"language": "GDScript",
+"path": "res://Scenes/IsoRenderer/IsoObjectRenderPart.gd"
+}, {
+"base": "Node",
 "class": "IsoRaycast",
 "language": "GDScript",
 "path": "res://Scenes/Combat/IsoRaycast.gd"
@@ -154,6 +159,7 @@ _global_script_class_icons={
 "Enemy": "",
 "Firearm": "",
 "IsoObject": "",
+"IsoObjectRenderPart": "",
 "IsoRaycast": "",
 "IsoTileMap": "",
 "Map": "",
