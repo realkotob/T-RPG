@@ -165,10 +165,13 @@ func draw_tile(ground: TileMap, tileset: TileSet, cell: Vector2, height: int):
 # LESS REFERENCE CALL AND BETTER DATA CONTIGUITY
 func draw_object_part(part: IsoObjectRenderPart):
 #	var cell = part.get_current_cell()
-	var a : float = 1.0
+#	var a : float = 1.0
 	var obj = part.get_object_ref()
 	var mod = obj.get_modulate()
 	var is_visible : bool = obj.is_currently_visible() or obj is TileArea
+	var texture = part.get_atlas_texture()
+	var obj_pos = obj.get_global_position()
+	var part_offset = part.get_texture_offset()
 	
 	if !is_visible:
 		if obj is Enemy:
@@ -187,10 +190,12 @@ func draw_object_part(part: IsoObjectRenderPart):
 #		if is_cell_transparent(focus_cell, cell, height_dif):
 #			a = TRANSPARENCY
 	
-	# Draw the composing elements of the object
-	for child in obj.get_children():
-		if child is Sprite:
-			draw_sprite(child, a, mod)
+#	# Draw the composing elements of the object
+#	for child in obj.get_children():
+#		if child is Sprite:
+#			draw_sprite(child, a, mod)
+	
+	draw_texture(texture, obj_pos + part_offset, mod)
 
 
 # Scatters a texture in the given number of smaller height, then returns it in an array
@@ -199,11 +204,15 @@ func scatter_iso_object(obj: IsoObject) -> Array:
 	var scattered_obj : Array = []
 	
 	#### NEED TO BE DYNAMIC ####
-	var texture = obj.get_node("Sprite").get_texture()
+	var sprite = obj.get_node("Sprite")
+	var texture = sprite.get_texture()
 	
 	var height = obj.get_height()
 	var obj_cell = obj.get_current_cell()
 	var texture_size = texture.get_size()
+	
+	var sprite_centered = sprite.is_centered()
+	var sprite_pos = sprite.get_position()
 	
 	var part_size = Vector2(texture_size.x, texture_size.y / height)
 	for i in range(height):
@@ -211,8 +220,13 @@ func scatter_iso_object(obj: IsoObject) -> Array:
 		part_texture.set_atlas(texture)
 		part_texture.set_region(Rect2(Vector2(0, part_size.y * i), part_size))
 		
+		var height_offset = Vector2(0, -part_size.y * height - i - 1)
+		var centered_offset = (Vector2(-texture_size.x, texture_size.y) / 2) * int(sprite_centered)
+		var offset = height_offset + sprite_pos + centered_offset
+		
 		var part_cell = obj_cell + Vector3(0, 0, height - i)
-		var part = IsoObjectRenderPart.new(obj, part_texture, part_cell)
+		
+		var part = IsoObjectRenderPart.new(obj, part_texture, part_cell, offset)
 		scattered_obj.append(part)
 	return scattered_obj
 

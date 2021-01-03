@@ -6,7 +6,7 @@ var current_cell := Vector3.INF setget set_current_cell, get_current_cell
 var is_ready : bool = false
 var currently_visible : bool = true setget set_currently_visible, is_currently_visible
 
-export var grid_height : int = 1 setget set_height, get_height
+export var height : int = 1 setget set_height, get_height
 export var passable : bool = true setget set_passable, is_passable
 
 #### ACCESSORS ####
@@ -20,12 +20,12 @@ func set_current_cell(value: Vector3):
 func get_current_cell() -> Vector3: return current_cell
 
 func set_height(value : int):
-	var value_changed : bool = value != grid_height
-	grid_height = value
+	var value_changed : bool = value != height
+	height = value
 	if value_changed && is_ready:
 		Events.emit_signal("iso_object_cell_changed", self)
 
-func get_height() -> int: return grid_height
+func get_height() -> int: return height
 
 func set_passable(value : bool): passable = value
 func is_passable() -> bool: return passable
