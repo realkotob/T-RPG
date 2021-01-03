@@ -167,7 +167,7 @@ func draw_object_part(part: IsoObjectRenderPart):
 #	var cell = part.get_current_cell()
 #	var a : float = 1.0
 	var obj = part.get_object_ref()
-	var mod = obj.get_modulate()
+	var mod = part.get_modulate()
 	var is_visible : bool = obj.is_currently_visible() or obj is TileArea
 	var texture = part.get_atlas_texture()
 	var obj_pos = obj.get_global_position()
@@ -214,6 +214,9 @@ func scatter_iso_object(obj: IsoObject) -> Array:
 	var sprite_centered = sprite.is_centered()
 	var sprite_pos = sprite.get_position()
 	
+	#### THIS NEED TO TAKE ALPHA IN ACOUNT ####
+	var mod = sprite.get_modulate().blend(obj.get_modulate())
+	
 	var part_size = Vector2(texture_size.x, texture_size.y / height)
 	for i in range(height):
 		var part_texture = AtlasTexture.new()
@@ -226,7 +229,7 @@ func scatter_iso_object(obj: IsoObject) -> Array:
 		
 		var part_cell = obj_cell + Vector3(0, 0, height - i)
 		
-		var part = IsoObjectRenderPart.new(obj, part_texture, part_cell, offset)
+		var part = IsoObjectRenderPart.new(obj, part_texture, part_cell, offset, mod)
 		scattered_obj.append(part)
 	return scattered_obj
 

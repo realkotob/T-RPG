@@ -5,6 +5,7 @@ var atlas_texture : AtlasTexture setget set_atlas_texture, get_atlas_texture
 var current_cell : Vector3 setget set_current_cell, get_current_cell
 var object_ref : IsoObject = null setget set_object_ref, get_object_ref 
 var texture_offset := Vector2.ZERO setget set_texture_offset, get_texture_offset
+var modulate := Color.white setget set_modulate, get_modulate
 
 #### ACCESSORS ####
 
@@ -23,13 +24,17 @@ func get_object_ref() -> IsoObject: return object_ref
 func set_texture_offset(value: Vector2): texture_offset = value
 func get_texture_offset() -> Vector2: return texture_offset
 
+func set_modulate(value: Color): modulate = value
+func get_modulate() -> Color: return modulate
+
 #### BUILT-IN ####
 
-func _init(obj: IsoObject, texture: AtlasTexture, cell: Vector3, offset := Vector2.ZERO) -> void:
+func _init(obj: IsoObject, texture: AtlasTexture, cell: Vector3, offset := Vector2.ZERO, mod:= Color.white) -> void:
 	set_atlas_texture(texture)
 	set_current_cell(cell)
 	set_object_ref(obj)
 	set_texture_offset(offset)
+	set_modulate(mod)
 
 
 #### VIRTUALS ####
