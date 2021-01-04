@@ -94,8 +94,7 @@ func find_path(start_cell: Vector3, end_cell: Vector3) -> PoolVector3Array:
 
 # Find all the walkable cells and retrun their position
 func find_reachable_cells(actor_cell : Vector3, actor_movements : int) -> PoolVector3Array:
-	
-	var reachable_cells : PoolVector3Array = []
+	var reachable_cells : PoolVector3Array = [actor_cell]
 	var relatives : PoolVector3Array
 	
 	for i in range(1, actor_movements + 1):

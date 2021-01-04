@@ -79,7 +79,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://AbstractClasses/IsoObject.gd"
 }, {
-"base": "Node",
+"base": "Node2D",
 "class": "IsoObjectRenderPart",
 "language": "GDScript",
 "path": "res://Scenes/IsoRenderer/IsoObjectRenderPart.gd"

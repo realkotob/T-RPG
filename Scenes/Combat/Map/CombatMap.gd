@@ -175,8 +175,8 @@ func is_outside_map_bounds(cell: Vector3):
 # Draw the movement of the given character
 func draw_movement_area():
 	var mov = owner.active_actor.get_current_movements()
-	var map_pos = owner.active_actor.get_current_cell()
-	var reachable_cells = pathfinding.find_reachable_cells(map_pos, mov)
+	var current_cell = owner.active_actor.get_current_cell()
+	var reachable_cells = pathfinding.find_reachable_cells(current_cell, mov)
 	area_node.draw_area(reachable_cells, "move")
 
 

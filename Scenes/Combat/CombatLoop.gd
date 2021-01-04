@@ -79,8 +79,7 @@ func _ready() -> void:
 	is_ready = true
 	
 	var iso_object_array = get_tree().get_nodes_in_group("IsoObject")
-	$Renderer.set_layers_array(layers_array)
-	$Renderer.init_rendering_queue(iso_object_array)
+	$Renderer.init_rendering_queue(layers_array, iso_object_array)
 
 	$Map.set_obstacles(fetch_obstacles(iso_object_array))
 
@@ -144,7 +143,7 @@ func on_timeline_movement_finished():
 
 
 func on_area_created():
-	$Renderer.update_rendering_queue()
+	pass
 
 func on_focus_changed():
 	$Renderer.set_focus_array([active_actor, cursor_node])

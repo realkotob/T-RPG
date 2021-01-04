@@ -20,6 +20,7 @@ func set_current_cell(value: Vector3):
 		if map_node.is_position_valid(value):
 			Events.emit_signal("cursor_cell_changed", self)
 			Events.emit_signal("iso_object_cell_changed", self)
+			emit_signal("cell_changed", current_cell)
 		return
 	
 	change_color(Color.transparent)
@@ -61,7 +62,7 @@ func update_cursor_pos():
 		set_max_z(int(current_cell.z + 1))
 	
 	# Set the cursor to the right position
-	set_position(map_node.cell_to_world(current_cell))
+	set_global_position(map_node.cell_to_world(current_cell))
 
 
 func _input(_event):

@@ -9,6 +9,9 @@ var currently_visible : bool = true setget set_currently_visible, is_currently_v
 export var height : int = 1 setget set_height, get_height
 export var passable : bool = true setget set_passable, is_passable
 
+signal cell_changed(cell)
+signal global_position_changed(world_pos)
+
 #### ACCESSORS ####
 
 func set_current_cell(value: Vector3):
@@ -16,6 +19,7 @@ func set_current_cell(value: Vector3):
 	current_cell = value
 	if value_changed && is_ready:
 		Events.emit_signal("iso_object_cell_changed", self)
+		emit_signal("cell_changed", current_cell)
 
 func get_current_cell() -> Vector3: return current_cell
 
@@ -32,6 +36,11 @@ func is_passable() -> bool: return passable
 
 func set_currently_visible(value: bool): currently_visible = value
 func is_currently_visible() -> bool: return currently_visible
+
+func set_global_position(value):
+	if value != global_position:
+		global_position = value
+		emit_signal("global_position_changed", value)
 
 #### BUILT-IN ####
 
