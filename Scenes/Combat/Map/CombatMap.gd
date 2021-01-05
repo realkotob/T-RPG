@@ -15,6 +15,8 @@ var obstacles : Array = [] setget set_obstacles, get_obstacles
 
 var is_ready : bool = false
 
+signal map_generation_finished
+
 #### ACCESSORS ####
 
 func set_obstacles(array: Array):
@@ -61,6 +63,8 @@ func _ready():
 		obj.set_current_cell(get_pos_highest_cell(obj.position))
 	
 	is_ready = true
+	
+	emit_signal("map_generation_finished")
 
 
 #### LOGIC ####
@@ -164,7 +168,7 @@ func get_pos_highest_cell(pos: Vector2, max_layer: int = 0) -> Vector3:
 func init_actors_grid_pos():
 	for actor in get_tree().get_nodes_in_group("Actors"):
 		actor.map_node = self
-		actor.set_current_cell(get_pos_highest_cell(actor.position))
+		actor.set_current_cell(get_pos_highest_cell(actor.position), true)
 
 
 # Return true if the given cell is outside the map bounds

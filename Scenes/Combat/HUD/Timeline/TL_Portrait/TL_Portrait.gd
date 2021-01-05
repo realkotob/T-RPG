@@ -1,4 +1,5 @@
 extends Position2D
+class_name TimelinePortrait
 
 export var speed : float = 5.0
 

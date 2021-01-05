@@ -29,7 +29,8 @@ func move_timeline(actors_order: Array, future_actors_order: Array):
 	
 	# Give every portrait its new destination
 	for actor in actors_order:
-		actor.timeline_port_node.timeline_id_dest = future_actors_order.find(actor)
+		var timeline_portrait = timeline_node.get_actors_portrait(actor)
+		timeline_portrait.timeline_id_dest = future_actors_order.find(actor)
 	
 	# Give every state the array of portraits
 	var portrait_array = timeline_node.get_children()
@@ -53,7 +54,6 @@ func sort_actors_by_destination(actors_order: Array, future_actors_order: Array,
 			actors_to_move_down.append(actors_order[i])
 		elif new_id < i:
 			actors_to_move_up.append(actors_order[i])
-
 
 
 # Count the number of actors before the given index 

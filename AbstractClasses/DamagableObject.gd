@@ -34,6 +34,12 @@ func set_defense(value: int):
 func get_defense() -> int:
 	return defense
 
+func set_visibility(value: int):
+	.set_visibility(value)
+	if self.name == "Crate":
+		pass
+
+
 #### BUILT-IN FUNCTIONS ####
 
 func _ready():
@@ -56,6 +62,7 @@ func generate_lifebar():
 	lifebar.set_position(Vector2(0, -sprite_height - 5))
 	lifebar.set_visible(false)
 	add_child(lifebar)
+
 
 # Generate the area that will detect the mouse going over the sprite
 func generate_clickable_area():

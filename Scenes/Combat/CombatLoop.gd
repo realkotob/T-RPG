@@ -60,6 +60,7 @@ func _ready() -> void:
 	_err = combat_state_node.connect("state_changed", debug_panel, "_on_combat_state_changed")
 	_err = Events.connect("visible_cells_changed", self, "_on_visible_cells_changed")
 	_err = area_node.connect("area_created", self, "on_area_created")
+	_err = map_node.connect("map_generation_finished", self, "_on_map_generation_finished")
 	
 	HUD_node.generate_timeline(actors_order)
 	focused_objects_array = [cursor_node, active_actor]
@@ -69,9 +70,6 @@ func _ready() -> void:
 	for child in map_node.get_children():
 		if child is MapLayer:
 			layers_array.append(child)
-	
-	for actor in actors_order:
-		map_node.update_view_field(actor)
 	
 	# First turn trigger
 	new_turn()
@@ -127,6 +125,11 @@ func fetch_obstacles(iso_object_array: Array) -> Array:
 
 #### SIGNALS ####
 
+func _on_map_generation_finished():
+	for actor in actors_order:
+		map_node.update_view_field(actor)
+
+
 # Triggered when the active actor finished his turn
 func on_active_actor_turn_finished():
 	end_turn()
@@ -176,7 +179,7 @@ func on_actor_wait():
 func _on_visible_cells_changed():
 	visible_cells = []
 	
-	## THIS MAY BE SOLVED IN THE VIEW FIELD ALOGRITHME ##
+	# Update the global view field, by adding every ally's view field
 	for ally in allies_array:
 		for cell in ally.get_view_field():
 			if not cell in visible_cells:

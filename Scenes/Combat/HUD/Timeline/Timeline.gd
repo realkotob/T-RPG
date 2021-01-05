@@ -9,7 +9,6 @@ func generate_timeline(actors_array : Array):
 	for actor in actors_array:
 		var new_TL_port = TL_portrait_scene.instance()
 		
-		actor.timeline_port_node = new_TL_port
 		add_child(new_TL_port)
 		
 		var slot = new_TL_port.get_node("Border").get_texture().get_height() + 2
@@ -32,3 +31,11 @@ func update_timeline_order(actor_order : Array):
 			child.queue_free()
 		else:
 			move_child(child, actor_order.find(child.actor_node))
+
+
+# Get the portrait corresponding to the given actor
+func get_actors_portrait(actor: Actor) -> TimelinePortrait:
+	for child in get_children():
+		if child is TimelinePortrait && child.actor_node == actor:
+			return child
+	return null

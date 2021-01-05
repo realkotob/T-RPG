@@ -14,10 +14,10 @@ signal max_z_changed
 
 #### ACCESSORS ####
 
-func set_current_cell(value: Vector3):
+func set_current_cell(value: Vector3, level_gen := false):
 	if value != current_cell:
 		current_cell = value
-		if map_node.is_position_valid(value):
+		if map_node.is_position_valid(value) && !level_gen:
 			Events.emit_signal("cursor_cell_changed", self)
 			Events.emit_signal("iso_object_cell_changed", self)
 			emit_signal("cell_changed", current_cell)
