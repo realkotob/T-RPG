@@ -81,7 +81,8 @@ func hide_all_rendered_nodes(node: Node):
 			hide_all_rendered_nodes(child)
 
 
-# Return an array of cells at the given world position
+# Return an array of cells at the given world position 
+# (ie cells that would be displayed at the same position in the screen)
 func get_cell_stack_at_pos(world_pos: Vector2) -> PoolVector3Array:
 	var cell_stack : PoolVector3Array = []
 	var highest_cell = get_pos_highest_cell(world_pos)
@@ -96,6 +97,10 @@ func get_cell_stack_at_pos(world_pos: Vector2) -> PoolVector3Array:
 			cell_stack.append(cell_3D)
 	
 	return cell_stack
+
+
+#func get_same_z_stack(cell: Vector3) -> PoolVector3Array:
+#	var cell_stack := PoolVector3Array()
 
 
 # Get the highest cell of every cells in the 2D plan,

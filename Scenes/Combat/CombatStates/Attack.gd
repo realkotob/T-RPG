@@ -85,7 +85,7 @@ func compute_damage(attacker: Actor, target: DamagableObject) -> int:
 #### SIGNAL RESPONSES ####
 
 # Adapt the cursor color
-func on_cursor_changed_cell(cursor : Cursor):
+func on_cursor_changed_cell(cursor : Cursor, _cell: Vector3):
 	if get_parent().get_state() != self:
 		return
 	

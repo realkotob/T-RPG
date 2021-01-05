@@ -9,11 +9,10 @@ func _ready():
 
 
 # Adapt the cursor color
-func on_cursor_changed_cell(cursor: Cursor):
+func on_cursor_changed_cell(_cursor: Cursor, cursor_cell: Vector3):
 	if get_parent().get_state() != self:
 		return
 	
-	var cursor_cell = cursor.get_current_cell()
 	combat_loop.area_node.clear()
 	var actor_cell = combat_loop.active_actor.get_current_cell()
 	

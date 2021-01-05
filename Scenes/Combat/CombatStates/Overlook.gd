@@ -42,15 +42,6 @@ func exit_state():
 	combat_loop.area_node.clear()
 
 
-#### SIGNAL RESPONSES ####
-
-# Adapt the cursor color
-func on_cursor_changed_cell(cursor: Cursor):
-	if get_parent().get_state() != self:
-		return
-	
-	cursor.change_color(Color.white)
-
 
 #### LOGIC ####
 
@@ -71,3 +62,13 @@ func can_use_skill() -> bool:
 # Check if the active actor can move
 func can_wait() -> bool:
 	return owner.active_actor.get_current_actions() >= owner.active_actor.get_max_actions()
+
+
+#### SIGNAL RESPONSES ####
+
+# Adapt the cursor color
+func on_cursor_changed_cell(cursor: Cursor, _cell: Vector3):
+	if get_parent().get_state() != self:
+		return
+	
+	cursor.change_color(Color.white)

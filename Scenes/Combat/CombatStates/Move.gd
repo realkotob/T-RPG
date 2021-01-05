@@ -114,10 +114,9 @@ func _unhandled_input(event):
 
 # When the cursor has moved, 
 # call the function that calculate a new path
-func _on_cursor_cell_changed(cursor: Cursor):
+func _on_cursor_cell_changed(cursor: Cursor, cell: Vector3):
 	if combat_states_node.get_state() == self:
 		if owner.active_actor.get_state_name() == "Idle":
-			var cursor_cell = cursor.get_current_cell()
-			set_path(cursor_cell, owner.active_actor.get_current_cell())
-			var targets = owner.map_node.count_reachable_enemies(cursor_cell)
+			set_path(cell, owner.active_actor.get_current_cell())
+			var targets = owner.map_node.count_reachable_enemies(cell)
 			cursor.set_targets(targets)

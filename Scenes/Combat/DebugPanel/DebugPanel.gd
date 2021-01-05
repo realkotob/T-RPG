@@ -20,8 +20,8 @@ func _on_timeline_state_changed(state_name):
 func _on_combat_state_changed(state_name: String):
 	$VBoxContainer/CombatState.text = "Combat State: " + state_name
 
-func _on_cursor_changed_cell(cursor: Cursor):
-	$VBoxContainer/CursorPos.text = "Cursor Pos: " + String(cursor.get_current_cell())
+func _on_cursor_changed_cell(_cursor: Cursor, cell: Vector3):
+	$VBoxContainer/CursorPos.text = "Cursor Cell: " + String(cell)
 
 func _on_cursor_max_z_changed(max_z: int):
 	$VBoxContainer/CursorMaxZ.text = "Cursor max_z: " + String(max_z)
