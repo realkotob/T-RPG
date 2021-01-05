@@ -1,13 +1,9 @@
 extends Node2D
 
 const TILE_SIZE = Vector2(32, 32)
-const CELL_SIZE = Vector2(32, 16)
-const TRANSPARENCY : float = 0.27
 
-var visible_cells := PoolVector3Array() setget set_visible_cells, get_visible_cells
+var visible_cells : Dictionary = {"visible": [], "barely_visible": []} setget set_visible_cells, get_visible_cells
 var focus_array : Array = [] setget set_focus_array, get_focus_array
-
-var init_finished : bool = false setget set_init_finished, is_init_finished
 
 enum type_priority {
 	TILE,
@@ -22,15 +18,12 @@ enum type_priority {
 func set_focus_array(array: Array): focus_array = array
 func get_focus_array() -> Array: return focus_array
 
-func set_visible_cells(value: PoolVector3Array):
-	if value != visible_cells:
-		visible_cells = value
-		update_tiles_visibility()
+func set_visible_cells(value: Dictionary):
+	visible_cells = value
+	update_tiles_visibility()
 
-func get_visible_cells() -> PoolVector3Array: return visible_cells
+func get_visible_cells() -> Dictionary: return visible_cells
 
-func set_init_finished(value: bool): init_finished = value
-func is_init_finished() -> bool: return init_finished
 
 #### BUILT-IN ####
 
@@ -53,9 +46,7 @@ func init_rendering_queue(layers_array: Array, objects_array: Array):
 
 # Add the given cell to te rendering queue
 func add_cell_to_queue(cell: Vector2, tilemap: TileMap, height: int) -> void:
-#	var is_centered : int = tilemap.get_tile_origin()
 	var tileset = tilemap.get_tileset()
-	
 	var cell_3D = Vector3(cell.x, cell.y, height)
 	
 	# Get the tile id and the position of the cell in the autotile
@@ -70,7 +61,6 @@ func add_cell_to_queue(cell: Vector2, tilemap: TileMap, height: int) -> void:
 	atlas_texture.set_region(Rect2(tile_tileset_pos + (autotile_coord * TILE_SIZE), TILE_SIZE))
 	
 #	# Set the texture to the right position
-#	var centered_offset = (-CELL_SIZE / 2) * is_centered
 	var height_offset = Vector2(0, -16) * (height - 1)
 	var pos = tilemap.map_to_world(cell)
 	
@@ -82,27 +72,34 @@ func add_cell_to_queue(cell: Vector2, tilemap: TileMap, height: int) -> void:
 # Add the given part in the rendering queue
 func add_iso_rendering_part(part: RenderPart, obj: Node):
 	if get_child_count() == 0:
-		part.set_name(obj.name)
-		add_child(part, true)
-		part.set_owner(self)
+		add_part(part, obj)
 	else:
 		var children = get_children()
 		for i in range(children.size()):
 			if xyz_sum_compare(part, children[i]):
-				part.set_name(obj.name)
-				add_child(part, true)
-				part.set_owner(self)
+				add_part(part, obj)
 				move_child(part, i)
 				break
 
 
+# Add the given part to the render queue
+func add_part(part: RenderPart, obj: Node):
+	part.set_name(obj.name)
+	add_child(part, true)
+	part.set_owner(self)
+
+
+# Update the tile visibility based on the visibles cells
 func update_tiles_visibility():
 	for child in get_children():
 		if child is TileRenderPart:
-			if child.get_current_cell() in visible_cells:
-				child.set_visibility(IsoObject.VISIBILITY.VISIBLE)
-			else:
+			var part_cell = child.get_current_cell()
+			if part_cell in visible_cells["barely_visible"]:
+				child.set_visibility(IsoObject.VISIBILITY.BARELY_VISIBLE)
+			elif not part_cell in visible_cells["visible"]:
 				child.set_visibility(IsoObject.VISIBILITY.NOT_VISIBLE)
+			else:
+				child.set_visibility(IsoObject.VISIBILITY.VISIBLE)
 
 
 # Place the given obj at the right position in the rendering queue
@@ -216,61 +213,6 @@ func get_type_priority(thing) -> int:
 		return type_priority.ACTOR
 	
 	return -1
-
-#
-## Return true if the given cell should be transparent
-#func is_cell_transparent(focus_cell: Vector3, cell: Vector3, height_dif : int) -> bool :
-#	if (is_cell_in_front(focus_cell, cell) and \
-#	is_cell_close_enough(focus_cell, cell, height_dif)) or \
-#	(is_cell_in_dead_angle_left(focus_cell, cell) or \
-#	is_cell_in_dead_angle_right(focus_cell, cell)):
-#		if cell != focus_cell:
-#			return true
-#	return false
-#
-#
-#func is_cell_close_enough(focus_cell: Vector3, cell: Vector3, height_dif : int) -> bool:
-#	return abs(cell.x - focus_cell.x) <= height_dif && abs(cell.y - focus_cell.y) <= height_dif
-#
-#
-#func is_cell_in_front(focus_cell: Vector3, cell: Vector3) -> bool:
-#	return cell.x > focus_cell.x - 1 && cell.y > focus_cell.y - 1
-#
-#
-#func is_cell_in_dead_angle_right(focus_cell: Vector3, cell: Vector3) -> bool:
-#	var upper_left_cell = Vector3(focus_cell.x, focus_cell.y + 1, focus_cell.z + 1)
-#	var right_down_cell = Vector3(focus_cell.x + 1, focus_cell.y, focus_cell.z + 1)
-#
-#	if upper_left_cell in rendering_queue:
-#		return false
-#
-#	return cell.z == focus_cell.z + 1 && \
-#		cell.x == focus_cell.x + 1 && \
-#		cell.y == focus_cell.y + 2 && \
-#		right_down_cell in rendering_queue
-#
-#
-#func is_cell_in_dead_angle_left(focus_cell: Vector3, cell: Vector3) -> bool:
-#	var upper_right_cell = Vector3(focus_cell.x + 1, focus_cell.y, focus_cell.z + 1)
-#	var left_down_cell = Vector3(focus_cell.x, focus_cell.y + 1, focus_cell.z + 1)
-#
-#	if upper_right_cell in rendering_queue:
-#		return false
-#
-#	return cell.z == focus_cell.z + 1 && \
-#		cell.y == focus_cell.y + 1 && \
-#		cell.x == focus_cell.x + 2 && \
-#		left_down_cell in rendering_queue
-
-
-# Returns true if the given cell is a the border of the view field
-# Meanings it has at least one non visible adjacent tile
-func is_cell_in_view_field_border(cell: Vector3) -> bool:
-	var adjacents = Map.get_adjacent_cells(cell)
-	for adj_cell in adjacents:
-		if Map.find_2D_cell(adj_cell, visible_cells) == Vector3.INF:
-			return true
-	return false
 
 
 # Compare two positions, return true if a must be renderer before b

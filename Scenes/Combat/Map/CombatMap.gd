@@ -69,6 +69,13 @@ func _ready():
 
 #### LOGIC ####
 
+# Give every actor, his default grid pos
+func init_actors_grid_pos():
+	for actor in get_tree().get_nodes_in_group("Actors"):
+		actor.map_node = self
+		actor.set_current_cell(get_pos_highest_cell(actor.position), true)
+
+
 # Recursivly search for the deepest node of every branch
 # If the deepest node is a Sprite, an AnimatedSprite or a TileMap: hide it
 # Exeception with the ground0 (Bescause its rendered by the engine) 
@@ -97,10 +104,6 @@ func get_cell_stack_at_pos(world_pos: Vector2) -> PoolVector3Array:
 			cell_stack.append(cell_3D)
 	
 	return cell_stack
-
-
-#func get_same_z_stack(cell: Vector3) -> PoolVector3Array:
-#	var cell_stack := PoolVector3Array()
 
 
 # Get the highest cell of every cells in the 2D plan,
@@ -167,13 +170,6 @@ func get_pos_highest_cell(pos: Vector2, max_layer: int = 0) -> Vector3:
 		if current_cell_3D in grounds:
 			return current_cell_3D
 	return Vector3.INF
-
-
-# Give every actor, his default grid pos
-func init_actors_grid_pos():
-	for actor in get_tree().get_nodes_in_group("Actors"):
-		actor.map_node = self
-		actor.set_current_cell(get_pos_highest_cell(actor.position), true)
 
 
 # Return true if the given cell is outside the map bounds
@@ -282,13 +278,22 @@ func get_reachable_cells(origin: Vector3, h: int, ran: int, include_self_cell: b
 	return reachable_cells
 
 
+# Update the view field of the given actor by fetchin every cells he can se and feed him
 func update_view_field(actor: Actor):
 	var view_range = actor.get_view_range()
 	var actor_cell = actor.get_current_cell()
 	var actor_height = actor.get_height()
 	
-	var visible_cells = get_reachable_cells(actor_cell, actor_height, view_range, true)
-	actor.set_view_field(visible_cells)
+	var visible_cells = Array(get_reachable_cells(actor_cell, actor_height, view_range, true))
+	var barely_visible_cells = IsoLib.get_cells_at_xy_dist(actor_cell, view_range, visible_cells)
+	
+	for cell in visible_cells:
+		if cell in barely_visible_cells:
+			visible_cells.erase(cell)
+	
+	actor.set_view_field({
+		"visible": visible_cells,
+		"barely_visible": barely_visible_cells})
 
 
 # Return true if at least one target is reachable by the active actor

@@ -21,8 +21,6 @@ var future_actors_order : Array
 var is_ready : bool = false
 var fog_of_war : bool = true
 
-var visible_cells := PoolVector3Array()
-
 signal active_actor_changed
 #warning-ignore:unused_signal
 signal actor_action_finished(actor)
@@ -177,18 +175,26 @@ func on_actor_wait():
 
 
 func _on_visible_cells_changed():
-	visible_cells = []
+	var allies_view_field = {"visible": [], "barely_visible" : []}
 	
 	# Update the global view field, by adding every ally's view field
-	for ally in allies_array:
-		for cell in ally.get_view_field():
-			if not cell in visible_cells:
-				visible_cells.append(cell)
+
+	var keys = allies_view_field.keys()
+	for i in range(keys.size()):
+		for ally in allies_array:
+			for cell in ally.get_view_field()[keys[i]]:
+				if not cell in allies_view_field[keys[i]]:
+					if i != 0 && cell in allies_view_field[keys[0]]:
+						continue
+					allies_view_field[keys[i]].append(cell)
 	
 	for obj in get_tree().get_nodes_in_group("IsoObject"):
-		var is_visible = obj.get_current_cell() in visible_cells
+		var obj_cell = obj.get_current_cell()
 		var visibility = IsoObject.VISIBILITY.VISIBLE
-		if !is_visible:
+		
+		if obj_cell in allies_view_field["barely_visible"]:
+			visibility = IsoObject.VISIBILITY.BARELY_VISIBLE
+		elif not obj_cell in allies_view_field["visible"]:
 			if obj is Enemy:
 				visibility = IsoObject.VISIBILITY.UNDETECTED
 			else:
@@ -196,4 +202,4 @@ func _on_visible_cells_changed():
 		
 		obj.set_visibility(visibility)
 	
-	$Renderer.set_visible_cells(visible_cells)
+	$Renderer.set_visible_cells(allies_view_field)
