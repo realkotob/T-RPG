@@ -175,13 +175,22 @@ func on_actor_wait():
 
 func _on_visible_cells_changed():
 	visible_cells = []
+	
+	## THIS MAY BE SOLVED IN THE VIEW FIELD ALOGRITHME ##
 	for ally in allies_array:
 		for cell in ally.get_view_field():
 			if not cell in visible_cells:
 				visible_cells.append(cell)
 	
 	for obj in get_tree().get_nodes_in_group("IsoObject"):
-		obj.set_currently_visible(obj.get_current_cell() in visible_cells)
-	
+		var is_visible = obj.get_current_cell() in visible_cells
+		var visibility = IsoObject.VISIBILITY.VISIBLE
+		if !is_visible:
+			if obj is Enemy:
+				visibility = IsoObject.VISIBILITY.UNDETECTED
+			else:
+				visibility = IsoObject.VISIBILITY.NOT_VISIBLE
+		
+		obj.set_visibility(visibility)
 	
 	$Renderer.set_visible_cells(visible_cells)

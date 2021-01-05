@@ -1,14 +1,29 @@
 extends Node2D
 class_name IsoObject
 
+enum VISIBILITY {
+	VISIBLE,
+	BARELY_VISIBLE,
+	NOT_VISIBLE,
+	UNDETECTED
+}
+
+const COLOR_SCHEME = {
+	VISIBILITY.VISIBLE : Color.white,
+	VISIBILITY.BARELY_VISIBLE: Color.lightgray,
+	VISIBILITY.NOT_VISIBLE: Color.darkgray,
+	VISIBILITY.UNDETECTED : Color.transparent
+}
+
 var current_cell := Vector3.INF setget set_current_cell, get_current_cell
 
 var is_ready : bool = false
-var currently_visible : bool = true setget set_currently_visible, is_currently_visible
+var visibility : int = VISIBILITY.VISIBLE setget set_visibility, get_visibility
 
 export var height : int = 1 setget set_height, get_height
 export var passable : bool = true setget set_passable, is_passable
 
+signal modulate_changed(mod)
 signal cell_changed(cell)
 signal global_position_changed(world_pos)
 
@@ -34,13 +49,25 @@ func get_height() -> int: return height
 func set_passable(value : bool): passable = value
 func is_passable() -> bool: return passable
 
-func set_currently_visible(value: bool): currently_visible = value
-func is_currently_visible() -> bool: return currently_visible
+func set_visibility(value: int):
+	if value != visibility:
+		visibility = value
+		set_modulate(COLOR_SCHEME[visibility])
+
+func get_visibility() -> int: return visibility
 
 func set_global_position(value):
 	if value != global_position:
 		global_position = value
 		emit_signal("global_position_changed", value)
+
+func set_modulate(value: Color):
+	if value != get_modulate():
+		modulate = value
+		emit_signal("modulate_changed", modulate)
+
+func is_in_view_field() -> bool:
+	return get_visibility() == VISIBILITY.VISIBLE or get_visibility() == VISIBILITY.BARELY_VISIBLE 
 
 #### BUILT-IN ####
 

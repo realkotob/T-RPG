@@ -4,12 +4,6 @@ const TILE_SIZE = Vector2(32, 32)
 const CELL_SIZE = Vector2(32, 16)
 const TRANSPARENCY : float = 0.27
 
-const COLOR_SCHEME = {
-	"visible" : Color.white,
-	"barely_visible": Color.lightgray,
-	"not_visible" : Color.darkgray
-}
-
 var visible_cells := PoolVector3Array() setget set_visible_cells, get_visible_cells
 var focus_array : Array = [] setget set_focus_array, get_focus_array
 
@@ -28,7 +22,11 @@ enum type_priority {
 func set_focus_array(array: Array): focus_array = array
 func get_focus_array() -> Array: return focus_array
 
-func set_visible_cells(value: PoolVector3Array): visible_cells = value
+func set_visible_cells(value: PoolVector3Array):
+	if value != visible_cells:
+		visible_cells = value
+		update_tiles_visibility()
+
 func get_visible_cells() -> PoolVector3Array: return visible_cells
 
 func set_init_finished(value: bool): init_finished = value
@@ -76,13 +74,13 @@ func add_cell_to_queue(cell: Vector2, tilemap: TileMap, height: int) -> void:
 	var height_offset = Vector2(0, -16) * (height - 1)
 	var pos = tilemap.map_to_world(cell)
 	
-	var render_part = IsoObjectRenderPart.new(tilemap, atlas_texture, cell_3D, pos, 0, height_offset)
+	var render_part = TileRenderPart.new(tilemap, atlas_texture, cell_3D, pos, 0, height_offset)
 	
 	add_iso_rendering_part(render_part, tilemap)
 
 
 # Add the given part in the rendering queue
-func add_iso_rendering_part(part: IsoObjectRenderPart, obj: Node):
+func add_iso_rendering_part(part: RenderPart, obj: Node):
 	if get_child_count() == 0:
 		part.set_name(obj.name)
 		add_child(part, true)
@@ -96,6 +94,15 @@ func add_iso_rendering_part(part: IsoObjectRenderPart, obj: Node):
 				part.set_owner(self)
 				move_child(part, i)
 				break
+
+
+func update_tiles_visibility():
+	for child in get_children():
+		if child is TileRenderPart:
+			if child.get_current_cell() in visible_cells:
+				child.set_visibility(IsoObject.VISIBILITY.VISIBLE)
+			else:
+				child.set_visibility(IsoObject.VISIBILITY.NOT_VISIBLE)
 
 
 # Place the given obj at the right position in the rendering queue
@@ -117,19 +124,12 @@ func remove_iso_obj(obj: IsoObject):
 
 # Replace the given obj at the right position in the rendering queue
 func reorder_iso_obj(obj: IsoObject):
-	var children = get_children()
-	var parts_array = get_obj_parts(obj)
-	
-	for part in parts_array:
-		for i in range(children.size()):
-			var child : IsoObjectRenderPart = children[i]
-			if child.get_object_ref() == obj: continue
-			if xyz_sum_compare(part, child):
-				move_child(part, i)
-				break
+	for part in get_obj_parts(obj):
+		reorder_part(part)
 
 
-func reorder_part(part: IsoObjectRenderPart):
+# Replace the given part at the right position in the rendering queue
+func reorder_part(part: RenderPart):
 	var children = get_children()
 	var part_obj = part.get_object_ref()
 	for i in range(children.size()):
@@ -168,7 +168,6 @@ func scatter_iso_object(obj: IsoObject) -> Array:
 	
 	var obj_modul = obj.get_modulate()
 	var sprite_modul = sprite.get_modulate()
-	var result_modul = obj_modul.linear_interpolate(sprite_modul, 0.5)
 	
 	var part_size = Vector2(texture_size.x, texture_size.y / height)
 	
@@ -184,8 +183,8 @@ func scatter_iso_object(obj: IsoObject) -> Array:
 		
 		var part_cell = obj_cell + Vector3(0, 0, altitude)
 		
-		var part = IsoObjectRenderPart.new(obj, part_texture, part_cell, object_pos, 
-									altitude, offset, result_modul)
+		var part = IsoRenderPart.new(obj, part_texture, part_cell, object_pos, 
+									altitude, offset, obj_modul, sprite_modul)
 		scattered_obj.append(part)
 	
 	return scattered_obj
@@ -271,9 +270,9 @@ func is_cell_in_view_field_border(cell: Vector3) -> bool:
 
 
 # Compare two positions, return true if a must be renderer before b
-func xyz_sum_compare(a, b) -> bool:
-	var grid_pos_a = a if a is Vector3 else a.get_current_cell()
-	var grid_pos_b = b if b is Vector3 else b.get_current_cell()
+func xyz_sum_compare(a: RenderPart, b: RenderPart) -> bool:
+	var grid_pos_a = a.get_current_cell()
+	var grid_pos_b = b.get_current_cell()
 	
 	var sum_a = grid_pos_a.x + grid_pos_a.y + grid_pos_a.z
 	var sum_b = grid_pos_b.x + grid_pos_b.y + grid_pos_b.z
@@ -311,5 +310,5 @@ func on_iso_object_removed(obj: IsoObject):
 	remove_iso_obj(obj)
 
 
-func _on_part_cell_changed(part: IsoObjectRenderPart, _cell: Vector3):
+func _on_part_cell_changed(part: IsoRenderPart, _cell: Vector3):
 	reorder_part(part)

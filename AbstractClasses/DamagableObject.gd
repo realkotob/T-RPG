@@ -79,7 +79,7 @@ func generate_clickable_area():
 
 # Show the known actors infos
 func show_infos():
-	if is_currently_visible():
+	if is_in_view_field():
 		lifebar.update()
 		lifebar.set_visible(true)
 		emit_signal("focused", self)

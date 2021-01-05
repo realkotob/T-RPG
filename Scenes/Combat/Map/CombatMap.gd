@@ -280,7 +280,6 @@ func update_view_field(actor: Actor):
 	
 	var visible_cells = get_reachable_cells(actor_cell, actor_height, view_range, true)
 	actor.set_view_field(visible_cells)
-	Events.emit_signal("visible_cells_changed")
 
 
 # Return true if at least one target is reachable by the active actor
