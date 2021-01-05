@@ -66,17 +66,22 @@ func update_cursor_pos():
 
 
 func _input(_event):
+	if !Input.is_action_just_pressed("NextLayer") && !Input.is_action_just_pressed("PreviousLayer"):
+		return
+	
+	var cell_stack = Array(map_node.get_cell_stack_at_pos(mouse_pos))
+	var index = cell_stack.find(current_cell)
+	
+	if cell_stack.empty():
+		return
+	
 	if Input.is_action_just_pressed("PreviousLayer"):
-		var cell_stack = Array(map_node.get_cell_stack_at_pos(mouse_pos))
-		var index = cell_stack.find(current_cell)
 		index = wrapi(index - 1, 0, cell_stack.size())
-		set_current_cell(cell_stack[index])
 	
 	if Input.is_action_just_pressed("NextLayer"):
-		var cell_stack = Array(map_node.get_cell_stack_at_pos(mouse_pos))
-		var index = cell_stack.find(current_cell)
 		index = wrapi(index + 1, 0, cell_stack.size())
-		set_current_cell(cell_stack[index])
+	
+	set_current_cell(cell_stack[index])
 
 
 func change_color(color : Color):
