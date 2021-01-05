@@ -136,7 +136,11 @@ func reorder_part(part: RenderPart):
 		var child = children[i]
 		if child.get_object_ref() == part_obj: continue
 		if xyz_sum_compare(part, child):
-			move_child(part, i)
+			var part_id = part.get_index()
+			if part_id < i:
+				move_child(part, i - 1)
+			else:
+				move_child(part, i)
 			break
 
 
