@@ -109,6 +109,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/Map/Layer.gd"
 }, {
+"base": "Node2D",
+"class": "MovementArrow",
+"language": "GDScript",
+"path": "res://Scenes/MovementArrow/MovementArrow.gd"
+}, {
+"base": "IsoObject",
+"class": "MovementArrowSegment",
+"language": "GDScript",
+"path": "res://Scenes/MovementArrow/MovementArrowSegment.gd"
+}, {
 "base": "DamagableObject",
 "class": "Obstacle",
 "language": "GDScript",
@@ -185,6 +195,8 @@ _global_script_class_icons={
 "IsoTileMap": "",
 "Map": "",
 "MapLayer": "",
+"MovementArrow": "",
+"MovementArrowSegment": "",
 "Obstacle": "",
 "PathFinding": "",
 "RenderLayer": "",
@@ -208,10 +220,7 @@ config/icon="res://icon.png"
 
 Events="*res://Global/Autoloads/Events.gd"
 EXPLODE="*res://Global/Autoloads/Explode.gd"
-
-[debug]
-
-settings/stdout/print_fps=true
+GAME="*res://Global/Autoloads/GAME.gd"
 
 [display]
 

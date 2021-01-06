@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/LightSource.png-a6838d7cc6693781c2ea5f083d3e41ab.stex"
+path="res://.import/Cursor.png-43d4e7e580db2ca841dd2135426ccd47.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/LightSource.png"
-dest_files=[ "res://.import/LightSource.png-a6838d7cc6693781c2ea5f083d3e41ab.stex" ]
+source_file="res://Scenes/Combat/Cursor/Cursor.png"
+dest_files=[ "res://.import/Cursor.png-43d4e7e580db2ca841dd2135426ccd47.stex" ]
 
 [params]
 

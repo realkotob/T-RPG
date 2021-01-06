@@ -60,14 +60,6 @@ script = ExtResource( 12 )
 [node name="Move" type="Node" parent="CombatState"]
 script = ExtResource( 10 )
 
-[node name="Line" type="Line2D" parent="CombatState/Move"]
-width = 7.0
-default_color = Color( 0.356863, 0.839216, 0.329412, 0.619608 )
-joint_mode = 2
-begin_cap_mode = 2
-end_cap_mode = 2
-round_precision = 19
-
 [node name="Attack" type="Node" parent="CombatState"]
 script = ExtResource( 17 )
 

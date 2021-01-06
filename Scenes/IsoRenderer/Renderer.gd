@@ -8,6 +8,7 @@ var focus_array : Array = [] setget set_focus_array, get_focus_array
 enum type_priority {
 	TILE,
 	AREA,
+	MOVEMENT_ARROW,
 	CURSOR,
 	OBSTACLE,
 	ACTOR
@@ -159,10 +160,14 @@ func scatter_iso_object(obj: IsoObject) -> Array:
 	var sprite = obj.get_node("Sprite")
 	var texture = sprite.get_texture()
 	
+	var is_region_enabled = sprite.is_region()
+	
 	var height = obj.get_height()
 	var obj_cell = obj.get_current_cell()
 	var texture_size = texture.get_size()
 	var object_pos = obj.get_global_position()
+	
+	var region_rect = sprite.get_region_rect() if is_region_enabled else Rect2(Vector2.ZERO, texture_size)
 	
 	var sprite_centered = sprite.is_centered()
 	var sprite_pos = sprite.get_position()
@@ -170,12 +175,12 @@ func scatter_iso_object(obj: IsoObject) -> Array:
 	var obj_modul = obj.get_modulate()
 	var sprite_modul = sprite.get_modulate()
 	
-	var part_size = Vector2(texture_size.x, texture_size.y / height)
+	var part_size = Vector2(region_rect.size.x, region_rect.size.y / height)
 	
 	for i in range(height):
 		var part_texture = AtlasTexture.new()
 		part_texture.set_atlas(texture)
-		part_texture.set_region(Rect2(Vector2(0, part_size.y * i), part_size))
+		part_texture.set_region(Rect2(region_rect.position + Vector2(0, part_size.y * i), part_size))
 		
 		var altitude = height - i - 1
 		var height_offset = Vector2(0, -part_size.y * altitude) if height > 1 else Vector2.ZERO
@@ -205,6 +210,8 @@ func get_type_priority(thing) -> int:
 		return type_priority.TILE
 	elif thing.get_object_ref() is TileArea:
 		return type_priority.AREA
+	elif thing.get_object_ref() is MovementArrowSegment:
+		return type_priority.MOVEMENT_ARROW
 	elif thing.get_object_ref() is Cursor:
 		return type_priority.CURSOR
 	elif thing.get_object_ref() is Obstacle:

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/HeightMap.png-6b135292addd6a8ebbb03cb98a839a99.stex"
+path="res://.import/Arrow.png-0ba81674e351967ade1fe72be8b2fe4d.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/HeightMap.png"
-dest_files=[ "res://.import/HeightMap.png-6b135292addd6a8ebbb03cb98a839a99.stex" ]
+source_file="res://Scenes/MovementArrow/Arrow.png"
+dest_files=[ "res://.import/Arrow.png-0ba81674e351967ade1fe72be8b2fe4d.stex" ]
 
 [params]
 

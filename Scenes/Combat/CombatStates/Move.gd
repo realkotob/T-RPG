@@ -2,7 +2,6 @@ extends CombatStateBase
 
 #### COMBAT MOVE STATE ####
 
-onready var line_node := $Line
 onready var combat_states_node = get_parent()
 
 var combat_loop_node : Node
@@ -41,7 +40,7 @@ func enter_state():
 # Empty the path variable when the state is exited and 
 func exit_state():
 	initialize_path_value() # Empty the path
-	line_node.set_points([]) # Empty the line
+	owner.map_node.clear_movement_arrow()
 	owner.area_node.clear()
 	owner.cursor_node.hide_target_counter(true)
 
@@ -50,15 +49,15 @@ func exit_state():
 
 # Ask the map for a path between current actor's cell and the cursor's cell
 func set_path(cursor_cell : Vector3, actor_cell : Vector3) -> void:
-	
+	owner.map_node.clear_movement_arrow()
 	path = combat_loop.pathfinder.find_path(actor_cell, cursor_cell)
 	
 	var is_path_valid = check_path(path)
 	if is_path_valid:
-		line_node.set_points(owner.map_node.cell_array_to_world(path))
+		owner.map_node.generate_movement_arrow(path)
 		owner.cursor_node.change_color(Color.white)
 	else:
-		line_node.set_points([])
+		owner.map_node.clear_movement_arrow()
 		owner.cursor_node.change_color(Color.red)
 
 

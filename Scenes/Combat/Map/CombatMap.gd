@@ -88,6 +88,12 @@ func hide_all_rendered_nodes(node: Node):
 			hide_all_rendered_nodes(child)
 
 
+func generate_movement_arrow(path: PoolVector3Array):
+	$Interactives/MovementArrow.generate_movement_arrow(path)
+
+func clear_movement_arrow():
+	$Interactives/MovementArrow.clear()
+
 # Return an array of cells at the given world position 
 # (ie cells that would be displayed at the same position in the screen)
 func get_cell_stack_at_pos(world_pos: Vector2) -> PoolVector3Array:
