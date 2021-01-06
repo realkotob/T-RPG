@@ -160,6 +160,10 @@ func scatter_iso_object(obj: IsoObject) -> Array:
 	var sprite = obj.get_node("Sprite")
 	var texture = sprite.get_texture()
 	
+	# USEFULL FOR VISUAL DEBUG
+#	if !sprite.is_visible():
+#		return []
+	
 	var is_region_enabled = sprite.is_region()
 	
 	var height = obj.get_height()
@@ -171,6 +175,7 @@ func scatter_iso_object(obj: IsoObject) -> Array:
 	
 	var sprite_centered = sprite.is_centered()
 	var sprite_pos = sprite.get_position()
+	var sprite_offset = sprite.get_offset()
 	
 	var obj_modul = obj.get_modulate()
 	var sprite_modul = sprite.get_modulate()
@@ -185,7 +190,7 @@ func scatter_iso_object(obj: IsoObject) -> Array:
 		var altitude = height - i - 1
 		var height_offset = Vector2(0, -part_size.y * altitude) if height > 1 else Vector2.ZERO
 		var centered_offset = (Vector2(0, part_size.y) / 2) * int(sprite_centered && height > 1)
-		var offset = sprite_pos + height_offset + centered_offset
+		var offset = sprite_pos + sprite_offset + height_offset + centered_offset
 		
 		var part_cell = obj_cell + Vector3(0, 0, altitude)
 		
