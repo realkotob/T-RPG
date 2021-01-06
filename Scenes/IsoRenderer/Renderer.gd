@@ -185,7 +185,7 @@ func scatter_iso_object(obj: IsoObject) -> Array:
 		var part_cell = obj_cell + Vector3(0, 0, altitude)
 		
 		var part = IsoRenderPart.new(obj, part_texture, part_cell, object_pos, 
-									altitude, offset, obj_modul, sprite_modul)
+									altitude + 1, offset, obj_modul, sprite_modul)
 		scattered_obj.append(part)
 	
 	return scattered_obj
