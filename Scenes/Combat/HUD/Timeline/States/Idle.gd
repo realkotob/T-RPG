@@ -1,20 +1,10 @@
-extends StateBase
+extends TL_StateBase
 
-#### TIMELINE MOVE STATE ####
-
-var portrait_array : Array = []
-var timeline_node : Node
-
+#### TIMELINE IDLE STATE ####
 
 signal timeline_movement_finished
 
-
 func _ready():
-	var parent = get_parent()
-	
-	yield(parent, "ready")
-	timeline_node = parent.timeline_node
-	
 	var _err = connect("timeline_movement_finished", owner, "on_timeline_movement_finished")
 
 

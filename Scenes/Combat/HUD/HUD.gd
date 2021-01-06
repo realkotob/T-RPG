@@ -4,7 +4,7 @@ onready var action_menu_node = $ActionMenu
 onready var action_buttons_array = $ActionMenu.get_children()
 onready var active_actor_infos_node = $ActiveActorInfos
 onready var actions_left_node = $ActiveActorInfos/ActionsLeft
-onready var timeline_node = $TimeLineStates/Timeline
+onready var timeline_node = $Timeline
 onready var height_node = $ActiveActorInfos/Height
 
 func _ready():
@@ -21,7 +21,7 @@ func generate_timeline(actors_array : Array):
 
 # Called when a turn end, move the timeline to be in the right disposition
 func move_timeline(current_order: Array, future_order: Array):
-	$TimeLineStates.move_timeline(current_order, future_order)
+	timeline_node.move_timeline(current_order, future_order)
 
 
 # Rearrange the hierarchy of nodes of the timeline so it correspond the actors order

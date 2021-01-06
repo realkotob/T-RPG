@@ -21,6 +21,8 @@ var future_actors_order : Array
 var is_ready : bool = false
 var fog_of_war : bool = true
 
+var team_view_field = [[], []]
+
 signal active_actor_changed
 #warning-ignore:unused_signal
 signal actor_action_finished(actor)
@@ -59,7 +61,7 @@ func _ready() -> void:
 	_err = Events.connect("visible_cells_changed", self, "_on_visible_cells_changed")
 	_err = area_node.connect("area_created", self, "on_area_created")
 	_err = map_node.connect("map_generation_finished", self, "_on_map_generation_finished")
-	
+	_err = Events.connect("timeline_movement_finished", self, "_on_timeline_movement_finished")
 	HUD_node.generate_timeline(actors_order)
 	focused_objects_array = [cursor_node, active_actor]
 	
@@ -135,7 +137,7 @@ func on_active_actor_turn_finished():
 
 # Triggered when the timeline movement is finished
 # Update the order of children nodes in the hierachy of the timeline to match the actor order
-func on_timeline_movement_finished():
+func _on_timeline_movement_finished():
 	set_actors_order(future_actors_order)
 	HUD_node.update_timeline_order(actors_order)
 	
@@ -174,6 +176,13 @@ func on_actor_wait():
 	set_state("Wait")
 
 
+func is_cell_in_ally_view_field(cell: Vector3):
+	for array in team_view_field:
+		if cell in array:
+			return true
+	return false 
+
+
 func _on_visible_cells_changed():
 	# Check the update is necesarry by checking if every ally has a view field already
 	for ally in allies_array:
@@ -181,26 +190,26 @@ func _on_visible_cells_changed():
 		if ally_view_field.empty() or ally_view_field[0].empty():
 			return
 	
-	var allies_view_field = [[], []]
+	team_view_field = [[], []]
 	
 	# Update the global view field, by adding every ally's view field
 	# Assure a tile can't be barely visible, if it is visible by another actor
 	for i in range(2):
 		for ally in allies_array:
 			for cell in ally.get_view_field()[i]:
-				if not cell in allies_view_field[i]:
-					if i != 0 && cell in allies_view_field[IsoObject.VISIBILITY.VISIBLE]:
+				if not cell in team_view_field[i]:
+					if i != 0 && cell in team_view_field[IsoObject.VISIBILITY.VISIBLE]:
 						continue
-					allies_view_field[i].append(cell)
+					team_view_field[i].append(cell)
 	
 	# Give every objects its visibility
 	for obj in get_tree().get_nodes_in_group("IsoObject"):
 		var obj_cell = obj.get_current_cell()
 		var visibility = IsoObject.VISIBILITY.VISIBLE
 		
-		if obj_cell in allies_view_field[IsoObject.VISIBILITY.BARELY_VISIBLE]:
+		if obj_cell in team_view_field[IsoObject.VISIBILITY.BARELY_VISIBLE]:
 			visibility = IsoObject.VISIBILITY.BARELY_VISIBLE
-		elif not obj_cell in allies_view_field[IsoObject.VISIBILITY.VISIBLE]:
+		elif not obj_cell in team_view_field[IsoObject.VISIBILITY.VISIBLE]:
 			if obj is Enemy:
 				visibility = IsoObject.VISIBILITY.UNDETECTED
 			else:
@@ -208,4 +217,4 @@ func _on_visible_cells_changed():
 		
 		obj.set_visibility(visibility)
 	
-	$Renderer.set_visible_cells(allies_view_field)
+	$Renderer.set_visible_cells(team_view_field)

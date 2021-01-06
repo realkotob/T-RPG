@@ -1,12 +1,10 @@
 extends StateBase
-
 class_name TL_StateBase
 
 #### TIMELINE STATE BASE CLASS ####
 
-var timeline_node : Node
+onready var timeline_node : Timeline = owner
 var portrait_array : Array = []
-
 
 # When the extraction is finished, empty the array
 func exit_state():

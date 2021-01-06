@@ -4,6 +4,7 @@ const DAMAGE_LABEL_SCENE := preload("res://Scenes/Combat/DamageLabel/DamageLabel
 
 #### COMBAT ATTACK STATE ####
 
+
 #### BUILT-IN ####
 
 func _ready():
@@ -40,6 +41,14 @@ func _unhandled_input(event):
 			
 			var active_actor = combat_loop.active_actor
 			var target = get_cursor_target()
+			var target_cell = target.get_current_cell()
+			var reachables_cells = combat_loop.area_node.get_area_cells()
+			
+			# Check if the target is reachable
+			if !target is DamagableObject or !target_cell in reachables_cells or\
+				!owner.is_cell_in_ally_view_field(target_cell):
+				return null
+			
 			if target:
 				var damage = compute_damage(active_actor, target)
 				instance_damage_label(damage, target)
@@ -63,13 +72,6 @@ func instance_damage_label(damage: int, target: DamagableObject):
 func get_cursor_target() -> DamagableObject:
 	var cursor_cell = combat_loop.cursor_node.get_current_cell()
 	var object = combat_loop.map_node.get_object_on_cell(cursor_cell)
-	var reachables_cells = combat_loop.area_node.get_area_cells()
-	var view_field = combat_loop.active_actor.get_view_field()
-	
-	# Check if the target is reachable
-	if !object is DamagableObject or !cursor_cell in reachables_cells or\
-	   !cursor_cell in view_field:
-		return null
 	
 	return object
 
