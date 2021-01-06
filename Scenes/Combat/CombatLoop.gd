@@ -175,26 +175,32 @@ func on_actor_wait():
 
 
 func _on_visible_cells_changed():
-	var allies_view_field = {"visible": [], "barely_visible" : []}
+	# Check the update is necesarry by checking if every ally has a view field already
+	for ally in allies_array:
+		var ally_view_field = ally.get_view_field()
+		if ally_view_field.empty() or ally_view_field[0].empty():
+			return
+	
+	var allies_view_field = [[], []]
 	
 	# Update the global view field, by adding every ally's view field
-
-	var keys = allies_view_field.keys()
-	for i in range(keys.size()):
+	# Assure a tile can't be barely visible, if it is visible by another actor
+	for i in range(2):
 		for ally in allies_array:
-			for cell in ally.get_view_field()[keys[i]]:
-				if not cell in allies_view_field[keys[i]]:
-					if i != 0 && cell in allies_view_field[keys[0]]:
+			for cell in ally.get_view_field()[i]:
+				if not cell in allies_view_field[i]:
+					if i != 0 && cell in allies_view_field[IsoObject.VISIBILITY.VISIBLE]:
 						continue
-					allies_view_field[keys[i]].append(cell)
+					allies_view_field[i].append(cell)
 	
+	# Give every objects its visibility
 	for obj in get_tree().get_nodes_in_group("IsoObject"):
 		var obj_cell = obj.get_current_cell()
 		var visibility = IsoObject.VISIBILITY.VISIBLE
 		
-		if obj_cell in allies_view_field["barely_visible"]:
+		if obj_cell in allies_view_field[IsoObject.VISIBILITY.BARELY_VISIBLE]:
 			visibility = IsoObject.VISIBILITY.BARELY_VISIBLE
-		elif not obj_cell in allies_view_field["visible"]:
+		elif not obj_cell in allies_view_field[IsoObject.VISIBILITY.VISIBLE]:
 			if obj is Enemy:
 				visibility = IsoObject.VISIBILITY.UNDETECTED
 			else:

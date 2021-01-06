@@ -27,7 +27,7 @@ var jump_max_height : int = 2 setget set_jump_max_height, get_jump_max_height
 
 var move_speed : float = 300
 
-var view_field : Dictionary = {"visible": [], "barely_visible": []} setget set_view_field, get_view_field
+var view_field : Array = [[], []] setget set_view_field, get_view_field
 
 signal action_spent
 
@@ -101,12 +101,13 @@ func get_defense() -> int: return MaxStats.get_defense()
 
 func get_view_range() -> int: return MaxStats.get_view_range()
 
-func set_view_field(value: Dictionary):
-	view_field = value
-	if self.is_class("Ally"):
-		Events.emit_signal("visible_cells_changed")
+func set_view_field(value: Array):
+	if value != view_field:
+		view_field = value
+		if self.is_class("Ally"):
+			Events.emit_signal("visible_cells_changed")
 
-func get_view_field() -> Dictionary: return view_field
+func get_view_field() -> Array: return view_field
 
 #### BUILT-IN ####
 

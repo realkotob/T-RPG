@@ -2,7 +2,7 @@ extends Node2D
 
 const TILE_SIZE = Vector2(32, 32)
 
-var visible_cells : Dictionary = {"visible": [], "barely_visible": []} setget set_visible_cells, get_visible_cells
+var visible_cells : Array = [[], []] setget set_visible_cells, get_visible_cells
 var focus_array : Array = [] setget set_focus_array, get_focus_array
 
 enum type_priority {
@@ -18,11 +18,11 @@ enum type_priority {
 func set_focus_array(array: Array): focus_array = array
 func get_focus_array() -> Array: return focus_array
 
-func set_visible_cells(value: Dictionary):
+func set_visible_cells(value: Array):
 	visible_cells = value
 	update_tiles_visibility()
 
-func get_visible_cells() -> Dictionary: return visible_cells
+func get_visible_cells() -> Array: return visible_cells
 
 
 #### BUILT-IN ####
@@ -60,7 +60,7 @@ func add_cell_to_queue(cell: Vector2, tilemap: TileMap, height: int) -> void:
 	atlas_texture.set_atlas(stream_texture)
 	atlas_texture.set_region(Rect2(tile_tileset_pos + (autotile_coord * TILE_SIZE), TILE_SIZE))
 	
-#	# Set the texture to the right position
+	# Set the texture to the right position
 	var height_offset = Vector2(0, -16) * (height - 1)
 	var pos = tilemap.map_to_world(cell)
 	
@@ -94,9 +94,9 @@ func update_tiles_visibility():
 	for child in get_children():
 		if child is TileRenderPart:
 			var part_cell = child.get_current_cell()
-			if part_cell in visible_cells["barely_visible"]:
+			if part_cell in visible_cells[IsoObject.VISIBILITY.BARELY_VISIBLE]:
 				child.set_visibility(IsoObject.VISIBILITY.BARELY_VISIBLE)
-			elif not part_cell in visible_cells["visible"]:
+			elif not part_cell in visible_cells[IsoObject.VISIBILITY.VISIBLE]:
 				child.set_visibility(IsoObject.VISIBILITY.NOT_VISIBLE)
 			else:
 				child.set_visibility(IsoObject.VISIBILITY.VISIBLE)

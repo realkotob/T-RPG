@@ -285,15 +285,15 @@ func update_view_field(actor: Actor):
 	var actor_height = actor.get_height()
 	
 	var visible_cells = Array(get_reachable_cells(actor_cell, actor_height, view_range, true))
-	var barely_visible_cells = IsoLib.get_cells_at_xy_dist(actor_cell, view_range, visible_cells)
+	var barely_visible_cells = Array(IsoLib.get_cells_at_xy_dist(actor_cell, view_range, visible_cells))
 	
 	for cell in visible_cells:
 		if cell in barely_visible_cells:
 			visible_cells.erase(cell)
 	
-	actor.set_view_field({
-		"visible": visible_cells,
-		"barely_visible": barely_visible_cells})
+	actor.set_view_field([
+		visible_cells,
+		barely_visible_cells])
 
 
 # Return true if at least one target is reachable by the active actor
