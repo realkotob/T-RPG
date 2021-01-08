@@ -99,7 +99,7 @@ func get_weapon() -> Resource: return weapon
 
 func get_defense() -> int: return MaxStats.get_defense()
 
-func get_view_range() -> int: return MaxStats.get_view_range()
+func get_view_range() -> int: return MaxStats.get_view_range() + get_altitude() * 2
 
 func set_view_field(value: Array):
 	if value != view_field:
