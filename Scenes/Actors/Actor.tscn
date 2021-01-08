@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://AbstractClasses/Actor.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Actors/Allies/States/Idle.gd" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Scenes/Actors/Allies/CptHart/HartStats.tres" type="Resource" id=7]
 [ext_resource path="res://Resources/Firearm.tres" type="Resource" id=8]
 [ext_resource path="res://Scenes/Combat/DamagableObject.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scenes/Actors/CharaSpriteFrameTemplate.tres" type="SpriteFrames" id=10]
 
 [node name="Actor" instance=ExtResource( 9 )]
 script = ExtResource( 1 )
@@ -16,11 +17,6 @@ height = 2
 passable = false
 MaxStats = ExtResource( 7 )
 weapon = ExtResource( 8 )
-
-[node name="Sprite" parent="." index="0"]
-position = Vector2( 0, -12 )
-animation = "IdleBottom"
-script = ExtResource( 3 )
 
 [node name="States" type="Node" parent="." index="1"]
 script = ExtResource( 4 )
@@ -33,3 +29,7 @@ script = ExtResource( 5 )
 
 [node name="Hurt" type="Node" parent="States" index="2"]
 script = ExtResource( 6 )
+
+[node name="Sprite" type="AnimatedSprite" parent="." index="2"]
+frames = ExtResource( 10 )
+script = ExtResource( 3 )

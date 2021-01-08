@@ -3,10 +3,12 @@ class_name DamagableObject
 
 const LIFEBAR_SCENE = preload("res://Scenes/Combat/LifeBar/LifeBar.tscn")
 
-export var max_HP : int = 0 setget set_max_HP, get_max_HP
-var current_HP : int = 0 setget set_current_HP, get_current_HP
+onready var sprite_node = get_node_or_null("Sprite")
 
 export var defense : int = 0 setget set_defense, get_defense
+
+export var max_HP : int = 0 setget set_max_HP, get_max_HP
+var current_HP : int = 0 setget set_current_HP, get_current_HP
 
 var lifebar : Control
 var clickable_area : Area2D
@@ -61,13 +63,19 @@ func generate_lifebar():
 	var sprite = $Sprite
 	var texture = get_sprite_texture(sprite)
 	
+	if texture == null:
+		return
+	
 	var sprite_height = texture.get_size().y
 	lifebar.set_position(Vector2(0, -sprite_height - 5))
 	lifebar.set_visible(false)
 	add_child(lifebar)
 
 
-func get_sprite_texture(sprite: Node2D):
+func get_sprite_texture(sprite: Node2D) -> Texture:
+	if sprite == null:
+		return null
+	
 	if sprite is Sprite:
 		return sprite.get_texture()
 	else :
@@ -81,12 +89,12 @@ func get_sprite_texture(sprite: Node2D):
 func generate_clickable_area():
 	clickable_area = Area2D.new()
 	add_child(clickable_area)
-	clickable_area.set_position($Sprite.get_position())
+	clickable_area.set_position(sprite_node.get_position())
 	
 	var collision_shape = CollisionShape2D.new()
 	
 	var rect_shape = RectangleShape2D.new()
-	var sprite_size = get_sprite_texture($Sprite).get_size()
+	var sprite_size = get_sprite_texture(sprite_node).get_size()
 	rect_shape.set_extents(sprite_size / 2)
 	
 	collision_shape.set_shape(rect_shape)

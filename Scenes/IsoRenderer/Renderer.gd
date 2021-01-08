@@ -168,11 +168,11 @@ func scatter_iso_object(obj: IsoObject) -> Array:
 	var obj_modul = obj.get_modulate()
 	
 	for i in range(height):
-		var altitude = height - i - 1
+		var altitude = height - i
 		var part_cell = obj_cell + Vector3(0, 0, altitude)
 		
 		var part = IsoRenderPart.new(obj, sprite_array, part_cell, object_pos,
-									altitude + 1, obj_modul)
+									altitude, obj_modul)
 		scattered_obj.append(part)
 	
 	return scattered_obj

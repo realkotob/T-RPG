@@ -55,35 +55,34 @@ func apply_texture_change(obj_sprite: Node2D, sprite_node: Sprite) -> void:
 		var sprite_frames = obj_sprite.get_sprite_frames()
 		texture = sprite_frames.get_frame(animation, current_frame).duplicate()
 	else:
-		texture = obj_sprite.get_texture()
+		texture = obj_sprite.get_texture().duplicate()
 	
 	var height = get_object_ref().get_height()
 	var texture_size = texture.get_size()
 	var is_region_enabled = obj_sprite.is_region() if obj_sprite is Sprite else false
 	
 	var region_rect = obj_sprite.get_region_rect() if is_region_enabled else Rect2(Vector2.ZERO, texture_size)
-
+	
 	var sprite_centered = obj_sprite.is_centered()
 	var sprite_pos = obj_sprite.get_position()
 	var sprite_offset = obj_sprite.get_offset()
 	
 	var sprite_modul = obj_sprite.get_modulate()
 	
-	var part_size = Vector2(region_rect.size.x, region_rect.size.y / height)
+	var part_size = Vector2(region_rect.size.x, region_rect.size.y / height) if height > 1 else region_rect.size
 	
 	var part_i = height - altitude
-	
-	var texture_region = texture.get_region()
 	
 	if texture is AtlasTexture:
 		texture.set_region(Rect2(texture.get_region().position + Vector2(0, part_size.y * part_i), part_size))
 	else:
-		texture.set_region(Rect2(region_rect.position + Vector2(0, part_size.y * part_i), part_size))
+		sprite_node.set_region_rect(Rect2(region_rect.position + Vector2(0, part_size.y * part_i), part_size))
 	
-	var height_offset = Vector2(0, -part_size.y * altitude) if height > 1 else Vector2.ZERO
+	var height_offset = Vector2(0, -part_size.y * (altitude  - 1)) if height > 1 else Vector2.ZERO
 	var centered_offset = (Vector2(0, part_size.y) / 2) * int(sprite_centered && height > 1)
 	var offset = sprite_pos + sprite_offset + height_offset + centered_offset
 	
+	sprite_node.set_region(is_region_enabled)
 	sprite_node.set_texture(texture)
 	sprite_node.set_modulate(sprite_modul)
 	sprite_node.set_offset(offset)
@@ -107,4 +106,3 @@ func _on_object_modulate_changed(mod: Color):
 func _on_texture_changed(obj_sprite: IsoAnimatedSprite):
 	var sprite_node = get_node(obj_sprite.name)
 	apply_texture_change(obj_sprite, sprite_node)
-	

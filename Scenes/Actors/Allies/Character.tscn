@@ -8,7 +8,7 @@
 portrait = ExtResource( 4 )
 timeline_port = ExtResource( 5 )
 
-[node name="Sprite" parent="." index="0"]
+[node name="Sprite" parent="." index="2"]
 animation = "WalkBottom"
-frame = 3
-playing = true
+frame = 2
+offset = Vector2( 0, -10 )
