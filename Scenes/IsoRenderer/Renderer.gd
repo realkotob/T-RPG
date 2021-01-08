@@ -155,47 +155,24 @@ func get_obj_parts(obj: IsoObject) -> Array:
 ## ONLY HANDLE VERTICAL SCATTERING - MULTIPLE TILES WIDE OBJECTS ARE NOT SUPPORTED ##
 func scatter_iso_object(obj: IsoObject) -> Array:
 	var scattered_obj : Array = []
+	var sprite_array : Array = []
 	
-	#### NEED TO BE DYNAMIC ####
-	var sprite = obj.get_node("Sprite")
-	var texture = sprite.get_texture()
-	
-	# USEFULL FOR VISUAL DEBUG
-#	if !sprite.is_visible():
-#		return []
-	
-	var is_region_enabled = sprite.is_region()
+	for child in obj.get_children():
+		if child is IsoSprite or child is IsoAnimatedSprite:
+			sprite_array.append(child)
 	
 	var height = obj.get_height()
 	var obj_cell = obj.get_current_cell()
-	var texture_size = texture.get_size()
 	var object_pos = obj.get_global_position()
 	
-	var region_rect = sprite.get_region_rect() if is_region_enabled else Rect2(Vector2.ZERO, texture_size)
-	
-	var sprite_centered = sprite.is_centered()
-	var sprite_pos = sprite.get_position()
-	var sprite_offset = sprite.get_offset()
-	
 	var obj_modul = obj.get_modulate()
-	var sprite_modul = sprite.get_modulate()
-	
-	var part_size = Vector2(region_rect.size.x, region_rect.size.y / height)
 	
 	for i in range(height):
-		var part_texture = AtlasTexture.new()
-		part_texture.set_atlas(texture)
-		part_texture.set_region(Rect2(region_rect.position + Vector2(0, part_size.y * i), part_size))
-		
 		var altitude = height - i - 1
-		var height_offset = Vector2(0, -part_size.y * altitude) if height > 1 else Vector2.ZERO
-		var centered_offset = (Vector2(0, part_size.y) / 2) * int(sprite_centered && height > 1)
-		var offset = sprite_pos + sprite_offset + height_offset + centered_offset
-		
 		var part_cell = obj_cell + Vector3(0, 0, altitude)
 		
-		var part = IsoRenderPart.new(obj, part_texture, part_cell, object_pos, 
-									altitude + 1, offset, obj_modul, sprite_modul)
+		var part = IsoRenderPart.new(obj, sprite_array, part_cell, object_pos,
+									altitude + 1, obj_modul)
 		scattered_obj.append(part)
 	
 	return scattered_obj

@@ -2,7 +2,7 @@
 
 [ext_resource path="res://AbstractClasses/Actor.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Actors/Allies/States/Idle.gd" type="Script" id=2]
-[ext_resource path="res://Scenes/Actors/Allies/CptHart/Sprite/Hart_Iso_outline.png" type="Texture" id=3]
+[ext_resource path="res://AbstractClasses/IsoAnimatedSprite.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/Actors/Allies/States/CharacterStates.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/Actors/Allies/States/Move.gd" type="Script" id=5]
 [ext_resource path="res://Scenes/Actors/Allies/States/Hurt.gd" type="Script" id=6]
@@ -18,7 +18,9 @@ MaxStats = ExtResource( 7 )
 weapon = ExtResource( 8 )
 
 [node name="Sprite" parent="." index="0"]
-texture = ExtResource( 3 )
+position = Vector2( 0, -12 )
+animation = "IdleBottom"
+script = ExtResource( 3 )
 
 [node name="States" type="Node" parent="." index="1"]
 script = ExtResource( 4 )

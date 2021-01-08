@@ -58,10 +58,23 @@ func _ready():
 
 func generate_lifebar():
 	lifebar = LIFEBAR_SCENE.instance()
-	var sprite_height = $Sprite.get_texture().get_size().y
+	var sprite = $Sprite
+	var texture = get_sprite_texture(sprite)
+	
+	var sprite_height = texture.get_size().y
 	lifebar.set_position(Vector2(0, -sprite_height - 5))
 	lifebar.set_visible(false)
 	add_child(lifebar)
+
+
+func get_sprite_texture(sprite: Node2D):
+	if sprite is Sprite:
+		return sprite.get_texture()
+	else :
+		var animation = sprite.get_animation()
+		var current_frame = sprite.get_frame()
+		var sprite_frames = sprite.get_sprite_frames()
+		return sprite_frames.get_frame(animation, current_frame)
 
 
 # Generate the area that will detect the mouse going over the sprite
@@ -73,7 +86,7 @@ func generate_clickable_area():
 	var collision_shape = CollisionShape2D.new()
 	
 	var rect_shape = RectangleShape2D.new()
-	var sprite_size = $Sprite.get_texture().get_size()
+	var sprite_size = get_sprite_texture($Sprite).get_size()
 	rect_shape.set_extents(sprite_size / 2)
 	
 	collision_shape.set_shape(rect_shape)

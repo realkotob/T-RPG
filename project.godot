@@ -79,6 +79,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Resources/Firearm.gd"
 }, {
+"base": "AnimatedSprite",
+"class": "IsoAnimatedSprite",
+"language": "GDScript",
+"path": "res://AbstractClasses/IsoAnimatedSprite.gd"
+}, {
 "base": "Object",
 "class": "IsoLib",
 "language": "GDScript",
@@ -98,6 +103,11 @@ _global_script_classes=[ {
 "class": "IsoRenderPart",
 "language": "GDScript",
 "path": "res://Scenes/IsoRenderer/RenderPart/IsoRenderPart.gd"
+}, {
+"base": "Sprite",
+"class": "IsoSprite",
+"language": "GDScript",
+"path": "res://AbstractClasses/IsoSprite.gd"
 }, {
 "base": "TileMap",
 "class": "IsoTileMap",
@@ -199,10 +209,12 @@ _global_script_class_icons={
 "DamagableObject": "",
 "Enemy": "",
 "Firearm": "",
+"IsoAnimatedSprite": "",
 "IsoLib": "",
 "IsoObject": "",
 "IsoRaycast": "",
 "IsoRenderPart": "",
+"IsoSprite": "",
 "IsoTileMap": "",
 "Map": "",
 "MapLayer": "",
