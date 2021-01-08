@@ -8,6 +8,7 @@ onready var combat_state_node = $CombatState
 onready var HUD_node = $HUD
 onready var debug_panel = $DebugPanel
 onready var pathfinder = $Map/Pathfinding
+onready var allies_team = $Map/Interactives/Actors/Allies
 
 onready var allies_array : Array = get_tree().get_nodes_in_group("Allies") setget set_future_actors_order
 onready var actors_order : Array = get_tree().get_nodes_in_group("Actors") setget set_actors_order
@@ -20,8 +21,6 @@ var previous_actor : Actor = null
 var future_actors_order : Array
 var is_ready : bool = false
 var fog_of_war : bool = true
-
-var team_view_field = [[], []]
 
 signal active_actor_changed
 #warning-ignore:unused_signal
@@ -176,40 +175,17 @@ func on_actor_wait():
 	set_state("Wait")
 
 
-func is_cell_in_ally_view_field(cell: Vector3):
-	for array in team_view_field:
-		if cell in array:
-			return true
-	return false 
-
-
 func _on_visible_cells_changed():
-	# Check the update is necesarry by checking if every ally has a view field already
-	for ally in allies_array:
-		var ally_view_field = ally.get_view_field()
-		if ally_view_field.empty() or ally_view_field[0].empty():
-			return
-	
-	team_view_field = [[], []]
-	
-	# Update the global view field, by adding every ally's view field
-	# Assure a tile can't be barely visible, if it is visible by another actor
-	for i in range(2):
-		for ally in allies_array:
-			for cell in ally.get_view_field()[i]:
-				if not cell in team_view_field[i]:
-					if i != 0 && cell in team_view_field[IsoObject.VISIBILITY.VISIBLE]:
-						continue
-					team_view_field[i].append(cell)
+	var allies_view_field = allies_team.get_view_field()
 	
 	# Give every objects its visibility
 	for obj in get_tree().get_nodes_in_group("IsoObject"):
 		var obj_cell = obj.get_current_cell()
 		var visibility = IsoObject.VISIBILITY.VISIBLE
 		
-		if obj_cell in team_view_field[IsoObject.VISIBILITY.BARELY_VISIBLE]:
+		if obj_cell in allies_view_field[IsoObject.VISIBILITY.BARELY_VISIBLE]:
 			visibility = IsoObject.VISIBILITY.BARELY_VISIBLE
-		elif not obj_cell in team_view_field[IsoObject.VISIBILITY.VISIBLE]:
+		elif not obj_cell in allies_view_field[IsoObject.VISIBILITY.VISIBLE]:
 			if obj is Enemy:
 				visibility = IsoObject.VISIBILITY.UNDETECTED
 			else:
@@ -217,4 +193,4 @@ func _on_visible_cells_changed():
 		
 		obj.set_visibility(visibility)
 	
-	$Renderer.set_visible_cells(team_view_field)
+	$Renderer.set_visible_cells(allies_view_field)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Scenes/IsoRenderer/Renderer.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Combat/DebugPanel/DebugPanel.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Global/GUI_theme/transparant_UI_theme.tres" type="Theme" id=5]
 [ext_resource path="res://Scenes/Combat/Map/Map.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/Combat/Timeline/Timeline.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/Combat/ActorTeam.gd" type="Script" id=8]
 [ext_resource path="res://Scenes/Combat/CombatStates/Move.gd" type="Script" id=10]
 [ext_resource path="res://Scenes/Combat/HUD/HUD.gd" type="Script" id=11]
 [ext_resource path="res://Scenes/Combat/CombatStates/Overlook.gd" type="Script" id=12]
@@ -77,6 +78,7 @@ position = Vector2( 352, 200 )
 [node name="Actors" type="Node2D" parent="Map/Interactives" index="2"]
 
 [node name="Allies" type="Node2D" parent="Map/Interactives/Actors"]
+script = ExtResource( 8 )
 
 [node name="Hart" parent="Map/Interactives/Actors/Allies" instance=ExtResource( 4 )]
 position = Vector2( 288, 216 )

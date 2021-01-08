@@ -46,7 +46,7 @@ func _unhandled_input(event):
 			
 			# Check if the target is reachable
 			if !target is DamagableObject or !target_cell in reachables_cells or\
-				!owner.is_cell_in_ally_view_field(target_cell):
+				!owner.allies_team.is_cell_in_view_field(target_cell):
 				return null
 			
 			if target:
