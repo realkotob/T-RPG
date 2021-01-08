@@ -82,7 +82,7 @@ func apply_texture_change(obj_sprite: Node2D, sprite_node: Sprite) -> void:
 	var centered_offset = (Vector2(0, part_size.y) / 2) * int(sprite_centered && height > 1)
 	var offset = sprite_pos + sprite_offset + height_offset + centered_offset
 	
-	sprite_node.set_region(is_region_enabled)
+	sprite_node.set_region(is_region_enabled or height > 1)
 	sprite_node.set_texture(texture)
 	sprite_node.set_modulate(sprite_modul)
 	sprite_node.set_offset(offset)
