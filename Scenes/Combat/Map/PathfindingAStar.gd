@@ -4,6 +4,16 @@ class_name PathFinding
 onready var astar_node = AStar.new()
 onready var map_node = get_parent()
 
+
+#### BUILT-IN ####
+
+func _ready() -> void:
+	var _err = Events.connect("actor_moved", self, "_on_actor_moved")
+	_err = Events.connect("iso_object_removed", self, "_on_iso_object_removed")
+
+
+#### LOGIC ####
+
 # Determine which cells are walkale and which are not
 func set_walkable_cells(cell_array : PoolVector3Array):
 	var passable_cell_array : PoolVector3Array = []
@@ -11,15 +21,16 @@ func set_walkable_cells(cell_array : PoolVector3Array):
 	
 	# Go through all the cells of the map, and check if they are in the obstacles array
 	for cell in cell_array:
-		if map_node.is_cell_in_obstacle(cell):
-			continue
-		
 		# Add the last cell checked in the array of points we will create in the astar_node
 		passable_cell_array.append(cell)
 		
 		# Caculate an index for our cell, and add it to the astar_node
 		var cell_index = compute_cell_index(cell)
 		astar_node.add_point(cell_index, cell)
+		
+		# Disable cell where there is an obstacle
+		if map_node.is_cell_in_obstacle(cell):
+			astar_node.set_point_disabled(cell_index, true)
 	
 	return passable_cell_array
 
@@ -141,3 +152,22 @@ func find_relatives(point_array : PoolVector3Array, reachable_cells: PoolVector3
 # Return the cell index
 func compute_cell_index(cell: Vector3):
 	return abs(cell.x + map_node.grounds.size() * cell.y)
+
+
+
+#### SIGNAL RESPONSES ####
+
+func _on_actor_moved(_actor: Actor, from: Vector3, to: Vector3):
+	if !map_node.is_cell_in_obstacle(from):
+		var id = compute_cell_index(from)
+		astar_node.set_point_disabled(id, false)
+	
+	var id = compute_cell_index(to)
+	astar_node.set_point_disabled(id, true)
+
+
+func _on_iso_object_removed(iso_object: IsoObject):
+	if iso_object is Obstacle:
+		var cell = iso_object.get_current_cell()
+		var cell_id = compute_cell_index(cell)
+		astar_node.set_point_disabled(cell_id, true)

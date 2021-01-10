@@ -12,6 +12,8 @@ signal iso_object_cell_changed(iso_object)
 signal iso_object_added(iso_object)
 signal iso_object_removed(iso_object)
 
+signal actor_moved(actor, from_cell, to_cell)
+
 #### COMBAT EVENTS ####
 
 signal combat_new_turn_started(actor)

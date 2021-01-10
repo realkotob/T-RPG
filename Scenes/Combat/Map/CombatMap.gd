@@ -43,6 +43,8 @@ func _ready():
 	# Hide every nodes that the engine should be rendering (except ground0)
 	hide_all_rendered_nodes(self)
 	
+	init_object_grid_pos()
+	
 	# Store all the passable cells into the array grounds
 	grounds = fetch_ground()
 	
@@ -70,10 +72,11 @@ func _ready():
 #### LOGIC ####
 
 # Give every actor, his default grid pos
-func init_actors_grid_pos():
-	for actor in get_tree().get_nodes_in_group("Actors"):
-		actor.map_node = self
-		actor.set_current_cell(get_pos_highest_cell(actor.position), true)
+func init_object_grid_pos():
+	yield(owner, "ready")
+	
+	for object in get_tree().get_nodes_in_group("IsoObject"):
+		object.set_current_cell(get_pos_highest_cell(object.position))
 
 
 # Recursivly search for the deepest node of every branch
@@ -342,5 +345,5 @@ func on_iso_object_cell_changed(iso_object: IsoObject):
 		update_view_field(iso_object)
 
 func _on_iso_object_removed(iso_object: IsoObject):
-	if iso_object in obstacles:
+	if !iso_object.is_passable():
 		obstacles.erase(iso_object)

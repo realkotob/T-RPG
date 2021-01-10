@@ -1,6 +1,20 @@
 extends StateBase
 
 var speed = 5.0
+var starting_cell := Vector3.INF
+
+#### VIRTUALS ####
+
+func enter_state():
+	starting_cell = owner.get_current_cell()
+
+
+func exit_state():
+	Events.emit_signal("actor_moved", owner, starting_cell, owner.get_current_cell())
+	starting_cell = Vector3.INF
+
+
+#### LOGIC ####
 
 # Handle the movement to the next point on the path,
 # return true if the character is arrived
@@ -15,4 +29,5 @@ func move_to(delta: float, world_pos : Vector2):
 		owner.set_global_position(char_pos + velocity)
 	
 	return world_pos == owner.get_global_position()
+
 

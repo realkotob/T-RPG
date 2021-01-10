@@ -61,6 +61,7 @@ func _ready() -> void:
 	_err = area_node.connect("area_created", self, "on_area_created")
 	_err = map_node.connect("map_generation_finished", self, "_on_map_generation_finished")
 	_err = Events.connect("timeline_movement_finished", self, "_on_timeline_movement_finished")
+	
 	HUD_node.generate_timeline(actors_order)
 	focused_objects_array = [cursor_node, active_actor]
 	
