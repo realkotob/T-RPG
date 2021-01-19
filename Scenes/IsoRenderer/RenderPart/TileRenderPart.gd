@@ -25,11 +25,11 @@ func _init(obj: Node, texture: AtlasTexture, cell: Vector3, world_pos: Vector2, 
 	set_global_position(world_pos)
 	set_altitude(alt)
 	
-	var sprite = Sprite.new()
-	sprite.set_texture(texture)
-	sprite.set_offset(offset)
-	add_child(sprite, true)
-	sprite.set_owner(self)
+	sprite_node = Sprite.new()
+	sprite_node.set_texture(texture)
+	sprite_node.set_offset(offset)
+	add_child(sprite_node, true)
+	sprite_node.set_owner(self)
 
 
 #### VIRTUALS ####

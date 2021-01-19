@@ -83,9 +83,8 @@ func init_object_grid_pos():
 # If the deepest node is a Sprite, an AnimatedSprite or a TileMap: hide it
 # Exeception with the ground0 (Bescause its rendered by the engine) 
 func hide_all_rendered_nodes(node: Node):
-	if node.get_child_count() == 0:
-		if node is CanvasItem and not node is Control:
-			node.set_visible(false) 
+	if node is CanvasItem and not node is Control:
+		node.set_visible(false) 
 	else:
 		for child in node.get_children():
 			hide_all_rendered_nodes(child)
@@ -123,6 +122,22 @@ func fetch_ground() -> PoolVector3Array:
 		for cell in layer_array[i].get_used_cells():
 			if find_2D_cell(Vector2(cell.x, cell.y), feed_array) == Vector3.INF:
 				feed_array.append(Vector3(cell.x, cell.y, i))
+		
+	# Handle bridges
+	for i in range(layer_array.size()):
+		for child in layer_array[i].get_children():
+			var tileset = child.get_tileset()
+			for cell in child.get_used_cells():
+				var tile_id = child.get_cellv(cell)
+				var tile_name = tileset.tile_get_name(tile_id)
+				if "Bridge" in tile_name:
+					var cell_3D = Vector3(cell.x, cell.y, i)
+					if "Left" in tile_name:
+						feed_array.append(cell_3D)
+						feed_array.append(cell_3D + Vector3(1, 0, 0))
+					elif "Right" in tile_name:
+						feed_array.append(cell_3D)
+						feed_array.append(cell_3D + Vector3(0, 1, 0))
 	
 	return feed_array
 

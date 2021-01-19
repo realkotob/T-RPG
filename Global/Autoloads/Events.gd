@@ -14,6 +14,8 @@ signal iso_object_removed(iso_object)
 
 signal actor_moved(actor, from_cell, to_cell)
 
+signal tiles_shake(origin, magnitude)
+
 #### COMBAT EVENTS ####
 
 signal combat_new_turn_started(actor)

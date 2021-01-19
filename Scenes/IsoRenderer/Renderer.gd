@@ -29,9 +29,10 @@ func get_visible_cells() -> Array: return visible_cells
 #### BUILT-IN ####
 
 func _ready() -> void:
-	var _err = Events.connect("iso_object_cell_changed", self, "on_iso_object_cell_changed")
-	_err = Events.connect("iso_object_added", self, "on_iso_object_added")
-	_err = Events.connect("iso_object_removed", self, "on_iso_object_removed")
+	var _err = Events.connect("iso_object_cell_changed", self, "_on_iso_object_cell_changed")
+	_err = Events.connect("iso_object_added", self, "_on_iso_object_added")
+	_err = Events.connect("iso_object_removed", self, "_on_iso_object_removed")
+	_err = Events.connect("tiles_shake", self, "_on_tiles_shake")
 
 
 #### LOGIC ####
@@ -40,6 +41,10 @@ func init_rendering_queue(layers_array: Array, objects_array: Array):
 	for i in range(layers_array.size()):
 		for cell in layers_array[i].get_used_cells():
 			add_cell_to_queue(cell, layers_array[i], i)
+		
+		for child in layers_array[i].get_children():
+			for cell in child.get_used_cells():
+				add_cell_to_queue(cell, child, i)
 	
 	for obj in objects_array:
 		add_iso_obj(obj)
@@ -52,20 +57,27 @@ func add_cell_to_queue(cell: Vector2, tilemap: TileMap, height: int) -> void:
 	
 	# Get the tile id and the position of the cell in the autotile
 	var tile_id = tilemap.get_cellv(cell)
-	var tile_tileset_pos = tileset.tile_get_region(tile_id).position
+	var tile_region = tileset.tile_get_region(tile_id)
+	var tile_tileset_pos = tile_region.position
 	var autotile_coord = tilemap.get_cell_autotile_coord(int(cell.x), int(cell.y))
 	
 	# Get the texture
+	var tile_mode = tileset.tile_get_tile_mode(tile_id)
 	var stream_texture = tileset.tile_get_texture(tile_id)
 	var atlas_texture = AtlasTexture.new()
 	atlas_texture.set_atlas(stream_texture)
-	atlas_texture.set_region(Rect2(tile_tileset_pos + (autotile_coord * TILE_SIZE), TILE_SIZE))
+	if tile_mode == tileset.SINGLE_TILE:
+		atlas_texture.set_region(tile_region)
+	else:
+		atlas_texture.set_region(Rect2(tile_tileset_pos + (autotile_coord * TILE_SIZE), TILE_SIZE))
 	
 	# Set the texture to the right position
 	var height_offset = Vector2(0, -16) * (height - 1)
+	var texture_offset = tileset.tile_get_texture_offset(tile_id)
+	var offset = height_offset + texture_offset
 	var pos = tilemap.map_to_world(cell)
 	
-	var render_part = TileRenderPart.new(tilemap, atlas_texture, cell_3D, pos, 0, height_offset)
+	var render_part = TileRenderPart.new(tilemap, atlas_texture, cell_3D, pos, 0, offset)
 	
 	add_iso_rendering_part(render_part, tilemap)
 
@@ -230,20 +242,43 @@ func xyz_sum_compare(a: RenderPart, b: RenderPart) -> bool:
 		return sum_a < sum_b
 
 
+func get_parts_at_2D_pos(pos: Vector2) -> Array:
+	var part_array = Array()
+	for child in get_children():
+		var child_cell = child.get_current_cell()
+		if child_cell.x == pos.x && child_cell.y == pos.y:
+			part_array.append(child)
+	return part_array
+
+
+func shake(origin: Vector2, magnitude: int, wave: bool = true, duration: float = 1.0):
+	for part in get_children():
+		var part_cell = part.get_current_cell()
+		var dist_to_origin = abs(part_cell.x - origin.x) + abs(part_cell.y - origin.y)
+		if dist_to_origin <= magnitude:
+			var mag = int(clamp(magnitude - dist_to_origin, 0, magnitude))
+			var delay = (duration / 3) * (dist_to_origin / 2)
+			part.start_sin_move(mag, delay)
+
+
 #### SIGNAL RESPONSES ####
 
-func on_iso_object_cell_changed(obj: IsoObject):
+func _on_iso_object_cell_changed(obj: IsoObject):
 	if !is_obj_in_rendering_queue(obj):
 		add_iso_obj(obj)
 
 
-func on_iso_object_added(obj: IsoObject):
+func _on_iso_object_added(obj: IsoObject):
 	add_iso_obj(obj)
 
 
-func on_iso_object_removed(obj: IsoObject):
+func _on_iso_object_removed(obj: IsoObject):
 	remove_iso_obj(obj)
 
 
 func _on_part_cell_changed(part: IsoRenderPart, _cell: Vector3):
 	reorder_part(part)
+
+
+func _on_tiles_shake(origin: Vector2, magnitude: int):
+	shake(origin, magnitude)

@@ -20,17 +20,17 @@ func _init(obj: Node, sprite_array: Array, cell: Vector3, world_pos: Vector2,
 	set_altitude(alt)
 	
 	for sprite in sprite_array:
-		var new_sprite = Sprite.new()
+		sprite_node = Sprite.new()
 		
 		if sprite is IsoAnimatedSprite:
 			var _err = sprite.connect("texture_changed", self, "_on_texture_changed")
 		
-		add_child(new_sprite, true)
-		new_sprite.set_owner(self)
+		add_child(sprite_node, true)
+		sprite_node.set_owner(self)
 		var part_texture = AtlasTexture.new()
-		new_sprite.set_texture(part_texture)
+		sprite_node.set_texture(part_texture)
 		
-		apply_texture_change(sprite, new_sprite)
+		apply_texture_change(sprite, sprite_node)
 
 
 func _ready() -> void:

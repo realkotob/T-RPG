@@ -25,7 +25,6 @@ func set_current_cell(value: Vector3):
 			change_color(Color.transparent)
 
 
-
 func set_max_z(value : int):
 	if value != max_z && value > 0 && value <= current_cell_max_z + 1:
 		max_z = value
@@ -44,6 +43,9 @@ func _ready():
 
 func _process(_delta):
 	update_cursor_pos()
+
+
+#### LOGIC ####
 
 
 func update_cursor_pos():
@@ -69,37 +71,6 @@ func move_cursor(movement: Vector2):
 	var future_2D_cell = Vector2(current_cell.x + movement.x, current_cell.y + movement.y) 
 	var highest_layer = map_node.get_cell_highest_layer(future_2D_cell)
 	set_current_cell(Vector3(future_2D_cell.x, future_2D_cell.y, highest_layer))
-
-
-func _input(_event):
-	if Input.is_action_just_pressed("ui_up"):
-		move_cursor(Vector2.UP)
-	
-	elif Input.is_action_just_pressed("ui_right"):
-		move_cursor(Vector2.RIGHT)
-	
-	elif Input.is_action_just_pressed("ui_down"):
-		move_cursor(Vector2.DOWN)
-
-	elif Input.is_action_just_pressed("ui_left"):
-		move_cursor(Vector2.LEFT)
-
-	if !Input.is_action_just_pressed("NextLayer") && !Input.is_action_just_pressed("PreviousLayer"):
-		return
-	
-	var cell_stack = Array(map_node.get_cell_stack_at_pos(mouse_pos))
-	var index = cell_stack.find(current_cell)
-	
-	if cell_stack.empty():
-		return
-	
-	if Input.is_action_just_pressed("PreviousLayer"):
-		index = wrapi(index - 1, 0, cell_stack.size())
-	
-	if Input.is_action_just_pressed("NextLayer"):
-		index = wrapi(index + 1, 0, cell_stack.size())
-	
-	set_current_cell(cell_stack[index])
 
 
 func change_color(color : Color):
@@ -138,6 +109,43 @@ func find_nearest_z_cell(cell_stack: PoolVector3Array, cur_cell: Vector3) -> Vec
 			closest_cell_diff = new_dif
 	
 	return nearest_z_cell
+
+
+#### INPUT ####
+
+func _input(_event):
+	if Input.is_action_just_pressed("click"):
+		Events.emit_signal("tiles_shake", Vector2(current_cell.x, current_cell.y), 3)
+	
+	if Input.is_action_just_pressed("ui_up"):
+		move_cursor(Vector2.UP)
+	
+	elif Input.is_action_just_pressed("ui_right"):
+		move_cursor(Vector2.RIGHT)
+	
+	elif Input.is_action_just_pressed("ui_down"):
+		move_cursor(Vector2.DOWN)
+
+	elif Input.is_action_just_pressed("ui_left"):
+		move_cursor(Vector2.LEFT)
+
+	if !Input.is_action_just_pressed("NextLayer") && !Input.is_action_just_pressed("PreviousLayer"):
+		return
+	
+	var cell_stack = Array(map_node.get_cell_stack_at_pos(mouse_pos))
+	var index = cell_stack.find(current_cell)
+	
+	if cell_stack.empty():
+		return
+	
+	if Input.is_action_just_pressed("PreviousLayer"):
+		index = wrapi(index - 1, 0, cell_stack.size())
+	
+	if Input.is_action_just_pressed("NextLayer"):
+		index = wrapi(index + 1, 0, cell_stack.size())
+	
+	set_current_cell(cell_stack[index])
+
 
 
 # Show/Hide the targets counter
