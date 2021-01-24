@@ -1,6 +1,7 @@
 extends Node2D
 class_name AreaContainer
 
+onready var map_node = owner
 
 var area_dict = {
 	"move" : preload("res://Scenes/Combat/Area/WalkableArea/WalkableArea.tscn"),
@@ -29,10 +30,12 @@ func draw_area(cell_array : Array, area_type_name: String) -> void:
 		new_area_type = area_dict[area_type_name]
 	
 	for cell in cell_array:
+		var slope_type = map_node.get_cell_slope_type(cell)
 		var pos = owner.cell_to_world(cell)
 		var new_area = new_area_type.instance()
 		new_area.set_current_cell(cell)
 		new_area.set_position(pos)
+		new_area.set_slope_type(slope_type)
 		add_child(new_area)
 	
 	emit_signal("area_created")

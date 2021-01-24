@@ -33,6 +33,8 @@ func _ready() -> void:
 	_err = Events.connect("iso_object_added", self, "_on_iso_object_added")
 	_err = Events.connect("iso_object_removed", self, "_on_iso_object_removed")
 	_err = Events.connect("tiles_shake", self, "_on_tiles_shake")
+	_err = Events.connect("appear_transition", self, "_on_appear_transition")
+	_err = Events.connect("disappear_transition", self, "_on_disappear_transition")
 
 
 #### LOGIC ####
@@ -242,6 +244,7 @@ func xyz_sum_compare(a: RenderPart, b: RenderPart) -> bool:
 		return sum_a < sum_b
 
 
+# Returns the parts at the given 2D position
 func get_parts_at_2D_pos(pos: Vector2) -> Array:
 	var part_array = Array()
 	for child in get_children():
@@ -251,6 +254,61 @@ func get_parts_at_2D_pos(pos: Vector2) -> Array:
 	return part_array
 
 
+# Returns an array of stacks ordered by x and y
+func get_parts_stack_by_2D_order() -> Array:
+	var top_most_part = get_child(0)
+	var top_most_cell = top_most_part.get_current_cell()
+	
+	var bottom_most_part = get_child(get_child_count() - 1)
+	var bottom_most_cell = bottom_most_part.get_current_cell()
+	var parts_stack_array := Array()
+	
+	for i in range(top_most_cell.y, bottom_most_cell.y + 1):
+		for j in range(top_most_cell.x, bottom_most_cell.x + 1):
+			var stack = get_parts_at_2D_pos(Vector2(j, i))
+			if !stack.empty():
+				parts_stack_array.append(stack)
+	
+	return parts_stack_array
+
+
+func get_stack_by_2D_dist(corner := Vector2.DOWN) -> Array:
+	var parts_stack_array := Array()
+	
+	var top_most_part = get_child(0)
+	var top_most_cell = top_most_part.get_current_cell()
+	
+	var bottom_most_part = get_child(get_child_count() - 1)
+	var bottom_most_cell = bottom_most_part.get_current_cell()
+	var max_dist = abs(top_most_cell.x + bottom_most_cell.x) + abs(top_most_cell.y + bottom_most_cell.y)
+	
+	var origin = top_most_cell
+	var iteration_dir = Vector2.ONE
+	
+	match(corner):
+		Vector2.RIGHT: 
+			origin = Vector2(bottom_most_cell.x, top_most_cell.y)
+			iteration_dir = Vector2(-1, 1)
+		Vector2.LEFT: 
+			origin = Vector2(top_most_cell.x, bottom_most_cell.y)
+			iteration_dir = Vector2(1, -1) 
+		Vector2.DOWN: 
+			origin = bottom_most_cell
+			iteration_dir = -Vector2.ONE
+	
+	for dist in range(max_dist + 1):
+		for i in range(dist, -1, -1):
+			var stack = get_parts_at_2D_pos(Vector2(origin.x + (dist - i) * iteration_dir.x, origin.y + i * iteration_dir.y))
+			if !stack.empty():
+				parts_stack_array.append(stack)
+	
+	return parts_stack_array
+
+
+#### ANIMATION ####
+
+
+# Apply a tile shake effect
 func shake(origin: Vector2, magnitude: int, wave: bool = true, duration: float = 1.0):
 	for part in get_children():
 		var part_cell = part.get_current_cell()
@@ -258,7 +316,25 @@ func shake(origin: Vector2, magnitude: int, wave: bool = true, duration: float =
 		if dist_to_origin <= magnitude:
 			var mag = int(clamp(magnitude - dist_to_origin, 0, magnitude))
 			var delay = (duration / 3) * (dist_to_origin / 2)
-			part.start_sin_move(mag, delay)
+			part.start_sin_move(wave, mag, delay)
+
+
+func appear_transition(total_time: float = 4.0, tile_order := Vector2.DOWN):
+	var stack_array = get_stack_by_2D_dist(tile_order)
+	var appear_delay = total_time / stack_array.size()
+	
+	for i in range(stack_array.size()):
+		for j in range(stack_array[i].size()):
+			stack_array[i][j].appear((i + j * 2) * appear_delay)
+
+
+func disappear_transition(total_time: float = 4.0):
+	var stack_array = get_stack_by_2D_dist()
+	var appear_delay = total_time / stack_array.size()
+	
+	for i in range(stack_array.size()):
+		for j in range(stack_array[i].size()):
+			stack_array[i][j].disappear((i + j * 2) * appear_delay)
 
 
 #### SIGNAL RESPONSES ####
@@ -282,3 +358,11 @@ func _on_part_cell_changed(part: IsoRenderPart, _cell: Vector3):
 
 func _on_tiles_shake(origin: Vector2, magnitude: int):
 	shake(origin, magnitude)
+
+
+func _on_appear_transition():
+	appear_transition()
+
+
+func _on_disappear_transition():
+	disappear_transition()

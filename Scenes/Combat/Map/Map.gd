@@ -33,6 +33,7 @@ func get_existing_adjacent_cells(cell: Vector3) -> PoolVector3Array:
 	return adjacents
 
 
+
 # Get the adjacents cells of the given one 
 # This method DOSEN'T check if the cells exists. If you need to do so, 
 # use get_existing_adjacent_cells instead

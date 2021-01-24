@@ -31,17 +31,33 @@ func _ready() -> void:
 
 #### LOGIC ####
 
-func start_sin_move(node: Node, magn: int, duration: float = 1.0, nb_vawes : int = 1):
+func appear(duration: float):
+	var __ = interpolate_property(target_node, "position",
+		Vector2(0, -GAME.SCREEN_SIZE.y), Vector2.ZERO, duration,
+		Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+	
+	__ = start()
+
+
+func disapear(duration: float):
+	var __ = interpolate_property(target_node, "position",
+		Vector2.ZERO, Vector2(0, GAME.SCREEN_SIZE.y), duration,
+		Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+	
+	__ = start()
+
+
+func start_sin_move(node: Node, magn: int, duration: float = 0.7, nb_vawes : int = 1):
 	target_node = node
 	magnitude = magn
 	total_time = duration
 	nb_movements = nb_vawes * 2
 	movement_counter = nb_movements
 	
-	start_interpolation()
+	start_wave_interpolation()
 
 
-func start_interpolation(to_origin : bool = false):
+func start_wave_interpolation(to_origin : bool = false):
 	var dest = dir * BASE_DIST * magnitude if !to_origin else Vector2.ZERO
 	var duration = total_time / (nb_movements + 1)
 	
@@ -65,4 +81,4 @@ func _on_tween_all_completed():
 	movement_counter -= 1
 	dir = -dir
 	
-	start_interpolation(movement_counter == 0)
+	start_wave_interpolation(movement_counter == 0)

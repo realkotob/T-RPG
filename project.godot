@@ -119,7 +119,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/Map/Map.gd"
 }, {
-"base": "Node2D",
+"base": "TileMap",
 "class": "MapLayer",
 "language": "GDScript",
 "path": "res://Scenes/Combat/Map/Layer.gd"

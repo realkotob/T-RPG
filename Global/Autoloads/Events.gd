@@ -4,6 +4,9 @@ extends Node
 
 #### MAP EVENTS ####
 
+signal appear_transition()
+signal disappear_transition()
+
 signal cursor_world_pos_changed(cursor)
 signal cursor_cell_changed(cursor, cell)
 signal visible_cells_changed()

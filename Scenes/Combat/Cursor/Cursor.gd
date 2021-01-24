@@ -114,9 +114,6 @@ func find_nearest_z_cell(cell_stack: PoolVector3Array, cur_cell: Vector3) -> Vec
 #### INPUT ####
 
 func _input(_event):
-	if Input.is_action_just_pressed("click"):
-		Events.emit_signal("tiles_shake", Vector2(current_cell.x, current_cell.y), 3)
-	
 	if Input.is_action_just_pressed("ui_up"):
 		move_cursor(Vector2.UP)
 	

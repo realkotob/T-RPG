@@ -1,3 +1,3 @@
 tool
-extends Node2D
+extends TileMap
 class_name MapLayer

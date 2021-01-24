@@ -13,6 +13,7 @@ var anim_delay_timer : Timer
 
 signal cell_changed(part, cell)
 
+
 #### ACCESSORS ####
 
 func is_class(value: String): return value == "RenderPart" or .is_class(value)
@@ -47,6 +48,26 @@ func _ready() -> void:
 
 
 #### LOGIC ####
+
+func appear(delay: float = 0.0, duration: float = 0.5):
+	sprite_node.position = Vector2(0, -GAME.SCREEN_SIZE.y)
+	
+	if delay != 0.0:
+		anim_delay_timer.start(delay)
+		yield(anim_delay_timer, "timeout")
+	
+	part_tween_node.target_node = sprite_node
+	part_tween_node.appear(duration)
+
+
+func disappear(delay: float = 0.0, duration: float = 0.5):
+	if delay != 0.0:
+		anim_delay_timer.start(delay)
+		yield(anim_delay_timer, "timeout")
+	
+	part_tween_node.target_node = sprite_node
+	part_tween_node.disapear(duration)
+
 
 func start_sin_move(magnitude: int, delay: float = 0.0, duration: float = 1.0, nb_wave: int = 1):
 	if delay != 0.0:

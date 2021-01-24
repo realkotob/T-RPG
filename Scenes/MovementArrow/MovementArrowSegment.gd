@@ -5,6 +5,7 @@ const straight_lines_texture_pos = Vector2.ZERO
 const turn_texture_pos = Vector2(0, GAME.TILE_SIZE.y)
 const arrow_texture_pos = Vector2(GAME.TILE_SIZE.x * 2 , 0)
 const path_start_texture_pos = Vector2(GAME.TILE_SIZE.x * 4, 0)
+const slope_texture_pos = GAME.TILE_SIZE * Vector2(4, 2)
 
 var previous_segment_dir := Vector2.INF setget set_previous_segment_dir, get_previous_segment_dir
 var next_segment_dir := Vector2.INF setget set_next_segment_dir, get_next_segment_dir
@@ -37,9 +38,15 @@ func apply_correct_texture():
 	var rect_pos = Vector2.ZERO
 	
 	if is_straight_line():
-		match(next_segment_dir):
-			Vector2.LEFT, Vector2.RIGHT: rect_pos = Vector2.ZERO
-			Vector2.UP, Vector2.DOWN: rect_pos = Vector2(tile_size.x, 0)
+		if !is_slope():
+			match(next_segment_dir):
+				Vector2.LEFT, Vector2.RIGHT: rect_pos = Vector2.ZERO
+				Vector2.UP, Vector2.DOWN: rect_pos = Vector2(tile_size.x, 0)
+		else:
+			tile_size *= Vector2(1, 2) 
+			match(next_segment_dir):
+				Vector2.LEFT, Vector2.RIGHT: rect_pos = slope_texture_pos
+				Vector2.UP, Vector2.DOWN: rect_pos = slope_texture_pos + Vector2(tile_size.x, 0)
 	else:
 		var to_check := Vector2.INF
 		var start_pos := Vector2.ZERO
@@ -72,6 +79,9 @@ func apply_correct_texture():
 	
 	$Sprite.set_region_rect(Rect2(rect_pos, tile_size))
 
+
+func is_slope():
+	return int(current_cell.z) != current_cell.z
 
 func is_one_dir(dir: Vector2):
 	return previous_segment_dir == dir or next_segment_dir == dir

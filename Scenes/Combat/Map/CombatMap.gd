@@ -15,6 +15,12 @@ var obstacles : Array = [] setget set_obstacles, get_obstacles
 
 var is_ready : bool = false
 
+enum SLOPE_TYPE {
+	NONE,
+	SLOPE_LEFT,
+	SLOPE_RIGHT
+}
+
 signal map_generation_finished
 
 #### ACCESSORS ####
@@ -70,6 +76,21 @@ func _ready():
 
 
 #### LOGIC ####
+
+func get_cell_slope_type(cell: Vector3) -> int:
+	var layer : MapLayer = get_layer(int(cell.z))
+	var tileset : TileSet = layer.get_tileset()
+	var tile_id : int = layer.get_cell(int(cell.x), int(cell.y))
+	var tile_name = tileset.tile_get_name(tile_id)
+		
+	if !"slope".is_subsequence_ofi(tile_name) && !"stair".is_subsequence_ofi(tile_name):
+		return SLOPE_TYPE.NONE
+	else:
+		if "left".is_subsequence_ofi(tile_name):
+			return SLOPE_TYPE.SLOPE_LEFT
+		else:
+			return SLOPE_TYPE.SLOPE_RIGHT 
+
 
 # Give every actor, his default grid pos
 func init_object_grid_pos():
@@ -162,7 +183,7 @@ func world_to_ground_z(pos : Vector2, z : int = 0):
 
 # Return the layer at the given height
 func get_layer(height: int) -> MapLayer:
-	return layer_array[height].get_parent()
+	return layer_array[height]
 
 
 # Return the id of the layer at the given height

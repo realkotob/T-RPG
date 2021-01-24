@@ -23,7 +23,9 @@ func _init(obj: Node, sprite_array: Array, cell: Vector3, world_pos: Vector2,
 		sprite_node = Sprite.new()
 		
 		if sprite is IsoAnimatedSprite:
-			var _err = sprite.connect("texture_changed", self, "_on_texture_changed")
+			var _err = sprite.connect("texture_changed", self, "_on_animated_sprite_texture_changed")
+		elif sprite is IsoSprite:
+			var _err = sprite.connect("sprite_texture_changed", self, "_on_sprite_texture_changed")
 		
 		add_child(sprite_node, true)
 		sprite_node.set_owner(self)
@@ -97,12 +99,21 @@ func apply_texture_change(obj_sprite: Node2D, sprite_node: Sprite) -> void:
 func _on_object_cell_changed(cell: Vector3):
 	set_current_cell(cell + Vector3(0, 0, get_altitude()))
 
+
 func _on_object_global_position_changed(world_pos: Vector2):
 	set_global_position(world_pos)
+
 
 func _on_object_modulate_changed(mod: Color):
 	set_modulate(mod)
 
-func _on_texture_changed(obj_sprite: IsoAnimatedSprite):
+
+func _on_animated_sprite_texture_changed(obj_sprite: IsoAnimatedSprite):
 	var sprite_node = get_node(obj_sprite.name)
 	apply_texture_change(obj_sprite, sprite_node)
+
+func _on_sprite_texture_changed(sprite: IsoSprite):
+	var sprite_node = get_node(sprite.name)
+	sprite_node.set_texture(sprite.get_texture())
+	sprite_node.set_region_rect(sprite.get_region_rect())
+	sprite_node.set_offset(sprite.get_offset())
