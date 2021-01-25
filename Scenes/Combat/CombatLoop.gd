@@ -188,7 +188,7 @@ func _on_visible_cells_changed():
 			visibility = IsoObject.VISIBILITY.BARELY_VISIBLE
 		elif not obj_cell in allies_view_field[IsoObject.VISIBILITY.VISIBLE]:
 			if obj is Enemy:
-				visibility = IsoObject.VISIBILITY.UNDETECTED
+				visibility = IsoObject.VISIBILITY.HIDDEN
 			else:
 				visibility = IsoObject.VISIBILITY.NOT_VISIBLE
 		

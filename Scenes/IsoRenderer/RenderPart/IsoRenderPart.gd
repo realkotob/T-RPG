@@ -112,6 +112,7 @@ func _on_animated_sprite_texture_changed(obj_sprite: IsoAnimatedSprite):
 	var sprite_node = get_node(obj_sprite.name)
 	apply_texture_change(obj_sprite, sprite_node)
 
+
 func _on_sprite_texture_changed(sprite: IsoSprite):
 	var sprite_node = get_node(sprite.name)
 	sprite_node.set_texture(sprite.get_texture())
