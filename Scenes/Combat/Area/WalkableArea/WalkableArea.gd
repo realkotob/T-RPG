@@ -33,7 +33,7 @@ func draw_area(cell_array : Array, area_type_name: String) -> void:
 		var slope_type = map_node.get_cell_slope_type(cell)
 		var pos = owner.cell_to_world(cell)
 		var new_area = new_area_type.instance()
-		new_area.set_current_cell(cell)
+		new_area.set_current_cell(cell - Vector3(0, 0, 0.5) * int(slope_type != 0))
 		new_area.set_position(pos)
 		new_area.set_slope_type(slope_type)
 		add_child(new_area)
