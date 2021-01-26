@@ -42,18 +42,20 @@ func _ready() -> void:
 func init_rendering_queue(layers_array: Array, objects_array: Array):
 	for i in range(layers_array.size()):
 		for cell in layers_array[i].get_used_cells():
-			add_cell_to_queue(cell, layers_array[i], i)
+			var height = i - int(is_cell_slope(cell, layers_array[i])) * 0.5
+			add_cell_to_queue(cell, layers_array[i], height)
 		
 		for child in layers_array[i].get_children():
 			for cell in child.get_used_cells():
-				add_cell_to_queue(cell, child, i)
+				var height = i - int(is_cell_slope(cell, child)) * 0.5
+				add_cell_to_queue(cell, child, height)
 	
 	for obj in objects_array:
 		add_iso_obj(obj)
 
 
 # Add the given cell to te rendering queue
-func add_cell_to_queue(cell: Vector2, tilemap: TileMap, height: int) -> void:
+func add_cell_to_queue(cell: Vector2, tilemap: TileMap, height: float) -> void:
 	var tileset = tilemap.get_tileset()
 	var cell_3D = Vector3(cell.x, cell.y, height)
 	
@@ -74,7 +76,7 @@ func add_cell_to_queue(cell: Vector2, tilemap: TileMap, height: int) -> void:
 		atlas_texture.set_region(Rect2(tile_tileset_pos + (autotile_coord * TILE_SIZE), TILE_SIZE))
 	
 	# Set the texture to the right position
-	var height_offset = Vector2(0, -16) * (height - 1)
+	var height_offset = Vector2(0, -16) * (round(height) - 1)
 	var texture_offset = tileset.tile_get_texture_offset(tile_id)
 	var offset = height_offset + texture_offset
 	var pos = tilemap.map_to_world(cell)
@@ -82,6 +84,14 @@ func add_cell_to_queue(cell: Vector2, tilemap: TileMap, height: int) -> void:
 	var render_part = TileRenderPart.new(tilemap, atlas_texture, cell_3D, pos, 0, offset)
 	
 	add_iso_rendering_part(render_part, tilemap)
+
+
+func is_cell_slope(cell: Vector2, tilemap: TileMap) -> bool:
+	var tileset : TileSet = tilemap.get_tileset()
+	var tile_id : int = tilemap.get_cell(int(cell.x), int(cell.y))
+	var tile_name = tileset.tile_get_name(tile_id)
+	
+	return "slope".is_subsequence_ofi(tile_name) or "stair".is_subsequence_ofi(tile_name)
 
 
 # Add the given part in the rendering queue

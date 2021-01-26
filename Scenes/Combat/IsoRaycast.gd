@@ -17,7 +17,7 @@ static func get_line_of_sight(map_node: Map, h: int, line: PoolVector3Array) -> 
 	
 	for cell in line:
 		if cell == line[0]: continue
-
+		
 		var max_z = find_smallest_y(line_xz, cell.x)
 		var current_z = cell.z
 		var obj : IsoObject = map_node.get_object_on_cell(cell)

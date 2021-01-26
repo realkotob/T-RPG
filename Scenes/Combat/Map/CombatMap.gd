@@ -215,6 +215,7 @@ func get_pos_highest_cell(pos: Vector2, max_layer: int = 0) -> Vector3:
 	for i in range(max_layer - 1, -1, -1):
 		var current_cell_2D = ground_0_cell_2D + Vector2(i, i)
 		var current_cell_3D = Vector3(current_cell_2D.x, current_cell_2D.y, i)
+		
 		if current_cell_3D in grounds:
 			return current_cell_3D
 	return Vector3.INF
@@ -264,9 +265,14 @@ func is_position_valid(cell: Vector3) -> bool:
 	var no_obstacle : bool = !is_cell_in_obstacle(cell)
 	var inside_boundes : bool = !is_outside_map_bounds(cell)
 	var is_walkable : bool = cell in walkable_cells
+	var is_slope = int((cell.z) == cell.z)
 	
-	return no_obstacle && inside_boundes && is_walkable 
-
+	var is_valid = no_obstacle && inside_boundes && is_walkable
+	
+	if !is_slope && !is_valid:
+		return is_position_valid(cell - Vector3(0, 0, 0.5))
+	else:
+		return is_valid
 
 # Return the actor or obstacle placed on the given cell
 # Return null if the cell is empty
@@ -316,11 +322,11 @@ func get_reachable_cells(origin: Vector3, h: int, ran: int, include_self_cell: b
 		
 		if cell in reachable_cells: continue
 		
-		var line = IsoRaycast.get_line(self, origin, cell)
-		
+		var line = IsoRaycast.get_line(self, origin, cell.round())
 		var valid_cells = IsoRaycast.get_line_of_sight(self, h, line)
+		
 		for c in valid_cells:
-			if not c in reachable_cells:
+			if (not c in reachable_cells) && c in ranged_cells:
 				reachable_cells.append(c)
 	
 	return reachable_cells
