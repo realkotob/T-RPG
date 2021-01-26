@@ -100,11 +100,6 @@ func find_path(start_cell: Vector3, end_cell: Vector3) -> PoolVector3Array:
 	# Find a path between this two points, and store it into cell_path
 	cell_path = astar_node.get_point_path(start_cell_index, end_cell_index)
 	
-	# Adds the slopes/stairs managment (semi layer altitude)
-	for i in range(cell_path.size()):
-		if map_node.get_cell_slope_type(cell_path[i]) != CombatMap.SLOPE_TYPE.NONE:
-			cell_path[i] -= Vector3(0, 0, 0.5)
-	
 	return cell_path
 
 

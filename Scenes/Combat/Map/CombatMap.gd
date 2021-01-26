@@ -78,7 +78,7 @@ func _ready():
 #### LOGIC ####
 
 func get_cell_slope_type(cell: Vector3) -> int:
-	var layer : MapLayer = get_layer(int(cell.z))
+	var layer : MapLayer = get_layer(int(round(cell.z)))
 	var tileset : TileSet = layer.get_tileset()
 	var tile_id : int = layer.get_cell(int(cell.x), int(cell.y))
 	var tile_name = tileset.tile_get_name(tile_id)
@@ -142,7 +142,10 @@ func fetch_ground() -> PoolVector3Array:
 	for i in range(layer_array.size() - 1, -1, -1):
 		for cell in layer_array[i].get_used_cells():
 			if find_2D_cell(Vector2(cell.x, cell.y), feed_array) == Vector3.INF:
-				feed_array.append(Vector3(cell.x, cell.y, i))
+				var current_cell = Vector3(cell.x, cell.y, i)
+				if get_cell_slope_type(current_cell) != 0:
+					current_cell -= Vector3(0, 0, 0.5)
+				feed_array.append(current_cell)
 		
 	# Handle bridges
 	for i in range(layer_array.size()):
