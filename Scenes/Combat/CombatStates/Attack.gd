@@ -52,6 +52,7 @@ func _unhandled_input(event):
 			if target:
 				var damage = compute_damage(active_actor, target)
 				instance_damage_label(damage, target)
+				active_actor.set_state("Attack")
 				target.hurt(damage)
 				combat_loop.active_actor.decrement_current_action()
 				
