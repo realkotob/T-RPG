@@ -38,6 +38,7 @@ var direction : int = DIRECTION.BOTTOM_RIGHT setget set_direction, get_direction
 
 var view_field : Array = [[], []] setget set_view_field, get_view_field
 
+signal changed_direction(dir)
 signal action_spent
 
 ### ACCESORS ###
@@ -123,8 +124,12 @@ func set_direction(value: int):
 		print("The given direction value is outside the DIRECTION enum size | entity name: " + self.name)
 		return
 	
+	if value == direction:
+		return
+	
 	else:
 		direction = value
+		emit_signal("changed_direction", direction)
 
 func get_direction() -> int: return direction 
 

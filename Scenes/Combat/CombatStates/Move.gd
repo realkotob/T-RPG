@@ -82,7 +82,20 @@ func move_actor(delta: float):
 		# remove this point from the path and take the next for destination
 		if arrived_to_next_point == true:
 			if path.size() > 1:
-				active_actor.set_current_cell(path[1])
+				var current_cell = active_actor.get_current_cell()
+				var future_cell = path[1]
+				var movement := Vector2((future_cell.x - current_cell.x), (future_cell.y - current_cell.y))
+				var dir : int = 0
+				
+				match(movement):
+					Vector2(1, 0): dir = Actor.DIRECTION.BOTTOM_RIGHT
+					Vector2(0, 1): dir = Actor.DIRECTION.BOTTOM_LEFT 
+					Vector2(-1, 0): dir = Actor.DIRECTION.TOP_LEFT 
+					Vector2(0, -1): dir = Actor.DIRECTION.TOP_RIGHT 
+				
+				active_actor.set_direction(dir)
+				active_actor.set_current_cell(future_cell)
+			
 			path.remove(0)
 	
 	if len(path) == 0:

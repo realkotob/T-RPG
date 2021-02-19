@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://AbstractClasses/Actor.gd" type="Script" id=1]
-[ext_resource path="res://BabaGodotLib/Actor/States/TurnBasedStates/TB_ActorIdleState.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/Actors/Allies/States/TRPG_ActorIdleState.gd" type="Script" id=2]
 [ext_resource path="res://BabaGodotLib/Isometric/IsoAnimatedSprite.gd" type="Script" id=3]
 [ext_resource path="res://BabaGodotLib/Absract/StateMachine/StateMachine.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/Actors/Allies/States/TRPG_ActorMoveState.gd" type="Script" id=5]
@@ -34,7 +34,9 @@ script = ExtResource( 11 )
 [node name="Hurt" type="Node" parent="States" index="3"]
 script = ExtResource( 6 )
 
-[node name="Sprite" type="AnimatedSprite" parent="." index="2"]
+[node name="AnimatedSprite" type="AnimatedSprite" parent="." index="2"]
 frames = ExtResource( 10 )
-animation = "WalkTop"
+animation = "IdleBottom"
+frame = 1
+playing = true
 script = ExtResource( 3 )
