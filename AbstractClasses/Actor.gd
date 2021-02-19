@@ -4,6 +4,13 @@ class_name Actor
 onready var states_node = $States
 onready var move_node = $States/Move
 
+enum DIRECTION{
+	BOTTOM_RIGHT,
+	BOTTOM_LEFT,
+	TOP_LEFT,
+	TOP_RIGHT
+}
+
 var active : bool = false
 
 export var portrait : Texture
@@ -26,6 +33,8 @@ var action_modifier : int = 0 setget set_action_modifier, get_action_modifier
 var jump_max_height : int = 2 setget set_jump_max_height, get_jump_max_height
 
 var move_speed : float = 300
+var direction : int = DIRECTION.BOTTOM_RIGHT setget set_direction, get_direction
+
 
 var view_field : Array = [[], []] setget set_view_field, get_view_field
 
@@ -53,13 +62,13 @@ func get_current_HP(): return current_HP
 func set_current_HP(value : int):
 	if value >= 0 && value <= get_max_HP() && value != current_HP:
 		current_HP = value
-		Events.emit_signal("active_actor_stats_changed", self)
+		EVENTS.emit_signal("active_actor_stats_changed", self)
 
 func get_current_MP(): return current_MP
 func set_current_MP(value: int): 
 	if value >= 0 && value <= get_max_MP() && value != current_MP:
 		current_MP = value
-		Events.emit_signal("active_actor_stats_changed", self)
+		EVENTS.emit_signal("active_actor_stats_changed", self)
 
 func set_default_range(value: int): default_range = value
 func get_default_range() -> int: return default_range
@@ -105,9 +114,19 @@ func set_view_field(value: Array):
 	if value != view_field:
 		view_field = value
 		if self.is_class("Ally"):
-			Events.emit_signal("visible_cells_changed")
+			EVENTS.emit_signal("visible_cells_changed")
 
 func get_view_field() -> Array: return view_field
+
+func set_direction(value: int):
+	if value >= len(DIRECTION):
+		print("The given direction value is outside the DIRECTION enum size | entity name: " + self.name)
+		return
+	
+	else:
+		direction = value
+
+func get_direction() -> int: return direction 
 
 #### BUILT-IN ####
 

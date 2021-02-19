@@ -102,4 +102,4 @@ func get_portraits() -> Array:
 	return order_node.get_children()
 
 func on_timeline_movement_finished():
-	Events.emit_signal("timeline_movement_finished")
+	EVENTS.emit_signal("timeline_movement_finished")

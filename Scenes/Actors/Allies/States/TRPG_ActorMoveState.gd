@@ -1,0 +1,15 @@
+extends TB_ActorMoveState
+class_name TRPG_ActorMoveState
+
+var starting_cell := Vector3.INF
+
+#### VIRTUALS ####
+
+func enter_state():
+	starting_cell = owner.get_current_cell()
+
+
+func exit_state():
+	EVENTS.emit_signal("actor_moved", owner, starting_cell, owner.get_current_cell())
+	starting_cell = Vector3.INF
+

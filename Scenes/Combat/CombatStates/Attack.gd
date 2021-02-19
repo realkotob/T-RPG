@@ -8,7 +8,7 @@ const DAMAGE_LABEL_SCENE := preload("res://Scenes/Combat/DamageLabel/DamageLabel
 #### BUILT-IN ####
 
 func _ready():
-	var _err = Events.connect("cursor_cell_changed", self, "on_cursor_changed_cell")
+	var _err = EVENTS.connect("cursor_cell_changed", self, "on_cursor_changed_cell")
 
 
 #### VIRTUAL FUNCTIONS ####

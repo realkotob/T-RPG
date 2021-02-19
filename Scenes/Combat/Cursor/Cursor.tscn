@@ -3,7 +3,7 @@
 [ext_resource path="res://Scenes/Combat/Cursor/Cursor.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Combat/Cursor/Cursor.png" type="Texture" id=2]
 [ext_resource path="res://Fonts/BoldCapitalPixel.tres" type="DynamicFont" id=3]
-[ext_resource path="res://AbstractClasses/IsoSprite.gd" type="Script" id=4]
+[ext_resource path="res://BabaGodotLib/Isometric/IsoSprite.gd" type="Script" id=4]
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 3 )

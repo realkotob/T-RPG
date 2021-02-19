@@ -3,7 +3,7 @@ class_name MovementArrow
 
 const movement_arrow_scene = preload("res://Scenes/MovementArrow/MovementArrowSegment.tscn")
 
-onready var map_node : CombatMap = owner
+onready var map_node : CombatIsoMap = owner
 
 #### ACCESSORS ####
 

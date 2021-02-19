@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 func _ready():
-	var _err = Events.connect("cursor_cell_changed", self, "_on_cursor_changed_cell")
+	var _err = EVENTS.connect("cursor_cell_changed", self, "_on_cursor_changed_cell")
 	
 	for child in get_children():
 		child.set_visible(false)

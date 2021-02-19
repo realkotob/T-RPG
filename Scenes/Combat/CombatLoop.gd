@@ -57,10 +57,10 @@ func _ready() -> void:
 	var _err = connect("active_actor_changed", debug_panel, "_on_active_actor_changed")
 	_err = cursor_node.connect("max_z_changed", debug_panel, "_on_cursor_max_z_changed")
 	_err = combat_state_node.connect("state_changed", debug_panel, "_on_combat_state_changed")
-	_err = Events.connect("visible_cells_changed", self, "_on_visible_cells_changed")
+	_err = EVENTS.connect("visible_cells_changed", self, "_on_visible_cells_changed")
 	_err = area_node.connect("area_created", self, "on_area_created")
 	_err = map_node.connect("map_generation_finished", self, "_on_map_generation_finished")
-	_err = Events.connect("timeline_movement_finished", self, "_on_timeline_movement_finished")
+	_err = EVENTS.connect("timeline_movement_finished", self, "_on_timeline_movement_finished")
 	
 	HUD_node.generate_timeline(actors_order)
 	focused_objects_array = [cursor_node, active_actor]
@@ -68,7 +68,7 @@ func _ready() -> void:
 	# Feed the renderer with the actors and layers and hide it
 	var layers_array : Array = []
 	for child in map_node.get_children():
-		if child is MapLayer:
+		if child is IsoMapLayer:
 			layers_array.append(child)
 	
 	# First turn trigger
@@ -95,7 +95,7 @@ func new_turn():
 	
 	active_actor.turn_start()
 	HUD_node.update_actions_left(active_actor)
-	Events.emit_signal("combat_new_turn_started", active_actor)
+	EVENTS.emit_signal("combat_new_turn_started", active_actor)
 
 
 # End of turn procedure, called right before a new turn start

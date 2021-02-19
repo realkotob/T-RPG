@@ -17,7 +17,7 @@ func _ready():
 	
 	combat_loop_node = owner
 	
-	var _err = Events.connect("cursor_cell_changed", self, "_on_cursor_cell_changed")
+	var _err = EVENTS.connect("cursor_cell_changed", self, "_on_cursor_cell_changed")
 
 func _process(delta: float):
 	if is_moving:
@@ -47,7 +47,7 @@ func exit_state():
 
 #### LOGIC ####
 
-# Ask the map for a path between current actor's cell and the cursor's cell
+# Ask the IsoMap for a path between current actor's cell and the cursor's cell
 func set_path(cursor_cell : Vector3, actor_cell : Vector3) -> void:
 	owner.map_node.clear_movement_arrow()
 	path = combat_loop.pathfinder.find_path(actor_cell, cursor_cell)

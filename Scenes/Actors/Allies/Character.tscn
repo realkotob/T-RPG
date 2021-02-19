@@ -9,5 +9,7 @@ portrait = ExtResource( 4 )
 timeline_port = ExtResource( 5 )
 
 [node name="Sprite" parent="." index="2"]
-animation = "IdleBottom"
+animation = "AttackBottom"
+frame = 1
+playing = true
 offset = Vector2( 0, -20 )

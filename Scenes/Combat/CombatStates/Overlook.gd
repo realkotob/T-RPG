@@ -6,7 +6,7 @@ extends CombatStateBase
 
 func _ready():
 	yield(owner, "ready")
-	var _err = Events.connect("cursor_cell_changed", self, "on_cursor_changed_cell")
+	var _err = EVENTS.connect("cursor_cell_changed", self, "on_cursor_changed_cell")
 
 
 #### VIRTUALS ####

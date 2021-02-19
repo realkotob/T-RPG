@@ -6,5 +6,5 @@ func _ready():
 
 
 func destroy():
-	Events.emit_signal("obstacle_removed", self)
+	EVENTS.emit_signal("obstacle_removed", self)
 	.destroy()

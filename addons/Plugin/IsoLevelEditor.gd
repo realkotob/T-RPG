@@ -1,7 +1,7 @@
 tool
 extends EditorPlugin
 
-const LAYER = preload("res://Scenes/Combat/Map/Layer.tscn")
+const LAYER = preload("res://BabaGodotLib/Isometric/IsoMap/IsoMapLayer.gd")
 
 const NEW_LAYER = preload("res://addons/Plugin/NewLayer.tscn")
 const NEXT_LAYER = preload("res://addons/Plugin/NextLayer.tscn")
@@ -40,12 +40,12 @@ func generate_button(button_scene: PackedScene) -> Button:
 
 # Called whenever the handled object is the right one
 func edit(object : Object):
-	if not object is CombatMap:
-		edited_map = object.find_parent("Map")
+	if not object is CombatIsoMap:
+		edited_map = object.find_parent("IsoMap")
 	else:
 		edited_map = object
 	
-	if object is MapLayer:
+	if object is IsoMapLayer:
 		edited_layer = object
 	else:
 		edited_layer = null
@@ -55,8 +55,8 @@ func edit(object : Object):
 # Check if the plugin handle this node or not. 
 # If it return true trigger the edit and the make_visible callbacks
 func handles(object: Object):
-	return object is CombatMap or (object is Node and 
-									object.find_parent("Map"))
+	return object is CombatIsoMap or (object is Node and 
+									object.find_parent("IsoMap"))
 
 # Clean-up
 func _exit_tree():
@@ -118,22 +118,22 @@ func select_next_action(next : bool = true):
 #### LOGIC FUNCTIONS ####
 
 # Select the next layer. (Or previous if next is false)
-# Select the first one if the map is the current selection
+# Select the first one if the IsoMap is the current selection
 func select_next_previous_layer(next : bool = true):
 	var editor_selection = get_editor_interface().get_selection()
 	var selection_array = editor_selection.get_selected_nodes()
 	var selection = selection_array[0]
-	var next_layer : MapLayer = null
+	var next_layer : IsoMapLayer = null
 	
-	# Get the first layer of the map if the selection is the map itself
-	if selection is CombatMap:
+	# Get the first layer of the IsoMap if the selection is the IsoMap itself
+	if selection is CombatIsoMap:
 		var first_layer = edited_map.get_first_layer(selection)
 		if first_layer != null:
 			change_selected_node(first_layer)
 	else:
 		
-		# In case of a direct child of the map
-		if selection.get_parent() is CombatMap:
+		# In case of a direct child of the IsoMap
+		if selection.get_parent() is CombatIsoMap:
 			if next:
 				next_layer = edited_map.get_next_layer(selection.get_index())
 			else:
@@ -144,7 +144,7 @@ func select_next_previous_layer(next : bool = true):
 			else: # If the last one is selected, create a new one and select it
 				if next:
 					_on_new_layer_pressed()
-		
+		 
 		else: # in case of an indirect child
 			var parent_layer = find_parent_layer(selection)
 			if parent_layer != null:
@@ -179,7 +179,7 @@ func change_selected_node(node : Node):
 # Find the first parent that is a layer
 func find_parent_layer(node : Node):
 	var parent = node.get_parent()
-	if parent is MapLayer:
+	if parent is IsoMapLayer:
 		return parent
 	else:
 		if parent == get_tree().get_root():
@@ -206,7 +206,7 @@ func add_layer(layer: Node):
 	
 	# Set the new node to be editable
 #	var editable_instances = combat_scene._bundled.get("editable_instances")
-#	editable_instances.append("Map/Layer" + String(nb_layers + 1))
+#	editable_instances.append("IsoMap/Layer" + String(nb_layers + 1))
 #	combat_scene._bundled["editable_instances"] = editable_instances
 #	print(combat_scene._bundled["editable_instances"])
 	

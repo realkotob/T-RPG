@@ -18,8 +18,8 @@ func set_current_cell(value: Vector3):
 	if value != current_cell:
 		current_cell = value
 		if !map_node.is_outside_map_bounds(value):
-			Events.emit_signal("cursor_cell_changed", self, current_cell)
-			Events.emit_signal("iso_object_cell_changed", self)
+			EVENTS.emit_signal("cursor_cell_changed", self, current_cell)
+			EVENTS.emit_signal("iso_object_cell_changed", self)
 			emit_signal("cell_changed", current_cell)
 		else:
 			change_color(Color.transparent)
