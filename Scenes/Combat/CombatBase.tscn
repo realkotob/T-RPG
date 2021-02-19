@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://BabaGodotLib/Isometric/IsoRenderer/IsoRenderer.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Combat/DebugPanel/DebugPanel.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Scenes/Combat/Map/IsoMap.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/Combat/Timeline/Timeline.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/Combat/ActorTeam.gd" type="Script" id=8]
+[ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Jauge/Jauge.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/Combat/CombatStates/Move.gd" type="Script" id=10]
 [ext_resource path="res://Scenes/Combat/HUD/HUD.gd" type="Script" id=11]
 [ext_resource path="res://Scenes/Combat/CombatStates/Overlook.gd" type="Script" id=12]
@@ -21,9 +22,7 @@
 [ext_resource path="res://Scenes/Combat/CombatStates/Wait.gd" type="Script" id=20]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/ActiveActorInfos.gd" type="Script" id=21]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Portrait/PortBorder.png" type="Texture" id=22]
-[ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Jauge/JaugeBorder.png" type="Texture" id=24]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Portrait/PortBackGround.png" type="Texture" id=25]
-[ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Jauge/Jauge.png" type="Texture" id=26]
 [ext_resource path="res://Fonts/BoldCapitalPixel.tres" type="DynamicFont" id=27]
 [ext_resource path="res://Scenes/Combat/HUD/ActionsLeft.gd" type="Script" id=29]
 [ext_resource path="res://Scenes/Combat/Obstacles/Crate/Crate.tscn" type="PackedScene" id=37]
@@ -182,47 +181,35 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HP" type="TextureProgress" parent="HUD/ActiveActorInfos/Jauges"]
+[node name="HPJauge" parent="HUD/ActiveActorInfos/Jauges" instance=ExtResource( 9 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_right = 101.0
 margin_bottom = 12.0
-value = 100.0
-texture_under = ExtResource( 24 )
-texture_progress = ExtResource( 26 )
-tint_progress = Color( 1, 0.101961, 0.101961, 1 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
 
-[node name="Label" type="Label" parent="HUD/ActiveActorInfos/Jauges/HP"]
+[node name="Label" type="Label" parent="HUD/ActiveActorInfos/Jauges/HPJauge"]
 margin_left = -17.0
-margin_top = -1.0
+margin_top = 3.0
 margin_right = 23.0
-margin_bottom = 13.0
+margin_bottom = 18.0
 custom_fonts/font = ExtResource( 27 )
 text = "HP"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MP" type="TextureProgress" parent="HUD/ActiveActorInfos/Jauges"]
-margin_top = 16.0
+[node name="MPJauge" parent="HUD/ActiveActorInfos/Jauges" instance=ExtResource( 9 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 4.0
 margin_right = 101.0
-margin_bottom = 28.0
-value = 50.0
-texture_under = ExtResource( 24 )
-texture_progress = ExtResource( 26 )
-tint_progress = Color( 0, 0.811765, 1, 1 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
+margin_bottom = 16.0
 
-[node name="Label2" type="Label" parent="HUD/ActiveActorInfos/Jauges/MP"]
+[node name="Label2" type="Label" parent="HUD/ActiveActorInfos/Jauges/MPJauge"]
 margin_left = -17.0
-margin_top = -1.0
+margin_top = 3.0
 margin_right = 23.0
-margin_bottom = 13.0
+margin_bottom = 18.0
 custom_fonts/font = ExtResource( 27 )
 text = "MP"
 __meta__ = {
@@ -261,6 +248,8 @@ text = "H:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Tween" type="Tween" parent="HUD/ActiveActorInfos"]
 
 [node name="ActionMenu" type="VBoxContainer" parent="HUD"]
 anchor_left = 1.0

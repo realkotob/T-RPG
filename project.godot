@@ -220,6 +220,11 @@ _global_script_classes=[ {
 "path": "res://BabaGodotLib/Isometric/IsoSprite.gd"
 }, {
 "base": "Control",
+"class": "Jauge",
+"language": "GDScript",
+"path": "res://Scenes/Combat/HUD/ActorInfos/Jauge/Jauge.gd"
+}, {
+"base": "Control",
 "class": "MenuBase",
 "language": "GDScript",
 "path": "res://BabaGodotLib/Menu/GameMenuBase.gd"
@@ -437,6 +442,7 @@ _global_script_class_icons={
 "IsoRenderPart": "",
 "IsoRenderer": "",
 "IsoSprite": "",
+"Jauge": "",
 "MenuBase": "",
 "MenuOptionsBase": "",
 "MovementArrow": "",
