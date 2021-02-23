@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/JaugeBorder.png-2f9cc17eeb57f20f0a4492f532e7953a.stex"
+path="res://.import/GaugeBorder.png-80585d49341bca734a65447cd98536e0.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/Combat/HUD/ActorInfos/Jauge/JaugeBorder.png"
-dest_files=[ "res://.import/JaugeBorder.png-2f9cc17eeb57f20f0a4492f532e7953a.stex" ]
+source_file="res://Scenes/Combat/HUD/ActorInfos/Gauge/GaugeBorder.png"
+dest_files=[ "res://.import/GaugeBorder.png-80585d49341bca734a65447cd98536e0.stex" ]
 
 [params]
 

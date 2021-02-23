@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://BabaGodotLib/Isometric/IsoRenderer/IsoRenderer.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Combat/DebugPanel/DebugPanel.gd" type="Script" id=2]
@@ -8,7 +8,7 @@
 [ext_resource path="res://Scenes/Combat/Map/IsoMap.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/Combat/Timeline/Timeline.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/Combat/ActorTeam.gd" type="Script" id=8]
-[ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Jauge/Jauge.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Gauge/HUD_Gauge.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/Combat/CombatStates/Move.gd" type="Script" id=10]
 [ext_resource path="res://Scenes/Combat/HUD/HUD.gd" type="Script" id=11]
 [ext_resource path="res://Scenes/Combat/CombatStates/Overlook.gd" type="Script" id=12]
@@ -22,6 +22,7 @@
 [ext_resource path="res://Scenes/Combat/CombatStates/Wait.gd" type="Script" id=20]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/ActiveActorInfos.gd" type="Script" id=21]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Portrait/PortBorder.png" type="Texture" id=22]
+[ext_resource path="res://BabaGodotLib/Fonts/BoldCapsPixel24.tres" type="DynamicFont" id=23]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Portrait/PortBackGround.png" type="Texture" id=25]
 [ext_resource path="res://Fonts/BoldCapitalPixel.tres" type="DynamicFont" id=27]
 [ext_resource path="res://Scenes/Combat/HUD/ActionsLeft.gd" type="Script" id=29]
@@ -171,50 +172,49 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Jauges" type="VBoxContainer" parent="HUD/ActiveActorInfos"]
+[node name="Gauges" type="VBoxContainer" parent="HUD/ActiveActorInfos"]
 margin_left = 1.0
 margin_top = 13.0
 margin_right = 102.0
-margin_bottom = 41.0
+margin_bottom = 70.0
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
-[node name="HPJauge" parent="HUD/ActiveActorInfos/Jauges" instance=ExtResource( 9 )]
+[node name="HP" parent="HUD/ActiveActorInfos/Gauges" instance=ExtResource( 9 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 101.0
 margin_bottom = 12.0
+gauge_color = Color( 1, 0, 0, 1 )
+feedback_gauge_color = Color( 0.501961, 0, 0, 1 )
+shake_feedback_on = true
 
-[node name="Label" type="Label" parent="HUD/ActiveActorInfos/Jauges/HPJauge"]
+[node name="Label" type="Label" parent="HUD/ActiveActorInfos/Gauges/HP"]
 margin_left = -17.0
-margin_top = 3.0
+margin_top = -1.0
 margin_right = 23.0
 margin_bottom = 18.0
-custom_fonts/font = ExtResource( 27 )
+custom_fonts/font = ExtResource( 23 )
 text = "HP"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="MPJauge" parent="HUD/ActiveActorInfos/Jauges" instance=ExtResource( 9 )]
+[node name="MP" parent="HUD/ActiveActorInfos/Gauges" instance=ExtResource( 9 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 4.0
+margin_top = 16.0
 margin_right = 101.0
-margin_bottom = 16.0
+margin_bottom = 28.0
+gauge_color = Color( 0, 0.647059, 1, 1 )
+feedback_gauge_color = Color( 0, 0.333333, 0.509804, 1 )
 
-[node name="Label2" type="Label" parent="HUD/ActiveActorInfos/Jauges/MPJauge"]
+[node name="Label" type="Label" parent="HUD/ActiveActorInfos/Gauges/MP"]
 margin_left = -17.0
-margin_top = 3.0
+margin_top = -1.0
 margin_right = 23.0
-margin_bottom = 18.0
-custom_fonts/font = ExtResource( 27 )
+margin_bottom = 13.0
+custom_fonts/font = ExtResource( 23 )
 text = "MP"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ActionsLeft" type="HBoxContainer" parent="HUD/ActiveActorInfos"]
 anchor_left = 0.304

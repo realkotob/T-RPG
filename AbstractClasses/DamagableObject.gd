@@ -13,6 +13,7 @@ var current_HP : int = 0 setget set_current_HP, get_current_HP
 
 var lifebar : Control
 var clickable_area : Area2D
+var mouse_inside : bool = false
 
 signal focused
 signal unfocused
@@ -98,11 +99,12 @@ func generate_clickable_area():
 	clickable_area = Area2D.new()
 	add_child(clickable_area)
 	
+	clickable_area.owner = self
+	
 	var sprite = sprite_node if sprite_node != null else animated_sprite_node
 	
 	clickable_area.set_position(sprite.get_position())
 
-	
 	var collision_shape = CollisionShape2D.new()
 	
 	var rect_shape = RectangleShape2D.new()
@@ -148,9 +150,11 @@ func destroy():
 #### SIGNAL RESPONSES ####
 
 func _on_mouse_entered():
+	mouse_inside = true
 	if not self == owner.active_actor:
 		show_infos()
 
 func _on_mouse_exited():
+	mouse_inside = false
 	if not self == owner.active_actor:
 		hide_infos()

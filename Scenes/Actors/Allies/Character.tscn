@@ -8,9 +8,6 @@
 portrait = ExtResource( 4 )
 timeline_port = ExtResource( 5 )
 
-[node name="Attack" parent="States" index="2"]
-toggle_state = true
-
 [node name="AnimatedSprite" parent="." index="2"]
-frame = 3
+frame = 0
 offset = Vector2( 0, -18 )

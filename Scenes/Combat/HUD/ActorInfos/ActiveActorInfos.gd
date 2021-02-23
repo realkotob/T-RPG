@@ -2,8 +2,8 @@ extends Control
 
 onready var portrait_node = $PortraitContainer/Portrait
 onready var actions_left_node = $ActionsLeft
-onready var HP_jauge = $Jauges/HP
-onready var MP_jauge = $Jauges/MP
+onready var HP_gauge = $Gauges/HP
+onready var MP_gauge = $Gauges/MP
 
 
 const ALLY_COLOR = Color("496d6f")
@@ -12,7 +12,7 @@ const ENEMY_COLOR = Color.red
 
 func _ready():
 	var _err = EVENTS.connect("combat_new_turn_started", self, "_on_combat_new_turn_started")
-	_err = EVENTS.connect("active_actor_stats_changed", self, "_on_active_actor_stats_changed")
+	_err = EVENTS.connect("actor_stats_changed", self, "_on_actor_stats_changed")
 
 
 #### LOGIC ####
@@ -29,19 +29,20 @@ func update_portrait(actor: Actor):
 		$PortraitContainer/Background.set_modulate(ALLY_COLOR)
 
 
-func update_jauges(actor: Actor):
-	HP_jauge.set_max(actor.get_max_HP())
-	HP_jauge.set_value(actor.get_current_HP())
+func update_gauges(actor: Actor, instantanious : bool = false):
+	HP_gauge.set_gauge_max_value(actor.get_max_HP())
+	HP_gauge.set_gauge_value(actor.get_current_HP(), !instantanious)
 	
-	MP_jauge.set_max(actor.get_max_MP())
-	MP_jauge.set_value(actor.get_current_MP())
+	MP_gauge.set_gauge_max_value(actor.get_max_MP())
+	MP_gauge.set_gauge_value(actor.get_current_MP(), !instantanious)
 
 
 #### SIGNAL RESPONSES ####
 
 func _on_combat_new_turn_started(actor: Actor):
 	update_portrait(actor)
-	update_jauges(actor)
+	update_gauges(actor, true)
 
-func _on_active_actor_stats_changed(actor: Actor):
-	update_jauges(actor)
+func _on_actor_stats_changed(actor: Actor):
+	if actor == owner.active_actor:
+		update_gauges(actor)

@@ -159,6 +159,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Resources/Firearm.gd"
 }, {
+"base": "Control",
+"class": "Gauge",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Scenes/HUD/Gauge/Gauge.gd"
+}, {
 "base": "Node2D",
 "class": "InteractiveObject",
 "language": "GDScript",
@@ -218,11 +223,6 @@ _global_script_classes=[ {
 "class": "IsoSprite",
 "language": "GDScript",
 "path": "res://BabaGodotLib/Isometric/IsoSprite.gd"
-}, {
-"base": "Control",
-"class": "Jauge",
-"language": "GDScript",
-"path": "res://Scenes/Combat/HUD/ActorInfos/Jauge/Jauge.gd"
 }, {
 "base": "Control",
 "class": "MenuBase",
@@ -430,6 +430,7 @@ _global_script_class_icons={
 "Enemy": "",
 "EventsBase": "",
 "Firearm": "",
+"Gauge": "",
 "InteractiveObject": "",
 "IsoAnimatedSprite": "",
 "IsoEvents": "",
@@ -442,7 +443,6 @@ _global_script_class_icons={
 "IsoRenderPart": "",
 "IsoRenderer": "",
 "IsoSprite": "",
-"Jauge": "",
 "MenuBase": "",
 "MenuOptionsBase": "",
 "MovementArrow": "",

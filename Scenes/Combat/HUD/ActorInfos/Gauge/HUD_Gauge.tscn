@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://BabaGodotLib/Scenes/HUD/Gauge/Gauge.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Gauge/Gauge.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Gauge/GaugeBorder.png" type="Texture" id=3]
+
+[node name="HUD_Gauge" instance=ExtResource( 1 )]
+background_texture = ExtResource( 3 )
+gauge_texture = ExtResource( 2 )
+
+[node name="FeedbackGauge" parent="." index="0"]
+texture_under = ExtResource( 3 )
+texture_progress = ExtResource( 2 )
+
+[node name="Gauge" parent="." index="1"]
+texture_progress = ExtResource( 2 )

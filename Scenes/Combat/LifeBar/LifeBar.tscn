@@ -1,8 +1,11 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Jauge/JaugeBorder.png" type="Texture" id=1]
-[ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Jauge/Jauge.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Gauge/GaugeBorder.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Gauge/Gauge.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/Combat/LifeBar/LifeBar.gd" type="Script" id=3]
+
+
+
 
 [node name="LifeBar" type="TextureProgress"]
 margin_right = 101.0

@@ -35,7 +35,6 @@ var jump_max_height : int = 2 setget set_jump_max_height, get_jump_max_height
 var move_speed : float = 300
 var direction : int = DIRECTION.BOTTOM_RIGHT setget set_direction, get_direction
 
-
 var view_field : Array = [[], []] setget set_view_field, get_view_field
 
 signal changed_direction(dir)
@@ -63,13 +62,13 @@ func get_current_HP(): return current_HP
 func set_current_HP(value : int):
 	if value >= 0 && value <= get_max_HP() && value != current_HP:
 		current_HP = value
-		EVENTS.emit_signal("active_actor_stats_changed", self)
+		EVENTS.emit_signal("actor_stats_changed", self)
 
 func get_current_MP(): return current_MP
 func set_current_MP(value: int): 
 	if value >= 0 && value <= get_max_MP() && value != current_MP:
 		current_MP = value
-		EVENTS.emit_signal("active_actor_stats_changed", self)
+		EVENTS.emit_signal("actor_stats_changed", self)
 
 func set_default_range(value: int): default_range = value
 func get_default_range() -> int: return default_range
@@ -177,7 +176,7 @@ func move_to(delta: float, world_pos: Vector2) -> bool:
 
 
 func hurt(damage: int):
-	set_current_HP(get_current_HP() - damage)
+	set_current_HP(int(clamp(get_current_HP() - damage, 0.0, get_max_HP())))
 	set_state("Hurt")
 
 # Return the altitude of the current cell of the character
