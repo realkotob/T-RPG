@@ -28,8 +28,8 @@ func update_actor_animation(actor_dir: int):
 	if sprite_frames == null:
 		return
 
-	var bottom : bool = actor_dir in [Actor.DIRECTION.BOTTOM_LEFT, Actor.DIRECTION.BOTTOM_RIGHT]
-	var right : bool = actor_dir in [Actor.DIRECTION.TOP_RIGHT, Actor.DIRECTION.BOTTOM_RIGHT]
+	var bottom : bool = actor_dir in [IsoLogic.DIRECTION.BOTTOM_LEFT, IsoLogic.DIRECTION.BOTTOM_RIGHT]
+	var right : bool = actor_dir in [IsoLogic.DIRECTION.TOP_RIGHT, IsoLogic.DIRECTION.BOTTOM_RIGHT]
 	
 	var sufix = "Bottom" if bottom else "Top"
 	var animation_name = name + sufix

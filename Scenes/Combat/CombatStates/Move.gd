@@ -84,14 +84,7 @@ func move_actor(delta: float):
 			if path.size() > 1:
 				var current_cell = active_actor.get_current_cell()
 				var future_cell = path[1]
-				var movement := Vector2((future_cell.x - current_cell.x), (future_cell.y - current_cell.y))
-				var dir : int = 0
-				
-				match(movement):
-					Vector2(1, 0): dir = Actor.DIRECTION.BOTTOM_RIGHT
-					Vector2(0, 1): dir = Actor.DIRECTION.BOTTOM_LEFT 
-					Vector2(-1, 0): dir = Actor.DIRECTION.TOP_LEFT 
-					Vector2(0, -1): dir = Actor.DIRECTION.TOP_RIGHT 
+				var dir = IsoLogic.get_cell_direction(current_cell, future_cell)
 				
 				active_actor.set_direction(dir)
 				active_actor.set_current_cell(future_cell)

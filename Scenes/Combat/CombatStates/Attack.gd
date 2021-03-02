@@ -40,7 +40,12 @@ func _unhandled_input(event):
 		if event.get_button_index() == BUTTON_LEFT && event.pressed:
 			
 			var active_actor = combat_loop.active_actor
+			var active_actor_cell = active_actor.get_current_cell()
 			var target = get_cursor_target()
+			
+			if target == null:
+				return
+			
 			var target_cell = target.get_current_cell()
 			var reachables_cells = combat_loop.area_node.get_area_cells()
 			
@@ -49,9 +54,13 @@ func _unhandled_input(event):
 				!owner.allies_team.is_cell_in_view_field(target_cell):
 				return null
 			
+			# Trigger the attack
 			if target:
 				var damage = compute_damage(active_actor, target)
 				instance_damage_label(damage, target)
+				
+				var direction = IsoLogic.get_cell_direction(active_actor_cell, target_cell)
+				active_actor.set_direction(direction)
 				active_actor.set_state("Attack")
 				target.hurt(damage)
 				combat_loop.active_actor.decrement_current_action()
