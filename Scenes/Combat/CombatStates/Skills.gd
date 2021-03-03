@@ -18,3 +18,7 @@ func on_cursor_changed_cell(_cursor: Cursor, cursor_cell: Vector3):
 	
 	var line = IsoRaycast.get_line(combat_loop.map_node, actor_cell, cursor_cell)
 	combat_loop.area_node.draw_area(line, "view")
+
+
+func enter_state():
+	EVENTS.emit_signal("add_action_submenu", ["POUET", "PROUT", "SUBBARATH"], name)

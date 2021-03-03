@@ -28,9 +28,9 @@ func enter_state():
 		var item = can_use_item()
 		var wait = can_wait()
 		
-		combat_loop.HUD_node.update_unabled_actions(move, attack, skill, item, wait)
+		EVENTS.emit_signal("update_unabled_actions", move, attack, item, skill, wait)
 	else:
-		combat_loop.HUD_node.set_every_action_disabled()
+		EVENTS.emit_signal("set_every_action_disabled")
 	
 	# Update the view field in case of fog of war
 	if combat_loop.fog_of_war:
@@ -57,7 +57,8 @@ func can_use_item() -> bool:
 	return !owner.active_actor.items.empty()
 
 func can_use_skill() -> bool:
-	return !owner.active_actor.skills.empty()
+	return true
+#	return !owner.active_actor.skills.empty()
 
 # Check if the active actor can move
 func can_wait() -> bool:

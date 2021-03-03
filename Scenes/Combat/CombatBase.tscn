@@ -1,10 +1,10 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://BabaGodotLib/Isometric/IsoRenderer/IsoRenderer.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Combat/DebugPanel/DebugPanel.gd" type="Script" id=2]
-[ext_resource path="res://Scenes/Combat/HUD/ActionMenu/CombatButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://BabaGodotLib/UI/Menu/ListMenu.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Actors/Allies/Character.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Global/GUI_theme/transparant_UI_theme.tres" type="Theme" id=5]
+[ext_resource path="res://BabaGodotLib/UI/Menu/ActionMenu.gd" type="Script" id=5]
 [ext_resource path="res://Scenes/Combat/Map/IsoMap.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/Combat/Timeline/Timeline.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/Combat/ActorTeam.gd" type="Script" id=8]
@@ -14,7 +14,7 @@
 [ext_resource path="res://Scenes/Combat/CombatStates/Overlook.gd" type="Script" id=12]
 [ext_resource path="res://Scenes/Combat/CombatLoop.gd" type="Script" id=13]
 [ext_resource path="res://Scenes/Actors/Enemies/Enemy.gd" type="Script" id=14]
-[ext_resource path="res://Scenes/Combat/CombatStates/CombatStateMachine.gd" type="Script" id=15]
+[ext_resource path="res://BabaGodotLib/Absract/StateMachine/StateMachine.gd" type="Script" id=15]
 [ext_resource path="res://Scenes/Actors/Allies/Character.gd" type="Script" id=16]
 [ext_resource path="res://Scenes/Combat/CombatStates/Attack.gd" type="Script" id=17]
 [ext_resource path="res://Scenes/Combat/CombatStates/Skills.gd" type="Script" id=18]
@@ -23,6 +23,7 @@
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/ActiveActorInfos.gd" type="Script" id=21]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Portrait/PortBorder.png" type="Texture" id=22]
 [ext_resource path="res://BabaGodotLib/Fonts/BoldCapsPixel24.tres" type="DynamicFont" id=23]
+[ext_resource path="res://Scenes/Combat/HUD/NinePatchRect/NinePatchRect2.png" type="Texture" id=24]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Portrait/PortBackGround.png" type="Texture" id=25]
 [ext_resource path="res://Fonts/BoldCapitalPixel.tres" type="DynamicFont" id=27]
 [ext_resource path="res://Scenes/Combat/HUD/ActionsLeft.gd" type="Script" id=29]
@@ -58,10 +59,10 @@ script = ExtResource( 10 )
 [node name="Attack" type="Node" parent="CombatState"]
 script = ExtResource( 17 )
 
-[node name="Skills" type="Node" parent="CombatState"]
+[node name="Skill" type="Node" parent="CombatState"]
 script = ExtResource( 18 )
 
-[node name="Items" type="Node" parent="CombatState"]
+[node name="Item" type="Node" parent="CombatState"]
 script = ExtResource( 19 )
 
 [node name="Wait" type="Node" parent="CombatState"]
@@ -251,56 +252,18 @@ __meta__ = {
 
 [node name="Tween" type="Tween" parent="HUD/ActiveActorInfos"]
 
-[node name="ActionMenu" type="VBoxContainer" parent="HUD"]
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-margin_left = -63.0
-margin_top = -118.5
-margin_right = -9.0
-margin_bottom = -7.5
-custom_constants/separation = -4
-alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Move" parent="HUD/ActionMenu" instance=ExtResource( 3 )]
-margin_left = 0.0
-margin_top = 11.0
-margin_right = 54.0
-margin_bottom = 32.0
-theme = ExtResource( 5 )
-text = "MOVE"
-
-[node name="Attack" parent="HUD/ActionMenu" instance=ExtResource( 3 )]
-margin_left = 0.0
-margin_top = 28.0
-margin_right = 54.0
-margin_bottom = 49.0
-text = "ATTACK"
-
-[node name="Skills" parent="HUD/ActionMenu" instance=ExtResource( 3 )]
-margin_left = 0.0
-margin_top = 45.0
-margin_right = 54.0
-margin_bottom = 66.0
-text = "SKILLS"
-
-[node name="Items" parent="HUD/ActionMenu" instance=ExtResource( 3 )]
-margin_left = 0.0
-margin_top = 62.0
-margin_right = 54.0
-margin_bottom = 83.0
-text = "ITEMS"
-
-[node name="Wait" parent="HUD/ActionMenu" instance=ExtResource( 3 )]
-margin_left = 0.0
-margin_top = 79.0
-margin_right = 54.0
-margin_bottom = 100.0
-text = "WAIT"
+[node name="ActionMenu" parent="HUD" instance=ExtResource( 3 )]
+margin_left = 566.0
+margin_top = 80.0
+margin_right = -4.0
+margin_bottom = -181.0
+size_flags_vertical = 0
+texture = ExtResource( 24 )
+script = ExtResource( 5 )
+menu_option_scene_path = "res://Scenes/Combat/HUD/ActionMenu/CombatOptionButton.tscn"
+option_v_separation = -4
+max_lines = 5
+max_columns = 1
 
 [node name="Timeline" parent="HUD" instance=ExtResource( 7 )]
 

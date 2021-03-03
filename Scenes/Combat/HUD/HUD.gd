@@ -40,20 +40,6 @@ func hide_active_actor_infos(value : bool):
 	active_actor_infos_node.set_visble(!value)
 
 
-# Disable/unable every action button (taking the situation in account)
-func set_every_action_disabled():
-	for action in action_buttons_array:
-		action.set_disabled(true)
-
-
-# Update accessible actions (usally called by overlook state) 
-func update_unabled_actions(move: bool, attack: bool, item : bool, skill: bool, wait: bool):
-	$ActionMenu/Move.set_disabled(!move)
-	$ActionMenu/Attack.set_disabled(!attack)
-	$ActionMenu/Items.set_disabled(!item)
-	$ActionMenu/Skills.set_disabled(!skill)
-	$ActionMenu/Wait.set_disabled(!wait)
-
 
 # Update the display of actions left each time it's called
 # Usually called on each new turn, and after each actions

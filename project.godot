@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "ListMenu",
+"class": "ActionMenu",
+"language": "GDScript",
+"path": "res://BabaGodotLib/UI/Menu/ActionMenu.gd"
+}, {
 "base": "DamagableObject",
 "class": "Actor",
 "language": "GDScript",
@@ -119,20 +124,15 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/CombatLoop.gd"
 }, {
-"base": "Button",
+"base": "MenuOptionsBase",
 "class": "CombatOptionButton",
 "language": "GDScript",
-"path": "res://Scenes/Combat/HUD/ActionMenu/ActionButton.gd"
+"path": "res://Scenes/Combat/HUD/ActionMenu/CombatOptionButton.gd"
 }, {
 "base": "StateBase",
 "class": "CombatStateBase",
 "language": "GDScript",
 "path": "res://Scenes/Combat/CombatStates/CombatStateBase.gd"
-}, {
-"base": "StatesMachine",
-"class": "CombatStateMachine",
-"language": "GDScript",
-"path": "res://Scenes/Combat/CombatStates/CombatStateMachine.gd"
 }, {
 "base": "IsoObject",
 "class": "Cursor",
@@ -253,6 +253,11 @@ _global_script_classes=[ {
 "class": "Obstacle",
 "language": "GDScript",
 "path": "res://AbstractClasses/Obstacle.gd"
+}, {
+"base": "Node",
+"class": "OptionDataContainer",
+"language": "GDScript",
+"path": "res://BabaGodotLib/UI/Menu/OptionDataContainer/OptionDataContainer.gd"
 }, {
 "base": "Tween",
 "class": "PartTween",
@@ -405,6 +410,7 @@ _global_script_classes=[ {
 "path": "res://AbstractClasses/Weapon.gd"
 } ]
 _global_script_class_icons={
+"ActionMenu": "",
 "Actor": "",
 "ActorActionState": "",
 "ActorFallState": "",
@@ -429,7 +435,6 @@ _global_script_class_icons={
 "CombatLoop": "",
 "CombatOptionButton": "",
 "CombatStateBase": "",
-"CombatStateMachine": "",
 "Cursor": "",
 "DamagableObject": "",
 "Enemy": "",
@@ -454,6 +459,7 @@ _global_script_class_icons={
 "MovementArrow": "",
 "MovementArrowSegment": "",
 "Obstacle": "",
+"OptionDataContainer": "",
 "PartTween": "",
 "PathPoint": "",
 "RT_ActorActionState": "",

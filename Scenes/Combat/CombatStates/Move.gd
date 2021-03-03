@@ -30,7 +30,7 @@ func _process(delta: float):
 # empty the path and path array, and set a path
 func enter_state():
 	initialize_path_value()
-	owner.HUD_node.set_every_action_disabled()
+	EVENTS.emit_signal("disable_every_actions")
 	
 	if owner.active_actor != null:
 		owner.map_node.draw_movement_area()

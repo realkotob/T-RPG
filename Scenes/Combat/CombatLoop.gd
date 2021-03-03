@@ -61,7 +61,8 @@ func _ready() -> void:
 	_err = area_node.connect("area_created", self, "on_area_created")
 	_err = map_node.connect("map_generation_finished", self, "_on_map_generation_finished")
 	_err = EVENTS.connect("timeline_movement_finished", self, "_on_timeline_movement_finished")
-	
+	_err = EVENTS.connect("actor_action_chosen", self, "_on_actor_action_chosen")
+	_err = EVENTS.connect("action_choice_menu_entered", self, "_on_action_choice_menu_entered")
 	HUD_node.generate_timeline(actors_order)
 	focused_objects_array = [cursor_node, active_actor]
 	
@@ -195,3 +196,11 @@ func _on_visible_cells_changed():
 		obj.set_visibility(visibility)
 	
 	$Renderer.set_visible_cells(allies_view_field)
+
+
+func _on_actor_action_chosen(action_name: String):
+	set_state(action_name.capitalize())
+
+
+func _on_action_choice_menu_entered():
+	set_state("Overlook")
