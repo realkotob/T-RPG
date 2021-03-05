@@ -264,6 +264,11 @@ menu_option_scene_path = "res://Scenes/Combat/HUD/ActionMenu/CombatOptionButton.
 option_v_separation = -4
 max_lines = 5
 max_columns = 1
+option_container_margin = 6
+
+[node name="HBoxContainer" parent="HUD/ActionMenu" index="0"]
+margin_right = 66.0
+alignment = 2
 
 [node name="Timeline" parent="HUD" instance=ExtResource( 7 )]
 
@@ -336,3 +341,5 @@ __meta__ = {
 [editable path="Map/Layer2"]
 
 [editable path="Map/Layer3"]
+
+[editable path="HUD/ActionMenu"]

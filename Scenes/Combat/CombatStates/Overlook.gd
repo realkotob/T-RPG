@@ -6,7 +6,7 @@ extends CombatStateBase
 
 func _ready():
 	yield(owner, "ready")
-	var _err = EVENTS.connect("cursor_cell_changed", self, "on_cursor_changed_cell")
+	var _err = EVENTS.connect("cursor_cell_changed", self, "_on_cursor_changed_cell")
 
 
 #### VIRTUALS ####
@@ -68,7 +68,7 @@ func can_wait() -> bool:
 #### SIGNAL RESPONSES ####
 
 # Adapt the cursor color
-func on_cursor_changed_cell(cursor: Cursor, _cell: Vector3):
+func _on_cursor_changed_cell(cursor: Cursor, _cell: Vector3):
 	if get_parent().get_state() != self:
 		return
 	
