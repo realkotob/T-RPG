@@ -1,6 +1,14 @@
 extends DamagableObject
 class_name Actor
 
+enum ALERATION_TYPE {
+	SLEEP,
+	POISON,
+	FROZEN,
+	BURNING,
+	DEAD
+}
+
 onready var states_node = $States
 onready var move_node = $States/Move
 
@@ -12,8 +20,8 @@ export var MaxStats : Resource
 
 export var weapon : Resource setget set_weapon, get_weapon
 
+export var skills := Array() setget set_skills, get_skills
 var items : Array = []
-var skills : Array = []
 var equipment : Array = []
 
 var current_actions : int = 0 setget set_current_actions, get_current_actions
@@ -124,6 +132,14 @@ func set_direction(value: int):
 		emit_signal("changed_direction", direction)
 
 func get_direction() -> int: return direction 
+
+func set_skills(array: Array):
+	for value in array:
+		if not value is Skill:
+			return
+	skills = array
+
+func get_skills() -> Array: return skills
 
 #### BUILT-IN ####
 

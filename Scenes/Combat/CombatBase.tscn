@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://BabaGodotLib/Isometric/IsoRenderer/IsoRenderer.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Combat/DebugPanel/DebugPanel.gd" type="Script" id=2]
@@ -25,6 +25,7 @@
 [ext_resource path="res://BabaGodotLib/Fonts/BoldCapsPixel24.tres" type="DynamicFont" id=23]
 [ext_resource path="res://Scenes/Combat/HUD/NinePatchRect/NinePatchRect2.png" type="Texture" id=24]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Portrait/PortBackGround.png" type="Texture" id=25]
+[ext_resource path="res://Resources/Skills/Magic/Heal.tres" type="Resource" id=26]
 [ext_resource path="res://Fonts/BoldCapitalPixel.tres" type="DynamicFont" id=27]
 [ext_resource path="res://Scenes/Combat/HUD/ActionsLeft.gd" type="Script" id=29]
 [ext_resource path="res://Scenes/Combat/Obstacles/Crate/Crate.tscn" type="PackedScene" id=37]
@@ -86,6 +87,7 @@ position = Vector2( 307.853, 209.632 )
 script = ExtResource( 16 )
 always_visible = true
 passable = true
+skills = [ ExtResource( 26 ) ]
 
 [node name="Ella" parent="Map/Interactives/Actors/Allies" instance=ExtResource( 4 )]
 position = Vector2( 224, 168 )

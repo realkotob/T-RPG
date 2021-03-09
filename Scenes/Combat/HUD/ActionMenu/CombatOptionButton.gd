@@ -4,6 +4,9 @@ class_name CombatOptionButton
 onready var tween = $Tween
 onready var default_margin_left = get_margin(MARGIN_LEFT)
 
+export var icon_texture : Texture = null
+export var amount : int = INF
+
 export var transition_duration : float = 0.2
 export var hidden : bool = true setget set_hidden, is_hidden
 export var hidden_margin_left : float = 30.0
@@ -15,7 +18,6 @@ func is_hidden() -> bool: return hidden
 
 
 #### BUILT-IN ####
-
 
 func _ready() -> void:
 	if is_hidden():

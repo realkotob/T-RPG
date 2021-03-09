@@ -15,6 +15,6 @@ signal disable_every_actions()
 
 signal actor_action_chosen(action_name)
 
-signal add_action_submenu(data_array)
+signal add_action_submenu(data_array, menu_name)
 
 signal action_choice_menu_entered()
