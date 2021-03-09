@@ -57,8 +57,7 @@ func can_use_item() -> bool:
 	return !owner.active_actor.items.empty()
 
 func can_use_skill() -> bool:
-	return true
-#	return !owner.active_actor.skills.empty()
+	return owner.active_actor.get_skills().size() != 0
 
 # Check if the active actor can move
 func can_wait() -> bool:
