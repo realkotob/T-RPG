@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BabaGodotLib/UI/Menu/ActionMenu.gd"
 }, {
+"base": "HBoxContainer",
+"class": "ActionOptionContainer",
+"language": "GDScript",
+"path": "res://Scenes/Combat/HUD/ActionMenu/ActionOptionContainer.gd"
+}, {
 "base": "DamagableObject",
 "class": "Actor",
 "language": "GDScript",
@@ -123,11 +128,6 @@ _global_script_classes=[ {
 "class": "CombatLoop",
 "language": "GDScript",
 "path": "res://Scenes/Combat/CombatLoop.gd"
-}, {
-"base": "MenuOptionsBase",
-"class": "CombatOptionButton",
-"language": "GDScript",
-"path": "res://Scenes/Combat/HUD/ActionMenu/CombatOptionButton.gd"
 }, {
 "base": "StateBase",
 "class": "CombatStateBase",
@@ -416,6 +416,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "ActionMenu": "",
+"ActionOptionContainer": "",
 "Actor": "",
 "ActorActionState": "",
 "ActorFallState": "",
@@ -438,7 +439,6 @@ _global_script_class_icons={
 "Collectable_IdleState": "",
 "CombatIsoMap": "",
 "CombatLoop": "",
-"CombatOptionButton": "",
 "CombatStateBase": "",
 "Cursor": "",
 "DamagableObject": "",
