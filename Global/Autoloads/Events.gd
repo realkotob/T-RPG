@@ -18,3 +18,6 @@ signal actor_action_chosen(action_name)
 signal add_action_submenu(data_array, menu_name)
 
 signal action_choice_menu_entered()
+
+signal skill_chosen(skill)
+signal item_chosen(item)

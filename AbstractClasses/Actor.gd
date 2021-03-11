@@ -191,3 +191,10 @@ func hurt(damage: int):
 # Return the altitude of the current cell of the character
 func get_altitude() -> int:
 	return int(current_cell.z)
+
+func set_flip_h_SFX(value: bool):
+	for child in $SFX.get_children():
+		if child.has_method("set_flip_h"):
+			if child.is_flipped_h() != value:
+				child.set_flip_h(value)
+				child.set_position(child.get_position() * Vector2(-1, 1))

@@ -31,11 +31,19 @@ func update_actor_animation(actor_dir: int):
 	var bottom : bool = actor_dir in [IsoLogic.DIRECTION.BOTTOM_LEFT, IsoLogic.DIRECTION.BOTTOM_RIGHT]
 	var right : bool = actor_dir in [IsoLogic.DIRECTION.TOP_RIGHT, IsoLogic.DIRECTION.BOTTOM_RIGHT]
 	
+	# Play the correct actor's animation based on the name of the state & the direction the actor is facing
 	var sufix = "Bottom" if bottom else "Top"
 	var animation_name = name + sufix
 	if sprite_frames.has_animation(animation_name):
 		animated_sprite.play(animation_name)
 	
+	# Triggers the AnimationPlayer with the name of this state if one exists 
+	var animation_player : AnimationPlayer = owner.animation_player_node
+	if animation_player != null && animation_player.has_animation(name):
+		animation_player.play(name)
+	
+	# Flip the animations accordingly
+	owner.set_flip_h_SFX(!right)
 	animated_sprite.set_flip_h(!right)
 
 

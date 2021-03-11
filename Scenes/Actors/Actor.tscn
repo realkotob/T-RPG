@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://AbstractClasses/Actor.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Actors/Allies/States/TRPG_ActorIdleState.gd" type="Script" id=2]
@@ -11,6 +11,10 @@
 [ext_resource path="res://Scenes/Combat/DamagableObject.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/Actors/CharaSpriteFrameTemplate.tres" type="SpriteFrames" id=10]
 [ext_resource path="res://Scenes/Actors/Allies/States/ActorAttackState.gd" type="Script" id=11]
+[ext_resource path="res://Scenes/Actors/Allies/States/TRPG_ActorSkillState.gd" type="Script" id=12]
+
+[sub_resource type="Animation" id=1]
+resource_name = "Skill"
 
 [node name="Actor" instance=ExtResource( 9 )]
 script = ExtResource( 1 )
@@ -18,6 +22,9 @@ height = 2
 passable = false
 MaxStats = ExtResource( 7 )
 weapon = ExtResource( 8 )
+
+[node name="AnimationPlayer" parent="." index="0"]
+anims/Skill = SubResource( 1 )
 
 [node name="States" type="Node2D" parent="." index="1"]
 script = ExtResource( 4 )
@@ -35,9 +42,12 @@ toggle_state = true
 [node name="Hurt" type="Node" parent="States" index="3"]
 script = ExtResource( 6 )
 
+[node name="Skill" type="Node" parent="States" index="4"]
+script = ExtResource( 12 )
+
 [node name="AnimatedSprite" type="AnimatedSprite" parent="." index="2"]
 frames = ExtResource( 10 )
 animation = "IdleBottom"
-frame = 3
+frame = 2
 playing = true
 script = ExtResource( 3 )

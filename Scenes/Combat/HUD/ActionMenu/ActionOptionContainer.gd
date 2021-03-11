@@ -66,6 +66,7 @@ func set_text(value: String):
 	
 	text = value
 	option_button.set_text(text)
+	option_button.set_name(text)
 
 
 func get_text() -> String: return text

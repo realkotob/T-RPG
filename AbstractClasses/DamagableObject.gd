@@ -5,6 +5,7 @@ const LIFEBAR_SCENE = preload("res://Scenes/Combat/LifeBar/LifeBar.tscn")
 
 onready var sprite_node = get_node_or_null("Sprite")
 onready var animated_sprite_node = get_node_or_null("AnimatedSprite")
+onready var animation_player_node = get_node_or_null("AnimationPlayer")
 
 export var defense : int = 0 setget set_defense, get_defense
 

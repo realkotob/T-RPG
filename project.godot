@@ -379,6 +379,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Actors/Allies/States/TRPG_ActorMoveState.gd"
 }, {
+"base": "TRPG_ActorStateBase",
+"class": "TRPG_ActorSkillState",
+"language": "GDScript",
+"path": "res://Scenes/Actors/Allies/States/TRPG_ActorSkillState.gd"
+}, {
 "base": "ActorStateBase",
 "class": "TRPG_ActorStateBase",
 "language": "GDScript",
@@ -489,6 +494,7 @@ _global_script_class_icons={
 "TRPG_ActorAttackState": "",
 "TRPG_ActorIdleState": "",
 "TRPG_ActorMoveState": "",
+"TRPG_ActorSkillState": "",
 "TRPG_ActorStateBase": "",
 "TRPG_Events": "",
 "TileArea": "",
