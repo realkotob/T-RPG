@@ -27,6 +27,7 @@ enum AOE_TYPE {
 }
 
 export var skill_name : String = ""
+export var skill_icon : Texture = null
 export var cost_type : int = COST_TYPE.MP
 export var cost : int = 0
 
@@ -44,3 +45,12 @@ export var skill_range : int = 1
 export var icon_texture : Texture = null
 
 export var description : String = ""
+
+
+func fetch_description_data() -> Array:
+	return [
+		NormalLineData.new(skill_name, skill_icon, cost),
+#		NormalLineDataContainer.new(damage_type, null, damage_amount),
+		NormalLineData.new(description, null, int(INF))
+#		IconLineDataContainer.new()
+	]

@@ -15,7 +15,7 @@ func _ready():
 
 func enter_state():
 	generate_reachable_aera()
-	combat_loop.HUD_node.set_every_action_disabled()
+	EVENTS.emit_signal("disable_every_actions")
 
 
 func exit_state():

@@ -14,7 +14,7 @@ func get_slope_type() -> int: return slope_type
 #### BUILT-IN ####
 
 func _ready():
-	sprite_node.set_visible(false)
+	set_visible(false)
 	var texture_pos = sprite_node.get_region_rect().position
 	var sprite_size = GAME.TILE_SIZE if slope_type == 0 else GAME.TILE_SIZE * Vector2(1, 2)
 	
