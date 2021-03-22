@@ -141,6 +141,8 @@ func set_skills(array: Array):
 
 func get_skills() -> Array: return skills
 
+func get_team() -> Node: return get_parent()
+
 #### BUILT-IN ####
 
 # Add the node to the group allies

@@ -15,7 +15,7 @@ func enter_state():
 	var option_array : Array = []
 	
 	for skill in skills_array:
-		var option_data_container = OptionDataContainer.new(skill, skill.skill_name, skill.cost, skill.icon_texture)
+		var option_data_container = OptionDataContainer.new(skill, skill.name, skill.cost, skill.icon)
 		option_array.append(option_data_container)
 	
 	EVENTS.emit_signal("add_action_submenu", option_array, "Skill")

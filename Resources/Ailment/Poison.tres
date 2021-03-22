@@ -1,0 +1,15 @@
+[gd_resource type="Resource" load_steps=4 format=2]
+
+[ext_resource path="res://Resources/Ailment/Ailment.gd" type="Script" id=1]
+[ext_resource path="res://Resources/IconTileset.png" type="Texture" id=2]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 2 )
+region = Rect2( 32, 32, 16, 16 )
+
+[resource]
+script = ExtResource( 1 )
+name = "Poison"
+icon = SubResource( 1 )
+effect_trigger = 0
+nb_turns = 3

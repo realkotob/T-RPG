@@ -3,6 +3,8 @@ class_name Enemy
 
 signal wait
 
+var inventory := Array()
+
 func is_class(value: String): return value == "Enemy" or .is_class(value)
 func get_class() -> String: return "Enemy"
 

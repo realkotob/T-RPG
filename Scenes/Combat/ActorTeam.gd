@@ -7,11 +7,15 @@ enum TEAM_TYPE{
 	ENEMY
 }
 
+export var inventory := Array() setget set_inventory, get_inventory
+
 #### ACCESSORS ####
 
 func is_class(value: String): return value == "ActorTeam" or .is_class(value)
 func get_class() -> String: return "ActorTeam"
 
+func set_inventory(value: Array): inventory = value
+func get_inventory() -> Array: return inventory
 
 #### BUILT-IN ####
 
