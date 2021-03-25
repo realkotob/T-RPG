@@ -1,0 +1,50 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://BabaGodotLib/UI/Menu/ActionMenu.gd" type="Script" id=1]
+[ext_resource path="res://BabaGodotLib/UI/Windows/ResizableWindow.gd" type="Script" id=2]
+
+[node name="ActionMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+column_container_path = "ResizableWindow/HBoxContainer"
+
+[node name="ResizableWindow" type="NinePatchRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": true
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="ResizableWindow"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 6
+custom_constants/margin_top = 6
+custom_constants/margin_left = 6
+custom_constants/margin_bottom = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ResizableWindow/MarginContainer"]
+margin_left = 6.0
+margin_top = 6.0
+margin_right = 634.0
+margin_bottom = 354.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuRoot" type="Node" parent="."]
