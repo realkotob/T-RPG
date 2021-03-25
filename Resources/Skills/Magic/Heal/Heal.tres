@@ -1,0 +1,23 @@
+[gd_resource type="Resource" load_steps=5 format=2]
+
+[ext_resource path="res://Resources/Skills/Skill.gd" type="Script" id=1]
+[ext_resource path="res://Resources/AOE/AOE.gd" type="Script" id=2]
+[ext_resource path="res://Resources/AOE/AOE_AreaType/AOE_Type_Circle.tres" type="Resource" id=3]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 2 )
+area_type = ExtResource( 3 )
+area_size = 3
+range_size = 3
+
+[resource]
+script = ExtResource( 1 )
+name = "Heal"
+description = "Heal every character for {amount} HP in a small a area."
+cost_type = 1
+cost = 5
+damage_type = 2
+damage_amount = -30
+ailment_array = [  ]
+ailment_mode = 1
+aoe = SubResource( 1 )

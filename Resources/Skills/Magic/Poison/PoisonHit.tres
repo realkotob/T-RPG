@@ -1,0 +1,24 @@
+[gd_resource type="Resource" load_steps=6 format=2]
+
+[ext_resource path="res://Resources/Skills/Skill.gd" type="Script" id=1]
+[ext_resource path="res://Resources/Ailment/Poison.tres" type="Resource" id=2]
+[ext_resource path="res://Resources/AOE/AOE.gd" type="Script" id=3]
+[ext_resource path="res://Resources/AOE/AOE_AreaType/AOE_Type_Circle.tres" type="Resource" id=4]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 3 )
+area_type = ExtResource( 4 )
+area_size = 3
+range_size = 5
+
+[resource]
+script = ExtResource( 1 )
+name = "Poison Hit"
+description = ""
+cost_type = 1
+cost = 5
+damage_type = 1
+damage_amount = 0
+ailment_array = [ ExtResource( 2 ) ]
+ailment_mode = 1
+aoe = SubResource( 1 )

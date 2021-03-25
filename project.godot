@@ -9,6 +9,16 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Resource",
+"class": "AOE",
+"language": "GDScript",
+"path": "res://Resources/AOE/AOE.gd"
+}, {
+"base": "Resource",
+"class": "AOE_AreaType",
+"language": "GDScript",
+"path": "res://Resources/AOE/AOE_AreaType/AOE_AreaType.gd"
+}, {
 "base": "ListMenu",
 "class": "ActionMenu",
 "language": "GDScript",
@@ -162,7 +172,12 @@ _global_script_classes=[ {
 "base": "Weapon",
 "class": "Firearm",
 "language": "GDScript",
-"path": "res://Resources/Firearm.gd"
+"path": "res://Resources/Weapons/Firearm.gd"
+}, {
+"base": "Resource",
+"class": "GameObject",
+"language": "GDScript",
+"path": "res://Resources/GameObject.gd"
 }, {
 "base": "Control",
 "class": "Gauge",
@@ -239,7 +254,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BabaGodotLib/Isometric/IsoSprite.gd"
 }, {
-"base": "Resource",
+"base": "GameObject",
 "class": "Item",
 "language": "GDScript",
 "path": "res://Resources/Items/Item.gd"
@@ -359,7 +374,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BabaGodotLib/Absract/SceneFinder/SceneFinder.gd"
 }, {
-"base": "Resource",
+"base": "GameObject",
 "class": "Skill",
 "language": "GDScript",
 "path": "res://Resources/Skills/Skill.gd"
@@ -470,6 +485,8 @@ _global_script_classes=[ {
 "path": "res://AbstractClasses/Weapon.gd"
 } ]
 _global_script_class_icons={
+"AOE": "",
+"AOE_AreaType": "",
 "ActionMenu": "",
 "Actor": "",
 "ActorActionState": "",
@@ -501,6 +518,7 @@ _global_script_class_icons={
 "Enemy": "",
 "EventsBase": "",
 "Firearm": "",
+"GameObject": "",
 "Gauge": "",
 "IconsLineContainer": "",
 "IconsLineData": "",

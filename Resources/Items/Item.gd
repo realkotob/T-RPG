@@ -1,4 +1,4 @@
-extends Resource
+extends GameObject
 class_name Item
 
 func is_class(value: String): return value == "Item" or .is_class(value)
@@ -11,18 +11,16 @@ enum USAGE_TYPE{
 	OUTSIDE_COMBAT
 }
 
-export var name : String = ""
 export var icon : Texture = null
 
 export var cost : int = 0
 export var usability : int = USAGE_TYPE.ANYWHERE
 
-export var description : String = ""
 
 export var effect : Resource = null
 
 func fetch_description_data() -> Array:
 	return [
 		NormalLineData.new(name, icon, cost),
-		NormalLineData.new(description)
+		NormalLineData.new(get_description())
 	]
