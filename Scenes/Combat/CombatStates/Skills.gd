@@ -1,4 +1,4 @@
-extends CombatStateBase
+extends NestedPushdownAutomata
 
 #### COMBAT SKILLS STATE ####
 
@@ -19,10 +19,15 @@ func enter_state():
 		option_array.append(option_data_container)
 	
 	EVENTS.emit_signal("add_action_submenu", option_array, "Skill")
+	
+	set_state("OptionChoice")
+	emit_signal("state_changed", "OptionChoice")
 
 
 #### SIGNAL RESPONSES ####
 
 func _on_skill_chosen(_skill: Resource):
-	#### SEEK A TARGET BEFORE THAT ####
+	set_state("TargetChoice")
+
+func _on_target_chosen():
 	owner.active_actor.set_state("Skill")

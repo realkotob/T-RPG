@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://BabaGodotLib/Isometric/IsoRenderer/IsoRenderer.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Combat/DebugPanel/DebugPanel.gd" type="Script" id=2]
@@ -14,7 +14,7 @@
 [ext_resource path="res://Scenes/Combat/CombatStates/Overlook.gd" type="Script" id=12]
 [ext_resource path="res://Scenes/Combat/CombatLoop.gd" type="Script" id=13]
 [ext_resource path="res://Scenes/Actors/Enemies/Enemy.gd" type="Script" id=14]
-[ext_resource path="res://BabaGodotLib/Absract/StateMachine/StateMachine.gd" type="Script" id=15]
+[ext_resource path="res://Scenes/Combat/CombatStatesMachine.gd" type="Script" id=15]
 [ext_resource path="res://Scenes/Actors/Allies/Character.gd" type="Script" id=16]
 [ext_resource path="res://Scenes/Combat/CombatStates/Attack.gd" type="Script" id=17]
 [ext_resource path="res://Scenes/Combat/CombatStates/Skills.gd" type="Script" id=18]
@@ -23,12 +23,15 @@
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/ActiveActorInfos.gd" type="Script" id=21]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Portrait/PortBorder.png" type="Texture" id=22]
 [ext_resource path="res://BabaGodotLib/Fonts/BoldCapsPixel24.tres" type="DynamicFont" id=23]
+[ext_resource path="res://Scenes/Combat/OptionChoice.gd" type="Script" id=24]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Portrait/PortBackGround.png" type="Texture" id=25]
 [ext_resource path="res://Resources/Skills/Magic/Heal/Heal.tres" type="Resource" id=26]
 [ext_resource path="res://Fonts/BoldCapitalPixel.tres" type="DynamicFont" id=27]
 [ext_resource path="res://Resources/Items/Potions/HealPotion.tres" type="Resource" id=28]
 [ext_resource path="res://Scenes/Combat/HUD/ActionsLeft.gd" type="Script" id=29]
 [ext_resource path="res://Resources/Skills/Magic/Poison/PoisonHit.tres" type="Resource" id=30]
+[ext_resource path="res://Scenes/Combat/Animation.gd" type="Script" id=31]
+[ext_resource path="res://Scenes/Combat/TargetChoice.gd" type="Script" id=32]
 [ext_resource path="res://Scenes/Combat/Obstacles/Crate/Crate.tscn" type="PackedScene" id=37]
 [ext_resource path="res://Scenes/Combat/Map/Layer.tscn" type="PackedScene" id=39]
 
@@ -73,14 +76,35 @@ script = ExtResource( 12 )
 [node name="Move" type="Node" parent="CombatState"]
 script = ExtResource( 10 )
 
-[node name="Attack" type="Node" parent="CombatState"]
+[node name="Attack" type="Node2D" parent="CombatState"]
 script = ExtResource( 17 )
 
-[node name="Skill" type="Node" parent="CombatState"]
+[node name="TargetChoice" type="Node" parent="CombatState/Attack"]
+script = ExtResource( 32 )
+
+[node name="Skill" type="Node2D" parent="CombatState"]
 script = ExtResource( 18 )
 
-[node name="Item" type="Node" parent="CombatState"]
+[node name="OptionChoice" type="Node" parent="CombatState/Skill"]
+script = ExtResource( 24 )
+
+[node name="TargetChoice" type="Node" parent="CombatState/Skill"]
+script = ExtResource( 32 )
+
+[node name="Animation" type="Node" parent="CombatState/Skill"]
+script = ExtResource( 31 )
+
+[node name="Item" type="Node2D" parent="CombatState"]
 script = ExtResource( 19 )
+
+[node name="OptionChoice" type="Node" parent="CombatState/Item"]
+script = ExtResource( 24 )
+
+[node name="TargetChoice" type="Node" parent="CombatState/Item"]
+script = ExtResource( 32 )
+
+[node name="Animation" type="Node" parent="CombatState/Item"]
+script = ExtResource( 31 )
 
 [node name="Wait" type="Node" parent="CombatState"]
 script = ExtResource( 20 )
@@ -294,29 +318,44 @@ layer = 3
 script = ExtResource( 2 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="DebugPanel"]
-visible = false
-margin_top = 250.0
-margin_right = 151.0
-margin_bottom = 371.0
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -139.0
+margin_right = 119.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TimelineState" type="Label" parent="DebugPanel/VBoxContainer"]
-margin_right = 151.0
+margin_right = 119.0
 margin_bottom = 14.0
 text = "Timeline State: "
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="CombatState" type="Label" parent="DebugPanel/VBoxContainer"]
 margin_top = 18.0
-margin_right = 151.0
+margin_right = 119.0
 margin_bottom = 32.0
 text = "CombatState:"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CombatSubState" type="Label" parent="DebugPanel/VBoxContainer"]
+margin_top = 36.0
+margin_right = 119.0
+margin_bottom = 50.0
+text = "Combat SubState:"
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="ActiveActor" type="Label" parent="DebugPanel/VBoxContainer"]
-margin_top = 36.0
-margin_right = 151.0
-margin_bottom = 50.0
+margin_top = 54.0
+margin_right = 119.0
+margin_bottom = 68.0
 text = "Active Actor:"
 __meta__ = {
 "_edit_lock_": true,
@@ -324,27 +363,27 @@ __meta__ = {
 }
 
 [node name="ActiveActorPos" type="Label" parent="DebugPanel/VBoxContainer"]
-margin_top = 54.0
-margin_right = 151.0
-margin_bottom = 68.0
+margin_top = 72.0
+margin_right = 119.0
+margin_bottom = 86.0
 text = "Active Actor's Pos:"
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="CursorMaxZ" type="Label" parent="DebugPanel/VBoxContainer"]
-margin_top = 72.0
-margin_right = 151.0
-margin_bottom = 86.0
+margin_top = 90.0
+margin_right = 119.0
+margin_bottom = 104.0
 text = "Cursor max_z:"
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="CursorPos" type="Label" parent="DebugPanel/VBoxContainer"]
-margin_top = 90.0
-margin_right = 151.0
-margin_bottom = 121.0
+margin_top = 108.0
+margin_right = 119.0
+margin_bottom = 139.0
 text = "Cursor Pos:
 "
 __meta__ = {

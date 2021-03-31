@@ -67,6 +67,10 @@ func update_cursor_pos():
 	set_global_position(map_node.cell_to_world(current_cell))
 
 
+func get_target() -> DamagableObject:
+	return map_node.get_object_on_cell(current_cell)
+
+
 func move_cursor(movement: Vector2):
 	var future_2D_cell = Vector2(current_cell.x + movement.x, current_cell.y + movement.y) 
 	var highest_layer = map_node.get_cell_highest_layer(future_2D_cell)

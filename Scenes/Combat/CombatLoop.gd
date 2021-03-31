@@ -1,6 +1,8 @@
 extends Node
 class_name CombatLoop
 
+const DAMAGE_LABEL_SCENE := preload("res://Scenes/Combat/DamageLabel/DamageLabel.tscn")
+
 onready var map_node = $Map
 onready var area_node = $Map/Interactives/Areas
 onready var cursor_node = $Map/Interactives/Cursor
@@ -57,6 +59,7 @@ func _ready() -> void:
 	var _err = connect("active_actor_changed", debug_panel, "_on_active_actor_changed")
 	_err = cursor_node.connect("max_z_changed", debug_panel, "_on_cursor_max_z_changed")
 	_err = combat_state_node.connect("state_changed", debug_panel, "_on_combat_state_changed")
+	_err = combat_state_node.connect("substate_changed", debug_panel, "_on_combat_substate_changed")
 	_err = EVENTS.connect("visible_cells_changed", self, "_on_visible_cells_changed")
 	_err = area_node.connect("area_created", self, "on_area_created")
 	_err = map_node.connect("map_generation_finished", self, "_on_map_generation_finished")
@@ -122,6 +125,23 @@ func fetch_obstacles(iso_object_array: Array) -> Array:
 			unpassable_objects.append(object)
 	
 	return unpassable_objects
+
+
+## SOULD MAYBE BE RELOCALISED SOMEWHERE ELSE
+# Instanciate a damage label with the given amount on top of the given target
+func instance_damage_label(damage: int, target: DamagableObject):
+	var damage_label = DAMAGE_LABEL_SCENE.instance()
+	damage_label.set_global_position(target.get_global_position())
+	damage_label.set_damage(damage)
+	
+	call_deferred("add_child", damage_label)
+
+
+func _input(_event: InputEvent) -> void:
+	if Input.is_action_just_pressed("ui_cancel"):
+		propagate_call("on_cancel_input")
+	
+		get_tree().set_input_as_handled()
 
 
 #### SIGNALS ####
@@ -204,3 +224,4 @@ func _on_actor_action_chosen(action_name: String):
 
 func _on_action_choice_menu_entered():
 	set_state("Overlook")
+

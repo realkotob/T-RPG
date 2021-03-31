@@ -20,6 +20,9 @@ func _on_timeline_state_changed(state_name):
 func _on_combat_state_changed(state_name: String):
 	$VBoxContainer/CombatState.text = "Combat State: " + state_name
 
+func _on_combat_substate_changed(state_name: String):
+	$VBoxContainer/CombatSubState.text = "CombatSubState: " + state_name
+
 func _on_cursor_changed_cell(_cursor: Cursor, cell: Vector3):
 	$VBoxContainer/CursorPos.text = "Cursor Cell: " + String(cell)
 

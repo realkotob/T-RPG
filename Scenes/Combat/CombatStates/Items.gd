@@ -1,4 +1,4 @@
-extends CombatStateBase
+extends NestedPushdownAutomata
 
 #### COMBAT ITEMS STATE ####
 
@@ -13,3 +13,5 @@ func enter_state():
 		option_array.append(option_data_container)
 	
 	EVENTS.emit_signal("add_action_submenu", option_array, "Item")
+	
+	set_state("OptionChoice")

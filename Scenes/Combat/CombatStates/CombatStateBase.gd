@@ -20,11 +20,6 @@ func _ready():
 	combat_loop = owner
 	state_machine = get_parent()
 
-# Undo option
-func _input(event):
-	if event.is_action_pressed("ui_cancel"):
-		get_parent().set_state("Overlook")
-
 
 #### LOGIC ####
 

@@ -14,7 +14,7 @@ func enter_state():
 
 # Apply the movement of extraction
 # When the movement is over, set the state back to idle
-func update(_delta):
+func update_state(_delta):
 	var move_end := false
 	
 	for port in portrait_array:
