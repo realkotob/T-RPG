@@ -1,9 +1,10 @@
-extends StateBase
+extends CombatStateBase
+class_name OptionChoiceState
 
 #### ACCESSORS ####
 
-func is_class(value: String): return value == "" or .is_class(value)
-func get_class() -> String: return ""
+func is_class(value: String): return value == "OptionChoiceState" or .is_class(value)
+func get_class() -> String: return "OptionChoiceState"
 
 
 #### BUILT-IN ####

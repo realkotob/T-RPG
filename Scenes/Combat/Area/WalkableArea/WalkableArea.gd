@@ -14,9 +14,15 @@ signal area_destroyed
 
 
 # Destroy every area instance
-func clear():
-	for child in get_children():
-		child.destroy()
+func clear(type_name: String = ""):
+	if type_name == "":
+		for container in get_children():
+			for area in container.get_children():
+				area.destroy()
+	else:
+		var container = get_node(type_name.capitalize())
+		for child in container.get_children():
+			child.destroy()
 	
 	emit_signal("area_destroyed")
 
@@ -24,6 +30,7 @@ func clear():
 # Draw the given area, at the given positions contained in the cell_array
 func draw_area(cell_array : Array, area_type_name: String) -> void:
 	var new_area_type: PackedScene = null
+	var container = get_node(area_type_name.capitalize())
 	
 	var area_dict_keys = area_dict.keys()
 	if area_type_name in area_dict_keys:
@@ -36,7 +43,7 @@ func draw_area(cell_array : Array, area_type_name: String) -> void:
 		new_area.set_current_cell(cell - Vector3(0, 0, 0.5) * int(slope_type != 0))
 		new_area.set_position(pos)
 		new_area.set_slope_type(slope_type)
-		add_child(new_area)
+		container.add_child(new_area)
 	
 	emit_signal("area_created")
 

@@ -26,7 +26,8 @@ func enter_state():
 
 #### SIGNAL RESPONSES ####
 
-func _on_skill_chosen(_skill: Resource):
+func _on_skill_chosen(skill: Skill):
+	$TargetChoice.set_aoe(skill.aoe)
 	set_state("TargetChoice")
 
 func _on_target_chosen():

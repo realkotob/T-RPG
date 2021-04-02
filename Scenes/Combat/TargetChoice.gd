@@ -1,12 +1,15 @@
-extends StateBase
+extends CombatStateBase
+class_name TargetChoiceState
 
-onready var combat_loop = owner
+var aoe : AOE = null setget set_aoe, get_aoe
 
 #### ACCESSORS ####
 
-func is_class(value: String): return value == "" or .is_class(value)
-func get_class() -> String: return ""
+func is_class(value: String): return value == "TargetChoiceState" or .is_class(value)
+func get_class() -> String: return "TargetChoiceState"
 
+func set_aoe(value: AOE): aoe = value
+func get_aoe() -> AOE : return aoe 
 
 #### BUILT-IN ####
 
@@ -16,12 +19,17 @@ func _ready():
 #### VIRTUALS ####
 
 func enter_state():
+	if aoe == null:
+		print_debug("No aoe data was provided, returning to previous state")
+		states_machine.go_to_previous_state()
+	
 	generate_reachable_aera()
 	EVENTS.emit_signal("target_choice_state_entered")
 
 
 func exit_state():
 	combat_loop.area_node.clear()
+	set_aoe(null)
 
 
 #### LOGIC ####
@@ -31,10 +39,19 @@ func exit_state():
 func generate_reachable_aera():
 	var active_actor : Actor = combat_loop.active_actor
 	var actor_cell = active_actor.get_current_cell()
-	var actor_range = active_actor.get_current_range()
 	var actor_height = active_actor.get_height()
-	var reachables = combat_loop.map_node.get_reachable_cells(actor_cell, actor_height, actor_range)
-	combat_loop.area_node.draw_area(reachables, "damage")
+	var reachables = combat_loop.map_node.get_reachable_cells(actor_cell, actor_height, aoe.range_size)
+	combat_loop.area_node.draw_area(reachables, "view")
+
+
+func generate_aoe_area():
+	var area_node = owner.area_node
+	var cursor = owner.cursor_node
+	var cursor_cell = cursor.get_current_cell()
+	var cells_in_range = combat_loop.map_node.get_cells_in_range(cursor_cell, aoe.area_size)
+	area_node.clear("damage")
+	area_node.draw_area(cells_in_range, "damage")
+
 
 
 
@@ -104,3 +121,5 @@ func on_cursor_changed_cell(cursor : Cursor, _cell: Vector3):
 		cursor.change_color(Color.white)
 	else:
 		cursor.change_color(Color.red)
+	
+	generate_aoe_area()

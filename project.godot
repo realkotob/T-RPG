@@ -319,6 +319,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://AbstractClasses/Obstacle.gd"
 }, {
+"base": "CombatStateBase",
+"class": "OptionChoiceState",
+"language": "GDScript",
+"path": "res://Scenes/Combat/OptionChoice.gd"
+}, {
 "base": "Node",
 "class": "OptionDataContainer",
 "language": "GDScript",
@@ -474,6 +479,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Global/Autoloads/Events.gd"
 }, {
+"base": "CombatStateBase",
+"class": "TargetChoiceState",
+"language": "GDScript",
+"path": "res://Scenes/Combat/TargetChoice.gd"
+}, {
 "base": "LineContainer",
 "class": "TextLineContainer",
 "language": "GDScript",
@@ -567,6 +577,7 @@ _global_script_class_icons={
 "NestedStatesMachine": "",
 "NormalLineData": "",
 "Obstacle": "",
+"OptionChoiceState": "",
 "OptionDataContainer": "",
 "OptionLineContainer": "",
 "PartTween": "",
@@ -598,6 +609,7 @@ _global_script_class_icons={
 "TRPG_ActorSkillState": "",
 "TRPG_ActorStateBase": "",
 "TRPG_Events": "",
+"TargetChoiceState": "",
 "TextLineContainer": "",
 "TileArea": "",
 "TileRenderPart": "",

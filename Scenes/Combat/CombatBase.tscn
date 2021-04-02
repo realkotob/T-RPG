@@ -134,7 +134,7 @@ skills = [ ExtResource( 26 ), ExtResource( 30 ) ]
 anims/RedFlash = SubResource( 1 )
 
 [node name="AnimatedSprite" parent="Map/Interactives/Actors/Allies/Hart" index="2"]
-frame = 3
+frame = 1
 
 [node name="Ella" parent="Map/Interactives/Actors/Allies" instance=ExtResource( 4 )]
 position = Vector2( 224, 168 )

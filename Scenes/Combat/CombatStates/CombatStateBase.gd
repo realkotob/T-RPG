@@ -1,12 +1,9 @@
 extends StateBase
-
 class_name CombatStateBase
 
 signal turn_finished
 
-var state_machine : StatesMachine = null
-var combat_loop : CombatLoop = null
-
+onready var combat_loop = owner
 
 #### ACCESSORS ####
 
@@ -18,7 +15,7 @@ func _ready():
 	
 	yield(owner, "ready")
 	combat_loop = owner
-	state_machine = get_parent()
+	states_machine = get_parent()
 
 
 #### LOGIC ####
