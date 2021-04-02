@@ -6,3 +6,4 @@ func get_class() -> String: return "AOE_AreaType"
 
 export var name : String = ""
 export var icon : Texture = null
+

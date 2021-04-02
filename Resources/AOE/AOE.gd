@@ -8,3 +8,4 @@ export var area_type : Resource = null
 export var area_size : int = 1
 
 export var range_size : int = 1
+

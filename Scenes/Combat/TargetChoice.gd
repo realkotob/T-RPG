@@ -2,6 +2,7 @@ extends CombatStateBase
 class_name TargetChoiceState
 
 var aoe : AOE = null setget set_aoe, get_aoe
+var reachables := PoolVector3Array()
 
 #### ACCESSORS ####
 
@@ -29,6 +30,7 @@ func enter_state():
 
 func exit_state():
 	combat_loop.area_node.clear()
+	reachables = PoolVector3Array()
 	set_aoe(null)
 
 
@@ -40,19 +42,28 @@ func generate_reachable_aera():
 	var active_actor : Actor = combat_loop.active_actor
 	var actor_cell = active_actor.get_current_cell()
 	var actor_height = active_actor.get_height()
-	var reachables = combat_loop.map_node.get_reachable_cells(actor_cell, actor_height, aoe.range_size)
+	reachables = combat_loop.map_node.get_reachable_cells(actor_cell, actor_height, aoe.range_size)
 	combat_loop.area_node.draw_area(reachables, "view")
 
 
+# Generate the area of effect of the skill/item/attack
 func generate_aoe_area():
 	var area_node = owner.area_node
 	var cursor = owner.cursor_node
+	var map = owner.map_node
 	var cursor_cell = cursor.get_current_cell()
-	var cells_in_range = combat_loop.map_node.get_cells_in_range(cursor_cell, aoe.area_size)
-	area_node.clear("damage")
+	var actor_cell = owner.active_actor.get_current_cell()
+	var dir = IsoLogic.iso_dir(actor_cell, cursor_cell)
+	var aoe_range = aoe.range_size
+	var cells_in_range
+	
+	match(aoe.area_type.name):
+		"LineForward": cells_in_range = map.get_cells_in_straight_line(actor_cell, aoe_range, dir)
+		"LinePerpendicular": cells_in_range = map.get_cell_in_perpendicular_line(actor_cell, aoe_range, dir)
+		"Circle": cells_in_range = map.get_cells_in_circle(cursor_cell, aoe_range)
+		"Square": cells_in_range = map.get_cells_in_square(cursor_cell, aoe_range, dir)
+
 	area_node.draw_area(cells_in_range, "damage")
-
-
 
 
 # SHOULD BE IN A STATIC CLASS
@@ -113,7 +124,7 @@ func on_cancel_input():
 
 
 # Adapt the cursor color
-func on_cursor_changed_cell(cursor : Cursor, _cell: Vector3):
+func on_cursor_changed_cell(cursor : Cursor, cell: Vector3):
 	if !is_current_state():
 		return
 	
@@ -122,4 +133,6 @@ func on_cursor_changed_cell(cursor : Cursor, _cell: Vector3):
 	else:
 		cursor.change_color(Color.red)
 	
-	generate_aoe_area()
+	owner.area_node.clear("damage")
+	if cell in reachables:
+		generate_aoe_area()
