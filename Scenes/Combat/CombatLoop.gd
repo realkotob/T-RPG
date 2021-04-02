@@ -137,6 +137,9 @@ func instance_damage_label(damage: int, target: DamagableObject):
 	call_deferred("add_child", damage_label)
 
 
+
+#### INPUTS ####
+
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
 		propagate_call("on_cancel_input")

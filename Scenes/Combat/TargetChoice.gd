@@ -26,6 +26,30 @@ func exit_state():
 
 #### LOGIC ####
 
+
+# Order the area to draw the reachable cells
+func generate_reachable_aera():
+	var active_actor : Actor = combat_loop.active_actor
+	var actor_cell = active_actor.get_current_cell()
+	var actor_range = active_actor.get_current_range()
+	var actor_height = active_actor.get_height()
+	var reachables = combat_loop.map_node.get_reachable_cells(actor_cell, actor_height, actor_range)
+	combat_loop.area_node.draw_area(reachables, "damage")
+
+
+
+# SHOULD BE IN A STATIC CLASS
+# Return the amount of damage the attacker inflict to the target
+func compute_damage(attacker: Actor, target: DamagableObject) -> int:
+	var att = attacker.get_weapon().get_attack()
+	var def = target.get_defense()
+	
+	return int(clamp(att - def, 0.0, INF))
+
+
+
+#### INPUTS ####
+
 # Target choice
 func _unhandled_input(event):
 	if event is InputEventMouseButton && is_current_state():
@@ -61,32 +85,9 @@ func _unhandled_input(event):
 				owner.emit_signal("actor_action_finished", active_actor)
 
 
-
-# Order the area to draw the reachable cells
-func generate_reachable_aera():
-	var active_actor : Actor = combat_loop.active_actor
-	var actor_cell = active_actor.get_current_cell()
-	var actor_range = active_actor.get_current_range()
-	var actor_height = active_actor.get_height()
-	var reachables = combat_loop.map_node.get_reachable_cells(actor_cell, actor_height, actor_range)
-	combat_loop.area_node.draw_area(reachables, "damage")
-
-
-
-# SHOULD BE IN A STATIC CLASS
-# Return the amount of damage the attacker inflict to the target
-func compute_damage(attacker: Actor, target: DamagableObject) -> int:
-	var att = attacker.get_weapon().get_attack()
-	var def = target.get_defense()
-	
-	return int(clamp(att - def, 0.0, INF))
-
-
-
-#### INPUTS ####
-
 func on_cancel_input():
-	if !is_current_state(): return
+	if !is_current_state(): 
+		return
 	
 	states_machine.go_to_previous_state()
 
