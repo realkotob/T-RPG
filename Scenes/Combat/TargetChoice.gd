@@ -3,6 +3,7 @@ class_name TargetChoiceState
 
 var aoe : AOE = null setget set_aoe, get_aoe
 var reachables := PoolVector3Array()
+var square_dir : int = 0
 
 #### ACCESSORS ####
 
@@ -54,14 +55,14 @@ func generate_aoe_area():
 	var cursor_cell = cursor.get_current_cell()
 	var actor_cell = owner.active_actor.get_current_cell()
 	var dir = IsoLogic.iso_dir(actor_cell, cursor_cell)
-	var aoe_range = aoe.range_size
+	var aoe_range = aoe.area_size
 	var cells_in_range
 	
 	match(aoe.area_type.name):
 		"LineForward": cells_in_range = map.get_cells_in_straight_line(actor_cell, aoe_range, dir)
 		"LinePerpendicular": cells_in_range = map.get_cell_in_perpendicular_line(actor_cell, aoe_range, dir)
 		"Circle": cells_in_range = map.get_cells_in_circle(cursor_cell, aoe_range)
-		"Square": cells_in_range = map.get_cells_in_square(cursor_cell, aoe_range, dir)
+		"Square": cells_in_range = map.get_cells_in_square(cursor_cell, aoe_range, square_dir)
 
 	area_node.draw_area(cells_in_range, "damage")
 
@@ -111,6 +112,12 @@ func _unhandled_input(event):
 				
 				yield(target, "hurt_animation_finished")
 				owner.emit_signal("actor_action_finished", active_actor)
+				
+		elif Input.is_action_just_pressed("rotateCW"):
+			square_dir = wrapi(square_dir + 1, 0, 4)
+			
+		elif Input.is_action_just_pressed("rotateCCW"):
+			square_dir = wrapi(square_dir - 1, 0, 4)
 
 
 func on_cancel_input():
