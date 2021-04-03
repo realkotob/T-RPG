@@ -3,7 +3,7 @@
 [ext_resource path="res://Resources/Skills/Skill.gd" type="Script" id=1]
 [ext_resource path="res://Resources/Ailment/Poison.tres" type="Resource" id=2]
 [ext_resource path="res://Resources/AOE/AOE.gd" type="Script" id=3]
-[ext_resource path="res://Resources/AOE/AOE_AreaType/AOE_Type_Square.tres" type="Resource" id=4]
+[ext_resource path="res://Resources/AOE/AOE_AreaType/AOE_Type_LineForward.tres" type="Resource" id=4]
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 3 )

@@ -102,13 +102,12 @@ func move_actor(delta: float):
 func initialize_path_value():
 	path = []
 
-
-#### SIGNAL REPONSES ####
+#### INPUTS ####
 
 # On click, give the active actor its destination
 # Triggers the player movement
 func _unhandled_input(event):
-	if event is InputEventMouseButton && combat_states_node.get_state() == self:
+	if event is InputEventMouseButton && is_current_state():
 		if event.get_button_index() == BUTTON_LEFT && event.pressed:
 			if check_path(path):
 				is_moving = true
@@ -116,10 +115,18 @@ func _unhandled_input(event):
 				owner.area_node.clear() # Clear every cells in the area tilemap
 
 
+func on_cancel_input():
+	if is_current_state():
+		states_machine.set_state("Overlook")
+
+
+#### SIGNAL REPONSES ####
+
+
 # When the cursor has moved, 
 # call the function that calculate a new path
 func _on_cursor_cell_changed(cursor: Cursor, cell: Vector3):
-	if combat_states_node.get_state() == self:
+	if is_current_state():
 		if owner.active_actor.get_state_name() == "Idle":
 			set_path(cell, owner.active_actor.get_current_cell())
 			var targets = owner.map_node.count_reachable_enemies(cell)

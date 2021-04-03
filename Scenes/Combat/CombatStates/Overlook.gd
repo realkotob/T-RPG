@@ -30,7 +30,7 @@ func enter_state():
 		
 		EVENTS.emit_signal("update_unabled_actions", move, attack, item, skill, wait)
 	else:
-		EVENTS.emit_signal("disable_every_actions")
+		EVENTS.emit_signal("disable_actions")
 	
 	# Update the view field in case of fog of war
 	if combat_loop.fog_of_war:

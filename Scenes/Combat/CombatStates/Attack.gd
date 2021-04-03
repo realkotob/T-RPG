@@ -8,8 +8,15 @@ extends NestedPushdownAutomata
 
 
 
-#### VIRTUAL FUNCTIONS ####
+#### VIRTUAL ####
 
+
+
+#### INPUTS ####
+
+func on_cancel_input():
+	if is_current_state():
+		states_machine.set_state("Overlook")
 
 
 #### LOGIC ####

@@ -5,6 +5,11 @@ var aoe : AOE = null setget set_aoe, get_aoe
 var reachables := PoolVector3Array()
 var square_dir : int = 0
 
+enum AREA_TYPE {
+	REACHABLE,
+	EFFECT
+}
+
 #### ACCESSORS ####
 
 func is_class(value: String): return value == "TargetChoiceState" or .is_class(value)
@@ -25,7 +30,7 @@ func enter_state():
 		print_debug("No aoe data was provided, returning to previous state")
 		states_machine.go_to_previous_state()
 	
-	generate_reachable_aera()
+	generate_area(AREA_TYPE.REACHABLE)
 	EVENTS.emit_signal("target_choice_state_entered")
 
 
@@ -38,33 +43,38 @@ func exit_state():
 #### LOGIC ####
 
 
-# Order the area to draw the reachable cells
-func generate_reachable_aera():
+func generate_area(area_type: int):
 	var active_actor : Actor = combat_loop.active_actor
 	var actor_cell = active_actor.get_current_cell()
-	var actor_height = active_actor.get_height()
-	reachables = combat_loop.map_node.get_reachable_cells(actor_cell, actor_height, aoe.range_size)
-	combat_loop.area_node.draw_area(reachables, "view")
-
-
-# Generate the area of effect of the skill/item/attack
-func generate_aoe_area():
-	var area_node = owner.area_node
-	var cursor = owner.cursor_node
-	var map = owner.map_node
-	var cursor_cell = cursor.get_current_cell()
-	var actor_cell = owner.active_actor.get_current_cell()
-	var dir = IsoLogic.iso_dir(actor_cell, cursor_cell)
-	var aoe_range = aoe.area_size
-	var cells_in_range
 	
-	match(aoe.area_type.name):
-		"LineForward": cells_in_range = map.get_cells_in_straight_line(actor_cell, aoe_range, dir)
-		"LinePerpendicular": cells_in_range = map.get_cell_in_perpendicular_line(actor_cell, aoe_range, dir)
-		"Circle": cells_in_range = map.get_cells_in_circle(cursor_cell, aoe_range)
-		"Square": cells_in_range = map.get_cells_in_square(cursor_cell, aoe_range, square_dir)
+	var cursor = owner.cursor_node
+	var cursor_cell = cursor.get_current_cell()
+	
+	var dir = IsoLogic.iso_dir(actor_cell, cursor_cell)
+	var aoe_size = aoe.area_size
+	var aoe_range = aoe.range_size
+	var map = owner.map_node
+	
+	var cells_in_range := PoolVector3Array()
+	
+	var area_type_name = "view" if area_type == AREA_TYPE.REACHABLE else "damage"
+	
+	if area_type == AREA_TYPE.REACHABLE:
+		match(aoe.area_type.name):
+			"LineForward": cells_in_range = map.get_cells_in_straight_line(actor_cell, aoe_size, range(4))
+			"LinePerpendicular": cells_in_range = map.get_cells_in_circle(actor_cell, 1)
+			"Circle", "Square": cells_in_range = map.get_cells_in_circle(actor_cell, aoe_range)
+		
+		reachables = cells_in_range
+	elif area_type == AREA_TYPE.EFFECT:
+		match(aoe.area_type.name):
+			"LineForward": cells_in_range = map.get_cells_in_straight_line(actor_cell, aoe_size, dir)
+			"LinePerpendicular": cells_in_range = map.get_cell_in_perpendicular_line(actor_cell, aoe_size, dir)
+			"Circle": cells_in_range = map.get_cells_in_circle(cursor_cell, aoe_size)
+			"Square": cells_in_range = map.get_cells_in_square(cursor_cell, aoe_size, square_dir)
+	
+	combat_loop.area_node.draw_area(cells_in_range, area_type_name)
 
-	area_node.draw_area(cells_in_range, "damage")
 
 
 # SHOULD BE IN A STATIC CLASS
@@ -142,4 +152,4 @@ func on_cursor_changed_cell(cursor : Cursor, cell: Vector3):
 	
 	owner.area_node.clear("damage")
 	if cell in reachables:
-		generate_aoe_area()
+		generate_area(AREA_TYPE.EFFECT)

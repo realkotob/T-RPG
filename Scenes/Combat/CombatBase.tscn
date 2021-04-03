@@ -134,7 +134,7 @@ skills = [ ExtResource( 26 ), ExtResource( 30 ) ]
 anims/RedFlash = SubResource( 1 )
 
 [node name="AnimatedSprite" parent="Map/Interactives/Actors/Allies/Hart" index="2"]
-frame = 0
+frame = 3
 
 [node name="Ella" parent="Map/Interactives/Actors/Allies" instance=ExtResource( 4 )]
 position = Vector2( 224, 168 )
@@ -309,10 +309,11 @@ margin_top = 80.0
 margin_right = -4.0
 margin_bottom = -181.0
 rect_min_size = Vector2( 70, 99 )
+description_window_path = "res://Scenes/UI/TRPG_DescritpionWindow.tscn"
 menu_option_scene_path = "res://BabaGodotLib/UI/LineContainer/OptionLineContainer.tscn"
 option_v_separation = -4
 column_container_path = "ResizableWindow/MarginContainer/HBoxContainer"
-max_lines = 5
+max_lines = 10
 max_columns = 1
 window_texture = ExtResource( 5 )
 

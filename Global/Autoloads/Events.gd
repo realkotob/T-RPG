@@ -10,6 +10,7 @@ signal actor_stats_changed(actor)
 
 signal timeline_movement_finished()
 
+signal disable_actions()
 signal update_unabled_actions(move, attack, skill, item, wait)
 
 signal actor_action_chosen(action_name)
