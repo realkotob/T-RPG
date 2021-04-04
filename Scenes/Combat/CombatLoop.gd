@@ -66,6 +66,7 @@ func _ready() -> void:
 	_err = EVENTS.connect("timeline_movement_finished", self, "_on_timeline_movement_finished")
 	_err = EVENTS.connect("actor_action_chosen", self, "_on_actor_action_chosen")
 	_err = EVENTS.connect("action_choice_menu_entered", self, "_on_action_choice_menu_entered")
+	
 	HUD_node.generate_timeline(actors_order)
 	focused_objects_array = [cursor_node, active_actor]
 	

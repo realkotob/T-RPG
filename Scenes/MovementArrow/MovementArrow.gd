@@ -13,7 +13,9 @@ func get_class() -> String: return "MovementArrow"
 
 #### BUILT-IN ####
 
-
+func _ready() -> void:
+	var __ = EVENTS.connect("generate_movement_arrow", self, "_on_generate_movement_arrow")
+	__ = EVENTS.connect("clear_movement_arrow", self, "_on_clear_movement_arrow")
 
 #### VIRTUALS ####
 
@@ -26,7 +28,7 @@ func clear():
 		child.destroy()
 
 
-func generate_movement_arrow(path: PoolVector3Array) -> void:
+func generate(path: PoolVector3Array) -> void:
 	var last_segment = null
 	var path_size : int = path.size()
 	for i in range(path_size):
@@ -57,3 +59,9 @@ func get_dir(a: Vector3, b: Vector3) -> Vector2:
 
 
 #### SIGNAL RESPONSES ####
+
+func _on_generate_movement_arrow(path: PoolVector3Array):
+	generate(path)
+
+func _on_clear_movement_arrow():
+	clear()

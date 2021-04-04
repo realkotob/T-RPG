@@ -39,7 +39,7 @@ func enter_state():
 # Empty the path variable when the state is exited and 
 func exit_state():
 	initialize_path_value() # Empty the path
-	owner.map_node.clear_movement_arrow()
+	EVENTS.emit_signal("clear_movement_arrow")
 	owner.area_node.clear()
 	owner.cursor_node.hide_target_counter(true)
 
@@ -48,15 +48,14 @@ func exit_state():
 
 # Ask the IsoMap for a path between current actor's cell and the cursor's cell
 func set_path(cursor_cell : Vector3, actor_cell : Vector3) -> void:
-	owner.map_node.clear_movement_arrow()
+	EVENTS.emit_signal("clear_movement_arrow")
 	path = combat_loop.pathfinder.find_path(actor_cell, cursor_cell)
 	
 	var is_path_valid = check_path(path)
 	if is_path_valid:
-		owner.map_node.generate_movement_arrow(path)
+		EVENTS.emit_signal("generate_movement_arrow", path)
 		owner.cursor_node.change_color(Color.white)
 	else:
-		owner.map_node.clear_movement_arrow()
 		owner.cursor_node.change_color(Color.red)
 
 
