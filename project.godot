@@ -129,6 +129,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BabaGodotLib/Scenes/InteractiveObject/Collectable/States/Idle.gd"
 }, {
+"base": "GameObject",
+"class": "CombatEffectObject",
+"language": "GDScript",
+"path": "res://Resources/CombatEffectObject/CombatEffectObject.gd"
+}, {
 "base": "IsoMap",
 "class": "CombatIsoMap",
 "language": "GDScript",
@@ -177,7 +182,7 @@ _global_script_classes=[ {
 "base": "Weapon",
 "class": "Firearm",
 "language": "GDScript",
-"path": "res://Resources/Weapons/Firearm.gd"
+"path": "res://Resources/CombatEffectObject/Weapons/Firearm.gd"
 }, {
 "base": "Resource",
 "class": "GameObject",
@@ -262,7 +267,7 @@ _global_script_classes=[ {
 "base": "GameObject",
 "class": "Item",
 "language": "GDScript",
-"path": "res://Resources/Items/Item.gd"
+"path": "res://Resources/CombatEffectObject/Items/Item.gd"
 }, {
 "base": "HBoxContainer",
 "class": "LineContainer",
@@ -404,10 +409,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BabaGodotLib/Absract/SceneFinder/SceneFinder.gd"
 }, {
-"base": "GameObject",
+"base": "CombatEffectObject",
 "class": "Skill",
 "language": "GDScript",
-"path": "res://Resources/Skills/Skill.gd"
+"path": "res://Resources/CombatEffectObject/Skills/Skill.gd"
 }, {
 "base": "Node",
 "class": "StateBase",
@@ -544,6 +549,7 @@ _global_script_class_icons={
 "Collectable_FollowState": "",
 "Collectable_HUD_Label": "",
 "Collectable_IdleState": "",
+"CombatEffectObject": "",
 "CombatIsoMap": "",
 "CombatLoop": "",
 "CombatStateBase": "",

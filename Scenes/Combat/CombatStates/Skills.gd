@@ -27,7 +27,7 @@ func enter_state():
 #### SIGNAL RESPONSES ####
 
 func _on_skill_chosen(skill: Skill):
-	$TargetChoice.set_aoe(skill.aoe)
+	$TargetChoice.set_combat_effect(skill)
 	set_state("TargetChoice")
 
 func _on_target_chosen():

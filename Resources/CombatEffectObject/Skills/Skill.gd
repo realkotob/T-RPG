@@ -1,4 +1,4 @@
-extends GameObject
+extends CombatEffectObject
 class_name Skill
 
 enum DAMAGE_TYPE {
@@ -28,8 +28,6 @@ export var damage_amount : int = 0
 
 export var ailment_array : Array = []
 export var ailment_mode : int = AILMENT_MODE.ADD_EVERY_STATE
-
-export var aoe : Resource = null
 
 export var icon_texture : Texture = null
 

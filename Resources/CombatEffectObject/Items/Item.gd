@@ -16,7 +16,6 @@ export var icon : Texture = null
 export var cost : int = 0
 export var usability : int = USAGE_TYPE.ANYWHERE
 
-
 export var effect : Resource = null
 
 func fetch_description_data() -> Array:

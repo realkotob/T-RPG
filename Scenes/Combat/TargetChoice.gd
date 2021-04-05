@@ -3,7 +3,7 @@ class_name TargetChoiceState
 
 var map : CombatIsoMap = null
 
-var aoe : AOE = null setget set_aoe, get_aoe
+var combat_effect : CombatEffectObject = null setget set_combat_effect, get_combat_effect
 
 var reachables := PoolVector3Array()
 var target_area := PoolVector3Array()
@@ -19,8 +19,8 @@ enum AREA_TYPE {
 func is_class(value: String): return value == "TargetChoiceState" or .is_class(value)
 func get_class() -> String: return "TargetChoiceState"
 
-func set_aoe(value: AOE): aoe = value
-func get_aoe() -> AOE : return aoe 
+func set_combat_effect(value: CombatEffectObject): combat_effect = value
+func get_combat_effect() -> CombatEffectObject : return combat_effect 
 
 #### BUILT-IN ####
 
@@ -34,7 +34,7 @@ func _ready():
 #### VIRTUALS ####
 
 func enter_state():
-	if aoe == null:
+	if combat_effect == null or combat_effect.aoe == null:
 		print_debug("No aoe data was provided, returning to previous state")
 		states_machine.go_to_previous_state()
 	
@@ -45,7 +45,9 @@ func enter_state():
 func exit_state():
 	combat_loop.area_node.clear()
 	reachables = PoolVector3Array()
-	set_aoe(null)
+	highlight_targets(false)
+	target_area = PoolVector3Array()
+	set_combat_effect(null)
 
 
 #### LOGIC ####
@@ -59,6 +61,7 @@ func generate_area(area_type: int):
 	var cursor_cell = cursor.get_current_cell()
 	
 	var dir = IsoLogic.iso_dir(actor_cell, cursor_cell)
+	var aoe = combat_effect.aoe
 	var aoe_size = aoe.area_size
 	var aoe_range = aoe.range_size
 	
@@ -86,12 +89,17 @@ func generate_area(area_type: int):
 	combat_loop.area_node.draw_area(cells_in_range, area_type_name)
 
 
+
 # Highlight, or unhighligh targeted Object/Actor on the target_area_
 func highlight_targets(target: bool):
+	if combat_effect == null:
+		return
+	
 	for cell in target_area:
 		var obj = map.get_object_on_cell(cell)
-		if obj != null:
-			obj.set_targeted(target)
+		if obj == null or not obj is DamagableObject:
+			 continue
+		obj.set_targeted(target, combat_effect.possitive)
 
 
 # SHOULD BE IN A STATIC CLASS

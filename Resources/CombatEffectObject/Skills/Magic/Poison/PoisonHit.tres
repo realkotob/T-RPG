@@ -1,6 +1,6 @@
 [gd_resource type="Resource" load_steps=6 format=2]
 
-[ext_resource path="res://Resources/Skills/Skill.gd" type="Script" id=1]
+[ext_resource path="res://Resources/CombatEffectObject/Skills/Skill.gd" type="Script" id=1]
 [ext_resource path="res://Resources/Ailment/Poison.tres" type="Resource" id=2]
 [ext_resource path="res://Resources/AOE/AOE.gd" type="Script" id=3]
 [ext_resource path="res://Resources/AOE/AOE_AreaType/AOE_Type_LineForward.tres" type="Resource" id=4]
@@ -15,10 +15,13 @@ range_size = 5
 script = ExtResource( 1 )
 name = "Poison Hit"
 description = ""
+aoe = SubResource( 1 )
+possitive = false
+friendly_fire = true
+caster_fire = true
 cost_type = 1
 cost = 5
 damage_type = 1
 damage_amount = 0
 ailment_array = [ ExtResource( 2 ) ]
 ailment_mode = 1
-aoe = SubResource( 1 )
