@@ -1,8 +1,12 @@
 extends CombatStateBase
 class_name TargetChoiceState
 
+var map : CombatIsoMap = null
+
 var aoe : AOE = null setget set_aoe, get_aoe
+
 var reachables := PoolVector3Array()
+var target_area := PoolVector3Array()
 var square_dir : int = 0
 
 enum AREA_TYPE {
@@ -22,6 +26,10 @@ func get_aoe() -> AOE : return aoe
 
 func _ready():
 	var _err = EVENTS.connect("cursor_cell_changed", self, "on_cursor_changed_cell")
+	
+	yield(owner, "ready")
+	
+	map = owner.map_node
 
 #### VIRTUALS ####
 
@@ -53,7 +61,6 @@ func generate_area(area_type: int):
 	var dir = IsoLogic.iso_dir(actor_cell, cursor_cell)
 	var aoe_size = aoe.area_size
 	var aoe_range = aoe.range_size
-	var map = owner.map_node
 	
 	var cells_in_range := PoolVector3Array()
 	
@@ -66,15 +73,25 @@ func generate_area(area_type: int):
 			"Circle", "Square": cells_in_range = map.get_cells_in_circle(actor_cell, aoe_range)
 		
 		reachables = cells_in_range
+		
 	elif area_type == AREA_TYPE.EFFECT:
 		match(aoe.area_type.name):
 			"LineForward": cells_in_range = map.get_cells_in_straight_line(actor_cell, aoe_size, dir)
 			"LinePerpendicular": cells_in_range = map.get_cell_in_perpendicular_line(actor_cell, aoe_size, dir)
 			"Circle": cells_in_range = map.get_cells_in_circle(cursor_cell, aoe_size)
 			"Square": cells_in_range = map.get_cells_in_square(cursor_cell, aoe_size, square_dir)
+		
+		target_area = cells_in_range
 	
 	combat_loop.area_node.draw_area(cells_in_range, area_type_name)
 
+
+# Highlight, or unhighligh targeted Object/Actor on the target_area_
+func highlight_targets(target: bool):
+	for cell in target_area:
+		var obj = map.get_object_on_cell(cell)
+		if obj != null:
+			obj.set_targeted(target)
 
 
 # SHOULD BE IN A STATIC CLASS
@@ -151,5 +168,7 @@ func on_cursor_changed_cell(cursor : Cursor, cell: Vector3):
 		cursor.change_color(Color.red)
 	
 	owner.area_node.clear("damage")
+	highlight_targets(false)
 	if cell in reachables:
 		generate_area(AREA_TYPE.EFFECT)
+		highlight_targets(true)
