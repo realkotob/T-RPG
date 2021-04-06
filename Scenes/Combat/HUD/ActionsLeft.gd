@@ -9,7 +9,7 @@ onready var action_node_scene = preload("res://Scenes/Combat/HUD/ActorInfos/Acti
 
 # Create or destroy the right number of action to corespond the amount of action
 # the active actor has
-func update_action_number(actor: Actor):
+func update_action_number(actor: TRPG_Actor):
 	var max_action = actor.get_max_actions() + actor.get_action_modifier()
 	
 	var nb_icon = get_child_count()
@@ -26,7 +26,7 @@ func update_action_number(actor: Actor):
 
 # Make the lights appear/disappear,
 # based on the difference between the new value and actions_left
-func update_display(actor: Actor):
+func update_display(actor: TRPG_Actor):
 	update_action_number(actor)
 	var new_value = actor.get_current_actions()
 	

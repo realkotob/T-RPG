@@ -44,5 +44,5 @@ func hide_active_actor_infos(value : bool):
 # Update the display of actions left each time it's called
 # Usually called on each new turn, and after each actions
 # Can also be called when a malus is applied to the actor
-func update_actions_left(actor: Actor):
+func update_actions_left(actor: TRPG_Actor):
 	actions_left_node.update_display(actor)

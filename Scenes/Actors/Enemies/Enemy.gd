@@ -1,4 +1,4 @@
-extends Actor
+extends TRPG_Actor
 class_name Enemy
 
 signal wait

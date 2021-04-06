@@ -18,7 +18,7 @@ func get_class() -> String: return "CombatEffectCalculation"
 #### LOGIC ####
 
 
-static func compute_damage(effect_obj: CombatEffectObject, _caster: Actor, target: DamagableObject) -> Array:
+static func compute_damage(effect_obj: CombatEffectObject, _caster: TRPG_Actor, target: TRPG_DamagableObject) -> Array:
 	var effect = effect_obj.effect
 	var damage_array = Array()
 	

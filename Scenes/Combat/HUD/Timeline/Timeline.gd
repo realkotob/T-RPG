@@ -92,7 +92,7 @@ func update_timeline_order(actor_order : Array):
 
 
 # Get the portrait corresponding to the given actor
-func get_actor_portrait(actor: Actor) -> TimelinePortrait:
+func get_actor_portrait(actor: TRPG_Actor) -> TimelinePortrait:
 	for child in order_node.get_children():
 		if child is TimelinePortrait && child.actor_node == actor:
 			return child

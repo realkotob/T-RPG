@@ -17,8 +17,8 @@ onready var actors_order : Array = get_tree().get_nodes_in_group("Actors") setge
 
 var focused_objects_array : Array = []
 
-var active_actor : Actor setget set_active_actor, get_active_actor
-var previous_actor : Actor = null
+var active_actor : TRPG_Actor setget set_active_actor, get_active_actor
+var previous_actor : TRPG_Actor = null
 
 var future_actors_order : Array
 var is_ready : bool = false
@@ -28,7 +28,7 @@ signal active_actor_changed
 
 #### ACCESSORS ####
 
-func set_active_actor(value: Actor):
+func set_active_actor(value: TRPG_Actor):
 	if value != active_actor:
 		focused_objects_array.erase(active_actor)
 		if active_actor != null: active_actor.set_active(false)
@@ -44,7 +44,7 @@ func set_actors_order(value: Array):
 func set_future_actors_order(value: Array):
 	future_actors_order = value.duplicate()
 
-func get_active_actor() -> Actor:
+func get_active_actor() -> TRPG_Actor:
 	return active_actor
 
 func set_state(state_name: String):
@@ -127,7 +127,7 @@ func fetch_obstacles(iso_object_array: Array) -> Array:
 
 ## SOULD MAYBE BE RELOCALISED SOMEWHERE ELSE
 # Instanciate a damage label with the given amount on top of the given target
-func instance_damage_label(damage: int, target: DamagableObject):
+func instance_damage_label(damage: int, target: TRPG_DamagableObject):
 	var damage_label = DAMAGE_LABEL_SCENE.instance()
 	damage_label.set_global_position(target.get_global_position())
 	damage_label.set_damage(damage)

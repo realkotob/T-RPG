@@ -29,9 +29,9 @@ func _on_cursor_changed_cell(_cursor: Cursor, cell: Vector3):
 func _on_cursor_max_z_changed(max_z: int):
 	$VBoxContainer/CursorMaxZ.text = "Cursor max_z: " + String(max_z)
 
-func _on_active_actor_changed(active_actor: Actor):
-	$VBoxContainer/ActiveActor.text = "Active Actor: " + String(active_actor.name)
+func _on_active_actor_changed(active_actor: TRPG_Actor):
+	$VBoxContainer/ActiveActor.text = "Active TRPG_Actor: " + String(active_actor.name)
 	_on_active_actor_pos_changed(active_actor)
 
-func _on_active_actor_pos_changed(active_actor: Actor):
-	$VBoxContainer/ActiveActorPos.text = "Active Actor's Pos: " + String(active_actor.get_current_cell())
+func _on_active_actor_pos_changed(active_actor: TRPG_Actor):
+	$VBoxContainer/ActiveActorPos.text = "Active TRPG_Actor's Pos: " + String(active_actor.get_current_cell())

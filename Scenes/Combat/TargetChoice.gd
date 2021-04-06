@@ -55,7 +55,7 @@ func exit_state():
 
 
 func generate_area(area_type: int):
-	var active_actor : Actor = combat_loop.active_actor
+	var active_actor : TRPG_Actor = combat_loop.active_actor
 	var actor_cell = active_actor.get_current_cell()
 	
 	var cursor = owner.cursor_node
@@ -91,7 +91,7 @@ func generate_area(area_type: int):
 
 
 
-# Highlight, or unhighligh targeted Object/Actor on the target_area_
+# Highlight, or unhighligh targeted Object/TRPG_Actor on the target_area_
 func highlight_targets(is_targeted: bool):
 	if combat_effect_obj == null:
 		return
@@ -105,7 +105,7 @@ func highlight_targets(is_targeted: bool):
 
 # SHOULD BE IN A STATIC CLASS
 # Return the amount of damage the attacker inflict to the target
-func compute_damage(attacker: Actor, target: DamagableObject) -> int:
+func compute_damage(attacker: TRPG_Actor, target: TRPG_DamagableObject) -> int:
 	var att = attacker.get_weapon().get_attack()
 	var def = target.get_defense()
 	

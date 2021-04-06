@@ -67,7 +67,7 @@ func update_cursor_pos():
 	set_global_position(map_node.cell_to_world(current_cell))
 
 
-func get_target() -> DamagableObject:
+func get_target() -> TRPG_DamagableObject:
 	return map_node.get_object_on_cell(current_cell)
 
 

@@ -4,7 +4,7 @@
 [ext_resource path="res://Resources/IconTileset.png" type="Texture" id=2]
 [ext_resource path="res://Resources/CombatEffect.gd" type="Script" id=3]
 
-[sub_resource type="Resource" id=2]
+[sub_resource type="Resource" id=1]
 script = ExtResource( 3 )
 nb_hits = 1
 damage = 0
@@ -13,7 +13,7 @@ damage_type = 1
 ailment_array = [  ]
 ailment_mode = 1
 
-[sub_resource type="AtlasTexture" id=1]
+[sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 2 )
 region = Rect2( 0, 0, 16, 16 )
 
@@ -21,7 +21,7 @@ region = Rect2( 0, 0, 16, 16 )
 script = ExtResource( 1 )
 name = "Heal Potion"
 description = "A potion that heals"
-icon = SubResource( 1 )
+icon = SubResource( 2 )
 cost = 20
 usability = 0
-effect = SubResource( 2 )
+effect = SubResource( 1 )

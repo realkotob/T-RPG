@@ -1,5 +1,5 @@
 extends IsoObject
-class_name DamagableObject
+class_name TRPG_DamagableObject
 
 const LIFEBAR_SCENE = preload("res://Scenes/Combat/LifeBar/LifeBar.tscn")
 

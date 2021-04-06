@@ -1,4 +1,4 @@
-extends DamagableObject
+extends TRPG_DamagableObject
 class_name Obstacle
 
 func _ready():

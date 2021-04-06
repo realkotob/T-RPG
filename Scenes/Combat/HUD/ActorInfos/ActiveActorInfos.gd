@@ -18,7 +18,7 @@ func _ready():
 #### LOGIC ####
 
 
-func update_portrait(actor: Actor):
+func update_portrait(actor: TRPG_Actor):
 	# Update the portrait in the portrait_node
 	portrait_node.set_texture(actor.portrait)
 	
@@ -29,7 +29,7 @@ func update_portrait(actor: Actor):
 		$PortraitContainer/Background.set_modulate(ALLY_COLOR)
 
 
-func update_gauges(actor: Actor, instantanious : bool = false):
+func update_gauges(actor: TRPG_Actor, instantanious : bool = false):
 	HP_gauge.set_gauge_max_value(actor.get_max_HP())
 	HP_gauge.set_gauge_value(actor.get_current_HP(), !instantanious)
 	
@@ -39,10 +39,10 @@ func update_gauges(actor: Actor, instantanious : bool = false):
 
 #### SIGNAL RESPONSES ####
 
-func _on_combat_new_turn_started(actor: Actor):
+func _on_combat_new_turn_started(actor: TRPG_Actor):
 	update_portrait(actor)
 	update_gauges(actor, true)
 
-func _on_actor_stats_changed(actor: Actor):
+func _on_actor_stats_changed(actor: TRPG_Actor):
 	if actor == owner.active_actor:
 		update_gauges(actor)

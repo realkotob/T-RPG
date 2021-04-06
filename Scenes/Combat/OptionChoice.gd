@@ -26,6 +26,6 @@ func enter_state():
 func on_cancel_input():
 	if !is_current_state(): return
 	
-	EVENTS.emit_signal("menu_cancel")
+	owner.set_state("Overlook")
 
 #### SIGNAL RESPONSES ####
