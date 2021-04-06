@@ -20,6 +20,8 @@ func enter_state():
 	var actor_height = active_actor.get_height()
 	combat_loop.HUD_node.update_height(actor_height)
 	
+	EVENTS.emit_signal("goto_menu_root")
+	
 	# Update the actions
 	if active_actor is Ally:
 		var move = can_move()

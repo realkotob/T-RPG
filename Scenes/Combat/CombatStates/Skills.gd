@@ -24,10 +24,11 @@ func enter_state():
 	emit_signal("state_changed", "OptionChoice")
 
 
+
 #### SIGNAL RESPONSES ####
 
 func _on_skill_chosen(skill: Skill):
-	$TargetChoice.set_combat_effect(skill)
+	$TargetChoice.set_combat_effect_obj(skill)
 	set_state("TargetChoice")
 
 func _on_target_chosen():

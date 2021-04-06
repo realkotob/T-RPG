@@ -6,6 +6,8 @@ export var possitive : bool = false
 export var friendly_fire : bool = true
 export var caster_fire : bool = true
 
+export var effect : Resource = null
+
 #### ACCESSORS ####
 
 func is_class(value: String): return value == "CombatEffectObject" or .is_class(value)

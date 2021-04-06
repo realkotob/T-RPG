@@ -93,7 +93,7 @@ func move_actor(delta: float):
 		is_moving = false
 		active_actor.set_state("Idle")
 		combat_loop.map_node.update_view_field(active_actor)
-		owner.emit_signal("actor_action_finished", active_actor)
+		EVENTS.emit_signal("actor_action_animation_finished", active_actor)
 
 
 

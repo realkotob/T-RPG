@@ -1,14 +1,24 @@
-[gd_resource type="Resource" load_steps=5 format=2]
+[gd_resource type="Resource" load_steps=7 format=2]
 
 [ext_resource path="res://Resources/CombatEffectObject/Skills/Skill.gd" type="Script" id=1]
 [ext_resource path="res://Resources/AOE/AOE.gd" type="Script" id=2]
 [ext_resource path="res://Resources/AOE/AOE_AreaType/AOE_Type_Circle.tres" type="Resource" id=3]
+[ext_resource path="res://Resources/CombatEffect.gd" type="Script" id=4]
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 2 )
 area_type = ExtResource( 3 )
 area_size = 3
 range_size = 3
+
+[sub_resource type="Resource" id=2]
+script = ExtResource( 4 )
+nb_hits = 1
+damage = -50
+damage_variance = 0.0
+damage_type = 1
+ailment_array = [  ]
+ailment_mode = 1
 
 [resource]
 script = ExtResource( 1 )
@@ -18,9 +28,6 @@ aoe = SubResource( 1 )
 possitive = true
 friendly_fire = true
 caster_fire = true
+effect = SubResource( 2 )
 cost_type = 1
 cost = 5
-damage_type = 2
-damage_amount = -30
-ailment_array = [  ]
-ailment_mode = 1

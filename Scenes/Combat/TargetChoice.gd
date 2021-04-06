@@ -3,7 +3,7 @@ class_name TargetChoiceState
 
 var map : CombatIsoMap = null
 
-var combat_effect : CombatEffectObject = null setget set_combat_effect, get_combat_effect
+var combat_effect_obj : CombatEffectObject = null setget set_combat_effect_obj, get_combat_effect_obj
 
 var reachables := PoolVector3Array()
 var target_area := PoolVector3Array()
@@ -19,8 +19,9 @@ enum AREA_TYPE {
 func is_class(value: String): return value == "TargetChoiceState" or .is_class(value)
 func get_class() -> String: return "TargetChoiceState"
 
-func set_combat_effect(value: CombatEffectObject): combat_effect = value
-func get_combat_effect() -> CombatEffectObject : return combat_effect 
+func set_combat_effect_obj(value: CombatEffectObject):
+	 combat_effect_obj = value
+func get_combat_effect_obj() -> CombatEffectObject : return combat_effect_obj 
 
 #### BUILT-IN ####
 
@@ -34,7 +35,7 @@ func _ready():
 #### VIRTUALS ####
 
 func enter_state():
-	if combat_effect == null or combat_effect.aoe == null:
+	if combat_effect_obj == null or combat_effect_obj.aoe == null:
 		print_debug("No aoe data was provided, returning to previous state")
 		states_machine.go_to_previous_state()
 	
@@ -47,7 +48,7 @@ func exit_state():
 	reachables = PoolVector3Array()
 	highlight_targets(false)
 	target_area = PoolVector3Array()
-	set_combat_effect(null)
+	set_combat_effect_obj(null)
 
 
 #### LOGIC ####
@@ -61,7 +62,7 @@ func generate_area(area_type: int):
 	var cursor_cell = cursor.get_current_cell()
 	
 	var dir = IsoLogic.iso_dir(actor_cell, cursor_cell)
-	var aoe = combat_effect.aoe
+	var aoe = combat_effect_obj.aoe
 	var aoe_size = aoe.area_size
 	var aoe_range = aoe.range_size
 	
@@ -91,15 +92,15 @@ func generate_area(area_type: int):
 
 
 # Highlight, or unhighligh targeted Object/Actor on the target_area_
-func highlight_targets(target: bool):
-	if combat_effect == null:
+func highlight_targets(is_targeted: bool):
+	if combat_effect_obj == null:
 		return
 	
-	for cell in target_area:
-		var obj = map.get_object_on_cell(cell)
-		if obj == null or not obj is DamagableObject:
-			 continue
-		obj.set_targeted(target, combat_effect.possitive)
+	for target in get_target_in_area():
+		if target == null:
+			continue
+		
+		target.set_targeted(is_targeted, combat_effect_obj.possitive)
 
 
 # SHOULD BE IN A STATIC CLASS
@@ -111,6 +112,15 @@ func compute_damage(attacker: Actor, target: DamagableObject) -> int:
 	return int(clamp(att - def, 0.0, INF))
 
 
+func get_target_in_area():
+	var targets = Array()
+	for cell in target_area:
+		var obj = map.get_object_on_cell(cell)
+		if obj != null:
+			targets.append(obj)
+	
+	return targets
+
 
 #### INPUTS ####
 
@@ -121,33 +131,32 @@ func _unhandled_input(event):
 			
 			var active_actor = combat_loop.active_actor
 			var active_actor_cell = active_actor.get_current_cell()
-			var target = combat_loop.cursor_node.get_target()
+			var targets_array = get_target_in_area()
+			var cursor_cell = owner.cursor_node.get_current_cell()
 			
-			if target == null:
+			if targets_array == []:
 				return
 			
-			var target_cell = target.get_current_cell()
-			var reachables_cells = combat_loop.area_node.get_area_cells()
-			
-			# Check if the target is reachable
-			if !target is DamagableObject or !target_cell in reachables_cells or\
-				!owner.allies_team.is_cell_in_view_field(target_cell):
-				return null
-			
 			# Trigger the attack
-			if target:
-				var damage = compute_damage(active_actor, target)
-				combat_loop.instance_damage_label(damage, target)
+			for target in targets_array:
+				var damage_array = CombatEffectCalculation.compute_damage(combat_effect_obj, active_actor, target)
 				
-				var direction = IsoLogic.get_cell_direction(active_actor_cell, target_cell)
+				for damage in damage_array:
+					combat_loop.instance_damage_label(damage, target)
+					target.hurt(damage)
+				
+				var direction = IsoLogic.get_cell_direction(active_actor_cell, cursor_cell)
 				active_actor.set_direction(direction)
 				active_actor.set_state("Attack")
-				target.hurt(damage)
+				
+				# SHOULDN'T BE HERE
 				combat_loop.active_actor.decrement_current_action()
 				
-				yield(target, "hurt_animation_finished")
-				owner.emit_signal("actor_action_finished", active_actor)
-				
+				if target != active_actor:
+					yield(target, "hurt_animation_finished")
+			
+			EVENTS.emit_signal("actor_action_animation_finished", active_actor)
+		
 		elif Input.is_action_just_pressed("rotateCW"):
 			square_dir = wrapi(square_dir + 1, 0, 4)
 			

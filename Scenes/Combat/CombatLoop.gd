@@ -25,8 +25,6 @@ var is_ready : bool = false
 var fog_of_war : bool = true
 
 signal active_actor_changed
-#warning-ignore:unused_signal
-signal actor_action_finished(actor)
 
 #### ACCESSORS ####
 
@@ -65,7 +63,6 @@ func _ready() -> void:
 	_err = map_node.connect("map_generation_finished", self, "_on_map_generation_finished")
 	_err = EVENTS.connect("timeline_movement_finished", self, "_on_timeline_movement_finished")
 	_err = EVENTS.connect("actor_action_chosen", self, "_on_actor_action_chosen")
-	_err = EVENTS.connect("action_choice_menu_entered", self, "_on_action_choice_menu_entered")
 	
 	HUD_node.generate_timeline(actors_order)
 	focused_objects_array = [cursor_node, active_actor]
@@ -190,7 +187,7 @@ func on_object_unfocused(focus_obj: IsoObject):
 func on_action_spent():
 	HUD_node.update_actions_left(active_actor)
 	
-	yield(self, "actor_action_finished")
+	yield(EVENTS, "actor_action_animation_finished")
 	if active_actor.get_current_actions() == 0:
 		end_turn()
 	else:
@@ -224,8 +221,4 @@ func _on_visible_cells_changed():
 
 func _on_actor_action_chosen(action_name: String):
 	set_state(action_name.capitalize())
-
-
-func _on_action_choice_menu_entered():
-	set_state("Overlook")
 

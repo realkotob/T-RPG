@@ -10,15 +10,6 @@ signal actor_stats_changed(actor)
 
 signal timeline_movement_finished()
 
-signal disable_actions()
-signal update_unabled_actions(move, attack, skill, item, wait)
-
-signal actor_action_chosen(action_name)
-
-signal add_action_submenu(data_array, menu_name)
-
-signal action_choice_menu_entered()
-
 signal skill_chosen(skill)
 signal item_chosen(item)
 
@@ -27,3 +18,16 @@ signal option_choice_state_entered()
 
 signal generate_movement_arrow(path)
 signal clear_movement_arrow()
+
+signal actor_action_animation_finished(actor)
+
+
+#### ACTION MENU ####
+
+signal disable_actions()
+signal update_unabled_actions(move, attack, skill, item, wait)
+
+signal actor_action_chosen(action_name)
+
+signal add_action_submenu(data_array, menu_name)
+
