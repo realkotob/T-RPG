@@ -492,7 +492,7 @@ _global_script_classes=[ {
 "base": "IsoObject",
 "class": "TRPG_DamagableObject",
 "language": "GDScript",
-"path": "res://AbstractClasses/DamagableObject.gd"
+"path": "res://BabaGodotLib/Isometric/IsoObjects/TRPG_DamagableObject.gd"
 }, {
 "base": "IsoEvents",
 "class": "TRPG_Events",

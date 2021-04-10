@@ -1,6 +1,9 @@
 extends CombatEffectObject
 class_name Skill
 
+func is_class(value: String): return value == "Skill" or .is_class(value)
+func get_class() -> String: return "Skill"
+
 enum COST_TYPE {
 	HP,
 	MP,

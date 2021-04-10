@@ -1,6 +1,9 @@
 extends Resource
 class_name Weapon
 
+func is_class(value: String): return value == "Weapon" or .is_class(value)
+func get_class() -> String: return "Weapon"
+
 export var attack : int = 1 setget set_attack, get_attack
 export var attack_range : int = 1 setget set_attack_range, get_attack_range
 
