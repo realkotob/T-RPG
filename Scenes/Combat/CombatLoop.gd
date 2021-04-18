@@ -1,8 +1,6 @@
 extends Node
 class_name CombatLoop
 
-const DAMAGE_LABEL_SCENE := preload("res://Scenes/Combat/DamageLabel/DamageLabel.tscn")
-
 onready var map_node = $Map
 onready var area_node = $Map/Interactives/Areas
 onready var cursor_node = $Map/Interactives/Cursor
@@ -67,21 +65,13 @@ func _ready() -> void:
 	HUD_node.generate_timeline(actors_order)
 	focused_objects_array = [cursor_node, active_actor]
 	
-	# Feed the renderer with the actors and layers and hide it
-	var layers_array : Array = []
-	for child in map_node.get_children():
-		if child is IsoMapLayer:
-			layers_array.append(child)
-	
 	# First turn trigger
 	new_turn()
 	
 	is_ready = true
 	
 	var iso_object_array = get_tree().get_nodes_in_group("IsoObject")
-	$Renderer.init_rendering_queue(layers_array, iso_object_array)
-
-	$Map.set_obstacles(fetch_obstacles(iso_object_array))
+	$Renderer.init_rendering_queue(map_node.get_layers_array(), iso_object_array)
 
 
 #### LOGIC ####
@@ -113,27 +103,6 @@ func end_turn():
 func first_become_last(array : Array) -> void:
 	var first = array.pop_front()
 	array.append(first)
-
-
-# Get every unpassable object form the IsoOject group 
-func fetch_obstacles(iso_object_array: Array) -> Array:
-	var unpassable_objects : Array = []
-	for object in iso_object_array:
-		if !object.is_passable():
-			unpassable_objects.append(object)
-	
-	return unpassable_objects
-
-
-## SOULD MAYBE BE RELOCALISED SOMEWHERE ELSE
-# Instanciate a damage label with the given amount on top of the given target
-func instance_damage_label(damage: int, target: TRPG_DamagableObject):
-	var damage_label = DAMAGE_LABEL_SCENE.instance()
-	damage_label.set_global_position(target.get_global_position())
-	damage_label.set_damage(damage)
-	
-	call_deferred("add_child", damage_label)
-
 
 
 #### INPUTS ####

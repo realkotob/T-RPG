@@ -35,6 +35,8 @@ func _ready():
 #### VIRTUALS ####
 
 func enter_state():
+	if !is_current_state(): return
+	
 	if combat_effect_obj == null or combat_effect_obj.aoe == null:
 		print_debug("No aoe data was provided, returning to previous state")
 		states_machine.go_to_previous_state()
@@ -142,7 +144,6 @@ func _unhandled_input(event):
 				var damage_array = CombatEffectCalculation.compute_damage(combat_effect_obj, active_actor, target)
 				
 				for damage in damage_array:
-					combat_loop.instance_damage_label(damage, target)
 					target.hurt(damage)
 				
 				var direction = IsoLogic.get_cell_direction(active_actor_cell, cursor_cell)

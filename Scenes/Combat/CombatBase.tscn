@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://BabaGodotLib/Isometric/IsoRenderer/IsoRenderer.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Combat/DebugPanel/DebugPanel.gd" type="Script" id=2]
@@ -32,6 +32,7 @@
 [ext_resource path="res://Resources/CombatEffectObject/Skills/Magic/Poison/PoisonHit.tres" type="Resource" id=30]
 [ext_resource path="res://Scenes/Combat/Animation.gd" type="Script" id=31]
 [ext_resource path="res://Scenes/Combat/TargetChoice.gd" type="Script" id=32]
+[ext_resource path="res://Scenes/Combat/DamageContainer.gd" type="Script" id=33]
 [ext_resource path="res://Scenes/Combat/Obstacles/Crate/Crate.tscn" type="PackedScene" id=37]
 [ext_resource path="res://Scenes/Combat/Map/Layer.tscn" type="PackedScene" id=39]
 
@@ -134,7 +135,7 @@ skills = [ ExtResource( 26 ), ExtResource( 30 ) ]
 anims/RedFlash = SubResource( 1 )
 
 [node name="AnimatedSprite" parent="Map/Interactives/Actors/Allies/Hart" index="2"]
-frame = 0
+frame = 2
 
 [node name="Ella" parent="Map/Interactives/Actors/Allies" instance=ExtResource( 4 )]
 position = Vector2( 224, 168 )
@@ -180,6 +181,9 @@ tile_data = PoolIntArray( 720909, 57, 262145, 720910, 57, 262146, 720911, 64, 0 
 [node name="Layer6" parent="Map" instance=ExtResource( 39 )]
 position = Vector2( 0, -80 )
 tile_data = PoolIntArray( 720909, 57, 196608, 720910, 64, 0 )
+
+[node name="DamageContainer" type="Node2D" parent="."]
+script = ExtResource( 33 )
 
 [node name="HUD" type="CanvasLayer" parent="."]
 layer = 2

@@ -20,7 +20,7 @@ signal generate_movement_arrow(path)
 signal clear_movement_arrow()
 
 signal actor_action_animation_finished(actor)
-
+signal damage_inflicted(damage_amount, target)
 
 #### ACTION MENU ####
 
