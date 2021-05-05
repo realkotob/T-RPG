@@ -72,18 +72,25 @@ func check_path(path_to_check : PoolVector3Array) -> bool:
 func move_actor(delta: float):
 	var active_actor = combat_loop.active_actor
 	
-	if len(path) > 0:
+	if path.size() > 0:
 		var target_point_world = owner.map_node.cell_to_world(path[0])
 		
-		# Update the actor's current cell, right before it change position when needed
-		var actor_pos = active_actor.get_global_position()
-		var direction = (target_point_world - actor_pos).normalized()
-		var future_pos = actor_pos + direction * active_actor.move_speed * delta
+		var current_cell = active_actor.get_current_cell()
+		var future_cell = path[1] if path.size() > 1 else current_cell
+		var chara_iso_dir = IsoLogic.get_cell_direction(current_cell, future_cell)
 		
-		var map_node : IsoMap = owner.map_node
+		var is_moving_bottom = chara_iso_dir in [IsoLogic.DIRECTION.BOTTOM_LEFT, IsoLogic.DIRECTION.BOTTOM_RIGHT]
 		
-		if !map_node.is_world_pos_in_cell(future_pos, active_actor.get_current_cell()) && path.size() > 0:
-			active_actor.set_current_cell(path[0])
+		if !is_moving_bottom:
+			# Update the actor's current cell, right before it change position when needed
+			var actor_pos = active_actor.get_global_position()
+			var direction = (target_point_world - actor_pos).normalized()
+			var future_pos = actor_pos + direction * active_actor.move_speed * delta
+			
+			var map_node : IsoMap = owner.map_node
+			
+			if !map_node.is_world_pos_in_cell(future_pos, active_actor.get_current_cell()) && path.size() > 0:
+				active_actor.set_current_cell(path[0])
 		
 		# Move the actor
 		var arrived_to_next_point = active_actor.move(delta, target_point_world)
@@ -92,12 +99,9 @@ func move_actor(delta: float):
 		# remove this point from the path and take the next for destination
 		if arrived_to_next_point == true:
 			if path.size() > 1:
-				var current_cell = active_actor.get_current_cell()
-				var future_cell = path[1]
-				var dir = IsoLogic.get_cell_direction(current_cell, future_cell)
-				
-				active_actor.set_direction(dir)
-			
+				active_actor.set_direction(chara_iso_dir)
+				if is_moving_bottom:
+					active_actor.set_current_cell(future_cell)
 			path.remove(0)
 	
 	if len(path) == 0:
