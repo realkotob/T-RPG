@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BabaGodotLib/UI/Menu/ActionMenu.gd"
 }, {
+"base": "Object",
+"class": "ActorActionRequest",
+"language": "GDScript",
+"path": "res://Scenes/Actors/ActorActionRequest.gd"
+}, {
 "base": "ActorStateBase",
 "class": "ActorActionState",
 "language": "GDScript",
@@ -83,11 +88,6 @@ _global_script_classes=[ {
 "class": "Ailment",
 "language": "GDScript",
 "path": "res://Resources/Ailment/Ailment.gd"
-}, {
-"base": "TRPG_Actor",
-"class": "Ally",
-"language": "GDScript",
-"path": "res://Scenes/Actors/Allies/Ally.gd"
 }, {
 "base": "StateBase",
 "class": "AnimatedObjectStateBase",
@@ -238,6 +238,11 @@ _global_script_classes=[ {
 "class": "HUD_Gauge",
 "language": "GDScript",
 "path": "res://Scenes/Combat/HUD/ActorInfos/Gauge/HUD_Gauge.gd"
+}, {
+"base": "Node",
+"class": "IA",
+"language": "GDScript",
+"path": "res://Scenes/Combat/IA/IA.gd"
 }, {
 "base": "LineContainer",
 "class": "IconsLineContainer",
@@ -633,6 +638,7 @@ _global_script_class_icons={
 "AOE": "",
 "AOE_AreaType": "",
 "ActionMenu": "",
+"ActorActionRequest": "",
 "ActorActionState": "",
 "ActorFallState": "",
 "ActorHurtState": "",
@@ -645,7 +651,6 @@ _global_script_class_icons={
 "ActorStats": "",
 "ActorTeam": "",
 "Ailment": "",
-"Ally": "",
 "AnimatedObjectStateBase": "",
 "AppearState": "",
 "AreaContainer": "",
@@ -676,6 +681,7 @@ _global_script_class_icons={
 "GameSaver": "",
 "Gauge": "",
 "HUD_Gauge": "",
+"IA": "",
 "IconsLineContainer": "",
 "IconsLineData": "",
 "InteractiveObject": "",
@@ -847,6 +853,6 @@ rotateCCW={
 
 [rendering]
 
-2d/snapping/use_gpu_pixel_snap=true
-environment/default_environment="res://default_env.tres"
 quality/2d/use_pixel_snap=true
+environment/default_environment="res://default_env.tres"
+2d/snapping/use_gpu_pixel_snap=true

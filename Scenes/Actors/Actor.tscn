@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://BabaGodotLib/Isometric/IsoObjects/TRPG_Actor.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Actors/Allies/States/TRPG_ActorIdleState.gd" type="Script" id=2]
@@ -14,6 +14,14 @@
 
 [sub_resource type="Animation" id=1]
 resource_name = "Skill"
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [  ],
+"loop": true,
+"name": "IdleBottom",
+"speed": 5.0
+} ]
 
 [node name="Actor" instance=ExtResource( 9 )]
 script = ExtResource( 1 )
@@ -44,6 +52,7 @@ script = ExtResource( 6 )
 script = ExtResource( 12 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="." index="2"]
+frames = SubResource( 2 )
 animation = "IdleBottom"
 playing = true
 script = ExtResource( 3 )

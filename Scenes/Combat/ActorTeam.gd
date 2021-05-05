@@ -19,7 +19,9 @@ func get_inventory() -> Array: return inventory
 
 #### BUILT-IN ####
 
-
+func _ready() -> void:
+	for child in get_children():
+		child.add_to_group(name)
 
 #### VIRTUALS ####
 

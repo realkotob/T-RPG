@@ -15,5 +15,6 @@ func exit_state():
 	starting_cell = Vector3.INF
 
 
-#### LOGIC ####
+func update_state(delta: float):
+	owner.move_along_path(delta)
 

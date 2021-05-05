@@ -21,9 +21,13 @@ func enter_state():
 	combat_loop.HUD_node.update_height(actor_height)
 	
 	EVENTS.emit_signal("goto_menu_root")
+
+	# Update the view field in case of fog of war
+	if combat_loop.fog_of_war:
+		combat_loop.map_node.update_view_field(active_actor)
 	
 	# Update the actions
-	if active_actor is Ally:
+	if active_actor.is_in_group("Allies"):
 		var move = can_move()
 		var attack = can_attack()
 		var skill = can_use_skill()
@@ -32,17 +36,12 @@ func enter_state():
 		
 		EVENTS.emit_signal("update_unabled_actions", move, attack, item, skill, wait)
 	else:
-		EVENTS.emit_signal("disable_actions")
-	
-	# Update the view field in case of fog of war
-	if combat_loop.fog_of_war:
-		combat_loop.map_node.update_view_field(active_actor)
+		states_machine.set_state("EnemyTurn")
 
 
 # Called when the current state of the state machine is switched to another one
 func exit_state():
 	combat_loop.area_node.clear()
-
 
 
 #### LOGIC ####

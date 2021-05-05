@@ -93,35 +93,16 @@ func generate_area(area_type: int):
 
 
 
-# Highlight, or unhighligh targeted Object/TRPG_Actor on the target_area_
+# Highlight, or unhighligh targeted Object/TRPG_Actor on the target_area
 func highlight_targets(is_targeted: bool):
 	if combat_effect_obj == null:
 		return
 	
-	for target in get_target_in_area():
+	for target in owner.map_node.get_objects_in_area(target_area):
 		if target == null:
 			continue
 		
 		target.set_targeted(is_targeted, combat_effect_obj.possitive)
-
-
-# SHOULD BE IN A STATIC CLASS
-# Return the amount of damage the attacker inflict to the target
-func compute_damage(attacker: TRPG_Actor, target: TRPG_DamagableObject) -> int:
-	var att = attacker.get_weapon().get_attack()
-	var def = target.get_defense()
-	
-	return int(clamp(att - def, 0.0, INF))
-
-
-func get_target_in_area():
-	var targets = Array()
-	for cell in target_area:
-		var obj = map.get_object_on_cell(cell)
-		if obj != null:
-			targets.append(obj)
-	
-	return targets
 
 
 #### INPUTS ####
@@ -133,7 +114,7 @@ func _unhandled_input(event):
 			
 			var active_actor = combat_loop.active_actor
 			var active_actor_cell = active_actor.get_current_cell()
-			var targets_array = get_target_in_area()
+			var targets_array = owner.map_node.get_objects_in_area(target_area)
 			var cursor_cell = owner.cursor_node.get_current_cell()
 			
 			if targets_array == []:
@@ -187,6 +168,7 @@ func on_cursor_changed_cell(cursor : Cursor, cell: Vector3):
 	
 	owner.area_node.clear("damage")
 	highlight_targets(false)
+	
 	if cell in reachables:
 		generate_area(AREA_TYPE.EFFECT)
 		highlight_targets(true)

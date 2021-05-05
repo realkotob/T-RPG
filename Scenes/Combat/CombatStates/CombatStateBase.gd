@@ -1,8 +1,6 @@
 extends StateBase
 class_name CombatStateBase
 
-signal turn_finished
-
 onready var combat_loop = owner
 
 #### ACCESSORS ####
@@ -11,8 +9,6 @@ onready var combat_loop = owner
 #### BUILT-IN FUCNTIONS ####
 
 func _ready():
-	var _err = connect("turn_finished", owner, "on_active_actor_turn_finished")
-	
 	yield(owner, "ready")
 	combat_loop = owner
 	states_machine = get_parent()
@@ -25,6 +21,3 @@ func enter_state():
 
 func exit_state():
 	owner.area_node.clear()
-
-func turn_finish():
-	emit_signal("turn_finished")

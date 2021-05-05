@@ -1,6 +1,7 @@
 extends Node
 class_name CombatLoop
 
+onready var ia = $IA
 onready var map_node = $Map
 onready var area_node = $Map/Interactives/Areas
 onready var cursor_node = $Map/Interactives/Cursor
@@ -80,6 +81,7 @@ func _ready() -> void:
 func new_turn():
 	previous_actor = active_actor
 	set_active_actor(actors_order[0])
+	var __ = active_actor.connect("turn_finished", self, "_on_active_actor_turn_finished")
 	
 	on_focus_changed()
 	
@@ -92,6 +94,8 @@ func new_turn():
 
 # End of turn procedure, called right before a new turn start
 func end_turn():
+	active_actor.disconnect("turn_finished", self, "_on_active_actor_turn_finished")
+	
 	# Change the order of the timeline
 	set_future_actors_order(actors_order)
 	first_become_last(future_actors_order)
@@ -119,11 +123,6 @@ func _input(_event: InputEvent) -> void:
 func _on_map_generation_finished():
 	for actor in actors_order:
 		map_node.update_view_field(actor)
-
-
-# Triggered when the active actor finished his turn
-func on_active_actor_turn_finished():
-	end_turn()
 
 
 # Triggered when the timeline movement is finished
@@ -191,3 +190,5 @@ func _on_visible_cells_changed():
 func _on_actor_action_chosen(action_name: String):
 	set_state(action_name.capitalize())
 
+func _on_active_actor_turn_finished() -> void:
+	end_turn()
