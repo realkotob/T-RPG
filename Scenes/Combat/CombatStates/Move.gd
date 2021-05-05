@@ -74,7 +74,7 @@ func move_actor(delta: float):
 	
 	if len(path) > 0:
 		var target_point_world = owner.map_node.cell_to_world(path[0])
-		var arrived_to_next_point = active_actor.move_to(delta, target_point_world)
+		var arrived_to_next_point = active_actor.move(delta, target_point_world)
 		
 		# If the actor is arrived to the next point, 
 		# remove this point from the path and take the next for destination

@@ -64,7 +64,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BabaGodotLib/Actor/AI/ActorPath/ActorPath.gd"
 }, {
-"base": "StateBase",
+"base": "AnimatedObjectStateBase",
 "class": "ActorStateBase",
 "language": "GDScript",
 "path": "res://BabaGodotLib/Actor/States/ActorState/ActorStateBase.gd"
@@ -88,6 +88,11 @@ _global_script_classes=[ {
 "class": "Ally",
 "language": "GDScript",
 "path": "res://Scenes/Actors/Allies/Ally.gd"
+}, {
+"base": "StateBase",
+"class": "AnimatedObjectStateBase",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Absract/StateMachine/AbstractStates/AnimatedObjectStateBase.gd"
 }, {
 "base": "StateBase",
 "class": "AppearState",
@@ -174,6 +179,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BabaGodotLib/UI/Windows/DescritpionWindow.gd"
 }, {
+"base": "Node",
+"class": "DirNavHelper",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Statics/DirNavHelper.gd"
+}, {
 "base": "StateBase",
 "class": "Disappear",
 "language": "GDScript",
@@ -194,20 +204,40 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BabaGodotLib/Autoload/EventBase.gd"
 }, {
+"base": "CanvasLayer",
+"class": "FadeTransition",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Transitions/FadeTransition.gd"
+}, {
 "base": "Weapon",
 "class": "Firearm",
 "language": "GDScript",
 "path": "res://Resources/CombatEffectObject/Weapons/Firearm.gd"
+}, {
+"base": "Node",
+"class": "GameLoader",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Statics/SaveSystem/GameLoader.gd"
 }, {
 "base": "Resource",
 "class": "GameObject",
 "language": "GDScript",
 "path": "res://Resources/GameObject.gd"
 }, {
+"base": "Node",
+"class": "GameSaver",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Statics/SaveSystem/GameSaver.gd"
+}, {
 "base": "Control",
 "class": "Gauge",
 "language": "GDScript",
 "path": "res://BabaGodotLib/Scenes/HUD/Gauge/Gauge.gd"
+}, {
+"base": "Gauge",
+"class": "HUD_Gauge",
+"language": "GDScript",
+"path": "res://Scenes/Combat/HUD/ActorInfos/Gauge/HUD_Gauge.gd"
 }, {
 "base": "LineContainer",
 "class": "IconsLineContainer",
@@ -284,6 +314,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Resources/CombatEffectObject/Items/Item.gd"
 }, {
+"base": "Node",
+"class": "LevelLoader",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Statics/SaveSystem/LevelLoader.gd"
+}, {
 "base": "Sprite",
 "class": "LevelNode",
 "language": "GDScript",
@@ -293,6 +328,11 @@ _global_script_classes=[ {
 "class": "LevelNodeBind",
 "language": "GDScript",
 "path": "res://BabaGodotLib/WorldMap/LevelNodeBind/LevelNodeBind.gd"
+}, {
+"base": "Node",
+"class": "LevelSaver",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Statics/SaveSystem/LevelSaver.gd"
 }, {
 "base": "HBoxContainer",
 "class": "LineContainer",
@@ -444,6 +484,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Resources/CombatEffectObject/Skills/Skill.gd"
 }, {
+"base": "Node2D",
+"class": "SoundEffectsHandler",
+"language": "GDScript",
+"path": "res://BabaGodotLib/SoundEffects/SoundEffectsHandler.gd"
+}, {
 "base": "Node",
 "class": "StateBase",
 "language": "GDScript",
@@ -559,6 +604,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/HUD/Timeline/TL_Portrait/TL_Portrait.gd"
 }, {
+"base": "StatesMachine",
+"class": "ToolStatesMachine",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Absract/StateMachine/ToolStateMachine.gd"
+}, {
 "base": "Resource",
 "class": "Weapon",
 "language": "GDScript",
@@ -568,6 +618,11 @@ _global_script_classes=[ {
 "class": "WorldMap",
 "language": "GDScript",
 "path": "res://BabaGodotLib/WorldMap/WorldMap.gd"
+}, {
+"base": "EditorPlugin",
+"class": "WorldMapEditor",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Plugins/WorldMapEditor.gd"
 }, {
 "base": "Node2D",
 "class": "WorldMapMovingElement",
@@ -591,6 +646,7 @@ _global_script_class_icons={
 "ActorTeam": "",
 "Ailment": "",
 "Ally": "",
+"AnimatedObjectStateBase": "",
 "AppearState": "",
 "AreaContainer": "",
 "Character": "",
@@ -608,13 +664,18 @@ _global_script_class_icons={
 "Cursor": "",
 "DamageContainer": "",
 "DescriptionWindow": "",
+"DirNavHelper": "",
 "Disappear": "",
 "Effect": "",
 "Enemy": "",
 "EventsBase": "",
+"FadeTransition": "",
 "Firearm": "",
+"GameLoader": "",
 "GameObject": "",
+"GameSaver": "",
 "Gauge": "",
+"HUD_Gauge": "",
 "IconsLineContainer": "",
 "IconsLineData": "",
 "InteractiveObject": "",
@@ -630,8 +691,10 @@ _global_script_class_icons={
 "IsoRenderer": "",
 "IsoSprite": "",
 "Item": "",
+"LevelLoader": "",
 "LevelNode": "",
 "LevelNodeBind": "",
+"LevelSaver": "",
 "LineContainer": "",
 "LineData": "",
 "ListMenu": "",
@@ -662,6 +725,7 @@ _global_script_class_icons={
 "SFX_AnimationBase": "",
 "SceneFinder": "",
 "Skill": "",
+"SoundEffectsHandler": "",
 "StateBase": "",
 "StateLabel": "",
 "StatesMachine": "",
@@ -685,8 +749,10 @@ _global_script_class_icons={
 "TileRenderPart": "",
 "Timeline": "",
 "TimelinePortrait": "",
+"ToolStatesMachine": "",
 "Weapon": "",
 "WorldMap": "",
+"WorldMapEditor": "",
 "WorldMapMovingElement": ""
 }
 
@@ -781,5 +847,6 @@ rotateCCW={
 
 [rendering]
 
-quality/2d/use_pixel_snap=true
+2d/snapping/use_gpu_pixel_snap=true
 environment/default_environment="res://default_env.tres"
+quality/2d/use_pixel_snap=true
