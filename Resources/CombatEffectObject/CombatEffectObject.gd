@@ -17,14 +17,17 @@ func get_class() -> String: return "CombatEffectObject"
 #### BUILT-IN ####
 
 
-
 #### VIRTUALS ####
 
 
 
 #### LOGIC ####
 
-
+func feed(new_aoe: Resource, possitive_effect: bool, affecting_allies: bool, can_affect_self: bool) -> void:
+	aoe = new_aoe
+	possitive = possitive_effect
+	friendly_fire = affecting_allies
+	can_affect_self = can_affect_self
 
 #### INPUTS ####
 
