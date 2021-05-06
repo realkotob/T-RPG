@@ -116,14 +116,14 @@ script = ExtResource( 8 )
 inventory = [ [ ExtResource( 28 ), 3 ] ]
 
 [node name="Character" parent="Map/Interactives/Actors/Allies" instance=ExtResource( 4 )]
-position = Vector2( 303.423, 206.38 )
+position = Vector2( 318.123, 133.772 )
 skills = [ ExtResource( 30 ) ]
 
 [node name="Enemies" type="Node2D" parent="Map/Interactives/Actors"]
 script = ExtResource( 8 )
 
 [node name="BlueSlime" parent="Map/Interactives/Actors/Enemies" instance=ExtResource( 14 )]
-position = Vector2( 270.512, 109.093 )
+position = Vector2( 270.512, 109.538 )
 
 [node name="Obstacles" type="Node2D" parent="Map/Interactives" index="3"]
 __meta__ = {
