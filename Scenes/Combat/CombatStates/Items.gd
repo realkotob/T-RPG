@@ -1,4 +1,4 @@
-extends NestedPushdownAutomata
+extends CombatEffectObjectState
 
 #### COMBAT ITEMS STATE ####
 

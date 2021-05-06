@@ -10,8 +10,7 @@ signal actor_stats_changed(actor)
 
 signal timeline_movement_finished()
 
-signal skill_chosen(skill)
-signal item_chosen(item)
+signal combat_effect_object_chosen(obj)
 
 signal target_choice_state_entered()
 signal option_choice_state_entered()

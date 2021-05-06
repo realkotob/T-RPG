@@ -1,11 +1,9 @@
-extends NestedPushdownAutomata
+extends CombatEffectObjectState
 
 #### COMBAT SKILLS STATE ####
 
-#### BUILT-IN ####
 
-func _ready() -> void:
-	var __ = EVENTS.connect("skill_chosen", self, "_on_skill_chosen")
+#### BUILT-IN ####
 
 
 #### VIRTUALS ####
@@ -23,13 +21,6 @@ func enter_state():
 	set_state("OptionChoice")
 	emit_signal("state_changed", "OptionChoice")
 
-
-
 #### SIGNAL RESPONSES ####
 
-func _on_skill_chosen(skill: Skill):
-	$TargetChoice.set_combat_effect_obj(skill)
-	set_state("TargetChoice")
 
-func _on_target_chosen():
-	owner.active_actor.set_state("Skill")

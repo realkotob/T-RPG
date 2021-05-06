@@ -1,8 +1,16 @@
-[gd_resource type="Resource" load_steps=6 format=2]
+[gd_resource type="Resource" load_steps=9 format=2]
 
 [ext_resource path="res://Resources/CombatEffectObject/Items/Item.gd" type="Script" id=1]
 [ext_resource path="res://Resources/IconTileset.png" type="Texture" id=2]
 [ext_resource path="res://Resources/CombatEffect.gd" type="Script" id=3]
+[ext_resource path="res://Resources/AOE/AOE_AreaType/AOE_Type_Circle.tres" type="Resource" id=4]
+[ext_resource path="res://Resources/AOE/AOE.gd" type="Script" id=5]
+
+[sub_resource type="Resource" id=4]
+script = ExtResource( 5 )
+area_type = ExtResource( 4 )
+area_size = 1
+range_size = 1
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 3 )
@@ -21,7 +29,11 @@ region = Rect2( 0, 0, 16, 16 )
 script = ExtResource( 1 )
 name = "Heal Potion"
 description = "A potion that heals"
+aoe = SubResource( 4 )
+possitive = false
+friendly_fire = true
+caster_fire = true
+effect = SubResource( 1 )
 icon = SubResource( 2 )
 cost = 20
 usability = 0
-effect = SubResource( 1 )

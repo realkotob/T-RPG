@@ -9,6 +9,8 @@ var reachables := PoolVector3Array()
 var target_area := PoolVector3Array()
 var square_dir : int = 0
 
+var aoe_target : AOE_Target = null
+
 enum AREA_TYPE {
 	REACHABLE,
 	EFFECT
@@ -19,8 +21,7 @@ enum AREA_TYPE {
 func is_class(value: String): return value == "TargetChoiceState" or .is_class(value)
 func get_class() -> String: return "TargetChoiceState"
 
-func set_combat_effect_obj(value: CombatEffectObject):
-	 combat_effect_obj = value
+func set_combat_effect_obj(value: CombatEffectObject): combat_effect_obj = value
 func get_combat_effect_obj() -> CombatEffectObject : return combat_effect_obj 
 
 #### BUILT-IN ####
@@ -38,8 +39,9 @@ func enter_state():
 	if !is_current_state(): return
 	
 	if combat_effect_obj == null or combat_effect_obj.aoe == null:
-		print_debug("No aoe data was provided, returning to previous state")
+		push_error("No aoe data was provided, returning to previous state")
 		states_machine.go_to_previous_state()
+		return
 	
 	generate_area(AREA_TYPE.REACHABLE)
 	EVENTS.emit_signal("target_choice_state_entered")
@@ -48,8 +50,8 @@ func enter_state():
 func exit_state():
 	combat_loop.area_node.clear()
 	reachables = PoolVector3Array()
-	highlight_targets(false)
 	target_area = PoolVector3Array()
+	highlight_targets(false)
 	set_combat_effect_obj(null)
 
 
@@ -63,13 +65,13 @@ func generate_area(area_type: int):
 	var cursor = owner.cursor_node
 	var cursor_cell = cursor.get_current_cell()
 	
-	var dir = IsoLogic.iso_dir(actor_cell, cursor_cell)
 	var aoe = combat_effect_obj.aoe
 	var aoe_size = aoe.area_size
 	var aoe_range = aoe.range_size
 	
-	var cells_in_range := PoolVector3Array()
+	aoe_target = AOE_Target.new(actor_cell, cursor_cell, aoe, square_dir)
 	
+	var cells_in_range := PoolVector3Array()
 	var area_type_name = "view" if area_type == AREA_TYPE.REACHABLE else "damage"
 	
 	if area_type == AREA_TYPE.REACHABLE:
@@ -79,14 +81,9 @@ func generate_area(area_type: int):
 			"Circle", "Square": cells_in_range = map.get_cells_in_circle(actor_cell, aoe_range)
 		
 		reachables = cells_in_range
-		
+	
 	elif area_type == AREA_TYPE.EFFECT:
-		match(aoe.area_type.name):
-			"LineForward": cells_in_range = map.get_cells_in_straight_line(actor_cell, aoe_size, dir)
-			"LinePerpendicular": cells_in_range = map.get_cell_in_perpendicular_line(actor_cell, aoe_size, dir)
-			"Circle": cells_in_range = map.get_cells_in_circle(cursor_cell, aoe_size)
-			"Square": cells_in_range = map.get_cells_in_square(cursor_cell, aoe_size, square_dir)
-		
+		cells_in_range = map.get_cells_in_area(aoe_target)
 		target_area = cells_in_range
 	
 	combat_loop.area_node.draw_area(cells_in_range, area_type_name)
@@ -110,34 +107,11 @@ func highlight_targets(is_targeted: bool):
 # Target choice
 func _unhandled_input(event):
 	if event is InputEventMouseButton && is_current_state():
-		if event.get_button_index() == BUTTON_LEFT && event.pressed:
-			
-			var active_actor = combat_loop.active_actor
-			var active_actor_cell = active_actor.get_current_cell()
-			var targets_array = owner.map_node.get_objects_in_area(target_area)
-			var cursor_cell = owner.cursor_node.get_current_cell()
-			
-			if targets_array == []:
-				return
-			
-			# Trigger the attack
-			for target in targets_array:
-				var damage_array = CombatEffectCalculation.compute_damage(combat_effect_obj, active_actor, target)
-				
-				for damage in damage_array:
-					target.hurt(damage)
-				
-				var direction = IsoLogic.get_cell_direction(active_actor_cell, cursor_cell)
-				active_actor.set_direction(direction)
-				active_actor.set_state("Attack")
-				
-				# SHOULDN'T BE HERE
-				combat_loop.active_actor.decrement_current_action()
-				
-				if target != active_actor:
-					yield(target, "hurt_animation_finished")
-			
-			EVENTS.emit_signal("actor_action_animation_finished", active_actor)
+		if event.get_button_index() == BUTTON_LEFT && event.pressed && aoe_target != null:
+			if combat_effect_obj is Skill:
+				owner.active_actor.use_skill(combat_effect_obj, aoe_target)
+			elif combat_effect_obj is Item:
+				owner.active_actor.use_item(combat_effect_obj, aoe_target)
 		
 		elif Input.is_action_just_pressed("rotateCW"):
 			square_dir = wrapi(square_dir + 1, 0, 4)

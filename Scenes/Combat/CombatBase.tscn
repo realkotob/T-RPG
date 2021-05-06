@@ -375,9 +375,6 @@ __meta__ = {
 }
 
 [editable path="Map"]
-
 [editable path="Map/Layer"]
-
 [editable path="Map/Layer2"]
-
 [editable path="Map/Layer3"]

@@ -1,4 +1,4 @@
-extends GameObject
+extends CombatEffectObject
 class_name Item
 
 func is_class(value: String): return value == "Item" or .is_class(value)
@@ -15,8 +15,6 @@ export var icon : Texture = null
 
 export var cost : int = 0
 export var usability : int = USAGE_TYPE.ANYWHERE
-
-export var effect : Resource = null
 
 func fetch_description_data() -> Array:
 	return [
