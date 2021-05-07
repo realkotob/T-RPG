@@ -1,5 +1,7 @@
 extends CombatStateBase
 
+var actions_array := Array()
+
 #### ACCESSORS ####
 
 
@@ -12,8 +14,11 @@ extends CombatStateBase
 
 func enter_state():
 	EVENTS.emit_signal("disable_actions")
-	var action_request = owner.ia.make_decision(owner.active_actor, owner.map_node)
-	action_request.trigger_action()
+	if actions_array.empty():
+		actions_array = owner.ia.make_decision(owner.active_actor, owner.map_node)
+	
+	var action = actions_array.pop_front()
+	action.trigger_action()
 
 
 #### LOGIC ####

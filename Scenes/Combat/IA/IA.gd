@@ -17,21 +17,42 @@ func get_class() -> String: return "IA"
 
 #### LOGIC ####
 
-func make_decision(actor: TRPG_Actor, map: CombatIsoMap) -> ActorActionRequest:
-	var action = null
-	var possible_targets = find_damagables_in_range(actor, map)
-	var aoe_target = determine_target(actor, possible_targets)
+func make_decision(actor: TRPG_Actor, map: CombatIsoMap) -> Array:
+	var actor_cell = actor.get_current_cell()
+	var actor_range : int = actor.get_current_range()
+	var actor_movement = actor.get_current_movements()
+	var _actions_left = actor.get_current_actions()
+	
+	var actions_array = []
+	var aoe_target = []
+	var with_moving_targets = []
+	
+	var without_moving_targets = find_damagables_in_range(actor, actor_range, map)
+	
+	if !without_moving_targets.empty():
+		# Found a target without having to move
+		aoe_target = determine_target(actor, without_moving_targets)
+	
+	else: 
+		# Search for a target, targatable by moving before
+		with_moving_targets = find_damagables_in_range(actor, actor_range + actor_movement, map)
+		aoe_target = determine_target(actor, with_moving_targets)
+		var path_to_reach = map.pathfinding.find_path_to_reach(actor_cell, aoe_target.target_cell)
+		
+		actions_array.append(ActorActionRequest.new(actor, "move", [path_to_reach]))
+		actions_array.append(ActorActionRequest.new(actor, "attack", [aoe_target]))
+		return actions_array
 	
 	if aoe_target == null:
-		action = ActorActionRequest.new(actor, "wait")
+		actions_array.append(ActorActionRequest.new(actor, "wait"))
 	else:
-		action = ActorActionRequest.new(actor, "attack", [aoe_target])
+		actions_array.append(ActorActionRequest.new(actor, "attack", [aoe_target]))
 	
-	return action
+	return actions_array
 
 
-func find_damagables_in_range(actor: TRPG_Actor, map: CombatIsoMap) -> Array:
-	var actor_range = actor.get_current_range()
+func find_damagables_in_range(actor: TRPG_Actor, actor_range: int, map: CombatIsoMap) -> Array:
+	## Take line of sight in account ##
 	return map.get_targetables_in_range(actor, actor_range)
 
 
