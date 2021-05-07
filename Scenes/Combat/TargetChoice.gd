@@ -1,9 +1,10 @@
 extends CombatStateBase
 class_name TargetChoiceState
 
-var map : CombatIsoMap = null
+var map = null
 
-var combat_effect_obj : CombatEffectObject = null setget set_combat_effect_obj, get_combat_effect_obj
+var aoe : AOE = null setget set_aoe, get_aoe
+var positive : bool = false
 
 var reachables := PoolVector3Array()
 var target_area := PoolVector3Array()
@@ -16,13 +17,15 @@ enum AREA_TYPE {
 	EFFECT
 }
 
+signal target_chosen(aoe_targ)
+
 #### ACCESSORS ####
 
 func is_class(value: String): return value == "TargetChoiceState" or .is_class(value)
 func get_class() -> String: return "TargetChoiceState"
 
-func set_combat_effect_obj(value: CombatEffectObject): combat_effect_obj = value
-func get_combat_effect_obj() -> CombatEffectObject : return combat_effect_obj 
+func set_aoe(value: AOE): aoe = value
+func get_aoe() -> AOE : return aoe 
 
 #### BUILT-IN ####
 
@@ -38,7 +41,7 @@ func _ready():
 func enter_state():
 	if !is_current_state(): return
 	
-	if combat_effect_obj == null or combat_effect_obj.aoe == null:
+	if aoe == null:
 		push_error("No aoe data was provided, returning to previous state")
 		states_machine.go_to_previous_state()
 		return
@@ -48,11 +51,12 @@ func enter_state():
 
 
 func exit_state():
+	highlight_targets(false)
 	combat_loop.area_node.clear()
 	reachables = PoolVector3Array()
 	target_area = PoolVector3Array()
-	highlight_targets(false)
-	set_combat_effect_obj(null)
+	set_aoe(null)
+	positive = false
 
 
 #### LOGIC ####
@@ -65,7 +69,6 @@ func generate_area(area_type: int):
 	var cursor = owner.cursor_node
 	var cursor_cell = cursor.get_current_cell()
 	
-	var aoe = combat_effect_obj.aoe
 	var aoe_size = aoe.area_size
 	var aoe_range = aoe.range_size
 	
@@ -77,8 +80,8 @@ func generate_area(area_type: int):
 	if area_type == AREA_TYPE.REACHABLE:
 		match(aoe.area_type.name):
 			"LineForward": cells_in_range = map.get_cells_in_straight_line(actor_cell, aoe_size, range(4))
-			"LinePerpendicular": cells_in_range = map.get_cells_in_circle(actor_cell, 1)
-			"Circle", "Square": cells_in_range = map.get_cells_in_circle(actor_cell, aoe_range)
+			"LinePerpendicular": cells_in_range = map.get_cells_in_circle(actor_cell, 2, true)
+			"Circle", "Square": cells_in_range = map.get_cells_in_circle(actor_cell, aoe_range + 1, true)
 		
 		reachables = cells_in_range
 	
@@ -92,14 +95,14 @@ func generate_area(area_type: int):
 
 # Highlight, or unhighligh targeted Object/TRPG_Actor on the target_area
 func highlight_targets(is_targeted: bool):
-	if combat_effect_obj == null:
+	if aoe == null:
 		return
 	
 	for target in owner.map_node.get_objects_in_area(target_area):
 		if target == null:
 			continue
 		
-		target.set_targeted(is_targeted, combat_effect_obj.possitive)
+		target.set_targeted(is_targeted, positive)
 
 
 #### INPUTS ####
@@ -108,10 +111,7 @@ func highlight_targets(is_targeted: bool):
 func _unhandled_input(event):
 	if event is InputEventMouseButton && is_current_state():
 		if event.get_button_index() == BUTTON_LEFT && event.pressed && aoe_target != null:
-			if combat_effect_obj is Skill:
-				owner.active_actor.use_skill(combat_effect_obj, aoe_target)
-			elif combat_effect_obj is Item:
-				owner.active_actor.use_item(combat_effect_obj, aoe_target)
+			emit_signal("target_chosen", aoe_target)
 		
 		elif Input.is_action_just_pressed("rotateCW"):
 			square_dir = wrapi(square_dir + 1, 0, 4)

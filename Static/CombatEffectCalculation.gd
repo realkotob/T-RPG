@@ -1,5 +1,5 @@
 extends Object
-class_name CombatEffectCalculation
+class_name CombatEffectHandler
 
 #### ACCESSORS ####
 
@@ -18,8 +18,7 @@ func get_class() -> String: return "CombatEffectCalculation"
 #### LOGIC ####
 
 
-static func compute_damage(effect_obj: CombatEffectObject, _caster: IsoObject, target: TRPG_DamagableObject) -> Array:
-	var effect = effect_obj.effect
+static func compute_damage(effect: Effect, _caster: IsoObject, target: TRPG_DamagableObject) -> Array:
 	var damage_array = Array()
 	
 	for _i in range(effect.nb_hits):

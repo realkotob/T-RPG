@@ -2,7 +2,7 @@ extends GameObject
 class_name CombatEffectObject
 
 export var aoe : Resource = null
-export var possitive : bool = false
+export var positive : bool = false
 export var friendly_fire : bool = true
 export var caster_fire : bool = true
 
@@ -23,11 +23,11 @@ func get_class() -> String: return "CombatEffectObject"
 
 #### LOGIC ####
 
-func feed(new_aoe: Resource, possitive_effect: bool, affecting_allies: bool, can_affect_self: bool) -> void:
-	aoe = new_aoe
-	possitive = possitive_effect
-	friendly_fire = affecting_allies
-	can_affect_self = can_affect_self
+func feed(_aoe: Resource, _positive: bool, _friendly_fire: bool, _caster_fire: bool) -> void:
+	aoe = _aoe
+	positive = _positive
+	friendly_fire = _friendly_fire
+	caster_fire = _caster_fire
 
 #### INPUTS ####
 

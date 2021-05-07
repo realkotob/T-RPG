@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://Resources/AOE/AOE_AreaType/AOE_Type_Circle.tres" type="Resource" id=1]
+[ext_resource path="res://Resources/AOE/AOE.gd" type="Script" id=2]
+
+[resource]
+script = ExtResource( 2 )
+area_type = ExtResource( 1 )
+area_size = 1
+range_size = 3

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://BabaGodotLib/Isometric/IsoObjects/TRPG_Actor.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Actors/Allies/States/TRPG_ActorIdleState.gd" type="Script" id=2]
@@ -9,13 +9,20 @@
 [ext_resource path="res://Scenes/Actors/Allies/CptHart/HartStats.tres" type="Resource" id=7]
 [ext_resource path="res://Resources/CombatEffectObject/Weapons/Firearm.tres" type="Resource" id=8]
 [ext_resource path="res://Scenes/Combat/DamagableObject.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Resources/AOE/AOE.gd" type="Script" id=10]
 [ext_resource path="res://Scenes/Actors/Allies/States/ActorAttackState.gd" type="Script" id=11]
 [ext_resource path="res://Scenes/Actors/Allies/States/TRPG_ActorSkillState.gd" type="Script" id=12]
+[ext_resource path="res://Resources/AOE/AOE_AreaType/AOE_Type_Circle.tres" type="Resource" id=13]
 
-[sub_resource type="Animation" id=1]
-resource_name = "Skill"
+[sub_resource type="Resource" id=1]
+script = ExtResource( 10 )
+area_type = ExtResource( 13 )
+area_size = 1
+range_size = 1
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="Animation" id=2]
+
+[sub_resource type="SpriteFrames" id=3]
 animations = [ {
 "frames": [  ],
 "loop": true,
@@ -28,10 +35,11 @@ script = ExtResource( 1 )
 height = 2
 passable = false
 MaxStats = ExtResource( 7 )
+default_attack_aoe = SubResource( 1 )
 weapon = ExtResource( 8 )
 
 [node name="AnimationPlayer" parent="." index="0"]
-anims/Skill = SubResource( 1 )
+anims/Skill = SubResource( 2 )
 
 [node name="States" type="Node2D" parent="." index="1"]
 script = ExtResource( 4 )
@@ -52,7 +60,7 @@ script = ExtResource( 6 )
 script = ExtResource( 12 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="." index="2"]
-frames = SubResource( 2 )
+frames = SubResource( 3 )
 animation = "IdleBottom"
 playing = true
 script = ExtResource( 3 )
