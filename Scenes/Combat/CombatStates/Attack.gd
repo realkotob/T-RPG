@@ -14,6 +14,7 @@ func _ready() -> void:
 func enter_state():
 	var attack_aoe = owner.active_actor.get_attack_aoe()
 	$TargetChoice.set_aoe(attack_aoe)
+	set_state("TargetChoice")
 	.enter_state()
 
 #### INPUTS ####
@@ -30,4 +31,5 @@ func on_cancel_input():
 #### SIGNAL RESPONSES ####
 
 func _on_target_chosen(aoe_target: AOE_Target):
+	set_state("Animation")
 	owner.active_actor.attack(aoe_target)

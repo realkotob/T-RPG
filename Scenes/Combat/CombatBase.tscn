@@ -81,6 +81,9 @@ script = ExtResource( 17 )
 [node name="TargetChoice" type="Node" parent="CombatState/Attack"]
 script = ExtResource( 32 )
 
+[node name="Animation" type="Node" parent="CombatState/Attack"]
+script = ExtResource( 31 )
+
 [node name="Skill" type="Node2D" parent="CombatState"]
 script = ExtResource( 18 )
 

@@ -20,12 +20,12 @@ func get_class() -> String: return "IA"
 func make_decision(actor: TRPG_Actor, map: CombatIsoMap) -> ActorActionRequest:
 	var action = null
 	var possible_targets = find_damagables_in_range(actor, map)
-	var target = determine_target(possible_targets)
+	var aoe_target = determine_target(actor, possible_targets)
 	
-	if target == null:
+	if aoe_target == null:
 		action = ActorActionRequest.new(actor, "wait")
 	else:
-		action = ActorActionRequest.new(actor, "attack", [target])
+		action = ActorActionRequest.new(actor, "attack", [aoe_target])
 	
 	return action
 
@@ -35,11 +35,16 @@ func find_damagables_in_range(actor: TRPG_Actor, map: CombatIsoMap) -> Array:
 	return map.get_targetables_in_range(actor, actor_range)
 
 
-func determine_target(targetables: Array) -> TRPG_DamagableObject:
-	if targetables.empty():
-		return null
+func determine_target(actor: TRPG_Actor, targetables: Array) -> AOE_Target:
+	var target = null
+	
+	if !targetables.empty():
+		target = targetables[Math.randi_range(0, targetables.size() - 1)]
 	else:
-		return targetables[Math.randi_range(0, targetables.size() - 1)]
+		return null
+	
+	return AOE_Target.new(actor.get_current_cell(), target.get_current_cell(), 
+		actor.get_default_attack_aoe())
 
 
 #### INPUTS ####

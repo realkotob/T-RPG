@@ -141,10 +141,12 @@ portrait = ExtResource( 4 )
 timeline_port = ExtResource( 5 )
 
 [node name="AnimationPlayer" parent="." index="0"]
+playback_speed = 0.3
 anims/Skill = SubResource( 1 )
 
 [node name="AnimatedSprite" parent="." index="2"]
 frames = ExtResource( 7 )
+frame = 3
 offset = Vector2( 0, -20 )
 
 [node name="SFX" type="Node2D" parent="." index="3"]
