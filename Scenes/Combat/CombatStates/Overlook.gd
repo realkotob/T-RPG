@@ -35,8 +35,6 @@ func enter_state():
 		var wait = can_wait()
 		
 		EVENTS.emit_signal("update_unabled_actions", move, attack, item, skill, wait)
-	else:
-		states_machine.set_state("EnemyTurn")
 
 
 # Called when the current state of the state machine is switched to another one

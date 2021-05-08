@@ -14,4 +14,4 @@ func enter_state():
 	
 	EVENTS.emit_signal("add_action_submenu", option_array, "Item")
 	
-	set_state("OptionChoice")
+	.enter_state()

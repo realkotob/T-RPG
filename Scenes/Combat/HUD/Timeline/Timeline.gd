@@ -22,7 +22,7 @@ func generate_timeline(actors_array : Array):
 		new_TL_port.set_portrait_texture(actor.timeline_port)
 		new_TL_port.set_position(Vector2(0, slot * i))
 		
-		if actor is Enemy:
+		if actor.is_in_group("Enemies"):
 			new_TL_port.get_node("Background").set_modulate(Color.red)
 		
 		i += 1

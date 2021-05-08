@@ -82,10 +82,14 @@ func new_turn():
 	previous_actor = active_actor
 	set_active_actor(actors_order[0])
 	var __ = active_actor.connect("turn_finished", self, "_on_active_actor_turn_finished")
+	__ = active_actor.connect("action_finished", self, "_on_active_actor_action_finished")
 	
 	on_focus_changed()
 	
-	combat_state_node.set_state("Overlook")
+	if active_actor.is_in_group("Allies"):
+		set_state("Overlook")
+	else:
+		set_state("EnemyTurn")
 	
 	active_actor.turn_start()
 	HUD_node.update_actions_left(active_actor)
@@ -95,6 +99,7 @@ func new_turn():
 # End of turn procedure, called right before a new turn start
 func end_turn():
 	active_actor.disconnect("turn_finished", self, "_on_active_actor_turn_finished")
+	active_actor.disconnect("action_finished", self, "_on_active_actor_action_finished")
 	
 	# Change the order of the timeline
 	set_future_actors_order(actors_order)
@@ -154,12 +159,6 @@ func on_object_unfocused(focus_obj: IsoObject):
 
 func on_action_spent():
 	HUD_node.update_actions_left(active_actor)
-	
-	yield(EVENTS, "actor_action_animation_finished")
-	if active_actor.get_current_actions() == 0:
-		end_turn()
-	else:
-		set_state("Overlook")
 
 
 func on_actor_wait():
@@ -177,7 +176,7 @@ func _on_visible_cells_changed():
 		if obj_cell in allies_view_field[IsoObject.VISIBILITY.BARELY_VISIBLE]:
 			visibility = IsoObject.VISIBILITY.BARELY_VISIBLE
 		elif not obj_cell in allies_view_field[IsoObject.VISIBILITY.VISIBLE]:
-			if obj is Enemy:
+			if obj.is_in_group("Enemies"):
 				visibility = IsoObject.VISIBILITY.HIDDEN
 			else:
 				visibility = IsoObject.VISIBILITY.NOT_VISIBLE
@@ -189,6 +188,13 @@ func _on_visible_cells_changed():
 
 func _on_actor_action_chosen(action_name: String):
 	set_state(action_name.capitalize())
+
+
+func _on_active_actor_action_finished() -> void:
+	if active_actor.is_in_group("Allies"):
+		set_state("Overlook")
+	else:
+		$CombatState/EnemyTurn.enemy_action()
 
 func _on_active_actor_turn_finished() -> void:
 	end_turn()

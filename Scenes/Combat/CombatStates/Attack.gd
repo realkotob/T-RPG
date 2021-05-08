@@ -14,7 +14,6 @@ func _ready() -> void:
 func enter_state():
 	var attack_aoe = owner.active_actor.get_attack_aoe()
 	$TargetChoice.set_aoe(attack_aoe)
-	set_state_by_id(0)
 	.enter_state()
 
 #### INPUTS ####

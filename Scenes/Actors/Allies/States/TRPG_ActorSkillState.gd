@@ -1,4 +1,4 @@
-extends TRPG_ActorStateBase
+extends TRPG_ActionState
 class_name TRPG_ActorSkillState
 
 #### ACCESSORS ####

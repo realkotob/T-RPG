@@ -23,8 +23,9 @@ func make_decision(actor: TRPG_Actor, map: CombatIsoMap) -> Array:
 	var actor_movement = actor.get_current_movements()
 	var _actions_left = actor.get_current_actions()
 	
+	var aoe_target : AOE_Target = null
+	
 	var actions_array = []
-	var aoe_target = []
 	var with_moving_targets = []
 	
 	var without_moving_targets = find_damagables_in_range(actor, actor_range, map)
@@ -36,12 +37,15 @@ func make_decision(actor: TRPG_Actor, map: CombatIsoMap) -> Array:
 	else: 
 		# Search for a target, targatable by moving before
 		with_moving_targets = find_damagables_in_range(actor, actor_range + actor_movement, map)
-		aoe_target = determine_target(actor, with_moving_targets)
-		var path_to_reach = map.pathfinding.find_path_to_reach(actor_cell, aoe_target.target_cell)
 		
-		actions_array.append(ActorActionRequest.new(actor, "move", [path_to_reach]))
-		actions_array.append(ActorActionRequest.new(actor, "attack", [aoe_target]))
-		return actions_array
+		if !with_moving_targets.empty():
+			aoe_target = determine_target(actor, with_moving_targets)
+			var path_to_reach = map.pathfinding.find_path_to_reach(actor_cell, aoe_target.target_cell)
+			path_to_reach.resize(actor_movement)
+			
+			actions_array.append(ActorActionRequest.new(actor, "move", [path_to_reach]))
+			actions_array.append(ActorActionRequest.new(actor, "attack", [aoe_target]))
+			return actions_array
 	
 	if aoe_target == null:
 		actions_array.append(ActorActionRequest.new(actor, "wait"))

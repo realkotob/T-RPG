@@ -23,7 +23,7 @@ func update_portrait(actor: TRPG_Actor):
 	portrait_node.set_texture(actor.portrait)
 	
 	# Update the portrait background
-	if actor is Enemy:
+	if actor.is_in_group("Enemies"):
 		$PortraitContainer/Background.set_modulate(ENEMY_COLOR)
 	else:
 		$PortraitContainer/Background.set_modulate(ALLY_COLOR)
