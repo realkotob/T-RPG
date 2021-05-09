@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://BabaGodotLib/Isometric/IsoObjects/TRPG_Actor.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Actors/Allies/States/TRPG_ActorIdleState.gd" type="Script" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://Scenes/Actors/Allies/States/TRPG_ActorSkillState.gd" type="Script" id=12]
 [ext_resource path="res://Resources/AOE/AOE_AreaType/AOE_Type_Circle.tres" type="Resource" id=13]
 [ext_resource path="res://Resources/CombatEffect.gd" type="Script" id=14]
+[ext_resource path="res://BabaGodotLib/Absract/StateMachine/StateLabel.gd" type="Script" id=15]
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 10 )
@@ -63,12 +64,26 @@ script = ExtResource( 5 )
 
 [node name="Attack" type="Node" parent="States" index="2"]
 script = ExtResource( 11 )
+toggle_state_mode = true
 
 [node name="Hurt" type="Node" parent="States" index="3"]
 script = ExtResource( 6 )
+toggle_state_mode = true
 
 [node name="Skill" type="Node" parent="States" index="4"]
 script = ExtResource( 12 )
+toggle_state_mode = true
+
+[node name="StateLabel" type="Label" parent="States" index="5"]
+visible = false
+margin_left = -19.6441
+margin_top = -42.6614
+margin_right = 20.3559
+margin_bottom = -28.6614
+script = ExtResource( 15 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="." index="2"]
 frames = SubResource( 4 )

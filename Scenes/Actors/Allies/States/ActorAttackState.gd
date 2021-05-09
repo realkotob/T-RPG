@@ -10,7 +10,6 @@ func get_class() -> String: return "ActorAttackState"
 #### BUILT-IN ####
 
 
-
 #### VIRTUALS ####
 
 

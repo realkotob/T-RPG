@@ -87,5 +87,5 @@ func _on_cursor_cell_changed(cursor: Cursor, cell: Vector3):
 	if is_current_state():
 		if owner.active_actor.get_state_name() == "Idle":
 			set_path(cell, owner.active_actor.get_current_cell())
-			var targets = owner.map_node.count_reachable_enemies(cell)
+			var targets = owner.map_node.count_reachable_enemies(owner.active_actor, cell)
 			cursor.set_targets(targets)

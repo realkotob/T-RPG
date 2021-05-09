@@ -21,7 +21,7 @@ var previous_actor : TRPG_Actor = null
 
 var future_actors_order : Array
 var is_ready : bool = false
-var fog_of_war : bool = true
+export var fog_of_war : bool = true
 
 signal active_actor_changed
 
@@ -62,6 +62,7 @@ func _ready() -> void:
 	_err = map_node.connect("map_generation_finished", self, "_on_map_generation_finished")
 	_err = EVENTS.connect("timeline_movement_finished", self, "_on_timeline_movement_finished")
 	_err = EVENTS.connect("actor_action_chosen", self, "_on_actor_action_chosen")
+	_err = EVENTS.connect("actor_action_finished", self, "_on_actor_action_finished")
 	
 	HUD_node.generate_timeline(actors_order)
 	focused_objects_array = [cursor_node, active_actor]
@@ -82,16 +83,15 @@ func new_turn():
 	previous_actor = active_actor
 	set_active_actor(actors_order[0])
 	var __ = active_actor.connect("turn_finished", self, "_on_active_actor_turn_finished")
-	__ = active_actor.connect("action_finished", self, "_on_active_actor_action_finished")
 	
 	on_focus_changed()
+	active_actor.turn_start()
 	
 	if active_actor.is_in_group("Allies"):
 		set_state("Overlook")
 	else:
 		set_state("EnemyTurn")
 	
-	active_actor.turn_start()
 	HUD_node.update_actions_left(active_actor)
 	EVENTS.emit_signal("combat_new_turn_started", active_actor)
 
@@ -99,7 +99,6 @@ func new_turn():
 # End of turn procedure, called right before a new turn start
 func end_turn():
 	active_actor.disconnect("turn_finished", self, "_on_active_actor_turn_finished")
-	active_actor.disconnect("action_finished", self, "_on_active_actor_action_finished")
 	
 	# Change the order of the timeline
 	set_future_actors_order(actors_order)
@@ -190,11 +189,12 @@ func _on_actor_action_chosen(action_name: String):
 	set_state(action_name.capitalize())
 
 
-func _on_active_actor_action_finished() -> void:
-	if active_actor.is_in_group("Allies"):
-		set_state("Overlook")
-	else:
-		$CombatState/EnemyTurn.enemy_action()
+func _on_actor_action_finished(actor: TRPG_Actor) -> void:
+	if actor == active_actor:
+		if active_actor.is_in_group("Allies"):
+			set_state("Overlook")
+		else:
+			$CombatState/EnemyTurn.enemy_action()
 
 func _on_active_actor_turn_finished() -> void:
 	end_turn()

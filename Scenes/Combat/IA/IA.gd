@@ -41,7 +41,7 @@ func make_decision(actor: TRPG_Actor, map: CombatIsoMap) -> Array:
 		if !with_moving_targets.empty():
 			aoe_target = determine_target(actor, with_moving_targets)
 			var path_to_reach = map.pathfinding.find_path_to_reach(actor_cell, aoe_target.target_cell)
-			path_to_reach.resize(actor_movement)
+			path_to_reach.resize(int(clamp(actor_movement, 0, path_to_reach.size())))
 			
 			actions_array.append(ActorActionRequest.new(actor, "move", [path_to_reach]))
 			actions_array.append(ActorActionRequest.new(actor, "attack", [aoe_target]))
