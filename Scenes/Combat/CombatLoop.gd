@@ -63,6 +63,7 @@ func _ready() -> void:
 	_err = EVENTS.connect("timeline_movement_finished", self, "_on_timeline_movement_finished")
 	_err = EVENTS.connect("actor_action_chosen", self, "_on_actor_action_chosen")
 	_err = EVENTS.connect("actor_action_finished", self, "_on_actor_action_finished")
+	_err = EVENTS.connect("actor_cell_changed", self, "_on_actor_cell_changed")
 	
 	HUD_node.generate_timeline(actors_order)
 	focused_objects_array = [cursor_node, active_actor]
@@ -83,6 +84,7 @@ func new_turn():
 	previous_actor = active_actor
 	set_active_actor(actors_order[0])
 	var __ = active_actor.connect("turn_finished", self, "_on_active_actor_turn_finished")
+	__ = active_actor.connect("action_spent", self, "_on_active_actor_action_spent")
 	
 	on_focus_changed()
 	active_actor.turn_start()
@@ -99,6 +101,7 @@ func new_turn():
 # End of turn procedure, called right before a new turn start
 func end_turn():
 	active_actor.disconnect("turn_finished", self, "_on_active_actor_turn_finished")
+	active_actor.disconnect("action_spent", self, "_on_active_actor_action_spent")
 	
 	# Change the order of the timeline
 	set_future_actors_order(actors_order)
@@ -113,6 +116,30 @@ func first_become_last(array : Array) -> void:
 	array.append(first)
 
 
+func update_view_field() -> void:
+	for actor in actors_order:
+		map_node.update_view_field(actor)
+	
+	var allies_view_field = allies_team.get_view_field()
+	
+	# Give every objects its visibility
+	for obj in get_tree().get_nodes_in_group("IsoObject"):
+		var obj_cell = obj.get_current_cell()
+		var visibility = IsoObject.VISIBILITY.VISIBLE
+		
+		if obj_cell in allies_view_field[IsoObject.VISIBILITY.BARELY_VISIBLE]:
+			visibility = IsoObject.VISIBILITY.BARELY_VISIBLE
+		elif not obj_cell in allies_view_field[IsoObject.VISIBILITY.VISIBLE]:
+			if obj.is_in_group("Enemies"):
+				visibility = IsoObject.VISIBILITY.HIDDEN
+			else:
+				visibility = IsoObject.VISIBILITY.NOT_VISIBLE
+		
+		obj.set_visibility(visibility)
+	
+	$Renderer.set_visible_cells(allies_view_field)
+
+
 #### INPUTS ####
 
 func _input(_event: InputEvent) -> void:
@@ -125,8 +152,7 @@ func _input(_event: InputEvent) -> void:
 #### SIGNALS ####
 
 func _on_map_generation_finished():
-	for actor in actors_order:
-		map_node.update_view_field(actor)
+	update_view_field()
 
 
 # Triggered when the timeline movement is finished
@@ -156,33 +182,16 @@ func on_object_unfocused(focus_obj: IsoObject):
 	focused_objects_array.erase(focus_obj)
 
 
-func on_action_spent():
+func _on_active_actor_action_spent():
 	HUD_node.update_actions_left(active_actor)
 
 
-func on_actor_wait():
-	set_state("Wait")
+func _on_actor_cell_changed(_actor: TRPG_Actor):
+	update_view_field()
 
 
 func _on_visible_cells_changed():
-	var allies_view_field = allies_team.get_view_field()
-	
-	# Give every objects its visibility
-	for obj in get_tree().get_nodes_in_group("IsoObject"):
-		var obj_cell = obj.get_current_cell()
-		var visibility = IsoObject.VISIBILITY.VISIBLE
-		
-		if obj_cell in allies_view_field[IsoObject.VISIBILITY.BARELY_VISIBLE]:
-			visibility = IsoObject.VISIBILITY.BARELY_VISIBLE
-		elif not obj_cell in allies_view_field[IsoObject.VISIBILITY.VISIBLE]:
-			if obj.is_in_group("Enemies"):
-				visibility = IsoObject.VISIBILITY.HIDDEN
-			else:
-				visibility = IsoObject.VISIBILITY.NOT_VISIBLE
-		
-		obj.set_visibility(visibility)
-	
-	$Renderer.set_visible_cells(allies_view_field)
+	update_view_field()
 
 
 func _on_actor_action_chosen(action_name: String):
@@ -195,6 +204,7 @@ func _on_actor_action_finished(actor: TRPG_Actor) -> void:
 			set_state("Overlook")
 		else:
 			$CombatState/EnemyTurn.enemy_action()
+
 
 func _on_active_actor_turn_finished() -> void:
 	end_turn()
