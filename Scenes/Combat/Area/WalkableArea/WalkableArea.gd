@@ -1,6 +1,8 @@
 extends Node2D
 class_name AreaContainer
 
+const MAX_INSTANCE_PER_FRAME : int = 10
+
 onready var map_node = owner
 
 var area_dict = {
@@ -17,12 +19,20 @@ signal area_destroyed
 func clear(type_name: String = ""):
 	if type_name == "":
 		for container in get_children():
-			for area in container.get_children():
-				area.destroy()
+			clear_container(container)
 	else:
 		var container = get_node(type_name.capitalize())
-		for child in container.get_children():
-			child.destroy()
+		clear_container(container)
+
+
+# Destroy every area instance in the given container
+func clear_container(container: Node) -> void:
+	var area_array = container.get_children()
+	for i in range(area_array.size()):
+		if i % MAX_INSTANCE_PER_FRAME == 0:
+			yield(get_tree(), "idle_frame")
+		var area = area_array[i]
+		area.destroy()
 	
 	emit_signal("area_destroyed")
 
@@ -36,14 +46,18 @@ func draw_area(cell_array : Array, area_type_name: String) -> void:
 	if area_type_name in area_dict_keys:
 		new_area_type = area_dict[area_type_name]
 	
-	for cell in cell_array:
+	for i in range(cell_array.size()):
+		if i % MAX_INSTANCE_PER_FRAME == 0:
+			yield(get_tree(), "idle_frame")
+		
+		var cell = cell_array[i]
 		var slope_type = map_node.get_cell_slope_type(cell)
 		var pos = owner.cell_to_world(cell)
 		var new_area = new_area_type.instance()
 		new_area.set_current_cell(cell - Vector3(0, 0, 0.5) * int(slope_type != 0))
 		new_area.set_position(pos)
 		new_area.set_slope_type(slope_type)
-		container.add_child(new_area)
+		container.call_deferred("add_child", new_area)
 	
 	emit_signal("area_created")
 
