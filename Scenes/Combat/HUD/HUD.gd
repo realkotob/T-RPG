@@ -40,7 +40,6 @@ func hide_active_actor_infos(value : bool):
 	active_actor_infos_node.set_visble(!value)
 
 
-
 # Update the display of actions left each time it's called
 # Usually called on each new turn, and after each actions
 # Can also be called when a malus is applied to the actor

@@ -80,7 +80,7 @@ __meta__ = {
 }
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 297.5, 181 )
+position = Vector2( 290, 184 )
 z_index = 999
 current = true
 
