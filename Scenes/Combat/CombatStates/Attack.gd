@@ -1,4 +1,4 @@
-extends NestedPushdownAutomata
+extends PushdownAutomata
 
 #### COMBAT ATTACK STATE ####
 
@@ -20,7 +20,7 @@ func enter_state():
 
 func on_cancel_input():
 	if is_current_state():
-		states_machine.set_state("Overlook")
+		get_parent().set_state("Overlook")
 
 
 #### LOGIC ####

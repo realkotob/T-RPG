@@ -9,12 +9,12 @@
 [ext_resource path="res://Scenes/Combat/Timeline/Timeline.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/Combat/ActorTeam.gd" type="Script" id=8]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Gauge/HUD_Gauge.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Scenes/Combat/CombatStates/Move.gd" type="Script" id=10]
+[ext_resource path="res://BabaGodotLib/Absract/StateMachine/StateMachine.gd" type="Script" id=10]
 [ext_resource path="res://Scenes/Combat/HUD/HUD.gd" type="Script" id=11]
 [ext_resource path="res://Scenes/Combat/CombatStates/Overlook.gd" type="Script" id=12]
 [ext_resource path="res://Scenes/Combat/CombatLoop.gd" type="Script" id=13]
 [ext_resource path="res://Scenes/Actors/Enemies/Slime/BlueSlime.tscn" type="PackedScene" id=14]
-[ext_resource path="res://Scenes/Combat/CombatStatesMachine.gd" type="Script" id=15]
+[ext_resource path="res://BabaGodotLib/Absract/StateMachine/PushdownAutomata/PushdownAutomata.gd" type="Script" id=15]
 [ext_resource path="res://Scenes/Combat/IA/IA.gd" type="Script" id=16]
 [ext_resource path="res://Scenes/Combat/CombatStates/Attack.gd" type="Script" id=17]
 [ext_resource path="res://Scenes/Combat/CombatStates/Skills.gd" type="Script" id=18]
@@ -85,13 +85,13 @@ z_index = 999
 current = true
 
 [node name="CombatState" type="Node2D" parent="."]
-script = ExtResource( 15 )
+script = ExtResource( 10 )
 
 [node name="Overlook" type="Node" parent="CombatState"]
 script = ExtResource( 12 )
 
 [node name="Move" type="Node2D" parent="CombatState"]
-script = ExtResource( 10 )
+script = ExtResource( 15 )
 reset_to_default = true
 
 [node name="DestinationChoice" type="Node" parent="CombatState/Move"]
@@ -125,7 +125,6 @@ script = ExtResource( 31 )
 
 [node name="Item" type="Node2D" parent="CombatState"]
 script = ExtResource( 19 )
-reset_to_default = true
 
 [node name="OptionChoice" type="Node" parent="CombatState/Item"]
 script = ExtResource( 24 )

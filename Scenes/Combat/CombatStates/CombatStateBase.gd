@@ -17,7 +17,7 @@ func _ready():
 #### LOGIC ####
 
 func enter_state():
-	owner.HUD_node.set_every_action_disabled()
+	EVENTS.emit_signal("disable_actions")
 
 func exit_state():
 	owner.area_node.clear()

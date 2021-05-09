@@ -18,8 +18,7 @@ func enter_state():
 	
 	EVENTS.emit_signal("add_action_submenu", option_array, "Skill")
 	
-	set_state("OptionChoice")
-	emit_signal("state_changed", "OptionChoice")
+	.enter_state()
 
 #### SIGNAL RESPONSES ####
 

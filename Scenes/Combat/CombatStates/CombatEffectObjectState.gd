@@ -1,4 +1,4 @@
-extends NestedPushdownAutomata
+extends PushdownAutomata
 class_name CombatEffectObjectState
 
 var combat_effect_obj : CombatEffectObject = null
@@ -19,6 +19,7 @@ func _ready() -> void:
 
 func exit_state():
 	combat_effect_obj = null
+	.exit_state()
 
 
 #### LOGIC ####

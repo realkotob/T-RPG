@@ -13,7 +13,7 @@ var actions_array := Array()
 #### VIRTUALS ####
 
 func enter_state():
-	EVENTS.emit_signal("disable_actions")
+	.enter_state()
 	enemy_action()
 
 

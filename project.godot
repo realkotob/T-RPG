@@ -149,7 +149,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Resources/CombatEffectObject/CombatEffectObject.gd"
 }, {
-"base": "NestedPushdownAutomata",
+"base": "PushdownAutomata",
 "class": "CombatEffectObjectState",
 "language": "GDScript",
 "path": "res://Scenes/Combat/CombatStates/CombatEffectObjectState.gd"
@@ -168,11 +168,6 @@ _global_script_classes=[ {
 "class": "CombatStateBase",
 "language": "GDScript",
 "path": "res://Scenes/Combat/CombatStates/CombatStateBase.gd"
-}, {
-"base": "StatesMachine",
-"class": "CombatStateMachine",
-"language": "GDScript",
-"path": "res://Scenes/Combat/CombatStatesMachine.gd"
 }, {
 "base": "IsoObject",
 "class": "Cursor",
@@ -388,16 +383,6 @@ _global_script_classes=[ {
 "class": "MovementArrowSegment",
 "language": "GDScript",
 "path": "res://Scenes/MovementArrow/MovementArrowSegment.gd"
-}, {
-"base": "PushdownAutomata",
-"class": "NestedPushdownAutomata",
-"language": "GDScript",
-"path": "res://BabaGodotLib/Absract/StateMachine/PushdownAutomata/NestedPushdownAutomata.gd"
-}, {
-"base": "StatesMachine",
-"class": "NestedStatesMachine",
-"language": "GDScript",
-"path": "res://BabaGodotLib/Absract/StateMachine/NestedStatesMachine.gd"
 }, {
 "base": "LineData",
 "class": "NormalLineData",
@@ -682,7 +667,6 @@ _global_script_class_icons={
 "CombatIsoMap": "",
 "CombatLoop": "",
 "CombatStateBase": "",
-"CombatStateMachine": "",
 "Cursor": "",
 "DamageContainer": "",
 "DescriptionWindow": "",
@@ -726,8 +710,6 @@ _global_script_class_icons={
 "MenuOptionsBase": "",
 "MovementArrow": "",
 "MovementArrowSegment": "",
-"NestedPushdownAutomata": "",
-"NestedStatesMachine": "",
 "NormalLineData": "",
 "Obstacle": "",
 "OptionChoiceState": "",

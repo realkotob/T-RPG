@@ -1,3 +1,3 @@
-extends NestedPushdownAutomata
+extends PushdownAutomata
 
 #### COMBAT MOVE STATE ####
