@@ -58,7 +58,6 @@ func _ready() -> void:
 	_err = combat_state_node.connect("state_changed", debug_panel, "_on_combat_state_changed")
 	_err = combat_state_node.connect("substate_changed", debug_panel, "_on_combat_substate_changed")
 	_err = EVENTS.connect("visible_cells_changed", self, "_on_visible_cells_changed")
-	_err = area_node.connect("area_created", self, "on_area_created")
 	_err = map_node.connect("map_generation_finished", self, "_on_map_generation_finished")
 	_err = EVENTS.connect("timeline_movement_finished", self, "_on_timeline_movement_finished")
 	_err = EVENTS.connect("actor_action_chosen", self, "_on_actor_action_chosen")
@@ -121,7 +120,7 @@ func update_view_field() -> void:
 		map_node.update_view_field(actor)
 
 
-func update_renderer_visibility() -> void:
+func update_view_field_rendering() -> void:
 	var allies_view_field = allies_team.get_view_field()
 	
 	# Give every objects its visibility
@@ -167,9 +166,6 @@ func _on_timeline_movement_finished():
 	new_turn()
 
 
-func on_area_created():
-	pass
-
 func on_focus_changed():
 	$Renderer.set_focus_array([active_actor, cursor_node])
 
@@ -193,7 +189,7 @@ func _on_actor_cell_changed(_actor: TRPG_Actor):
 
 
 func _on_visible_cells_changed():
-	update_renderer_visibility()
+	update_view_field_rendering()
 
 
 func _on_actor_action_chosen(action_name: String):

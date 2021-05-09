@@ -56,8 +56,13 @@ func make_decision(actor: TRPG_Actor, map: CombatIsoMap) -> Array:
 
 
 func find_damagables_in_range(actor: TRPG_Actor, actor_range: int, map: CombatIsoMap) -> Array:
-	## Take line of sight in account ##
-	return map.get_targetables_in_range(actor, actor_range)
+	var reachables = map.get_targetables_in_range(actor, actor_range)
+	var targetables = []
+	for target in reachables:
+		if actor.can_see(target):
+			targetables.append(target)
+	
+	return targetables
 
 
 func determine_target(actor: TRPG_Actor, targetables: Array) -> AOE_Target:
