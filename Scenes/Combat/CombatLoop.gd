@@ -119,7 +119,9 @@ func first_become_last(array : Array) -> void:
 func update_view_field() -> void:
 	for actor in actors_order:
 		map_node.update_view_field(actor)
-	
+
+
+func update_renderer_visibility() -> void:
 	var allies_view_field = allies_team.get_view_field()
 	
 	# Give every objects its visibility
@@ -191,7 +193,7 @@ func _on_actor_cell_changed(_actor: TRPG_Actor):
 
 
 func _on_visible_cells_changed():
-	update_view_field()
+	update_renderer_visibility()
 
 
 func _on_actor_action_chosen(action_name: String):
