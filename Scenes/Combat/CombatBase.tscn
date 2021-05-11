@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://BabaGodotLib/Isometric/IsoRenderer/IsoRenderer.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Combat/DebugPanel/DebugPanel.gd" type="Script" id=2]
@@ -33,21 +33,13 @@
 [ext_resource path="res://Scenes/Combat/Animation.gd" type="Script" id=31]
 [ext_resource path="res://Scenes/Combat/TargetChoice.gd" type="Script" id=32]
 [ext_resource path="res://Scenes/Combat/DamageContainer.gd" type="Script" id=33]
-[ext_resource path="res://Resources/CombatEffect.gd" type="Script" id=34]
+[ext_resource path="res://Resources/Effect.gd" type="Script" id=34]
 [ext_resource path="res://Scenes/Combat/DestinationChoice.gd" type="Script" id=35]
-[ext_resource path="res://Resources/AOE/AOE_AreaType/AOE_Type_Circle.tres" type="Resource" id=36]
 [ext_resource path="res://Scenes/Combat/Obstacles/Crate/Crate.tscn" type="PackedScene" id=37]
-[ext_resource path="res://Resources/AOE/AOE.gd" type="Script" id=38]
 [ext_resource path="res://Scenes/Combat/Map/Layer.tscn" type="PackedScene" id=39]
 [ext_resource path="res://AbstractClasses/ActorStats.gd" type="Script" id=40]
 
 [sub_resource type="Resource" id=1]
-script = ExtResource( 38 )
-area_type = ExtResource( 36 )
-area_size = 1
-range_size = 1
-
-[sub_resource type="Resource" id=2]
 script = ExtResource( 34 )
 nb_hits = 1
 damage = 5
@@ -56,7 +48,7 @@ damage_type = 1
 ailment_array = [  ]
 ailment_mode = 1
 
-[sub_resource type="Resource" id=3]
+[sub_resource type="Resource" id=2]
 script = ExtResource( 40 )
 HP = 10
 MP = 10
@@ -66,7 +58,7 @@ attack_range = 1
 defense = 0
 view_range = 5
 
-[sub_resource type="Resource" id=4]
+[sub_resource type="Resource" id=3]
 script = ExtResource( 34 )
 nb_hits = 1
 damage = 5
@@ -168,8 +160,7 @@ inventory = [ [ ExtResource( 28 ), 3 ] ]
 
 [node name="Character" parent="Map/Interactives/Actors/Allies" instance=ExtResource( 4 )]
 position = Vector2( 319.807, 135.148 )
-default_attack_aoe = SubResource( 1 )
-default_attack_effect = SubResource( 2 )
+default_attack_effect = SubResource( 1 )
 skills = [ ExtResource( 30 ) ]
 
 [node name="Enemies" type="Node2D" parent="Map/Interactives/Actors"]
@@ -177,10 +168,8 @@ script = ExtResource( 8 )
 
 [node name="BlueSlime" parent="Map/Interactives/Actors/Enemies" instance=ExtResource( 14 )]
 position = Vector2( 271.179, 110.205 )
-height = 1
-MaxStats = SubResource( 3 )
-default_attack_aoe = SubResource( 1 )
-default_attack_effect = SubResource( 4 )
+MaxStats = SubResource( 2 )
+default_attack_effect = SubResource( 3 )
 
 [node name="Obstacles" type="Node2D" parent="Map/Interactives" index="3"]
 __meta__ = {
@@ -432,9 +421,6 @@ __meta__ = {
 }
 
 [editable path="Map"]
-
 [editable path="Map/Layer"]
-
 [editable path="Map/Layer2"]
-
 [editable path="Map/Layer3"]

@@ -142,7 +142,7 @@ _global_script_classes=[ {
 "base": "Object",
 "class": "CombatEffectHandler",
 "language": "GDScript",
-"path": "res://Static/CombatEffectCalculation.gd"
+"path": "res://Static/CombatEffectHandler.gd"
 }, {
 "base": "GameObject",
 "class": "CombatEffectObject",
@@ -197,7 +197,7 @@ _global_script_classes=[ {
 "base": "Resource",
 "class": "Effect",
 "language": "GDScript",
-"path": "res://Resources/CombatEffect.gd"
+"path": "res://Resources/Effect.gd"
 }, {
 "base": "Node",
 "class": "EventsBase",
@@ -853,6 +853,6 @@ rotateCCW={
 
 [rendering]
 
-quality/2d/use_pixel_snap=true
-environment/default_environment="res://default_env.tres"
 2d/snapping/use_gpu_pixel_snap=true
+environment/default_environment="res://default_env.tres"
+quality/2d/use_pixel_snap=true

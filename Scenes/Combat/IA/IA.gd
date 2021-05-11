@@ -82,14 +82,31 @@ func compute_attack_coefficient(attack_request: ActorActionRequest, map: IsoMap)
 	var attacker_team = attacker.get_team()
 	var aoe_target : AOE_Target = attack_request.arguments[0]
 	var targets_array = map.get_damagable_in_area(aoe_target)
+	var attack_effect = attacker.get_current_attack_effect()
 	
 	for target in targets_array:
-		var target_type_name = "" 
+		var target_type_name = ""
+		var coef_modifier : int = 0 
 		if target.is_class("TRPG_Actor"):
 			target_type_name = "ally" if target.get_team() == attacker_team else "enemy"
+			
+			var avg_damage = attack_effect.damage
+			var received_damage = CombatEffectHandler.compute_received_damage(avg_damage, target)
+			var target_max_HP = target.get_max_HP()
+			var HP_lost_ratio : float = float(received_damage) / float(target_max_HP)
+			var HP_left = clamp(target_max_HP - received_damage, 0.0, target_max_HP)
+			var HP_left_ratio : float = HP_left / target_max_HP
+			
+			if HP_left_ratio < 0.25:
+				coef_modifier = 15
+			elif HP_left_ratio == 0.0:
+				coef_modifier = 30
+			elif HP_lost_ratio > 0.2:
+				coef_modifier = 10
+			
 		else:
 			target_type_name = "obstacle"
-		coefficient += target_coef_modifier_dict[target_type_name]
+		coefficient += target_coef_modifier_dict[target_type_name] + coef_modifier
 	
 	return coefficient
 
@@ -105,9 +122,8 @@ func create_action_from_target(actor: TRPG_Actor, map: IsoMap, aoe_target: AOE_T
 	if target_dist > actor_range:
 		var path_to_reach = map.pathfinding.find_path_to_reach(actor_cell, aoe_target.target_cell)
 		path_to_reach.resize(int(clamp(actor_movement, 0, path_to_reach.size())))
-
+	
 		actions_array.push_front(ActorActionRequest.new(actor, "move", [path_to_reach]))
-
 	
 	return actions_array
 
@@ -117,7 +133,7 @@ func convert_targetables_to_aoe_targets(actor: TRPG_Actor, targetables: Array) -
 	for target in targetables:
 		aoe_targets_array.append(AOE_Target.new(actor.get_current_cell(), 
 				target.get_current_cell(), 
-				actor.get_default_attack_aoe()))
+				actor.get_attack_aoe()))
 	
 	return aoe_targets_array
 

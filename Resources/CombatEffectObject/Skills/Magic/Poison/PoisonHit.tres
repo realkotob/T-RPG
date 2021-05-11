@@ -1,9 +1,10 @@
 [gd_resource type="Resource" load_steps=7 format=2]
 
 [ext_resource path="res://Resources/CombatEffectObject/Skills/Skill.gd" type="Script" id=1]
-[ext_resource path="res://Resources/CombatEffect.gd" type="Script" id=2]
+[ext_resource path="res://Resources/Effect.gd" type="Script" id=2]
 [ext_resource path="res://Resources/AOE/AOE.gd" type="Script" id=3]
 [ext_resource path="res://Resources/AOE/AOE_AreaType/AOE_Type_LineForward.tres" type="Resource" id=4]
+
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 3 )

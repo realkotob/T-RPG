@@ -3,10 +3,6 @@ class_name CombatEffectHandler
 
 #### ACCESSORS ####
 
-func is_class(value: String): return value == "CombatEffectCalculation" or .is_class(value)
-func get_class() -> String: return "CombatEffectCalculation"
-
-
 #### BUILT-IN ####
 
 
@@ -23,13 +19,16 @@ static func compute_damage(effect: Effect, _caster: IsoObject, target: TRPG_Dama
 	
 	for _i in range(effect.nb_hits):
 		var variance = rand_range(-effect.damage_variance, effect.damage_variance)
-		var in_damage = effect.damage + (effect.damage * variance)
+		var emitted_damage = effect.damage + (effect.damage * variance)
 		
-		var out_damage = in_damage - target.get_defense() if in_damage > 0 else in_damage
-		damage_array.append(out_damage)
+		var received_damage = compute_received_damage(emitted_damage, target)
+		damage_array.append(received_damage)
 	
 	return damage_array
 
+
+static func compute_received_damage(emitted_damage: int, target: TRPG_DamagableObject) -> int:
+	return emitted_damage - target.get_defense() if emitted_damage > 0 else emitted_damage
 
 
 #### INPUTS ####
