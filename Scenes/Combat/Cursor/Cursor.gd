@@ -89,12 +89,6 @@ func find_wanted_cell(cell_stack : PoolVector3Array) -> Vector3:
 		next_cell = find_nearest_z_cell(cell_stack, current_cell)
 	elif cell_stack.size() == 1:
 		next_cell = map_node.get_pos_highest_cell(mouse_pos)
-
-# Get the highest cell at the mouse position based on the current cell z
-#### DOESN'T BEHAVE AS EXPECTED FOR NOW ####
-#	if next_cell == Vector3.INF:
-#		var ground0_cell = map_node.world_to_ground_z(mouse_pos, current_cell.z)
-#		return map_node.find_2D_cell(ground0_cell)
 	
 	return next_cell
 

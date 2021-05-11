@@ -29,6 +29,13 @@ func _ready() -> void:
 
 #### LOGIC ####
 
+func is_actor_in_team(actor: TRPG_Actor) -> bool:
+	for child in get_children():
+		if child == actor:
+			return true
+	return false
+
+
 func is_cell_in_view_field(cell: Vector3):
 	for array in get_view_field():
 		if cell in array:
