@@ -16,8 +16,8 @@ signal max_z_changed
 
 func set_current_cell(value: Vector3):
 	if value != current_cell:
-		current_cell = value
 		if !map_node.is_outside_map_bounds(value):
+			current_cell = value
 			EVENTS.emit_signal("cursor_cell_changed", self, current_cell)
 			EVENTS.emit_signal("iso_object_cell_changed", self)
 			emit_signal("cell_changed", current_cell)
@@ -59,21 +59,18 @@ func update_cursor_pos():
 		
 		var cell_stack = map_node.get_cell_stack_at_pos(mouse_pos)
 		set_current_cell(find_wanted_cell(cell_stack))
-		
-#		current_cell_max_z = cell_stack.size() - 1
-#		set_max_z(int(current_cell.z + 1))
 	
 	# Set the cursor to the right position
 	set_global_position(map_node.cell_to_world(current_cell))
 
 
 func get_target() -> TRPG_DamagableObject:
-	return map_node.get_object_on_cell(current_cell)
+	return map_node.get_damagable_on_cell(current_cell)
 
 
 func move_cursor(movement: Vector2):
 	var future_2D_cell = Vector2(current_cell.x + movement.x, current_cell.y + movement.y) 
-	var highest_layer = map_node.get_cell_highest_layer(future_2D_cell)
+	var highest_layer = map_node.get_cell2D_highest_z(future_2D_cell)
 	set_current_cell(Vector3(future_2D_cell.x, future_2D_cell.y, highest_layer))
 
 
@@ -124,13 +121,13 @@ func _input(_event):
 	elif Input.is_action_just_pressed("ui_left"):
 		move_cursor(Vector2.LEFT)
 
-	if !Input.is_action_just_pressed("NextLayer") && !Input.is_action_just_pressed("PreviousLayer"):
-		return
-	
 	var cell_stack = Array(map_node.get_cell_stack_at_pos(mouse_pos))
 	var index = cell_stack.find(current_cell)
 	
 	if cell_stack.empty():
+		return
+	
+	if !Input.is_action_just_pressed("NextLayer") && !Input.is_action_just_pressed("PreviousLayer"):
 		return
 	
 	if Input.is_action_just_pressed("PreviousLayer"):

@@ -778,7 +778,6 @@ GAME="*res://Global/Autoloads/GAME.gd"
 
 window/size/width=640
 window/size/height=360
-window/size/fullscreen=true
 window/size/test_width=640
 window/size/test_height=360
 window/vsync/use_vsync=false
