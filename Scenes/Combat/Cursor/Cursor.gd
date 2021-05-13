@@ -16,7 +16,7 @@ signal max_z_changed
 
 func set_current_cell(value: Vector3):
 	if value != current_cell:
-		if !map_node.is_outside_map_bounds(value):
+		if map_node.is_cell_ground(value):
 			current_cell = value
 			EVENTS.emit_signal("cursor_cell_changed", self, current_cell)
 			EVENTS.emit_signal("iso_object_cell_changed", self)
@@ -53,7 +53,7 @@ func update_cursor_pos():
 	mouse_pos = get_global_mouse_position()
 	
 	# Snap to the grid
-	var new_grid2D_cell = map_node.world_to_ground_z(mouse_pos, 0)
+	var new_grid2D_cell = map_node.world_to_layer_2D_cell(mouse_pos, 0)
 	if new_grid2D_cell != grid2D_position:
 		grid2D_position = new_grid2D_cell
 		

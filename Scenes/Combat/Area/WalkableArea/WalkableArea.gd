@@ -51,7 +51,7 @@ func draw_area(cell_array : Array, area_type_name: String) -> void:
 			yield(get_tree(), "idle_frame")
 		
 		var cell = cell_array[i]
-		var slope_type = map_node.get_cell_slope_type(cell)
+		var slope_type = map_node.get_cell_slope_type_v3(cell)
 		var pos = owner.cell_to_world(cell)
 		var new_area = new_area_type.instance()
 		new_area.set_current_cell(cell - Vector3(0, 0, 0.5) * int(slope_type != 0))
