@@ -2,14 +2,14 @@ extends Node
 
 onready var action_menu_node = $ActionMenu
 onready var action_buttons_array = $ActionMenu.get_children()
-onready var active_actor_infos_node = $ActiveActorInfos
-onready var actions_left_node = $ActiveActorInfos/ActionsLeft
+onready var actor_infos_node = $ActorInfos
+onready var actions_left_node = $ActorInfos/ActionsLeft
 onready var timeline_node = $Timeline
-onready var height_node = $ActiveActorInfos/Height
+onready var height_node = $ActorInfos/Height
 
 func _ready():
 	action_menu_node.set_visible(true)
-	active_actor_infos_node.set_visible(true)
+	actor_infos_node.set_visible(true)
 	timeline_node.set_visible(true)
 
 
@@ -37,7 +37,7 @@ func update_height(height: int):
 
 # Set the whole actor HUD visible/invisible
 func hide_active_actor_infos(value : bool):
-	active_actor_infos_node.set_visble(!value)
+	actor_infos_node.set_visble(!value)
 
 
 # Update the display of actions left each time it's called

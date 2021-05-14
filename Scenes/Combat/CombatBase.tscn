@@ -213,7 +213,7 @@ script = ExtResource( 33 )
 layer = 2
 script = ExtResource( 11 )
 
-[node name="ActiveActorInfos" type="Control" parent="HUD"]
+[node name="ActorInfos" type="Control" parent="HUD"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -185.0
@@ -226,31 +226,31 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PortraitContainer" type="Position2D" parent="HUD/ActiveActorInfos"]
+[node name="PortraitContainer" type="Position2D" parent="HUD/ActorInfos"]
 position = Vector2( 146.092, 44.9053 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Border" type="Sprite" parent="HUD/ActiveActorInfos/PortraitContainer"]
+[node name="Border" type="Sprite" parent="HUD/ActorInfos/PortraitContainer"]
 texture = ExtResource( 22 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Background" type="Sprite" parent="HUD/ActiveActorInfos/PortraitContainer"]
+[node name="Background" type="Sprite" parent="HUD/ActorInfos/PortraitContainer"]
 modulate = Color( 0.286275, 0.427451, 0.435294, 1 )
 texture = ExtResource( 25 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Portrait" type="Sprite" parent="HUD/ActiveActorInfos/PortraitContainer"]
+[node name="Portrait" type="Sprite" parent="HUD/ActorInfos/PortraitContainer"]
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Gauges" type="VBoxContainer" parent="HUD/ActiveActorInfos"]
+[node name="Gauges" type="VBoxContainer" parent="HUD/ActorInfos"]
 margin_left = 1.0
 margin_top = 13.0
 margin_right = 102.0
@@ -260,7 +260,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HP" parent="HUD/ActiveActorInfos/Gauges" instance=ExtResource( 9 )]
+[node name="HP" parent="HUD/ActorInfos/Gauges" instance=ExtResource( 9 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 101.0
@@ -269,7 +269,7 @@ gauge_color = Color( 1, 0, 0, 1 )
 feedback_gauge_color = Color( 0.501961, 0, 0, 1 )
 shake_feedback_on = true
 
-[node name="Label" type="Label" parent="HUD/ActiveActorInfos/Gauges/HP"]
+[node name="Label" type="Label" parent="HUD/ActorInfos/Gauges/HP"]
 margin_left = -17.0
 margin_top = -1.0
 margin_right = 23.0
@@ -277,7 +277,7 @@ margin_bottom = 18.0
 custom_fonts/font = ExtResource( 23 )
 text = "HP"
 
-[node name="MP" parent="HUD/ActiveActorInfos/Gauges" instance=ExtResource( 9 )]
+[node name="MP" parent="HUD/ActorInfos/Gauges" instance=ExtResource( 9 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 16.0
@@ -286,7 +286,7 @@ margin_bottom = 28.0
 gauge_color = Color( 0, 0.647059, 1, 1 )
 feedback_gauge_color = Color( 0, 0.333333, 0.509804, 1 )
 
-[node name="Label" type="Label" parent="HUD/ActiveActorInfos/Gauges/MP"]
+[node name="Label" type="Label" parent="HUD/ActorInfos/Gauges/MP"]
 margin_left = -17.0
 margin_top = -1.0
 margin_right = 23.0
@@ -294,7 +294,7 @@ margin_bottom = 13.0
 custom_fonts/font = ExtResource( 23 )
 text = "MP"
 
-[node name="ActionsLeft" type="HBoxContainer" parent="HUD/ActiveActorInfos"]
+[node name="ActionsLeft" type="HBoxContainer" parent="HUD/ActorInfos"]
 anchor_left = 0.304
 anchor_top = 0.734
 anchor_right = 0.533
@@ -312,7 +312,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Height" type="Label" parent="HUD/ActiveActorInfos"]
+[node name="Height" type="Label" parent="HUD/ActorInfos"]
 anchor_left = -0.364
 anchor_top = 0.219
 anchor_right = -0.13
@@ -327,7 +327,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Tween" type="Tween" parent="HUD/ActiveActorInfos"]
+[node name="Tween" type="Tween" parent="HUD/ActorInfos"]
 
 [node name="Timeline" parent="HUD" instance=ExtResource( 7 )]
 
@@ -424,9 +424,6 @@ __meta__ = {
 }
 
 [editable path="Map"]
-
 [editable path="Map/Layer"]
-
 [editable path="Map/Layer2"]
-
 [editable path="Map/Layer3"]
