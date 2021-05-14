@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=43 format=2]
 
 [ext_resource path="res://BabaGodotLib/Isometric/IsoRenderer/IsoRenderer.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Combat/DebugPanel/DebugPanel.gd" type="Script" id=2]
@@ -35,6 +35,7 @@
 [ext_resource path="res://Scenes/Combat/DamageContainer.gd" type="Script" id=33]
 [ext_resource path="res://Resources/Effect.gd" type="Script" id=34]
 [ext_resource path="res://Scenes/Combat/DestinationChoice.gd" type="Script" id=35]
+[ext_resource path="res://Scenes/Combat/TeamsContainer.gd" type="Script" id=36]
 [ext_resource path="res://Scenes/Combat/Obstacles/Crate/Crate.tscn" type="PackedScene" id=37]
 [ext_resource path="res://Scenes/Combat/Map/Layer.tscn" type="PackedScene" id=39]
 [ext_resource path="res://AbstractClasses/ActorStats.gd" type="Script" id=40]
@@ -152,21 +153,23 @@ z_index = 99
 [node name="Cursor" parent="Map/Interactives" index="1"]
 position = Vector2( 352, 200 )
 
-[node name="Actors" type="Node2D" parent="Map/Interactives" index="2"]
+[node name="ActorTeams" type="Node2D" parent="Map/Interactives" index="2"]
+script = ExtResource( 36 )
 
-[node name="Allies" type="Node2D" parent="Map/Interactives/Actors"]
+[node name="Allies" type="Node2D" parent="Map/Interactives/ActorTeams"]
 script = ExtResource( 8 )
+team_side = 0
 inventory = [ [ ExtResource( 28 ), 3 ] ]
 
-[node name="Character" parent="Map/Interactives/Actors/Allies" instance=ExtResource( 4 )]
+[node name="Character" parent="Map/Interactives/ActorTeams/Allies" instance=ExtResource( 4 )]
 position = Vector2( 319.807, 135.148 )
 default_attack_effect = SubResource( 1 )
 skills = [ ExtResource( 30 ) ]
 
-[node name="Enemies" type="Node2D" parent="Map/Interactives/Actors"]
+[node name="Enemies" type="Node2D" parent="Map/Interactives/ActorTeams"]
 script = ExtResource( 8 )
 
-[node name="BlueSlime" parent="Map/Interactives/Actors/Enemies" instance=ExtResource( 14 )]
+[node name="BlueSlime" parent="Map/Interactives/ActorTeams/Enemies" instance=ExtResource( 14 )]
 position = Vector2( 271.179, 110.205 )
 MaxStats = SubResource( 2 )
 default_attack_effect = SubResource( 3 )
@@ -421,6 +424,9 @@ __meta__ = {
 }
 
 [editable path="Map"]
+
 [editable path="Map/Layer"]
+
 [editable path="Map/Layer2"]
+
 [editable path="Map/Layer3"]

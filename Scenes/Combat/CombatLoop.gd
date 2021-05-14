@@ -9,9 +9,10 @@ onready var combat_state_node = $CombatState
 onready var HUD_node = $HUD
 onready var debug_panel = $DebugPanel
 onready var pathfinder = $Map/Pathfinding
-onready var allies_team = $Map/Interactives/Actors/Allies
+onready var teams_container = $Map/Interactives/ActorTeams
+onready var allies_team = $Map/Interactives/ActorTeams/Allies
 
-onready var allies_array : Array = get_tree().get_nodes_in_group("Allies") setget set_future_actors_order
+onready var allies_array : Array = get_tree().get_nodes_in_group("Allies")
 onready var actors_order : Array = get_tree().get_nodes_in_group("Actors") setget set_actors_order
 
 var focused_objects_array : Array = []
@@ -57,8 +58,8 @@ func _ready() -> void:
 	_err = cursor_node.connect("max_z_changed", debug_panel, "_on_cursor_max_z_changed")
 	_err = combat_state_node.connect("state_changed", debug_panel, "_on_combat_state_changed")
 	_err = combat_state_node.connect("substate_changed", debug_panel, "_on_combat_substate_changed")
-	_err = EVENTS.connect("visible_cells_changed", self, "_on_visible_cells_changed")
 	_err = map_node.connect("map_generation_finished", self, "_on_map_generation_finished")
+	_err = EVENTS.connect("visible_cells_changed", self, "_on_visible_cells_changed")
 	_err = EVENTS.connect("timeline_movement_finished", self, "_on_timeline_movement_finished")
 	_err = EVENTS.connect("actor_action_chosen", self, "_on_actor_action_chosen")
 	_err = EVENTS.connect("actor_action_finished", self, "_on_actor_action_finished")
@@ -88,7 +89,7 @@ func new_turn():
 	on_focus_changed()
 	active_actor.turn_start()
 	
-	if active_actor.is_in_group("Allies"):
+	if active_actor.is_team_side(ActorTeam.TEAM_TYPE.ALLY):
 		set_state("Overlook")
 	else:
 		set_state("EnemyTurn")
@@ -130,8 +131,9 @@ func update_view_field_rendering() -> void:
 		
 		if obj_cell in allies_view_field[IsoObject.VISIBILITY.BARELY_VISIBLE]:
 			visibility = IsoObject.VISIBILITY.BARELY_VISIBLE
+		
 		elif not obj_cell in allies_view_field[IsoObject.VISIBILITY.VISIBLE]:
-			if obj.is_in_group("Enemies"):
+			if obj.is_class("TRPG_Actor") && obj.is_team_side(ActorTeam.TEAM_TYPE.ENEMY):
 				visibility = IsoObject.VISIBILITY.HIDDEN
 			else:
 				visibility = IsoObject.VISIBILITY.NOT_VISIBLE
@@ -198,7 +200,7 @@ func _on_actor_action_chosen(action_name: String):
 
 func _on_actor_action_finished(actor: TRPG_Actor) -> void:
 	if actor == active_actor:
-		if active_actor.is_in_group("Allies"):
+		if active_actor.is_team_side(ActorTeam.TEAM_TYPE.ALLY):
 			set_state("Overlook")
 		else:
 			$CombatState/EnemyTurn.enemy_action()

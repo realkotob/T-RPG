@@ -7,6 +7,7 @@ enum TEAM_TYPE{
 	ENEMY
 }
 
+export(TEAM_TYPE) var team_side = TEAM_TYPE.ENEMY setget set_team_side, get_team_side
 export var inventory := Array() setget set_inventory, get_inventory
 
 #### ACCESSORS ####
@@ -16,6 +17,15 @@ func get_class() -> String: return "ActorTeam"
 
 func set_inventory(value: Array): inventory = value
 func get_inventory() -> Array: return inventory
+
+func set_team_side(value: int): 
+	if value < TEAM_TYPE.size() && value >= 0:
+		team_side = value
+	else:
+		push_warning("The passed value %d isn't valid. The given value should be a member of TEAM_TYPE" % value)
+
+func get_team_side() -> int: return team_side
+func is_team_side(value: int) -> bool: return value == team_side
 
 #### BUILT-IN ####
 
@@ -67,6 +77,13 @@ func get_view_field() -> Array:
 	
 	return view_field
 
+
+func get_actors() -> Array:
+	var actors_array = []
+	for child in get_children():
+		if child.is_class("TRPG_Actor"):
+			actors_array.append(actors_array)
+	return actors_array
 
 #### INPUTS ####
 

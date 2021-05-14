@@ -27,7 +27,7 @@ func enter_state():
 		combat_loop.map_node.update_view_field(active_actor)
 	
 	# Update the actions
-	if active_actor.is_in_group("Allies"):
+	if active_actor.is_team_side(ActorTeam.TEAM_TYPE.ALLY):
 		var move = can_move()
 		var attack = can_attack()
 		var skill = can_use_skill()

@@ -10,9 +10,8 @@ func set_state(state_name: String):
 
 # Create the timeline out of the array of actors
 func generate_timeline(actors_array : Array):
-	var i = 0
-	
-	for actor in actors_array:
+	for i in range(actors_array.size()):
+		var actor = actors_array[i]
 		var new_TL_port = TL_portrait_scene.instance()
 		
 		order_node.add_child(new_TL_port)
@@ -22,10 +21,9 @@ func generate_timeline(actors_array : Array):
 		new_TL_port.set_portrait_texture(actor.timeline_port)
 		new_TL_port.set_position(Vector2(0, slot * i))
 		
-		if actor.is_in_group("Enemies"):
+		if actor.is_team_side(ActorTeam.TEAM_TYPE.ALLY):
 			new_TL_port.get_node("Background").set_modulate(Color.red)
-		
-		i += 1
+
 
 
 # Move the timeline so it matches the future_actors_order
