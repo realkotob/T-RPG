@@ -84,7 +84,6 @@ func new_turn():
 	previous_actor = active_actor
 	set_active_actor(actors_order[0])
 	var __ = active_actor.connect("turn_finished", self, "_on_active_actor_turn_finished")
-	__ = active_actor.connect("action_spent", self, "_on_active_actor_action_spent")
 	
 	on_focus_changed()
 	active_actor.turn_start()
@@ -94,14 +93,12 @@ func new_turn():
 	else:
 		set_state("EnemyTurn")
 	
-	HUD_node.update_actions_left(active_actor)
 	EVENTS.emit_signal("combat_new_turn_started", active_actor)
 
 
 # End of turn procedure, called right before a new turn start
 func end_turn():
 	active_actor.disconnect("turn_finished", self, "_on_active_actor_turn_finished")
-	active_actor.disconnect("action_spent", self, "_on_active_actor_action_spent")
 	
 	# Change the order of the timeline
 	set_future_actors_order(actors_order)
@@ -180,10 +177,6 @@ func on_object_focused(focus_obj: IsoObject):
 # Update the focus objects by erasing an old one
 func on_object_unfocused(focus_obj: IsoObject):
 	focused_objects_array.erase(focus_obj)
-
-
-func _on_active_actor_action_spent():
-	HUD_node.update_actions_left(active_actor)
 
 
 func _on_actor_cell_changed(_actor: TRPG_Actor):

@@ -3,9 +3,7 @@ extends Node
 onready var action_menu_node = $ActionMenu
 onready var action_buttons_array = $ActionMenu.get_children()
 onready var actor_infos_node = $ActorInfos
-onready var actions_left_node = $ActorInfos/ActionsLeft
 onready var timeline_node = $Timeline
-onready var height_node = $ActorInfos/Height
 
 func _ready():
 	action_menu_node.set_visible(true)
@@ -30,18 +28,6 @@ func update_timeline_order(actor_order : Array):
 	timeline_node.update_timeline_order(actor_order)
 
 
-# Update the height display
-func update_height(height: int):
-	height_node.set_text("H: " + String(height))
-
-
 # Set the whole actor HUD visible/invisible
 func hide_active_actor_infos(value : bool):
 	actor_infos_node.set_visble(!value)
-
-
-# Update the display of actions left each time it's called
-# Usually called on each new turn, and after each actions
-# Can also be called when a malus is applied to the actor
-func update_actions_left(actor: TRPG_Actor):
-	actions_left_node.update_display(actor)

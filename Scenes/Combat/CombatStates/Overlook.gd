@@ -17,8 +17,6 @@ func enter_state():
 		yield(owner, "ready")
 	
 	var active_actor = combat_loop.active_actor
-	var actor_height = active_actor.get_height()
-	combat_loop.HUD_node.update_height(actor_height)
 	
 	EVENTS.emit_signal("goto_menu_root")
 
