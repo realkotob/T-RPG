@@ -5,6 +5,7 @@ onready var ia = $IA
 onready var map_node = $Map
 onready var area_node = $Map/Interactives/Areas
 onready var cursor_node = $Map/Interactives/Cursor
+onready var renderer = $Renderer
 onready var combat_state_node = $CombatStatesMachine
 onready var HUD_node = $HUD
 onready var debug_panel = $DebugPanel
@@ -68,6 +69,9 @@ func _ready() -> void:
 	_err = EVENTS.connect("timeline_movement_finished", self, "_on_timeline_movement_finished")
 	_err = EVENTS.connect("actor_action_finished", self, "_on_actor_action_finished")
 	_err = EVENTS.connect("actor_cell_changed", self, "_on_actor_cell_changed")
+	_err = EVENTS.connect("damagable_targeted", self, "_on_damagable_targeted")
+	
+	EVENTS.emit_signal("hide_iso_objects", true)
 	
 	HUD_node.generate_timeline(actors_order)
 	focused_objects_array = [cursor_node, active_actor]
@@ -199,3 +203,8 @@ func _on_active_actor_turn_finished() -> void:
 
 func _on_actor_action_finished(_actor: TRPG_Actor):
 	get_state().set_state("Overlook")
+
+
+func _on_damagable_targeted(damagable_array: Array):
+	for damagable in damagable_array:
+		damagable.show_infos()

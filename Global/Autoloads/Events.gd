@@ -18,6 +18,8 @@ signal option_choice_state_entered()
 signal generate_movement_arrow(path)
 signal clear_movement_arrow()
 
+signal damagable_targeted(damagable)
+
 signal actor_action_finished(actor)
 signal actor_action_animation_finished(actor)
 signal actor_cell_changed(actor)
