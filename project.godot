@@ -152,7 +152,7 @@ _global_script_classes=[ {
 "base": "PushdownAutomata",
 "class": "CombatEffectObjectState",
 "language": "GDScript",
-"path": "res://Scenes/Combat/CombatStates/CombatEffectObjectState.gd"
+"path": "res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/CombatEffectObjectState.gd"
 }, {
 "base": "IsoMap",
 "class": "CombatIsoMap",
@@ -178,6 +178,11 @@ _global_script_classes=[ {
 "class": "DamageContainer",
 "language": "GDScript",
 "path": "res://Scenes/Combat/DamageContainer.gd"
+}, {
+"base": "CombatStateBase",
+"class": "DecisionState",
+"language": "GDScript",
+"path": "res://Scenes/Combat/CombatStates/TurnState/EnemyTurn/Decision.gd"
 }, {
 "base": "ResizableWindow",
 "class": "DescriptionWindow",
@@ -397,7 +402,7 @@ _global_script_classes=[ {
 "base": "CombatStateBase",
 "class": "OptionChoiceState",
 "language": "GDScript",
-"path": "res://Scenes/Combat/OptionChoice.gd"
+"path": "res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/OptionChoice.gd"
 }, {
 "base": "Node",
 "class": "OptionDataContainer",
@@ -418,6 +423,11 @@ _global_script_classes=[ {
 "class": "PathPoint",
 "language": "GDScript",
 "path": "res://BabaGodotLib/Actor/AI/ActorPath/PathPointBase.gd"
+}, {
+"base": "StatesMachine",
+"class": "PlayerTurn",
+"language": "GDScript",
+"path": "res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/AllyTurn.gd"
 }, {
 "base": "Node2D",
 "class": "PulsingLight",
@@ -582,7 +592,7 @@ _global_script_classes=[ {
 "base": "CombatStateBase",
 "class": "TargetChoiceState",
 "language": "GDScript",
-"path": "res://Scenes/Combat/TargetChoice.gd"
+"path": "res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/TargetChoice.gd"
 }, {
 "base": "Node2D",
 "class": "TeamsContainer",
@@ -674,6 +684,7 @@ _global_script_class_icons={
 "CombatStateBase": "",
 "Cursor": "",
 "DamageContainer": "",
+"DecisionState": "",
 "DescriptionWindow": "",
 "DirNavHelper": "",
 "Disappear": "",
@@ -722,6 +733,7 @@ _global_script_class_icons={
 "OptionLineContainer": "",
 "PartTween": "",
 "PathPoint": "",
+"PlayerTurn": "",
 "PulsingLight": "",
 "PushdownAutomata": "",
 "RT_ActorActionState": "",
@@ -859,6 +871,6 @@ rotateCCW={
 
 [rendering]
 
-quality/2d/use_pixel_snap=true
-environment/default_environment="res://default_env.tres"
 2d/snapping/use_gpu_pixel_snap=true
+environment/default_environment="res://default_env.tres"
+quality/2d/use_pixel_snap=true

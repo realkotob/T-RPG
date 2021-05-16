@@ -5,7 +5,7 @@ onready var ia = $IA
 onready var map_node = $Map
 onready var area_node = $Map/Interactives/Areas
 onready var cursor_node = $Map/Interactives/Cursor
-onready var combat_state_node = $CombatState
+onready var combat_state_node = $CombatStatesMachine
 onready var HUD_node = $HUD
 onready var debug_panel = $DebugPanel
 onready var pathfinder = $Map/Pathfinding
@@ -47,21 +47,25 @@ func set_future_actors_order(value: Array):
 func get_active_actor() -> TRPG_Actor:
 	return active_actor
 
-func set_state(state_name: String):
-	combat_state_node.set_state(state_name)
-
+func set_state(state_name: String): combat_state_node.set_state(state_name)
+func get_state() -> Object: return combat_state_node.get_state()
+func get_state_name() -> String: return combat_state_node.get_state_name()
 
 #### BUILT-IN ####
 
 func _ready() -> void:
 	var _err = connect("active_actor_changed", debug_panel, "_on_active_actor_changed")
 	_err = cursor_node.connect("max_z_changed", debug_panel, "_on_cursor_max_z_changed")
-	_err = combat_state_node.connect("state_changed", debug_panel, "_on_combat_state_changed")
-	_err = combat_state_node.connect("substate_changed", debug_panel, "_on_combat_substate_changed")
+	
+	# Combat states signals
+	_err = combat_state_node.connect("state_changed", debug_panel, "_on_turn_type_state_changed")
+	for child in combat_state_node.get_children():
+		_err = child.connect("state_changed", debug_panel, "_on_combat_state_changed")
+		_err = child.connect("substate_changed", debug_panel, "_on_combat_substate_changed")
+	
 	_err = map_node.connect("map_generation_finished", self, "_on_map_generation_finished")
 	_err = EVENTS.connect("visible_cells_changed", self, "_on_visible_cells_changed")
 	_err = EVENTS.connect("timeline_movement_finished", self, "_on_timeline_movement_finished")
-	_err = EVENTS.connect("actor_action_chosen", self, "_on_actor_action_chosen")
 	_err = EVENTS.connect("actor_action_finished", self, "_on_actor_action_finished")
 	_err = EVENTS.connect("actor_cell_changed", self, "_on_actor_cell_changed")
 	
@@ -89,9 +93,9 @@ func new_turn():
 	active_actor.turn_start()
 	
 	if active_actor.is_team_side(ActorTeam.TEAM_TYPE.ALLY):
-		set_state("Overlook")
+		set_state("PlayerTurn")
 	else:
-		set_state("EnemyTurn")
+		set_state("IATurn")
 	
 	EVENTS.emit_signal("combat_new_turn_started", active_actor)
 
@@ -118,6 +122,7 @@ func update_view_field() -> void:
 		map_node.update_view_field(actor)
 
 
+### COULD BE HANDLED IN THE ALLY TEAM 
 func update_view_field_rendering() -> void:
 	var allies_view_field = allies_team.get_view_field()
 	
@@ -168,6 +173,7 @@ func _on_timeline_movement_finished():
 func on_focus_changed():
 	$Renderer.set_focus_array([active_actor, cursor_node])
 
+
 # Update the focus objects by adding a new one
 func on_object_focused(focus_obj: IsoObject):
 	focused_objects_array.append(focus_obj)
@@ -187,17 +193,9 @@ func _on_visible_cells_changed():
 	update_view_field_rendering()
 
 
-func _on_actor_action_chosen(action_name: String):
-	set_state(action_name.capitalize())
-
-
-func _on_actor_action_finished(actor: TRPG_Actor) -> void:
-	if actor == active_actor:
-		if active_actor.is_team_side(ActorTeam.TEAM_TYPE.ALLY):
-			set_state("Overlook")
-		else:
-			$CombatState/EnemyTurn.enemy_action()
-
-
 func _on_active_actor_turn_finished() -> void:
 	end_turn()
+
+
+func _on_actor_action_finished(_actor: TRPG_Actor):
+	get_state().set_state("Overlook")

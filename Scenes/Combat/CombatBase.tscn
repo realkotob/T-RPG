@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://BabaGodotLib/Isometric/IsoRenderer/IsoRenderer.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Combat/DebugPanel/DebugPanel.gd" type="Script" id=2]
@@ -11,34 +11,36 @@
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Gauge/HUD_Gauge.tscn" type="PackedScene" id=9]
 [ext_resource path="res://BabaGodotLib/Absract/StateMachine/StateMachine.gd" type="Script" id=10]
 [ext_resource path="res://Scenes/Combat/HUD/HUD.gd" type="Script" id=11]
-[ext_resource path="res://Scenes/Combat/CombatStates/Overlook.gd" type="Script" id=12]
+[ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/Overlook.gd" type="Script" id=12]
 [ext_resource path="res://Scenes/Combat/CombatLoop.gd" type="Script" id=13]
 [ext_resource path="res://Scenes/Actors/Enemies/Slime/BlueSlime.tscn" type="PackedScene" id=14]
 [ext_resource path="res://BabaGodotLib/Absract/StateMachine/PushdownAutomata/PushdownAutomata.gd" type="Script" id=15]
 [ext_resource path="res://Scenes/Combat/IA/IA.gd" type="Script" id=16]
-[ext_resource path="res://Scenes/Combat/CombatStates/Attack.gd" type="Script" id=17]
-[ext_resource path="res://Scenes/Combat/CombatStates/Skills.gd" type="Script" id=18]
-[ext_resource path="res://Scenes/Combat/CombatStates/Items.gd" type="Script" id=19]
-[ext_resource path="res://Scenes/Combat/CombatStates/Wait.gd" type="Script" id=20]
+[ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/Attack.gd" type="Script" id=17]
+[ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/Skills.gd" type="Script" id=18]
+[ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/Items.gd" type="Script" id=19]
+[ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/Wait.gd" type="Script" id=20]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/ActiveActorInfos.gd" type="Script" id=21]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Portrait/PortBorder.png" type="Texture" id=22]
 [ext_resource path="res://BabaGodotLib/Fonts/BoldCapsPixel24.tres" type="DynamicFont" id=23]
-[ext_resource path="res://Scenes/Combat/OptionChoice.gd" type="Script" id=24]
+[ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/OptionChoice.gd" type="Script" id=24]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Portrait/PortBackGround.png" type="Texture" id=25]
-[ext_resource path="res://Scenes/Combat/EnemyTurn.gd" type="Script" id=26]
+[ext_resource path="res://Scenes/Combat/CombatStates/TurnState/EnemyTurn/Decision.gd" type="Script" id=26]
 [ext_resource path="res://Fonts/BoldCapitalPixel.tres" type="DynamicFont" id=27]
 [ext_resource path="res://Resources/CombatEffectObject/Items/Potions/HealPotion.tres" type="Resource" id=28]
 [ext_resource path="res://Scenes/Combat/HUD/ActionsLeft.gd" type="Script" id=29]
 [ext_resource path="res://Resources/CombatEffectObject/Skills/Magic/Heal/Heal.tres" type="Resource" id=30]
 [ext_resource path="res://Scenes/Combat/Animation.gd" type="Script" id=31]
-[ext_resource path="res://Scenes/Combat/TargetChoice.gd" type="Script" id=32]
+[ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/TargetChoice.gd" type="Script" id=32]
 [ext_resource path="res://Scenes/Combat/DamageContainer.gd" type="Script" id=33]
 [ext_resource path="res://Resources/Effect.gd" type="Script" id=34]
-[ext_resource path="res://Scenes/Combat/DestinationChoice.gd" type="Script" id=35]
+[ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/DestinationChoice.gd" type="Script" id=35]
 [ext_resource path="res://Scenes/Combat/TeamsContainer.gd" type="Script" id=36]
 [ext_resource path="res://Scenes/Combat/Obstacles/Crate/Crate.tscn" type="PackedScene" id=37]
+[ext_resource path="res://Scenes/Combat/CombatStates/CombatStateBase.gd" type="Script" id=38]
 [ext_resource path="res://Scenes/Combat/Map/Layer.tscn" type="PackedScene" id=39]
 [ext_resource path="res://AbstractClasses/ActorStats.gd" type="Script" id=40]
+[ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/AllyTurn.gd" type="Script" id=41]
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 34 )
@@ -88,62 +90,81 @@ position = Vector2( 290, 184 )
 z_index = 999
 current = true
 
-[node name="CombatState" type="Node2D" parent="."]
+[node name="CombatStatesMachine" type="Node2D" parent="."]
 script = ExtResource( 10 )
 
-[node name="Overlook" type="Node" parent="CombatState"]
+[node name="PlayerTurn" type="Node2D" parent="CombatStatesMachine"]
+script = ExtResource( 41 )
+
+[node name="Overlook" type="Node" parent="CombatStatesMachine/PlayerTurn"]
 script = ExtResource( 12 )
 
-[node name="Move" type="Node2D" parent="CombatState"]
+[node name="Move" type="Node2D" parent="CombatStatesMachine/PlayerTurn"]
 script = ExtResource( 15 )
 reset_to_default = true
 
-[node name="DestinationChoice" type="Node" parent="CombatState/Move"]
+[node name="DestinationChoice" type="Node" parent="CombatStatesMachine/PlayerTurn/Move"]
 script = ExtResource( 35 )
 
-[node name="Animation" type="Node" parent="CombatState/Move"]
+[node name="Animation" type="Node" parent="CombatStatesMachine/PlayerTurn/Move"]
 script = ExtResource( 31 )
 
-[node name="Attack" type="Node2D" parent="CombatState"]
+[node name="Attack" type="Node2D" parent="CombatStatesMachine/PlayerTurn"]
 script = ExtResource( 17 )
 reset_to_default = true
 
-[node name="TargetChoice" type="Node" parent="CombatState/Attack"]
+[node name="TargetChoice" type="Node" parent="CombatStatesMachine/PlayerTurn/Attack"]
 script = ExtResource( 32 )
 
-[node name="Animation" type="Node" parent="CombatState/Attack"]
+[node name="Animation" type="Node" parent="CombatStatesMachine/PlayerTurn/Attack"]
 script = ExtResource( 31 )
 
-[node name="Skill" type="Node2D" parent="CombatState"]
+[node name="Skill" type="Node2D" parent="CombatStatesMachine/PlayerTurn"]
 script = ExtResource( 18 )
 reset_to_default = true
 
-[node name="OptionChoice" type="Node" parent="CombatState/Skill"]
+[node name="OptionChoice" type="Node" parent="CombatStatesMachine/PlayerTurn/Skill"]
 script = ExtResource( 24 )
 
-[node name="TargetChoice" type="Node" parent="CombatState/Skill"]
+[node name="TargetChoice" type="Node" parent="CombatStatesMachine/PlayerTurn/Skill"]
 script = ExtResource( 32 )
 
-[node name="Animation" type="Node" parent="CombatState/Skill"]
+[node name="Animation" type="Node" parent="CombatStatesMachine/PlayerTurn/Skill"]
 script = ExtResource( 31 )
 
-[node name="Item" type="Node2D" parent="CombatState"]
+[node name="Item" type="Node2D" parent="CombatStatesMachine/PlayerTurn"]
 script = ExtResource( 19 )
 
-[node name="OptionChoice" type="Node" parent="CombatState/Item"]
+[node name="OptionChoice" type="Node" parent="CombatStatesMachine/PlayerTurn/Item"]
 script = ExtResource( 24 )
 
-[node name="TargetChoice" type="Node" parent="CombatState/Item"]
+[node name="TargetChoice" type="Node" parent="CombatStatesMachine/PlayerTurn/Item"]
 script = ExtResource( 32 )
 
-[node name="Animation" type="Node" parent="CombatState/Item"]
+[node name="Animation" type="Node" parent="CombatStatesMachine/PlayerTurn/Item"]
 script = ExtResource( 31 )
 
-[node name="Wait" type="Node" parent="CombatState"]
+[node name="Wait" type="Node" parent="CombatStatesMachine/PlayerTurn"]
 script = ExtResource( 20 )
 
-[node name="EnemyTurn" type="Node" parent="CombatState"]
+[node name="IATurn" type="Node2D" parent="CombatStatesMachine"]
+script = ExtResource( 10 )
+reset_to_default = true
+
+[node name="Overlook" type="Node" parent="CombatStatesMachine/IATurn"]
 script = ExtResource( 26 )
+
+[node name="Move" type="Node" parent="CombatStatesMachine/IATurn"]
+script = ExtResource( 38 )
+
+[node name="Attack" type="Node" parent="CombatStatesMachine/IATurn"]
+script = ExtResource( 38 )
+
+[node name="Skill" type="Node" parent="CombatStatesMachine/IATurn"]
+script = ExtResource( 38 )
+
+[node name="Item" type="Node" parent="CombatStatesMachine/IATurn"]
+script = ExtResource( 38 )
 
 [node name="Map" parent="." instance=ExtResource( 6 )]
 
@@ -171,6 +192,7 @@ script = ExtResource( 8 )
 
 [node name="BlueSlime" parent="Map/Interactives/ActorTeams/Enemies" instance=ExtResource( 14 )]
 position = Vector2( 271.179, 110.205 )
+height = 1
 MaxStats = SubResource( 2 )
 default_attack_effect = SubResource( 3 )
 
@@ -363,6 +385,8 @@ anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -139.0
 margin_right = 119.0
+margin_bottom = 18.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -375,28 +399,37 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="CombatState" type="Label" parent="DebugPanel/VBoxContainer"]
+[node name="TurnType" type="Label" parent="DebugPanel/VBoxContainer"]
 margin_top = 18.0
 margin_right = 119.0
 margin_bottom = 32.0
+text = "TurnType:"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CombatState" type="Label" parent="DebugPanel/VBoxContainer"]
+margin_top = 36.0
+margin_right = 119.0
+margin_bottom = 50.0
 text = "CombatState:"
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="CombatSubState" type="Label" parent="DebugPanel/VBoxContainer"]
-margin_top = 36.0
+margin_top = 54.0
 margin_right = 119.0
-margin_bottom = 50.0
+margin_bottom = 68.0
 text = "Combat SubState:"
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="ActiveActor" type="Label" parent="DebugPanel/VBoxContainer"]
-margin_top = 54.0
+margin_top = 72.0
 margin_right = 119.0
-margin_bottom = 68.0
+margin_bottom = 86.0
 text = "Active Actor:"
 __meta__ = {
 "_edit_lock_": true,
@@ -404,27 +437,27 @@ __meta__ = {
 }
 
 [node name="ActiveActorPos" type="Label" parent="DebugPanel/VBoxContainer"]
-margin_top = 72.0
+margin_top = 90.0
 margin_right = 119.0
-margin_bottom = 86.0
+margin_bottom = 104.0
 text = "Active Actor's Pos:"
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="CursorMaxZ" type="Label" parent="DebugPanel/VBoxContainer"]
-margin_top = 90.0
+margin_top = 108.0
 margin_right = 119.0
-margin_bottom = 104.0
+margin_bottom = 122.0
 text = "Cursor max_z:"
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="CursorPos" type="Label" parent="DebugPanel/VBoxContainer"]
-margin_top = 108.0
+margin_top = 126.0
 margin_right = 119.0
-margin_bottom = 139.0
+margin_bottom = 157.0
 text = "Cursor Pos:
 "
 __meta__ = {
@@ -432,9 +465,6 @@ __meta__ = {
 }
 
 [editable path="Map"]
-
 [editable path="Map/Layer"]
-
 [editable path="Map/Layer2"]
-
 [editable path="Map/Layer3"]

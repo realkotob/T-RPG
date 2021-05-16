@@ -17,6 +17,9 @@ func _input(_event):
 func _on_timeline_state_changed(state: Object):
 	$VBoxContainer/TimelineState.text = "Timeline State: " + state.name if state != null else "Timeline State: "
 
+func _on_turn_type_state_changed(state: Object):
+	$VBoxContainer/TurnType.text = "Turn Type: " + state.name if state != null else "Turn Type: "
+	
 func _on_combat_state_changed(state: Object):
 	$VBoxContainer/CombatState.text = "Combat State: " + state.name if state != null else "Combat State: "
 
