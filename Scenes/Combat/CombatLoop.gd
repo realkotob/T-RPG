@@ -70,6 +70,8 @@ func _ready() -> void:
 	_err = EVENTS.connect("actor_action_finished", self, "_on_actor_action_finished")
 	_err = EVENTS.connect("actor_cell_changed", self, "_on_actor_cell_changed")
 	_err = EVENTS.connect("damagable_targeted", self, "_on_damagable_targeted")
+	_err = EVENTS.connect("iso_object_focused", self, "_on_iso_object_focused")
+	_err = EVENTS.connect("iso_object_unfocused", self, "_on_iso_object_unfocused")
 	
 	EVENTS.emit_signal("hide_iso_objects", true)
 	
@@ -179,13 +181,13 @@ func on_focus_changed():
 
 
 # Update the focus objects by adding a new one
-func on_object_focused(focus_obj: IsoObject):
+func _on_iso_object_focused(focus_obj: IsoObject):
 	focused_objects_array.append(focus_obj)
 	$Renderer.set_focus_array(focused_objects_array)
 
 
 # Update the focus objects by erasing an old one
-func on_object_unfocused(focus_obj: IsoObject):
+func _on_iso_object_unfocused(focus_obj: IsoObject):
 	focused_objects_array.erase(focus_obj)
 
 
@@ -197,12 +199,15 @@ func _on_visible_cells_changed():
 	update_view_field_rendering()
 
 
-func _on_active_actor_turn_finished() -> void:
+func _on_active_actor_turn_finished():
 	end_turn()
 
 
-func _on_actor_action_finished(_actor: TRPG_Actor):
-	get_state().set_state("Overlook")
+func _on_actor_action_finished(actor: TRPG_Actor):
+	EVENTS.emit_signal("unfocus_all_iso_object_query")
+	
+	if actor.get_current_actions() != 0:
+		get_state().set_state("Overlook")
 
 
 func _on_damagable_targeted(damagable_array: Array):
