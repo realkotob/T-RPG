@@ -96,7 +96,6 @@ func new_turn():
 	var __ = active_actor.connect("turn_finished", self, "_on_active_actor_turn_finished")
 	
 	on_focus_changed()
-	active_actor.turn_start()
 	
 	if active_actor.is_team_side(ActorTeam.TEAM_TYPE.ALLY):
 		set_state("PlayerTurn")
@@ -206,7 +205,9 @@ func _on_active_actor_turn_finished():
 func _on_actor_action_finished(actor: TRPG_Actor):
 	EVENTS.emit_signal("unfocus_all_iso_object_query")
 	
-	if actor.get_current_actions() != 0:
+	if actor.get_current_actions() == 0:
+		actor.emit_signal("turn_finished")
+	else:
 		get_state().set_state("Overlook")
 
 
