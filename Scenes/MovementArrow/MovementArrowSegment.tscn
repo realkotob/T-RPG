@@ -4,7 +4,6 @@
 [ext_resource path="res://Scenes/MovementArrow/MovementArrowSegment.gd" type="Script" id=2]
 [ext_resource path="res://BabaGodotLib/Isometric/IsoSprite.gd" type="Script" id=3]
 
-
 [node name="MovementArrow" type="Node2D"]
 script = ExtResource( 2 )
 always_visible = true

@@ -126,9 +126,6 @@ func update_view_field() -> void:
 		map_node.update_view_field(actor)
 
 
-
-
-
 #### INPUTS ####
 
 func _input(_event: InputEvent) -> void:

@@ -110,8 +110,8 @@ func get_actors() -> Array:
 			actors_array.append(actors_array)
 	return actors_array
 
-#### INPUTS ####
 
+#### INPUTS ####
 
 
 #### SIGNAL RESPONSES ####
