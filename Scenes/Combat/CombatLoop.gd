@@ -65,7 +65,6 @@ func _ready() -> void:
 		_err = child.connect("substate_changed", debug_panel, "_on_combat_substate_changed")
 	
 	_err = map_node.connect("map_generation_finished", self, "_on_map_generation_finished")
-	_err = EVENTS.connect("visible_cells_changed", self, "_on_visible_cells_changed")
 	_err = EVENTS.connect("timeline_movement_finished", self, "_on_timeline_movement_finished")
 	_err = EVENTS.connect("actor_action_finished", self, "_on_actor_action_finished")
 	_err = EVENTS.connect("actor_cell_changed", self, "_on_actor_cell_changed")
@@ -127,27 +126,7 @@ func update_view_field() -> void:
 		map_node.update_view_field(actor)
 
 
-### COULD BE HANDLED IN THE ALLY TEAM 
-func update_view_field_rendering() -> void:
-	var allies_view_field = allies_team.get_view_field()
-	
-	# Give every objects its visibility
-	for obj in get_tree().get_nodes_in_group("IsoObject"):
-		var obj_cell = obj.get_current_cell()
-		var visibility = IsoObject.VISIBILITY.VISIBLE
-		
-		if obj_cell in allies_view_field[IsoObject.VISIBILITY.BARELY_VISIBLE]:
-			visibility = IsoObject.VISIBILITY.BARELY_VISIBLE
-		
-		elif not obj_cell in allies_view_field[IsoObject.VISIBILITY.VISIBLE]:
-			if obj.is_class("TRPG_Actor") && obj.is_team_side(ActorTeam.TEAM_TYPE.ENEMY):
-				visibility = IsoObject.VISIBILITY.HIDDEN
-			else:
-				visibility = IsoObject.VISIBILITY.NOT_VISIBLE
-		
-		obj.set_visibility(visibility)
-	
-	$Renderer.set_visible_cells(allies_view_field)
+
 
 
 #### INPUTS ####
@@ -192,10 +171,6 @@ func _on_iso_object_unfocused(focus_obj: IsoObject):
 
 func _on_actor_cell_changed(_actor: TRPG_Actor):
 	update_view_field()
-
-
-func _on_visible_cells_changed():
-	update_view_field_rendering()
 
 
 func _on_active_actor_turn_finished():

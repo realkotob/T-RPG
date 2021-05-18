@@ -30,6 +30,8 @@ func is_team_side(value: int) -> bool: return value == team_side
 #### BUILT-IN ####
 
 func _ready() -> void:
+	var _err = EVENTS.connect("visible_cells_changed", self, "_on_visible_cells_changed")
+	
 	for child in get_children():
 		child.add_to_group(name)
 
@@ -38,6 +40,29 @@ func _ready() -> void:
 
 
 #### LOGIC ####
+
+
+func update_view_field_rendering() -> void:
+	var team_view_field = get_view_field()
+	
+	# Give every objects its visibility
+	for obj in get_tree().get_nodes_in_group("IsoObject"):
+		var obj_cell = obj.get_current_cell()
+		var visibility = IsoObject.VISIBILITY.VISIBLE
+		
+		if obj_cell in team_view_field[IsoObject.VISIBILITY.BARELY_VISIBLE]:
+			visibility = IsoObject.VISIBILITY.BARELY_VISIBLE
+		
+		elif not obj_cell in team_view_field[IsoObject.VISIBILITY.VISIBLE]:
+			if obj.is_class("TRPG_Actor") && obj.is_team_side(TEAM_TYPE.ENEMY):
+				visibility = IsoObject.VISIBILITY.HIDDEN
+			else:
+				visibility = IsoObject.VISIBILITY.NOT_VISIBLE
+		
+		obj.set_visibility(visibility)
+	
+	EVENTS.emit_signal("update_rendered_visible_cells", team_view_field)
+
 
 func is_actor_in_team(actor: TRPG_Actor) -> bool:
 	for child in get_children():
@@ -90,3 +115,8 @@ func get_actors() -> Array:
 
 
 #### SIGNAL RESPONSES ####
+
+
+func _on_visible_cells_changed(actor: TRPG_Actor):
+	if is_team_side(TEAM_TYPE.ALLY) && is_actor_in_team(actor):
+		update_view_field_rendering()
