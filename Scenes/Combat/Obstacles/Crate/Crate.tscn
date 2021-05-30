@@ -4,7 +4,6 @@
 [ext_resource path="res://Scenes/Combat/Obstacles/Crate/Crate.png" type="Texture" id=2]
 [ext_resource path="res://BabaGodotLib/Isometric/IsoSprite.gd" type="Script" id=3]
 
-
 [node name="Crate" instance=ExtResource( 1 )]
 passable = false
 

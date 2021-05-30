@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scenes/Actors/Gauge/DamagableSmallGauge.gd" type="Script" id=1]
+[ext_resource path="res://BabaGodotLib/Scenes/HUD/Gauge/Gauge.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Gauge/GaugeBorder.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Gauge/Gauge.png" type="Texture" id=4]
+
+[node name="DamagableSmallGauge" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 101.0
+margin_bottom = 12.0
+rect_scale = Vector2( 0.5, 0.5 )
+rect_pivot_offset = Vector2( -50.5, -6 )
+script = ExtResource( 1 )
+gauge_color = Color( 1, 0, 0, 1 )
+feedback_gauge_color = Color( 0.45098, 0, 0, 1 )
+background_texture = ExtResource( 3 )
+gauge_texture = ExtResource( 4 )
+
+[node name="FeedbackGauge" parent="." index="0"]
+texture_under = ExtResource( 3 )
+texture_progress = ExtResource( 4 )
+tint_progress = Color( 0.533333, 0, 0, 1 )
+
+[node name="Gauge" parent="." index="1"]
+anchor_bottom = 0.5
+texture_progress = ExtResource( 4 )
+tint_progress = Color( 1, 0, 0, 1 )

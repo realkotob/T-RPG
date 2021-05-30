@@ -183,7 +183,7 @@ team_side = 0
 inventory = [ [ ExtResource( 28 ), 3 ] ]
 
 [node name="Character" parent="Map/Interactives/ActorTeams/Allies" instance=ExtResource( 4 )]
-position = Vector2( 319.807, 135.148 )
+position = Vector2( 320, 135.148 )
 default_attack_effect = SubResource( 1 )
 skills = [ ExtResource( 30 ) ]
 
@@ -296,7 +296,7 @@ anchor_bottom = 0.0
 margin_right = 101.0
 margin_bottom = 12.0
 gauge_color = Color( 1, 0, 0, 1 )
-feedback_gauge_color = Color( 0.490196, 0.113725, 0.113725, 1 )
+feedback_gauge_color = Color( 0.392157, 0, 0, 1 )
 shake_feedback_on = true
 
 [node name="Label" type="Label" parent="HUD/ActorInfos/ActorData/Gauges/HP"]
@@ -313,8 +313,8 @@ anchor_bottom = 0.0
 margin_top = 16.0
 margin_right = 101.0
 margin_bottom = 28.0
-gauge_color = Color( 0, 0.415686, 1, 1 )
-feedback_gauge_color = Color( 0.0470588, 0.219608, 0.372549, 1 )
+gauge_color = Color( 0, 0, 1, 1 )
+feedback_gauge_color = Color( 0, 0, 0.364706, 1 )
 
 [node name="Label" type="Label" parent="HUD/ActorInfos/ActorData/Gauges/MP"]
 margin_left = -17.0

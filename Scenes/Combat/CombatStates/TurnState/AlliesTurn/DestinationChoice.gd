@@ -24,7 +24,6 @@ func enter_state():
 	
 	if owner.active_actor != null:
 		owner.map_node.draw_movement_area()
-		owner.cursor_node.hide_target_counter(false)
 
 
 # Empty the path variable when the state is exited and 
@@ -33,7 +32,6 @@ func exit_state():
 	EVENTS.emit_signal("clear_movement_arrow")
 	
 	owner.area_node.clear()
-	owner.cursor_node.hide_target_counter(true)
 
 
 #### LOGIC ####
@@ -75,7 +73,7 @@ func _unhandled_input(event):
 
 func on_cancel_input():
 	if is_current_state():
-		owner.set_state("Overlook")
+		owner.set_turn_state("Overlook")
 
 
 #### SIGNAL REPONSES ####
@@ -83,9 +81,7 @@ func on_cancel_input():
 
 # When the cursor has moved, 
 # call the function that calculate a new path
-func _on_cursor_cell_changed(cursor: Cursor, cell: Vector3):
+func _on_cursor_cell_changed(_cursor: Cursor, cell: Vector3):
 	if is_current_state():
 		if owner.active_actor.get_state_name() == "Idle":
 			set_path(cell, owner.active_actor.get_current_cell())
-			var targets = owner.map_node.count_reachable_enemies(owner.active_actor, cell)
-			cursor.set_targets(targets)

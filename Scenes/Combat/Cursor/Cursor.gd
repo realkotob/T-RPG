@@ -137,14 +137,3 @@ func _input(_event):
 		index = wrapi(index + 1, 0, cell_stack.size())
 	
 	set_current_cell(cell_stack[index])
-
-
-
-# Show/Hide the targets counter
-func hide_target_counter(value: bool):
-	$Targets.set_visible(!value)
-
-
-# Update the target counter label with a new given value
-func set_targets(targets: int):
-	$Targets.set_text(String(targets))
