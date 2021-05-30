@@ -124,7 +124,10 @@ func on_cancel_input():
 	if !is_current_state(): 
 		return
 	
-	states_machine.go_to_previous_state()
+	if get_index() != 0:
+		states_machine.go_to_previous_state()
+	else:
+		owner.set_turn_state("Overlook")
 
 
 #### SIGNAL RESPONSES ####

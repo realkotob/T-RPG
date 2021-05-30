@@ -32,7 +32,8 @@ func clear_container(container: Node) -> void:
 		if i % MAX_INSTANCE_PER_FRAME == 0:
 			yield(get_tree(), "idle_frame")
 		var area = area_array[i]
-		area.destroy()
+		if is_instance_valid(area):
+			area.destroy()
 	
 	emit_signal("area_destroyed")
 

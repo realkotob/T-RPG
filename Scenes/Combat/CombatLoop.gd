@@ -115,6 +115,11 @@ func end_turn():
 	HUD_node.move_timeline(actors_order, future_actors_order)
 
 
+# Set the state of the current turn (PlayerTurn/IATurn)
+func set_turn_state(state_name: String):
+	get_state().set_state(state_name)
+
+
 # Put the first actor of the array at the last position
 func first_become_last(array : Array) -> void:
 	var first = array.pop_front()
@@ -180,7 +185,7 @@ func _on_actor_action_finished(actor: TRPG_Actor):
 	if actor.get_current_actions() == 0:
 		actor.emit_signal("turn_finished")
 	else:
-		get_state().set_state("Overlook")
+		set_turn_state("Overlook")
 
 
 func _on_damagable_targeted(damagable_array: Array):

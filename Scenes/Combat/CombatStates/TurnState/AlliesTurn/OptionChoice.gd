@@ -26,6 +26,6 @@ func enter_state():
 func on_cancel_input():
 	if !is_current_state(): return
 	
-	owner.set_state("Overlook")
+	owner.set_turn_state("Overlook")
 
 #### SIGNAL RESPONSES ####
