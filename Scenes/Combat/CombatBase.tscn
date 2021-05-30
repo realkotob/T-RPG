@@ -202,7 +202,7 @@ __meta__ = {
 }
 
 [node name="Crate" parent="Map/Interactives/Obstacles" instance=ExtResource( 37 )]
-position = Vector2( 240, 144 )
+position = Vector2( 304, 160 )
 max_HP = 10
 
 [node name="Layer" parent="Map" index="3"]
