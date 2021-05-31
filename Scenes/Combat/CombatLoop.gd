@@ -23,6 +23,7 @@ var previous_actor : TRPG_Actor = null
 
 var future_actors_order : Array
 var is_ready : bool = false
+
 export var fog_of_war : bool = true
 
 signal active_actor_changed
@@ -143,7 +144,8 @@ func _input(_event: InputEvent) -> void:
 #### SIGNALS ####
 
 func _on_map_generation_finished():
-	update_view_field()
+	if fog_of_war:
+		update_view_field()
 
 
 # Triggered when the timeline movement is finished
@@ -172,7 +174,8 @@ func _on_iso_object_unfocused(focus_obj: IsoObject):
 
 
 func _on_actor_cell_changed(_actor: TRPG_Actor):
-	update_view_field()
+	if fog_of_war:
+		update_view_field()
 
 
 func _on_active_actor_turn_finished():
@@ -182,11 +185,13 @@ func _on_active_actor_turn_finished():
 func _on_actor_action_finished(actor: TRPG_Actor):
 	EVENTS.emit_signal("unfocus_all_iso_object_query")
 	
+	if actor.get_team_side() != ActorTeam.TEAM_TYPE.ALLY:
+		update_view_field()
+		
 	if actor.get_current_actions() == 0:
 		actor.emit_signal("turn_finished")
 	else:
 		set_turn_state("Overlook")
-
 
 func _on_damagable_targeted(damagable_array: Array):
 	for damagable in damagable_array:

@@ -11,7 +11,6 @@ func enter_state():
 
 
 func exit_state():
-	owner.map.update_view_field(owner)
 	EVENTS.emit_signal("actor_moved", owner, starting_cell, owner.get_current_cell())
 	starting_cell = Vector3.INF
 

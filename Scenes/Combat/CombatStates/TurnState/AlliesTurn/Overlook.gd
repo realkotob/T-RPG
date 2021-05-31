@@ -19,10 +19,6 @@ func enter_state():
 	var active_actor = combat_loop.active_actor
 	
 	EVENTS.emit_signal("goto_menu_root")
-
-	# Update the view field in case of fog of war
-	if combat_loop.fog_of_war:
-		combat_loop.map_node.update_view_field(active_actor)
 	
 	# Update the actions
 	if active_actor.is_team_side(ActorTeam.TEAM_TYPE.ALLY):
