@@ -1,7 +1,7 @@
 tool
 extends EditorPlugin
 
-const LAYER = preload("res://BabaGodotLib/Isometric/IsoMap/IsoMapLayer.gd")
+const LAYER = preload("res://BabaGodotLib/Isometric/IsoMap/IsoMapLayer.tscn")
 
 const NEW_LAYER = preload("res://addons/Plugin/NewLayer.tscn")
 const NEXT_LAYER = preload("res://addons/Plugin/NextLayer.tscn")
@@ -55,8 +55,8 @@ func edit(object : Object):
 # Check if the plugin handle this node or not. 
 # If it return true trigger the edit and the make_visible callbacks
 func handles(object: Object):
-	return object is CombatIsoMap or (object is Node and 
-									object.find_parent("IsoMap"))
+	return object is CombatIsoMap or object is IsoMapLayer
+
 
 # Clean-up
 func _exit_tree():
@@ -79,12 +79,13 @@ func make_visible(visible: bool):
 
 func _on_new_layer_pressed():
 	var undo = get_undo_redo()
-	var layer = LAYER.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
+	var layer = LAYER.instance()
 	
 	undo.create_action("Add new layer")
 	undo.add_do_method(self, "add_layer", layer)
 	undo.add_undo_method(edited_map, "remove_child", layer)
 	undo.commit_action()
+
 
 #### SIGNALS REPONSES ####
 
@@ -168,7 +169,6 @@ func change_selected_node(node : Node):
 	editor_selection.clear()
 	
 	#### TEMPORARY ####
-#	editor_selection.add_node(node)
 	var targeted_selection = node.get_node_or_null(selection_name)
 	if targeted_selection != null:
 		editor_selection.add_node(targeted_selection)
@@ -193,9 +193,6 @@ func add_layer(layer: Node):
 		return
 	
 	var edited_scene = get_tree().get_edited_scene_root()
-#	var open_scenes = get_editor_interface().get_open_scenes()
-#
-#	print(open_scenes)
 	
 	var nb_layers = edited_map.count_layers()
 	var last_layer = edited_map.get_last_layer()
@@ -205,23 +202,17 @@ func add_layer(layer: Node):
 	layer.set_display_folded(false)
 	
 	# Set the new node to be editable
-#	var editable_instances = combat_scene._bundled.get("editable_instances")
-#	editable_instances.append("IsoMap/Layer" + String(nb_layers + 1))
-#	combat_scene._bundled["editable_instances"] = editable_instances
-#	print(combat_scene._bundled["editable_instances"])
-	
 	edited_map.add_child_below_node(last_layer, layer)
 	layer.set_owner(edited_scene)
 	get_editor_interface().save_scene()
 	
-	make_editable(layer)
+#	make_editable(layer)
 	
 	change_selected_node(layer)
 
 
 # WIP: makes instanced scene node's children editable (aka "Editable Children")
 func make_editable(node : Node):
-
 	var root = get_editor_interface().get_edited_scene_root()
 	if not root:
 		return
@@ -241,3 +232,6 @@ func make_editable(node : Node):
 #	or:
 	ResourceSaver.save(root_scene.resource_path, root_scene)
 	get_editor_interface().open_scene_from_path(root_scene.resource_path)
+
+
+#### INPUTS ####

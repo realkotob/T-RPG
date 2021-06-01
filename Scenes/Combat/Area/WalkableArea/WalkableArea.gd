@@ -39,7 +39,7 @@ func clear_container(container: Node) -> void:
 
 
 # Draw the given area, at the given positions contained in the cell_array
-func draw_area(cell_array : Array, area_type_name: String) -> void:
+func draw_area(cell_array : Array, area_type_name: String = "move") -> void:
 	var new_area_type: PackedScene = null
 	var container = get_node(area_type_name.capitalize())
 	
