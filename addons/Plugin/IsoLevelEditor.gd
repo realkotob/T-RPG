@@ -1,7 +1,7 @@
 tool
 extends EditorPlugin
 
-const LAYER = preload("res://BabaGodotLib/Isometric/IsoMap/IsoMapLayer.gd")
+const LAYER = preload("res://BabaGodotLib/Isometric/IsoMap/IsoMapLayer.tscn")
 
 const NEW_LAYER = preload("res://addons/Plugin/NewLayer.tscn")
 const NEXT_LAYER = preload("res://addons/Plugin/NextLayer.tscn")
@@ -79,7 +79,7 @@ func make_visible(visible: bool):
 
 func _on_new_layer_pressed():
 	var undo = get_undo_redo()
-	var layer = LAYER.instance(PackedScene.GEN_EDIT_STATE_INSTANCE)
+	var layer = LAYER.instance()
 	
 	undo.create_action("Add new layer")
 	undo.add_do_method(self, "add_layer", layer)

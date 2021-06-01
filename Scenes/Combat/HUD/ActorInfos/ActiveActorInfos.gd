@@ -19,10 +19,9 @@ signal current_actor_changed(previous_actor, new_actor)
 #### ACCESSORS ####
 
 func set_current_actor(value: TRPG_Actor): 
-	if value != current_actor:
-		previous_actor = current_actor
-		current_actor = value
-		emit_signal("current_actor_changed", current_actor)
+	previous_actor = current_actor
+	current_actor = value
+	emit_signal("current_actor_changed", current_actor)
 
 func get_current_actor() -> TRPG_Actor: return current_actor
 
@@ -91,7 +90,6 @@ func _on_current_actor_changed(new_actor: TRPG_Actor):
 		__ = new_actor.connect("cell_changed", self, "_on_current_actor_cell_changed")
 	
 	_update_actor_info(true)
-	
 
 
 func _on_current_actor_action_finished():

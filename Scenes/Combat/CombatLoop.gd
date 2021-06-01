@@ -31,13 +31,12 @@ signal active_actor_changed
 #### ACCESSORS ####
 
 func set_active_actor(value: TRPG_Actor):
-	if value != active_actor:
-		focused_objects_array.erase(active_actor)
-		if active_actor != null: active_actor.set_active(false)
-		active_actor = value
-		active_actor.set_active(true)
-		focused_objects_array.append(active_actor)
-		emit_signal("active_actor_changed", active_actor)
+	focused_objects_array.erase(active_actor)
+	if active_actor != null: active_actor.set_active(false)
+	active_actor = value
+	active_actor.set_active(true)
+	focused_objects_array.append(active_actor)
+	emit_signal("active_actor_changed", active_actor)
 
 
 func set_actors_order(value: Array):
@@ -102,6 +101,8 @@ func new_turn():
 	else:
 		set_state("IATurn")
 	
+	set_turn_state("Overlook")
+	
 	EVENTS.emit_signal("combat_new_turn_started", active_actor)
 
 
@@ -113,7 +114,11 @@ func end_turn():
 	set_future_actors_order(actors_order)
 	first_become_last(future_actors_order)
 	
-	HUD_node.move_timeline(actors_order, future_actors_order)
+	if actors_order.size() <= 1:
+		yield(get_tree(), "idle_frame")
+		new_turn()
+	else:
+		HUD_node.move_timeline(actors_order, future_actors_order)
 
 
 # Set the state of the current turn (PlayerTurn/IATurn)
@@ -192,6 +197,7 @@ func _on_actor_action_finished(actor: TRPG_Actor):
 		actor.emit_signal("turn_finished")
 	else:
 		set_turn_state("Overlook")
+
 
 func _on_damagable_targeted(damagable_array: Array):
 	for damagable in damagable_array:
