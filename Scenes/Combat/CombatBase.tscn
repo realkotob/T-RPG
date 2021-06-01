@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://BabaGodotLib/Isometric/IsoRenderer/IsoRenderer.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Combat/DebugPanel/DebugPanel.gd" type="Script" id=2]
@@ -13,7 +13,6 @@
 [ext_resource path="res://Scenes/Combat/HUD/HUD.gd" type="Script" id=11]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/Overlook.gd" type="Script" id=12]
 [ext_resource path="res://Scenes/Combat/CombatLoop.gd" type="Script" id=13]
-[ext_resource path="res://Scenes/Actors/Enemies/Slime/BlueSlime.tscn" type="PackedScene" id=14]
 [ext_resource path="res://BabaGodotLib/Absract/StateMachine/PushdownAutomata/PushdownAutomata.gd" type="Script" id=15]
 [ext_resource path="res://Scenes/Combat/IA/IA.gd" type="Script" id=16]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/Attack.gd" type="Script" id=17]
@@ -36,31 +35,10 @@
 [ext_resource path="res://Resources/Effect.gd" type="Script" id=34]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/DestinationChoice.gd" type="Script" id=35]
 [ext_resource path="res://Scenes/Combat/TeamsContainer.gd" type="Script" id=36]
-[ext_resource path="res://Scenes/Combat/Obstacles/Crate/Crate.tscn" type="PackedScene" id=37]
 [ext_resource path="res://Scenes/Combat/CombatStates/CombatStateBase.gd" type="Script" id=38]
-[ext_resource path="res://AbstractClasses/ActorStats.gd" type="Script" id=40]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/AllyTurn.gd" type="Script" id=41]
 
 [sub_resource type="Resource" id=1]
-script = ExtResource( 34 )
-nb_hits = 1
-damage = 5
-damage_variance = 20.0
-damage_type = 1
-ailment_array = [  ]
-ailment_mode = 1
-
-[sub_resource type="Resource" id=2]
-script = ExtResource( 40 )
-HP = 10
-MP = 10
-actions = 2
-movements = 5
-attack_range = 1
-defense = 0
-view_range = 5
-
-[sub_resource type="Resource" id=3]
 script = ExtResource( 34 )
 nb_hits = 1
 damage = 5
@@ -182,37 +160,27 @@ team_side = 0
 inventory = [ [ ExtResource( 28 ), 3 ] ]
 
 [node name="Character" parent="Map/Interactives/ActorTeams/Allies" instance=ExtResource( 4 )]
-position = Vector2( 320, 135.148 )
+position = Vector2( 368, 192 )
 default_attack_effect = SubResource( 1 )
 skills = [ ExtResource( 30 ) ]
 
 [node name="Enemies" type="Node2D" parent="Map/Interactives/ActorTeams"]
 script = ExtResource( 8 )
 
-[node name="BlueSlime" parent="Map/Interactives/ActorTeams/Enemies" instance=ExtResource( 14 )]
-position = Vector2( 271.179, 110.205 )
-height = 1
-MaxStats = SubResource( 2 )
-default_attack_effect = SubResource( 3 )
-
 [node name="Obstacles" type="Node2D" parent="Map/Interactives" index="3"]
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Crate" parent="Map/Interactives/Obstacles" instance=ExtResource( 37 )]
-position = Vector2( 304, 160 )
-max_HP = 10
-
 [node name="Layer" parent="Map" index="3"]
-tile_data = PoolIntArray( 196626, 63, 131073 )
+tile_data = PoolIntArray( -131053, 63, 3, -131052, 63, 1, -131051, 63, 1, -131050, 63, 1, -131049, 63, 65540, -65517, 63, 0, -65516, 63, 65539, -65515, 63, 65539, -65514, 63, 196611, -65513, 63, 65537, 19, 63, 0, 20, 63, 262146, 21, 63, 262148, 22, 63, 65539, 23, 63, 65537, 26, 63, 131073, 65555, 63, 0, 65556, 63, 196610, 65557, 63, 65539, 65558, 63, 196612, 65559, 63, 65537, 131091, 63, 0, 131092, 63, 65539, 131093, 63, 65539, 131094, 63, 65539, 131095, 63, 65537, 196627, 63, 65538, 196628, 63, 65536, 196629, 63, 65536, 196630, 63, 65536, 196631, 63, 131075 )
 
 [node name="WestWall" parent="Map/Layer" index="0"]
-tile_data = PoolIntArray( 196626, 66, 0 )
+tile_data = PoolIntArray( 26, 66, 0, 196627, 66, 1, 196628, 66, 1, 196629, 66, 0, 196630, 66, 0, 196631, 66, 0 )
 
 [node name="EastWall" parent="Map/Layer" index="1"]
 z_index = -1
-tile_data = PoolIntArray( 196626, 66, 2 )
+tile_data = PoolIntArray( -131049, 66, 2, -65513, 66, 2, 23, 66, 3, 26, 66, 2, 65559, 66, 3, 131095, 66, 3, 196631, 66, 2 )
 
 [node name="DamageContainer" type="Node2D" parent="."]
 script = ExtResource( 33 )
