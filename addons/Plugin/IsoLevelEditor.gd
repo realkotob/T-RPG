@@ -206,14 +206,13 @@ func add_layer(layer: Node):
 	layer.set_owner(edited_scene)
 	get_editor_interface().save_scene()
 	
-	make_editable(layer)
+#	make_editable(layer)
 	
 	change_selected_node(layer)
 
 
 # WIP: makes instanced scene node's children editable (aka "Editable Children")
 func make_editable(node : Node):
-
 	var root = get_editor_interface().get_edited_scene_root()
 	if not root:
 		return

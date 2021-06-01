@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://BabaGodotLib/Isometric/IsoRenderer/IsoRenderer.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Combat/DebugPanel/DebugPanel.gd" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://Scenes/Combat/HUD/HUD.gd" type="Script" id=11]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/Overlook.gd" type="Script" id=12]
 [ext_resource path="res://Scenes/Combat/CombatLoop.gd" type="Script" id=13]
+[ext_resource path="res://BabaGodotLib/Isometric/IsoMap/IsoMapLayer.tscn" type="PackedScene" id=14]
 [ext_resource path="res://BabaGodotLib/Absract/StateMachine/PushdownAutomata/PushdownAutomata.gd" type="Script" id=15]
 [ext_resource path="res://Scenes/Combat/IA/IA.gd" type="Script" id=16]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/Attack.gd" type="Script" id=17]
@@ -173,14 +174,24 @@ __meta__ = {
 }
 
 [node name="Layer" parent="Map" index="3"]
-tile_data = PoolIntArray( -327662, 63, 2, -327661, 63, 131072, -327660, 63, 131072, -327659, 63, 131072, -327658, 63, 131072, -327657, 63, 131076, -327655, 63, 131073, -131054, 63, 2, -131053, 63, 131072, -131052, 63, 131072, -131051, 63, 131072, -131050, 63, 131072, -131049, 63, 131076, -131047, 63, 131073, 65554, 63, 65539, 65555, 63, 131072, 65556, 63, 131072, 65557, 63, 131072, 65558, 63, 131072, 65559, 63, 131072, 65560, 63, 131072, 65561, 63, 65539, 131090, 63, 196608, 131097, 63, 196608, 196626, 63, 196608, 196633, 63, 196608, 262162, 63, 65539, 262163, 63, 131072, 262164, 63, 131072, 262165, 63, 131072, 262166, 63, 131072, 262167, 63, 131072, 262168, 63, 131072, 262169, 63, 65539, 393234, 63, 65539, 393235, 63, 131072, 393236, 63, 131072, 393237, 63, 131072, 393238, 63, 131072, 393239, 63, 131072, 393240, 63, 131072, 393241, 63, 65539, 458770, 63, 196608, 458777, 63, 196608, 524306, 63, 196608, 524313, 63, 196608, 589842, 63, 65539, 589843, 63, 131072, 589844, 63, 131072, 589845, 63, 131072, 589846, 63, 131072, 589847, 63, 131072, 589848, 63, 131072, 589849, 63, 65539, 720914, 63, 4, 720917, 63, 3, 720918, 63, 65539, 720919, 63, 131072, 720920, 63, 131072, 720921, 63, 65539, 786450, 63, 196608, 786453, 63, 0, 786454, 63, 65537, 786457, 63, 196608, 851986, 63, 196608, 851989, 63, 0, 851990, 63, 65537, 851993, 63, 196608, 917522, 63, 65539, 917523, 63, 131072, 917524, 63, 131072, 917525, 63, 65539, 917526, 63, 131075, 917529, 63, 131074 )
+tile_data = PoolIntArray( -393210, 63, 131073, -327662, 63, 131073 )
 
 [node name="WestWall" parent="Map/Layer" index="0"]
-tile_data = PoolIntArray( -327662, 66, 0, -327661, 66, 1, -327660, 66, 1, -327659, 66, 0, -327658, 66, 0, -327657, 66, 1, -327655, 66, 0, -131054, 66, 1, -131053, 66, 0, -131052, 66, 1, -131051, 66, 0, -131050, 66, 1, -131049, 66, 1, -131047, 66, 0, 65555, 66, 1, 65556, 66, 0, 65557, 66, 1, 65558, 66, 0, 65559, 66, 0, 65560, 66, 0, 262162, 66, 0, 262163, 66, 1, 262164, 66, 0, 262165, 66, 1, 262166, 66, 0, 262167, 66, 0, 262168, 66, 1, 262169, 66, 0, 393235, 66, 0, 393236, 66, 0, 393237, 66, 0, 393238, 66, 0, 393239, 66, 1, 393240, 66, 1, 589842, 66, 0, 589843, 66, 1, 589844, 66, 1, 589845, 66, 0, 589846, 66, 1, 589847, 66, 0, 589848, 66, 1, 589849, 66, 1, 720919, 66, 1, 720920, 66, 0, 917522, 66, 0, 917523, 66, 1, 917524, 66, 0, 917525, 66, 0, 917526, 66, 0, 917529, 66, 0 )
+tile_data = PoolIntArray( -393210, 66, 1, -327662, 66, 1 )
 
 [node name="EastWall" parent="Map/Layer" index="1"]
 z_index = -1
-tile_data = PoolIntArray( -327657, 66, 3, -327655, 66, 2, -131049, 66, 3, -131047, 66, 2, 65561, 66, 2, 131090, 66, 3, 131097, 66, 3, 196626, 66, 2, 196633, 66, 3, 262169, 66, 2, 393241, 66, 3, 458770, 66, 3, 458777, 66, 2, 524306, 66, 2, 524313, 66, 2, 589849, 66, 3, 720914, 66, 3, 720921, 66, 3, 786450, 66, 3, 786454, 66, 3, 786457, 66, 2, 851986, 66, 3, 851990, 66, 3, 851993, 66, 2, 917526, 66, 2, 917529, 66, 2 )
+tile_data = PoolIntArray( -393210, 66, 3, -327662, 66, 3 )
+
+[node name="Layer2" parent="Map" instance=ExtResource( 14 )]
+position = Vector2( 0, -16 )
+tile_data = PoolIntArray( -327662, 63, 131073 )
+
+[node name="WestWall" parent="Map/Layer2" index="0"]
+tile_data = PoolIntArray( -327662, 66, 0 )
+
+[node name="EastWall" parent="Map/Layer2" index="1"]
+tile_data = PoolIntArray( -327662, 66, 2 )
 
 [node name="DamageContainer" type="Node2D" parent="."]
 script = ExtResource( 33 )
@@ -420,3 +431,4 @@ __meta__ = {
 
 [editable path="Map"]
 [editable path="Map/Layer"]
+[editable path="Map/Layer2"]
