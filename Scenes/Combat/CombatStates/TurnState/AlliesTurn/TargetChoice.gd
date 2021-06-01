@@ -80,8 +80,8 @@ func generate_area(area_type: int):
 	if area_type == AREA_TYPE.REACHABLE:
 		match(aoe.area_type.name):
 			"LineForward": cells_in_range = map.get_cells_in_straight_line(actor_cell, aoe_size, range(4))
-			"LinePerpendicular": cells_in_range = map.get_cells_in_circle(actor_cell, 2, true)
-			"Circle", "Square": cells_in_range = map.get_cells_in_circle(actor_cell, aoe_range + 1, true)
+			"LinePerpendicular": cells_in_range = map.get_walkable_cells_in_circle(actor_cell, 2, true)
+			"Circle", "Square": cells_in_range = map.get_walkable_cells_in_circle(actor_cell, aoe_range + 1, true)
 		
 		reachables = cells_in_range
 	
