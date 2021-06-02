@@ -4,6 +4,7 @@
 [ext_resource path="res://Scenes/Actors/Allies/Character.tscn" type="PackedScene" id=2]
 
 [node name="CombatLevel1" instance=ExtResource( 1 )]
+fog_of_war = true
 
 [node name="Character" parent="Map/Interactives/ActorTeams/Allies" index="0" instance=ExtResource( 2 )]
 position = Vector2( 384, 104 )
@@ -18,7 +19,7 @@ tile_data = PoolIntArray( -65522, 70, 1, -65521, 70, 2, -65520, 70, 1, -65519, 7
 tile_data = PoolIntArray( -655337, 70, 5, -589801, 70, 3, -524265, 70, 4, -458729, 70, 3, -393193, 70, 5, -327657, 70, 5, -262121, 70, 5, -196585, 70, 3, -131049, 70, 5, -65513, 70, 3 )
 
 [node name="Obstacles" parent="Map/Layer" index="2"]
-tile_data = PoolIntArray( -589809, 6, 0, -589805, 21, 0, -589802, 6, 0, -458736, 73, 65536, -327658, 20, 0, -196591, 18, 0, -131057, 6, 0, -131050, 5, 0 )
+tile_data = PoolIntArray( -589809, 6, 0, -589802, 6, 0, -458736, 73, 65536, -131057, 6, 0, -131050, 5, 0 )
 
 [editable path="Map"]
 [editable path="Map/Layer"]
