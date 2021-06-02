@@ -1,9 +1,8 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://BabaGodotLib/Isometric/IsoRenderer/IsoRenderer.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Combat/DebugPanel/DebugPanel.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/Combat/HUD/ActionMenu/ActionMenu.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Scenes/Actors/Allies/Character.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/Combat/HUD/NinePatchRect/NinePatchRect.png" type="Texture" id=5]
 [ext_resource path="res://Scenes/Combat/Map/IsoMap.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/Combat/Timeline/Timeline.tscn" type="PackedScene" id=7]
@@ -13,7 +12,6 @@
 [ext_resource path="res://Scenes/Combat/HUD/HUD.gd" type="Script" id=11]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/Overlook.gd" type="Script" id=12]
 [ext_resource path="res://Scenes/Combat/CombatLoop.gd" type="Script" id=13]
-[ext_resource path="res://BabaGodotLib/Isometric/IsoMap/IsoMapLayer.tscn" type="PackedScene" id=14]
 [ext_resource path="res://BabaGodotLib/Absract/StateMachine/PushdownAutomata/PushdownAutomata.gd" type="Script" id=15]
 [ext_resource path="res://Scenes/Combat/IA/IA.gd" type="Script" id=16]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/Attack.gd" type="Script" id=17]
@@ -29,30 +27,20 @@
 [ext_resource path="res://Fonts/BoldCapitalPixel.tres" type="DynamicFont" id=27]
 [ext_resource path="res://Resources/CombatEffectObject/Items/Potions/HealPotion.tres" type="Resource" id=28]
 [ext_resource path="res://Scenes/Combat/HUD/ActionsLeft.gd" type="Script" id=29]
-[ext_resource path="res://Resources/CombatEffectObject/Skills/Magic/Heal/Heal.tres" type="Resource" id=30]
 [ext_resource path="res://Scenes/Combat/Animation.gd" type="Script" id=31]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/TargetChoice.gd" type="Script" id=32]
 [ext_resource path="res://Scenes/Combat/DamageContainer.gd" type="Script" id=33]
-[ext_resource path="res://Resources/Effect.gd" type="Script" id=34]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/DestinationChoice.gd" type="Script" id=35]
 [ext_resource path="res://Scenes/Combat/TeamsContainer.gd" type="Script" id=36]
 [ext_resource path="res://Scenes/Combat/CombatStates/CombatStateBase.gd" type="Script" id=38]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/AllyTurn.gd" type="Script" id=41]
 
-[sub_resource type="Resource" id=1]
-script = ExtResource( 34 )
-nb_hits = 1
-damage = 5
-damage_variance = 20.0
-damage_type = 1
-ailment_array = [  ]
-ailment_mode = 1
-
-[node name="Combat" type="Node2D"]
+[node name="CombatLevel" type="Node2D"]
 script = ExtResource( 13 )
 __meta__ = {
 "_edit_lock_": true
 }
+fog_of_war = false
 
 [node name="IA" type="Node" parent="."]
 script = ExtResource( 16 )
@@ -64,7 +52,7 @@ __meta__ = {
 }
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 290, 184 )
+position = Vector2( 360, 136 )
 z_index = 999
 current = true
 
@@ -160,11 +148,6 @@ script = ExtResource( 8 )
 team_side = 0
 inventory = [ [ ExtResource( 28 ), 3 ] ]
 
-[node name="Character" parent="Map/Interactives/ActorTeams/Allies" instance=ExtResource( 4 )]
-position = Vector2( 320, 184 )
-default_attack_effect = SubResource( 1 )
-skills = [ ExtResource( 30 ) ]
-
 [node name="Enemies" type="Node2D" parent="Map/Interactives/ActorTeams"]
 script = ExtResource( 8 )
 
@@ -173,25 +156,8 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Layer" parent="Map" index="3"]
-tile_data = PoolIntArray( -393210, 63, 131073, -327662, 63, 131073 )
-
-[node name="WestWall" parent="Map/Layer" index="0"]
-tile_data = PoolIntArray( -393210, 66, 1, -327662, 66, 1 )
-
 [node name="EastWall" parent="Map/Layer" index="1"]
 z_index = -1
-tile_data = PoolIntArray( -393210, 66, 3, -327662, 66, 3 )
-
-[node name="Layer2" parent="Map" instance=ExtResource( 14 )]
-position = Vector2( 0, -16 )
-tile_data = PoolIntArray( -327662, 63, 131073 )
-
-[node name="WestWall" parent="Map/Layer2" index="0"]
-tile_data = PoolIntArray( -327662, 66, 0 )
-
-[node name="EastWall" parent="Map/Layer2" index="1"]
-tile_data = PoolIntArray( -327662, 66, 2 )
 
 [node name="DamageContainer" type="Node2D" parent="."]
 script = ExtResource( 33 )
@@ -431,4 +397,3 @@ __meta__ = {
 
 [editable path="Map"]
 [editable path="Map/Layer"]
-[editable path="Map/Layer2"]
