@@ -7,8 +7,6 @@ const NEW_LAYER = preload("res://addons/Plugin/NewLayer.tscn")
 const NEXT_LAYER = preload("res://addons/Plugin/NextLayer.tscn")
 const PREVIOUS_LAYER = preload("res://addons/Plugin/PreviousLayer.tscn")
 
-const combat_scene = preload("res://Scenes/Combat/CombatBase.tscn")
-
 var edited_map : Node = null
 var edited_layer : Node = null
 
