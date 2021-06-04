@@ -92,7 +92,7 @@ func _on_current_actor_changed(new_actor: TRPG_Actor):
 	_update_actor_info(true)
 
 
-func _on_current_actor_action_finished():
+func _on_current_actor_action_finished(_action_name: String):
 	actions_left_node.update_display(current_actor)
 
 

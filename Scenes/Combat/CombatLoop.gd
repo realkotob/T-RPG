@@ -192,7 +192,7 @@ func _on_actor_action_finished(actor: TRPG_Actor):
 	
 	if actor.get_team_side() != ActorTeam.TEAM_TYPE.ALLY:
 		update_view_field()
-		
+	
 	if actor.get_current_actions() == 0:
 		actor.emit_signal("turn_finished")
 	else:
