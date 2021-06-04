@@ -27,6 +27,7 @@ var is_ready : bool = false
 export var fog_of_war : bool = true
 
 signal active_actor_changed
+signal active_actor_state_changed(state)
 
 #### ACCESSORS ####
 
@@ -57,6 +58,7 @@ func get_state_name() -> String: return combat_state_node.get_state_name()
 func _ready() -> void:
 	var _err = connect("active_actor_changed", debug_panel, "_on_active_actor_changed")
 	_err = cursor_node.connect("max_z_changed", debug_panel, "_on_cursor_max_z_changed")
+	_err = connect("active_actor_state_changed", debug_panel, "_on_active_actor_state_changed")
 	
 	# Combat states signals
 	_err = combat_state_node.connect("state_changed", debug_panel, "_on_turn_type_state_changed")
@@ -93,15 +95,16 @@ func new_turn():
 	previous_actor = active_actor
 	set_active_actor(actors_order[0])
 	var __ = active_actor.connect("turn_finished", self, "_on_active_actor_turn_finished")
+	__ = active_actor.connect("state_changed", self, "_on_active_actor_state_changed")
 	
 	on_focus_changed()
 	
-	if active_actor.is_team_side(ActorTeam.TEAM_TYPE.ALLY):
-		set_state("PlayerTurn")
-	else:
-		set_state("IATurn")
+	var new_state = "PlayerTurn" if active_actor.is_team_side(ActorTeam.TEAM_TYPE.ALLY) else "IATurn"
+	var turn_type_changed = new_state != get_state_name()
+	set_state(new_state)
 	
-	set_turn_state("Overlook")
+	if !turn_type_changed:
+		set_turn_state("Overlook")
 	
 	EVENTS.emit_signal("combat_new_turn_started", active_actor)
 
@@ -109,6 +112,7 @@ func new_turn():
 # End of turn procedure, called right before a new turn start
 func end_turn():
 	active_actor.disconnect("turn_finished", self, "_on_active_actor_turn_finished")
+	active_actor.disconnect("state_changed", self, "_on_active_actor_state_changed")
 	
 	# Change the order of the timeline
 	set_future_actors_order(actors_order)
@@ -202,3 +206,7 @@ func _on_actor_action_finished(actor: TRPG_Actor):
 func _on_damagable_targeted(damagable_array: Array):
 	for damagable in damagable_array:
 		damagable.show_infos()
+
+
+func _on_active_actor_state_changed(state: Node):
+	emit_signal("active_actor_state_changed", state)

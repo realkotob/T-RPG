@@ -367,6 +367,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ActiveActorState" type="Label" parent="DebugPanel/VBoxContainer"]
+margin_top = 72.0
+margin_right = 119.0
+margin_bottom = 86.0
+text = "Active Actor State:"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
 [node name="ActiveActorPos" type="Label" parent="DebugPanel/VBoxContainer"]
 margin_top = 90.0
 margin_right = 119.0

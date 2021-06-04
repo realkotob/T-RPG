@@ -36,5 +36,9 @@ func _on_active_actor_changed(active_actor: TRPG_Actor):
 	$VBoxContainer/ActiveActor.text = "Active TRPG_Actor: " + String(active_actor.name)
 	_on_active_actor_pos_changed(active_actor)
 
+func _on_active_actor_state_changed(state: Node):
+	var state_name = state.name if state != null else ""
+	$VBoxContainer/ActiveActorState.set_text("Active actor state %s " % state_name)
+
 func _on_active_actor_pos_changed(active_actor: TRPG_Actor):
 	$VBoxContainer/ActiveActorPos.text = "Active TRPG_Actor's Pos: " + String(active_actor.get_current_cell())

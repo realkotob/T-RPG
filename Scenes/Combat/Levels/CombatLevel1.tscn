@@ -12,7 +12,7 @@ fog_of_war = true
 position = Vector2( 384, 72 )
 
 [node name="Character" parent="Map/Interactives/ActorTeams/Allies" index="0" instance=ExtResource( 2 )]
-position = Vector2( 368, 112 )
+position = Vector2( 336, 80 )
 
 [node name="BlueSlime" parent="Map/Interactives/ActorTeams/Enemies" index="0" instance=ExtResource( 4 )]
 position = Vector2( 368, 64 )
@@ -59,6 +59,26 @@ position = Vector2( 0, -32 )
 
 [node name="Walls" parent="Map/Layer3" index="3"]
 tile_data = PoolIntArray( -851957, 80, 0, -851956, 80, 0, -851955, 80, 1, -851954, 80, 0, -851953, 80, 0, -851952, 80, 0, -851951, 80, 0, -851950, 80, 0, -851949, 80, 0, -851948, 80, 0, -851947, 80, 0, -851946, 80, 0, -851945, 80, 1, -786421, 80, 1, -720885, 80, 0, -655349, 80, 3, -589813, 80, 0, -524277, 80, 0, -458741, 80, 1, -393205, 80, 0, -327669, 80, 1, -262133, 80, 0, -196597, 80, 3, -131061, 80, 0, -65525, 80, 0 )
+
+[node name="VBoxContainer" parent="DebugPanel" index="0"]
+margin_top = -175.0
+margin_bottom = 0.0
+
+[node name="ActiveActorState" parent="DebugPanel/VBoxContainer" index="5"]
+margin_top = 90.0
+margin_bottom = 104.0
+
+[node name="ActiveActorPos" parent="DebugPanel/VBoxContainer" index="6"]
+margin_top = 108.0
+margin_bottom = 122.0
+
+[node name="CursorMaxZ" parent="DebugPanel/VBoxContainer" index="7"]
+margin_top = 126.0
+margin_bottom = 140.0
+
+[node name="CursorPos" parent="DebugPanel/VBoxContainer" index="8"]
+margin_top = 144.0
+margin_bottom = 175.0
 
 [editable path="Map"]
 [editable path="Map/Layer"]
