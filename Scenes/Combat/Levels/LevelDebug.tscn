@@ -1,24 +1,42 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scenes/Combat/CombatLevelBase.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Actors/Allies/Character.tscn" type="PackedScene" id=2]
+[ext_resource path="res://BabaGodotLib/Isometric/IsoMap/IsoMapLayer.tscn" type="PackedScene" id=3]
 
 [node name="LevelDebug" instance=ExtResource( 1 )]
 
 [node name="Character" parent="Map/Interactives/ActorTeams/Allies" index="0" instance=ExtResource( 2 )]
-position = Vector2( 368, 207 )
+position = Vector2( 320, 200.167 )
 
 [node name="Layer" parent="Map" index="3"]
-tile_data = PoolIntArray( 22, 74, 3, 23, 74, 1, 24, 74, 65540, 65558, 74, 0, 65559, 74, 458755, 65560, 74, 65537, 131094, 74, 65538, 131095, 74, 65536, 131096, 74, 131075 )
+tile_data = PoolIntArray( 131094, 74, 131073 )
 
 [node name="WestWall" parent="Map/Layer" index="0"]
-tile_data = PoolIntArray( 131094, 75, 1, 131095, 75, 0, 131096, 75, 2 )
+tile_data = PoolIntArray( 131094, 75, 2 )
 
 [node name="EastWall" parent="Map/Layer" index="1"]
-tile_data = PoolIntArray( 24, 75, 4, 65560, 75, 3, 131096, 75, 5 )
+tile_data = PoolIntArray( 131094, 75, 5 )
 
-[node name="Obstacles" parent="Map/Layer" index="2"]
-tile_data = PoolIntArray( 65559, 81, 0 )
+[node name="Walls" parent="Map/Layer" index="3"]
+tile_data = PoolIntArray( 131093, 80, 0 )
+
+[node name="Layer2" parent="Map" index="4" instance=ExtResource( 3 )]
+position = Vector2( 0, -16 )
+
+[node name="Walls" parent="Map/Layer2" index="3"]
+tile_data = PoolIntArray( 131093, 80, 0 )
+
+[node name="Layer3" parent="Map" index="5" instance=ExtResource( 3 )]
+position = Vector2( 0, -32 )
+
+[node name="Walls" parent="Map/Layer3" index="3"]
+tile_data = PoolIntArray( 131093, 80, 0 )
+
+[node name="Layer4" parent="Map" index="6" instance=ExtResource( 3 )]
+position = Vector2( 0, -48 )
 
 [editable path="Map"]
 [editable path="Map/Layer"]
+[editable path="Map/Layer2"]
+[editable path="Map/Layer3"]
