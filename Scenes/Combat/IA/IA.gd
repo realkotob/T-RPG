@@ -1,18 +1,23 @@
 extends Node
 class_name IA
 
-var default_coef_dict = {
+var default_coef = {
 	"wait" : 20,
 	"attack" : 0,
-	"move" : 0
+	"move" : 30
 }
 
-var target_coef_modifier_dict = {
+var target_coef_mod = {
 	"ally": -50,
 	"enemy": 30,
 	"obstacle": 10
 }
 
+var attack_result_coef_mod = {
+	"kill": 30,
+	"low_hp": 15,
+	"high_damage": 10
+}
 
 #### ACCESSORS ####
 
@@ -21,6 +26,7 @@ func get_class() -> String: return "IA"
 
 
 #### BUILT-IN ####
+
 
 
 
@@ -59,6 +65,15 @@ func find_possible_actions(actor: TRPG_Actor, map: IsoMap) -> Array:
 	
 	actions_array.append([ActorActionRequest.new(actor, "wait")])
 	
+	var actor_cell = actor.get_current_cell()
+	var actor_mov = actor.get_current_movements()
+	
+	var reachables_cells = map.pathfinding.find_reachable_cells(actor_cell, actor_mov)
+	
+	for cell in reachables_cells:
+		var path = map.pathfinding.find_path(actor_cell, cell)
+		actions_array.append([ActorActionRequest.new(actor, "move", [path])])
+	
 	return actions_array
 
 
@@ -66,12 +81,12 @@ func compute_decision_coefficient(actions_array : Array, map: IsoMap) -> int:
 	var total_coef : int = 0
 	for action in actions_array:
 		var action_method = action.get_method_name()
-		if action_method in default_coef_dict.keys():
+		if action_method in default_coef.keys():
 			if action_method == "attack":
 				total_coef += compute_attack_coefficient(action, map)
-			total_coef += default_coef_dict[action_method]
+			total_coef += default_coef[action_method]
 		else:
-			push_warning("The given action, %s doesn't exist in the default_coef_dict" % action_method)
+			push_warning("The given action, %s doesn't exist in the default_coef" % action_method)
 	
 	return total_coef
 
@@ -98,15 +113,15 @@ func compute_attack_coefficient(attack_request: ActorActionRequest, map: IsoMap)
 			var HP_left_ratio : float = HP_left / target_max_HP
 			
 			if HP_left_ratio < 0.25:
-				coef_modifier = 15
+				coef_modifier = attack_result_coef_mod["low_hp"]
 			elif HP_left_ratio == 0.0:
-				coef_modifier = 30
+				coef_modifier = attack_result_coef_mod["kill"]
 			elif HP_lost_ratio > 0.2:
-				coef_modifier = 10
+				coef_modifier = attack_result_coef_mod["high_damage"]
 			
 		else:
 			target_type_name = "obstacle"
-		coefficient += target_coef_modifier_dict[target_type_name] + coef_modifier
+		coefficient += target_coef_mod[target_type_name] + coef_modifier
 	
 	return coefficient
 

@@ -138,6 +138,9 @@ func first_become_last(array : Array) -> void:
 
 
 func update_view_field() -> void:
+	if !fog_of_war:
+		return
+	
 	for actor in actors_order:
 		map_node.update_view_field(actor)
 

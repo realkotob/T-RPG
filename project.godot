@@ -639,6 +639,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BabaGodotLib/Absract/StateMachine/ToolStateMachine.gd"
 }, {
+"base": "Object",
+"class": "Utils",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Statics/Utils.gd"
+}, {
 "base": "Resource",
 "class": "Weapon",
 "language": "GDScript",
@@ -786,6 +791,7 @@ _global_script_class_icons={
 "Timeline": "",
 "TimelinePortrait": "",
 "ToolStatesMachine": "",
+"Utils": "",
 "Weapon": "",
 "WorldMap": "",
 "WorldMapEditor": "",

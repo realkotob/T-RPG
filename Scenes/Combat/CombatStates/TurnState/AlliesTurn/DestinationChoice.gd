@@ -20,6 +20,8 @@ func enter_state():
 	if !is_current_state():
 		return
 	
+	.enter_state()
+	
 	path = []
 	
 	if owner.active_actor != null:

@@ -33,7 +33,7 @@ var handled_ext = ["png", "jpg", "jpeg"]
 var file_dialogue : FileDialog = null
 var button_dict : Dictionary = {}
 
-var print_logs : bool = true
+var print_logs : bool = false
 
 signal selected_path_changed(path)
 

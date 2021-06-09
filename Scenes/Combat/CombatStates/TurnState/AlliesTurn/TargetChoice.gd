@@ -46,6 +46,7 @@ func enter_state():
 		states_machine.go_to_previous_state()
 		return
 	
+	.enter_state()
 	generate_area(AREA_TYPE.REACHABLE)
 	EVENTS.emit_signal("target_choice_state_entered")
 
