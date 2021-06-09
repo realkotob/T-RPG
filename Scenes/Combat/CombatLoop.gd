@@ -12,6 +12,7 @@ onready var debug_panel = $DebugPanel
 onready var pathfinder = $Map/Pathfinding
 onready var teams_container = $Map/Interactives/ActorTeams
 onready var allies_team = $Map/Interactives/ActorTeams/Allies
+onready var timeline = $HUD/Timeline
 
 onready var allies_array : Array = get_tree().get_nodes_in_group("Allies")
 onready var actors_order : Array = get_tree().get_nodes_in_group("Actors") setget set_actors_order
@@ -73,7 +74,7 @@ func _ready() -> void:
 	_err = EVENTS.connect("damagable_targeted", self, "_on_damagable_targeted")
 	_err = EVENTS.connect("iso_object_focused", self, "_on_iso_object_focused")
 	_err = EVENTS.connect("iso_object_unfocused", self, "_on_iso_object_unfocused")
-	
+	_err = EVENTS.connect("actor_died", self, "_on_actor_died")
 	EVENTS.emit_signal("hide_iso_objects", true)
 	
 	HUD_node.generate_timeline(actors_order)
@@ -210,3 +211,9 @@ func _on_damagable_targeted(damagable_array: Array):
 
 func _on_active_actor_state_changed(state: Node):
 	emit_signal("active_actor_state_changed", state)
+
+
+func _on_actor_died(actor: TRPG_Actor) -> void:
+	if actor in actors_order:
+		actors_order.erase(actor)
+		timeline.remove_actor_portrait(actor)

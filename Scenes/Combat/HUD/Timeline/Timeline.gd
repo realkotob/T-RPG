@@ -96,8 +96,17 @@ func get_actor_portrait(actor: TRPG_Actor) -> TimelinePortrait:
 			return child
 	return null
 
+
+func remove_actor_portrait(actor: TRPG_Actor):
+	var portrait = get_actor_portrait(actor)
+	portrait.queue_free()
+
+
 func get_portraits() -> Array:
 	return order_node.get_children()
+
+
+#### SIGNALS RESPONSES ####
 
 func on_timeline_movement_finished():
 	EVENTS.emit_signal("timeline_movement_finished")

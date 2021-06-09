@@ -274,6 +274,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BabaGodotLib/Isometric/IsoAnimatedSprite.gd"
 }, {
+"base": "EditorPlugin",
+"class": "IsoAutotileImporter",
+"language": "GDScript",
+"path": "res://addons/IsoAutotileGenerator/IsoAutotileImporter.gd"
+}, {
 "base": "EventsBase",
 "class": "IsoEvents",
 "language": "GDScript",
@@ -708,6 +713,7 @@ _global_script_class_icons={
 "IconsLineData": "",
 "InteractiveObject": "",
 "IsoAnimatedSprite": "",
+"IsoAutotileImporter": "",
 "IsoEvents": "",
 "IsoLogic": "",
 "IsoMap": "",
@@ -812,7 +818,7 @@ window/stretch/aspect="keep"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "Plugin" )
+enabled=PoolStringArray( "res://addons/IsoAutotileGenerator/plugin.cfg", "res://addons/Plugin/plugin.cfg" )
 
 [importer_defaults]
 
