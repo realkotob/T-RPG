@@ -14,7 +14,7 @@ position = Vector2( 384, 72 )
 position = Vector2( 336, 80 )
 
 [node name="BlueSlime" parent="Map/Interactives/ActorTeams/Enemies" index="0" instance=ExtResource( 4 )]
-position = Vector2( 368, 66 )
+position = Vector2( 368.242, 66 )
 
 [node name="BlueSlime3" parent="Map/Interactives/ActorTeams/Enemies" index="1" instance=ExtResource( 4 )]
 position = Vector2( 464, 60 )

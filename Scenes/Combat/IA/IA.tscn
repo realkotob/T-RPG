@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scenes/Combat/IA/IA.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Combat/IA/IA_Strategy/ExploreStrategy.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/Combat/IA/IA_Strategy/OffensiveStrategy.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/Combat/IA/IA_Strategy/DefensiveStrategy.gd" type="Script" id=4]
+
+[node name="IA" type="Node"]
+script = ExtResource( 1 )
+
+[node name="Offensive" type="Node" parent="."]
+script = ExtResource( 3 )
+default_coef = {
+"attack": 10.0,
+"move": 1.#INF,
+"wait": 20.0
+}
+
+[node name="Defensive" type="Node" parent="."]
+script = ExtResource( 4 )
+
+[node name="Explore" type="Node" parent="."]
+script = ExtResource( 2 )

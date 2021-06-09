@@ -189,6 +189,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/CombatStates/TurnState/EnemyTurn/Decision.gd"
 }, {
+"base": "IA_Strategy",
+"class": "DefensiveStrategy",
+"language": "GDScript",
+"path": "res://Scenes/Combat/IA/IA_Strategy/DefensiveStrategy.gd"
+}, {
 "base": "ResizableWindow",
 "class": "DescriptionWindow",
 "language": "GDScript",
@@ -213,6 +218,11 @@ _global_script_classes=[ {
 "class": "EventsBase",
 "language": "GDScript",
 "path": "res://BabaGodotLib/Autoload/EventBase.gd"
+}, {
+"base": "IA_Strategy",
+"class": "ExploreStrategy",
+"language": "GDScript",
+"path": "res://Scenes/Combat/IA/IA_Strategy/ExploreStrategy.gd"
 }, {
 "base": "CanvasLayer",
 "class": "FadeTransition",
@@ -253,6 +263,11 @@ _global_script_classes=[ {
 "class": "IA",
 "language": "GDScript",
 "path": "res://Scenes/Combat/IA/IA.gd"
+}, {
+"base": "Object",
+"class": "IA_Strategy",
+"language": "GDScript",
+"path": "res://Scenes/Combat/IA/IA_Strategy/IA_Strategy.gd"
 }, {
 "base": "LineContainer",
 "class": "IconsLineContainer",
@@ -408,6 +423,11 @@ _global_script_classes=[ {
 "class": "Obstacle",
 "language": "GDScript",
 "path": "res://AbstractClasses/Obstacle.gd"
+}, {
+"base": "IA_Strategy",
+"class": "OffensiveStrategy",
+"language": "GDScript",
+"path": "res://Scenes/Combat/IA/IA_Strategy/OffensiveStrategy.gd"
 }, {
 "base": "CombatStateBase",
 "class": "OptionChoiceState",
@@ -701,11 +721,13 @@ _global_script_class_icons={
 "DamagableSmallGauge": "",
 "DamageContainer": "",
 "DecisionState": "",
+"DefensiveStrategy": "",
 "DescriptionWindow": "",
 "DirNavHelper": "",
 "Disappear": "",
 "Effect": "",
 "EventsBase": "",
+"ExploreStrategy": "",
 "FadeTransition": "",
 "Firearm": "",
 "GameLoader": "",
@@ -714,6 +736,7 @@ _global_script_class_icons={
 "Gauge": "",
 "HUD_Gauge": "",
 "IA": "",
+"IA_Strategy": "",
 "IconsLineContainer": "",
 "IconsLineData": "",
 "InteractiveObject": "",
@@ -745,6 +768,7 @@ _global_script_class_icons={
 "MovementArrowSegment": "",
 "NormalLineData": "",
 "Obstacle": "",
+"OffensiveStrategy": "",
 "OptionChoiceState": "",
 "OptionDataContainer": "",
 "OptionLineContainer": "",

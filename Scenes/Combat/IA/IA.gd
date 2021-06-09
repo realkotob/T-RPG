@@ -1,23 +1,7 @@
 extends Node
 class_name IA
 
-var default_coef = {
-	"wait" : 20,
-	"attack" : 0,
-	"move" : 30
-}
-
-var target_coef_mod = {
-	"ally": -50,
-	"enemy": 30,
-	"obstacle": 10
-}
-
-var attack_result_coef_mod = {
-	"kill": 30,
-	"low_hp": 15,
-	"high_damage": 10
-}
+var current_strategy : IA_Strategy = null
 
 #### ACCESSORS ####
 
@@ -29,7 +13,6 @@ func get_class() -> String: return "IA"
 
 
 
-
 #### VIRTUALS ####
 
 
@@ -37,54 +20,70 @@ func get_class() -> String: return "IA"
 #### LOGIC ####
 
 
-# Find all possible actions, compute their coefficent and pick the one with the biggest
+func choose_strategy() -> Node:
+	return $Explore
+
+
+
 func make_decision(actor: TRPG_Actor, map: CombatIsoMap) -> Array:
-	var possible_actions = find_possible_actions(actor, map)
-	var biggest_coef = -INF
-	var biggest_coef_descsion_id : int = -1
-	
-	for i in range(possible_actions.size()):
-		var coefficient = compute_decision_coefficient(possible_actions[i], map)
-		if coefficient > biggest_coef:
-			biggest_coef = coefficient
-			biggest_coef_descsion_id = i
-	
-	return possible_actions[biggest_coef_descsion_id]
+	# Check if the current strategy is the best one before making a decision
+	return current_strategy.choose_best_action(actor, map)
+
+
+
+## Find all possible actions, compute their coefficent and pick the one with the biggest
+#func make_decision(actor: TRPG_Actor, map: CombatIsoMap) -> Array:
+#	var possible_actions = find_possible_actions(actor, map)
+#	var biggest_coef = -INF
+#	var biggest_coef_descsion_id : int = -1
+#
+#	for i in range(possible_actions.size()):
+#		var coefficient = compute_decision_coefficient(possible_actions[i], map)
+#		if coefficient > biggest_coef:
+#			biggest_coef = coefficient
+#			biggest_coef_descsion_id = i
+#
+#	return possible_actions[biggest_coef_descsion_id]
+
 
 
 # Find all possible actions and returns it in an array
-func find_possible_actions(actor: TRPG_Actor, map: IsoMap) -> Array:
-	var actions_array := Array()
-	var without_movement_targets = find_damagables_in_range(actor, actor.get_current_range(), map)
-	var with_movement_targets = find_damagables_in_range(actor, actor.get_current_range() + actor.get_current_movements(), map)
-	
-	var targets_array = convert_targetables_to_aoe_targets(actor, without_movement_targets + with_movement_targets)
-	for target in targets_array:
-		var action = create_action_from_target(actor, map, target)
-		actions_array.append(action)
-	
-	actions_array.append([ActorActionRequest.new(actor, "wait")])
-	
-	var actor_cell = actor.get_current_cell()
-	var actor_mov = actor.get_current_movements()
-	
-	var reachables_cells = map.pathfinding.find_reachable_cells(actor_cell, actor_mov)
-	
-	for cell in reachables_cells:
-		var path = map.pathfinding.find_path(actor_cell, cell)
-		actions_array.append([ActorActionRequest.new(actor, "move", [path])])
-	
-	return actions_array
+#func find_possible_actions(actor: TRPG_Actor, map: IsoMap) -> Array:
+#	var actions_array := Array()
+#	var without_movement_targets = find_damagables_in_range(actor, actor.get_current_range(), map)
+#	var with_movement_targets = find_damagables_in_range(actor, actor.get_current_range() + actor.get_current_movements(), map)
+#
+#	var targets_array = convert_targetables_to_aoe_targets(actor, without_movement_targets + with_movement_targets)
+#	for target in targets_array:
+#		var action = create_action_from_target(actor, map, target)
+#		actions_array.append(action)
+#
+#	actions_array.append([ActorActionRequest.new(actor, "wait")])
+#
+#	var actor_cell = actor.get_current_cell()
+#	var actor_mov = actor.get_current_movements()
+#
+#	var reachables_cells = map.pathfinding.find_reachable_cells(actor_cell, actor_mov)
+#
+#	for cell in reachables_cells:
+#		var path = map.pathfinding.find_path(actor_cell, cell)
+#		actions_array.append([ActorActionRequest.new(actor, "move", [path])])
+#
+#	return actions_array
+
+
+
+
 
 
 func compute_decision_coefficient(actions_array : Array, map: IsoMap) -> int:
 	var total_coef : int = 0
 	for action in actions_array:
 		var action_method = action.get_method_name()
-		if action_method in default_coef.keys():
+		if action_method in current_strategy.default_coef.keys():
 			if action_method == "attack":
 				total_coef += compute_attack_coefficient(action, map)
-			total_coef += default_coef[action_method]
+			total_coef += current_strategy.default_coef[action_method]
 		else:
 			push_warning("The given action, %s doesn't exist in the default_coef" % action_method)
 	
@@ -105,6 +104,7 @@ func compute_attack_coefficient(attack_request: ActorActionRequest, map: IsoMap)
 		if target.is_class("TRPG_Actor"):
 			target_type_name = "ally" if target.get_team() == attacker_team else "enemy"
 			
+			var coef_mod_dict = current_strategy.attack_result_coef_mod
 			var avg_damage = attack_effect.damage
 			var received_damage = CombatEffectHandler.compute_received_damage(avg_damage, target)
 			var target_max_HP = target.get_max_HP()
@@ -113,15 +113,15 @@ func compute_attack_coefficient(attack_request: ActorActionRequest, map: IsoMap)
 			var HP_left_ratio : float = HP_left / target_max_HP
 			
 			if HP_left_ratio < 0.25:
-				coef_modifier = attack_result_coef_mod["low_hp"]
+				coef_modifier = coef_mod_dict["low_hp"]
 			elif HP_left_ratio == 0.0:
-				coef_modifier = attack_result_coef_mod["kill"]
+				coef_modifier = coef_mod_dict["kill"]
 			elif HP_lost_ratio > 0.2:
-				coef_modifier = attack_result_coef_mod["high_damage"]
+				coef_modifier = coef_mod_dict["high_damage"]
 			
 		else:
 			target_type_name = "obstacle"
-		coefficient += target_coef_mod[target_type_name] + coef_modifier
+		coefficient += current_strategy.target_coef_mod[target_type_name] + coef_modifier
 	
 	return coefficient
 

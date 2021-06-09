@@ -3,6 +3,7 @@
 [ext_resource path="res://BabaGodotLib/Isometric/IsoRenderer/IsoRenderer.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Combat/DebugPanel/DebugPanel.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/Combat/HUD/ActionMenu/ActionMenu.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Combat/IA/IA.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/Combat/HUD/NinePatchRect/NinePatchRect.png" type="Texture" id=5]
 [ext_resource path="res://Scenes/Combat/Map/IsoMap.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/Combat/Timeline/Timeline.tscn" type="PackedScene" id=7]
@@ -13,7 +14,6 @@
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/Overlook.gd" type="Script" id=12]
 [ext_resource path="res://Scenes/Combat/CombatLoop.gd" type="Script" id=13]
 [ext_resource path="res://BabaGodotLib/Absract/StateMachine/PushdownAutomata/PushdownAutomata.gd" type="Script" id=15]
-[ext_resource path="res://Scenes/Combat/IA/IA.gd" type="Script" id=16]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/Attack.gd" type="Script" id=17]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/Skills.gd" type="Script" id=18]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/Items.gd" type="Script" id=19]
@@ -42,8 +42,7 @@ __meta__ = {
 }
 fog_of_war = false
 
-[node name="IA" type="Node" parent="."]
-script = ExtResource( 16 )
+[node name="IA" parent="." instance=ExtResource( 4 )]
 
 [node name="Renderer" type="Node2D" parent="."]
 script = ExtResource( 1 )
