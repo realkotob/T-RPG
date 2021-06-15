@@ -29,11 +29,13 @@ func _init(_actor: TRPG_Actor, _method_name: String, args: Array = []):
 func trigger_action() -> void :
 	func_to_call.call_funcv(arguments)
 
+
 func get_method_name() -> String:
 	if func_to_call == null:
 		return ""
 	else:
 		return method_name
+
 
 #### INPUTS ####
 

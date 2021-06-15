@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Resources/AOE/AOE_Target.gd"
 }, {
+"base": "StateBase",
+"class": "ActionCombatState",
+"language": "GDScript",
+"path": "res://Scenes/Combat/ActionCombatState.gd"
+}, {
 "base": "ListMenu",
 "class": "ActionMenu",
 "language": "GDScript",
@@ -44,7 +49,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BabaGodotLib/Actor/States/ActorState/BaseStates/ActorFallState.gd"
 }, {
-"base": "ActorStateBase",
+"base": "TRPG_ActorStateBase",
 "class": "ActorHurtState",
 "language": "GDScript",
 "path": "res://BabaGodotLib/Actor/States/ActorState/BaseStates/ActorHurtState.gd"
@@ -184,11 +189,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/DamageContainer.gd"
 }, {
-"base": "CombatStateBase",
-"class": "DecisionState",
-"language": "GDScript",
-"path": "res://Scenes/Combat/CombatStates/TurnState/EnemyTurn/Decision.gd"
-}, {
 "base": "IA_Strategy",
 "class": "DefensiveStrategy",
 "language": "GDScript",
@@ -263,6 +263,11 @@ _global_script_classes=[ {
 "class": "IA",
 "language": "GDScript",
 "path": "res://Scenes/Combat/IA/IA.gd"
+}, {
+"base": "CombatStateBase",
+"class": "IA_OverlookState",
+"language": "GDScript",
+"path": "res://Scenes/Combat/CombatStates/TurnState/EnemyTurn/IA_OverlookState.gd"
 }, {
 "base": "Object",
 "class": "IA_Strategy",
@@ -403,6 +408,11 @@ _global_script_classes=[ {
 "class": "MenuOptionsBase",
 "language": "GDScript",
 "path": "res://BabaGodotLib/UI/Menu/OptionButtons/MenuOptionsBase.gd"
+}, {
+"base": "StateBase",
+"class": "MoveAnimationState",
+"language": "GDScript",
+"path": "res://Scenes/Combat/MoveAnimationState.gd"
 }, {
 "base": "Node2D",
 "class": "MovementArrow",
@@ -664,6 +674,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BabaGodotLib/Statics/Utils.gd"
 }, {
+"base": "CombatStateBase",
+"class": "WaitCombatState",
+"language": "GDScript",
+"path": "res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/WaitCombatState.gd"
+}, {
 "base": "Resource",
 "class": "Weapon",
 "language": "GDScript",
@@ -688,6 +703,7 @@ _global_script_class_icons={
 "AOE": "",
 "AOE_AreaType": "",
 "AOE_Target": "",
+"ActionCombatState": "",
 "ActionMenu": "",
 "ActorActionRequest": "",
 "ActorActionState": "",
@@ -720,7 +736,6 @@ _global_script_class_icons={
 "Cursor": "",
 "DamagableSmallGauge": "",
 "DamageContainer": "",
-"DecisionState": "",
 "DefensiveStrategy": "",
 "DescriptionWindow": "",
 "DirNavHelper": "",
@@ -736,6 +751,7 @@ _global_script_class_icons={
 "Gauge": "",
 "HUD_Gauge": "",
 "IA": "",
+"IA_OverlookState": "",
 "IA_Strategy": "",
 "IconsLineContainer": "",
 "IconsLineData": "",
@@ -764,6 +780,7 @@ _global_script_class_icons={
 "Math": "",
 "MenuBase": "",
 "MenuOptionsBase": "",
+"MoveAnimationState": "",
 "MovementArrow": "",
 "MovementArrowSegment": "",
 "NormalLineData": "",
@@ -816,6 +833,7 @@ _global_script_class_icons={
 "TimelinePortrait": "",
 "ToolStatesMachine": "",
 "Utils": "",
+"WaitCombatState": "",
 "Weapon": "",
 "WorldMap": "",
 "WorldMapEditor": "",

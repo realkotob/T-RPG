@@ -69,11 +69,12 @@ func _ready() -> void:
 	
 	_err = map_node.connect("map_generation_finished", self, "_on_map_generation_finished")
 	_err = EVENTS.connect("timeline_movement_finished", self, "_on_timeline_movement_finished")
-	_err = EVENTS.connect("actor_action_finished", self, "_on_actor_action_finished")
+	_err = EVENTS.connect("actor_action_finished", self, "_on_action_phase_finished")
 	_err = EVENTS.connect("actor_cell_changed", self, "_on_actor_cell_changed")
 	_err = EVENTS.connect("damagable_targeted", self, "_on_damagable_targeted")
 	_err = EVENTS.connect("iso_object_focused", self, "_on_iso_object_focused")
 	_err = EVENTS.connect("iso_object_unfocused", self, "_on_iso_object_unfocused")
+	_err = EVENTS.connect("turn_finished", self, "_on_active_actor_turn_finished")
 	_err = EVENTS.connect("actor_died", self, "_on_actor_died")
 	EVENTS.emit_signal("hide_iso_objects", true)
 	
@@ -95,8 +96,7 @@ func _ready() -> void:
 func new_turn():
 	previous_actor = active_actor
 	set_active_actor(actors_order[0])
-	var __ = active_actor.connect("turn_finished", self, "_on_active_actor_turn_finished")
-	__ = active_actor.connect("state_changed", self, "_on_active_actor_state_changed")
+	var __ = active_actor.connect("state_changed", self, "_on_active_actor_state_changed")
 	
 	on_focus_changed()
 	
@@ -112,7 +112,6 @@ func new_turn():
 
 # End of turn procedure, called right before a new turn start
 func end_turn():
-	active_actor.disconnect("turn_finished", self, "_on_active_actor_turn_finished")
 	active_actor.disconnect("state_changed", self, "_on_active_actor_state_changed")
 	
 	# Change the order of the timeline
@@ -195,24 +194,25 @@ func _on_active_actor_turn_finished():
 	end_turn()
 
 
-func _on_actor_action_finished(actor: TRPG_Actor):
+func _on_action_phase_finished() -> void:
 	EVENTS.emit_signal("unfocus_all_iso_object_query")
-	
-	if actor.get_team_side() != ActorTeam.TEAM_TYPE.ALLY:
+
+	if active_actor.get_team_side() != ActorTeam.TEAM_TYPE.ALLY:
 		update_view_field()
-	
-	if actor.get_current_actions() == 0:
-		actor.emit_signal("turn_finished")
+
+	if active_actor.get_current_actions() == 0:
+		EVENTS.emit_signal("turn_finished")
 	else:
 		set_turn_state("Overlook")
 
 
-func _on_damagable_targeted(damagable_array: Array):
+
+func _on_damagable_targeted(damagable_array: Array) -> void:
 	for damagable in damagable_array:
 		damagable.show_infos()
 
 
-func _on_active_actor_state_changed(state: Node):
+func _on_active_actor_state_changed(state: Node) -> void:
 	emit_signal("active_actor_state_changed", state)
 
 

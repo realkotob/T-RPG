@@ -5,5 +5,4 @@
 [node name="Slime" instance=ExtResource( 1 )]
 
 [node name="AnimatedSprite" parent="." index="2"]
-animation = "IdleBottom"
 offset = Vector2( 0, -5 )

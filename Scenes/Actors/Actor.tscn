@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://BabaGodotLib/Isometric/IsoObjects/TRPG_Actor.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Actors/Allies/States/TRPG_ActorIdleState.gd" type="Script" id=2]
@@ -15,15 +15,9 @@
 [ext_resource path="res://Resources/AOE/AOE_AreaType/AOE_Type_Circle.tres" type="Resource" id=13]
 [ext_resource path="res://Resources/Effect.gd" type="Script" id=14]
 [ext_resource path="res://BabaGodotLib/Absract/StateMachine/StateLabel.gd" type="Script" id=15]
-
+[ext_resource path="res://Scenes/Actors/Death.gd" type="Script" id=16]
 
 [sub_resource type="Resource" id=1]
-script = ExtResource( 10 )
-area_type = ExtResource( 13 )
-area_size = 1
-range_size = 1
-
-[sub_resource type="Resource" id=2]
 script = ExtResource( 14 )
 nb_hits = 1
 damage = 5
@@ -31,6 +25,12 @@ damage_variance = 20.0
 damage_type = 1
 ailment_array = [  ]
 ailment_mode = 1
+
+[sub_resource type="Resource" id=2]
+script = ExtResource( 10 )
+area_type = ExtResource( 13 )
+area_size = 1
+range_size = 1
 
 [sub_resource type="Animation" id=3]
 
@@ -47,8 +47,8 @@ script = ExtResource( 1 )
 height = 2
 passable = false
 MaxStats = ExtResource( 7 )
-default_attack_aoe = SubResource( 1 )
-default_attack_effect = SubResource( 2 )
+default_attack_effect = SubResource( 1 )
+default_attack_aoe = SubResource( 2 )
 weapon = ExtResource( 8 )
 
 [node name="AnimationPlayer" parent="." index="0"]
@@ -75,7 +75,10 @@ toggle_state_mode = true
 script = ExtResource( 12 )
 toggle_state_mode = true
 
-[node name="StateLabel" type="Label" parent="States" index="5"]
+[node name="Death" type="Node" parent="States" index="5"]
+script = ExtResource( 16 )
+
+[node name="StateLabel" type="Label" parent="States" index="6"]
 visible = false
 margin_left = -19.6441
 margin_top = -42.6614

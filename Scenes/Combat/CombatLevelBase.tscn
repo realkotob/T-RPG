@@ -13,26 +13,26 @@
 [ext_resource path="res://Scenes/Combat/HUD/HUD.gd" type="Script" id=11]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/Overlook.gd" type="Script" id=12]
 [ext_resource path="res://Scenes/Combat/CombatLoop.gd" type="Script" id=13]
+[ext_resource path="res://Scenes/Combat/MoveAnimationState.gd" type="Script" id=14]
 [ext_resource path="res://BabaGodotLib/Absract/StateMachine/PushdownAutomata/PushdownAutomata.gd" type="Script" id=15]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/Attack.gd" type="Script" id=17]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/Skills.gd" type="Script" id=18]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/Items.gd" type="Script" id=19]
-[ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/Wait.gd" type="Script" id=20]
+[ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/WaitCombatState.gd" type="Script" id=20]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/ActiveActorInfos.gd" type="Script" id=21]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Portrait/PortBorder.png" type="Texture" id=22]
 [ext_resource path="res://BabaGodotLib/Fonts/BoldCapsPixel24.tres" type="DynamicFont" id=23]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/OptionChoice.gd" type="Script" id=24]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Portrait/PortBackGround.png" type="Texture" id=25]
-[ext_resource path="res://Scenes/Combat/CombatStates/TurnState/EnemyTurn/Decision.gd" type="Script" id=26]
+[ext_resource path="res://Scenes/Combat/CombatStates/TurnState/EnemyTurn/IA_OverlookState.gd" type="Script" id=26]
 [ext_resource path="res://Fonts/BoldCapitalPixel.tres" type="DynamicFont" id=27]
 [ext_resource path="res://Resources/CombatEffectObject/Items/Potions/HealPotion.tres" type="Resource" id=28]
 [ext_resource path="res://Scenes/Combat/HUD/ActionsLeft.gd" type="Script" id=29]
-[ext_resource path="res://Scenes/Combat/Animation.gd" type="Script" id=31]
+[ext_resource path="res://Scenes/Combat/ActionCombatState.gd" type="Script" id=31]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/TargetChoice.gd" type="Script" id=32]
 [ext_resource path="res://Scenes/Combat/DamageContainer.gd" type="Script" id=33]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/DestinationChoice.gd" type="Script" id=35]
 [ext_resource path="res://Scenes/Combat/TeamsContainer.gd" type="Script" id=36]
-[ext_resource path="res://Scenes/Combat/CombatStates/CombatStateBase.gd" type="Script" id=38]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/AllyTurn.gd" type="Script" id=41]
 
 [node name="CombatLevel" type="Node2D"]
@@ -71,8 +71,8 @@ reset_to_default = true
 [node name="DestinationChoice" type="Node" parent="CombatStatesMachine/PlayerTurn/Move"]
 script = ExtResource( 35 )
 
-[node name="Animation" type="Node" parent="CombatStatesMachine/PlayerTurn/Move"]
-script = ExtResource( 31 )
+[node name="MoveAnimation" type="Node" parent="CombatStatesMachine/PlayerTurn/Move"]
+script = ExtResource( 14 )
 
 [node name="Attack" type="Node2D" parent="CombatStatesMachine/PlayerTurn"]
 script = ExtResource( 17 )
@@ -120,16 +120,19 @@ reset_to_default = true
 script = ExtResource( 26 )
 
 [node name="Move" type="Node" parent="CombatStatesMachine/IATurn"]
-script = ExtResource( 38 )
+script = ExtResource( 14 )
 
 [node name="Attack" type="Node" parent="CombatStatesMachine/IATurn"]
-script = ExtResource( 38 )
+script = ExtResource( 31 )
 
 [node name="Skill" type="Node" parent="CombatStatesMachine/IATurn"]
-script = ExtResource( 38 )
+script = ExtResource( 31 )
 
 [node name="Item" type="Node" parent="CombatStatesMachine/IATurn"]
-script = ExtResource( 38 )
+script = ExtResource( 31 )
+
+[node name="Wait" type="Node" parent="CombatStatesMachine/IATurn"]
+script = ExtResource( 20 )
 
 [node name="Map" parent="." instance=ExtResource( 6 )]
 

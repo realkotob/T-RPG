@@ -5,6 +5,7 @@ class_name TRPG_Events
 
 #### COMBAT EVENTS ####
 
+signal turn_finished()
 signal actor_died(actor)
 
 signal combat_new_turn_started(actor)

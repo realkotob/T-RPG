@@ -30,5 +30,6 @@ func on_cancel_input():
 #### SIGNAL RESPONSES ####
 
 func _on_target_chosen(aoe_target: AOE_Target):
+	$Animation.aoe_target = aoe_target
 	set_state("Animation")
 	owner.active_actor.attack(aoe_target)

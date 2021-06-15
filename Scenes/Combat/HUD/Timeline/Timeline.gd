@@ -83,10 +83,7 @@ func count_moving_actors_before_index(actors_array: Array, actors_to_move: Array
 # Move the portraits order in the hierarchy, so it correspond to the actors order
 func update_timeline_order(actor_order : Array):
 	for child in order_node.get_children():
-		if !(child.actor_node in actor_order):
-			child.queue_free()
-		else:
-			order_node.move_child(child, actor_order.find(child.actor_node))
+		order_node.move_child(child, actor_order.find(child.actor_node))
 
 
 # Get the portrait corresponding to the given actor
