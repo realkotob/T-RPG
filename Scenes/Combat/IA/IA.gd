@@ -22,7 +22,7 @@ func set_strategy(value: Node): strategy = value
 
 
 func choose_best_strategy() -> void:
-	var choose_strategy: Node = get_node("Passive")
+	var choose_strategy: Node = get_node("Offensive")
 	set_strategy(choose_strategy)
 
 

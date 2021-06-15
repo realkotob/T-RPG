@@ -9,12 +9,13 @@ func get_class() -> String: return "MoveAnimationState"
 
 #### BUILT-IN ####
 
-func _ready() -> void:
-	var __ = EVENTS.connect("actor_moved", self, "_on_actor_moved")
+
 
 #### VIRTUALS ####
 
-
+func enter_state() -> void:
+	var _err = owner.active_actor.connect("action_finished", self, 
+			"_on_actor_movement_finished", [], CONNECT_ONESHOT)
 
 #### LOGIC ####
 
@@ -26,8 +27,5 @@ func _ready() -> void:
 
 #### SIGNAL RESPONSES ####
 
-func _on_actor_moved(actor: TRPG_Actor, _from: Vector3, _to: Vector3) -> void:
-	if !is_current_state() or actor != owner.active_actor:
-		return
-	
+func _on_actor_movement_finished(_action_name: String) -> void:
 	EVENTS.emit_signal("action_phase_finished")

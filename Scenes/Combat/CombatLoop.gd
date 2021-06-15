@@ -40,7 +40,6 @@ func set_active_actor(value: TRPG_Actor):
 	focused_objects_array.append(active_actor)
 	emit_signal("active_actor_changed", active_actor)
 
-
 func set_actors_order(value: Array):
 	actors_order = value.duplicate()
 
@@ -69,7 +68,7 @@ func _ready() -> void:
 	
 	_err = map_node.connect("map_generation_finished", self, "_on_map_generation_finished")
 	_err = EVENTS.connect("timeline_movement_finished", self, "_on_timeline_movement_finished")
-	_err = EVENTS.connect("actor_action_finished", self, "_on_action_phase_finished")
+	_err = EVENTS.connect("action_phase_finished", self, "_on_action_phase_finished")
 	_err = EVENTS.connect("actor_cell_changed", self, "_on_actor_cell_changed")
 	_err = EVENTS.connect("damagable_targeted", self, "_on_damagable_targeted")
 	_err = EVENTS.connect("iso_object_focused", self, "_on_iso_object_focused")
@@ -204,7 +203,6 @@ func _on_action_phase_finished() -> void:
 		EVENTS.emit_signal("turn_finished")
 	else:
 		set_turn_state("Overlook")
-
 
 
 func _on_damagable_targeted(damagable_array: Array) -> void:

@@ -13,7 +13,11 @@ func get_class() -> String: return "ActorAttackState"
 
 #### VIRTUALS ####
 
+func enter_state() -> void:
+	.enter_state()
 
+func exit_state() -> void:
+	.exit_state()
 
 #### LOGIC ####
 

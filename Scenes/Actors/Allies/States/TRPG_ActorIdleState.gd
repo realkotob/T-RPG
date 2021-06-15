@@ -13,7 +13,8 @@ func get_class() -> String: return "TRPG_ActorIdleState"
 
 #### VIRTUALS ####
 
-
+func enter_state() -> void:
+	.enter_state()
 
 #### LOGIC ####
 

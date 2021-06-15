@@ -31,12 +31,28 @@ func enemy_action():
 	
 	var action = actions_array.pop_front()
 	var action_state_name = action.method_name.capitalize()
+	
+	var future_state = get_parent().get_node(action_state_name)
+	var action_target = get_action_target(action)
+	
+	if future_state.has_method("set_aoe_target") && action_target != null:
+		future_state.set_aoe_target(action_target)
+	
 	get_parent().set_state(action_state_name)
 	
 	if print_logs:
 		print("%s decided to %s" % [actor.name, action.method_name])
 	
 	action.trigger_action()
+
+
+
+func get_action_target(action: ActorActionRequest) -> AOE_Target:
+	for arg in action.arguments:
+		if arg is AOE_Target:
+			return arg
+	return null
+
 
 
 #### INPUTS ####

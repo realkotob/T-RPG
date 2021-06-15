@@ -107,3 +107,7 @@ func get_portraits() -> Array:
 
 func on_timeline_movement_finished():
 	EVENTS.emit_signal("timeline_movement_finished")
+
+
+func _on_resize_finished():
+	EVENTS.emit_signal("timeline_resize_finished")

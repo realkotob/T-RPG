@@ -12,6 +12,7 @@ signal combat_new_turn_started(actor)
 signal actor_stats_changed(actor)
 
 signal timeline_movement_finished()
+signal timeline_resize_finished()
 
 signal combat_effect_object_chosen(obj)
 
