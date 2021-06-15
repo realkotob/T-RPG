@@ -34,7 +34,7 @@ func update_timeline_size() -> void:
 		var wanted_pos = Vector2(portrait_pos.x, portrait.get_slot_height() * i)
 		
 		if portrait_pos != wanted_pos:
-			move_portrait(portrait, wanted_pos)
+			move_portrait(portrait, wanted_pos, 0.5)
 	
 	if tween.is_active():
 		yield(tween, "tween_all_completed")
@@ -118,14 +118,12 @@ func get_actor_portrait(actor: TRPG_Actor) -> TimelinePortrait:
 
 func remove_actor_portrait(actor: TRPG_Actor) -> void:
 	var portrait = get_actor_portrait(actor)
-	var is_last_portrait = portrait.get_index() == order_node.get_child_count() - 1
-	
 	portrait.queue_free()
 	
 	yield(get_tree(), "idle_frame")
-	
-	if !is_last_portrait:
-		update_timeline_size()
+
+	update_timeline_size()
+
 
 
 func get_portraits() -> Array:

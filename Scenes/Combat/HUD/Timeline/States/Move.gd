@@ -10,7 +10,7 @@ func enter_state():
 	for port in portrait_array:
 		if port.timeline_id_dest != -1:
 			var dest = Vector2(port.position.x, port.timeline_id_dest * slot_height)
-			owner.move_portrait(port, dest, 0.4)
+			owner.move_portrait(port, dest, 0.3)
 	
 	var __ = owner.tween.connect("tween_all_completed", self, "_on_tween_all_completed", 
 				[], CONNECT_ONESHOT)
