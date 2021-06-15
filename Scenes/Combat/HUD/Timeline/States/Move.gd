@@ -5,23 +5,17 @@ extends TL_StateBase
 # Give every portrait in the time line its new destination
 func enter_state():
 	# Get the height of a slot in the timeline
-	var slot_height = portrait_array[0].get_node("Border").get_texture().get_height() + 2
+	var slot_height = portrait_array[0].get_slot_height()
 	
 	for port in portrait_array:
 		if port.timeline_id_dest != -1:
-			port.destination.y = port.timeline_id_dest * slot_height
+			var dest = Vector2(port.position.x, port.timeline_id_dest * slot_height)
+			owner.move_portrait(port, dest, 0.4)
+	
+	var __ = owner.tween.connect("tween_all_completed", self, "_on_tween_all_completed", 
+				[], CONNECT_ONESHOT)
 
 
-# Apply the movement of extraction
-# When the movement is over, set the state back to idle
-func update_state(_delta):
-	var move_end := false
-	
-	for port in portrait_array:
-		port.move_to(port.destination)
-	
-	# Check if every portrait has arrived
-	move_end = is_every_portrait_arrived()
-	
-	if move_end:
-		return "Insert"
+
+func _on_tween_all_completed() -> void:
+	states_machine.set_state("Insert")

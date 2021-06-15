@@ -70,7 +70,7 @@ func _unhandled_input(event):
 			if check_path(path):
 				owner.active_actor.move(path)
 				owner.area_node.clear() # Clear every cells in the area tilemap
-				states_machine.set_state("Animation")
+				states_machine.set_state("MoveAnimation")
 
 
 func on_cancel_input():

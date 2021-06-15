@@ -27,3 +27,5 @@ script = ExtResource( 1 )
 script = ExtResource( 3 )
 
 [node name="Order" type="Node2D" parent="."]
+
+[node name="Tween" type="Tween" parent="."]

@@ -3,6 +3,8 @@ class_name Timeline
 
 onready var TL_portrait_scene = preload("res://Scenes/Combat/HUD/Timeline/TL_Portrait/TL_Portrait.tscn")
 onready var order_node = $Order
+onready var tween = $Tween
+
 
 func set_state(state_name: String):
 	$TimeLineStates.set_state(state_name)
@@ -24,6 +26,20 @@ func generate_timeline(actors_array : Array):
 		if actor.is_team_side(ActorTeam.TEAM_TYPE.ALLY):
 			new_TL_port.get_node("Background").set_modulate(Color.red)
 
+
+func update_timeline_size() -> void:
+	for i in range(order_node.get_child_count()):
+		var portrait = order_node.get_child(i)
+		var portrait_pos = portrait.get_position()
+		var wanted_pos = Vector2(portrait_pos.x, portrait.get_slot_height() * i)
+		
+		if portrait_pos != wanted_pos:
+			move_portrait(portrait, wanted_pos)
+	
+	if tween.is_active():
+		yield(tween, "tween_all_completed")
+	
+	EVENTS.emit_signal("timeline_resize_finished")
 
 
 # Move the timeline so it matches the future_actors_order
@@ -55,6 +71,12 @@ func move_timeline(actors_order: Array, future_actors_order: Array):
 	# Triggers the movement of the timeline
 	set_state("Extract")
 
+
+func move_portrait(portrait: TimelinePortrait, dest: Vector2, dur: float = 1.0) -> void:
+	tween.interpolate_property(portrait, "position", portrait.position, dest, dur, 
+					Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+	
+	tween.start()
 
 # Sort every actor by destination
 # Store every actor going up in the actors_to_move_up array 
@@ -94,9 +116,16 @@ func get_actor_portrait(actor: TRPG_Actor) -> TimelinePortrait:
 	return null
 
 
-func remove_actor_portrait(actor: TRPG_Actor):
+func remove_actor_portrait(actor: TRPG_Actor) -> void:
 	var portrait = get_actor_portrait(actor)
+	var is_last_portrait = portrait.get_index() == order_node.get_child_count() - 1
+	
 	portrait.queue_free()
+	
+	yield(get_tree(), "idle_frame")
+	
+	if !is_last_portrait:
+		update_timeline_size()
 
 
 func get_portraits() -> Array:
@@ -107,7 +136,3 @@ func get_portraits() -> Array:
 
 func on_timeline_movement_finished():
 	EVENTS.emit_signal("timeline_movement_finished")
-
-
-func _on_resize_finished():
-	EVENTS.emit_signal("timeline_resize_finished")

@@ -13,7 +13,6 @@ func _ready():
 func enter_state():
 	for port in portrait_array:
 		port.timeline_id_dest = -1
-		port.destination = Vector2.ONE
 	
 	if states_machine.previous_state != null:
 		emit_signal("timeline_movement_finished")
