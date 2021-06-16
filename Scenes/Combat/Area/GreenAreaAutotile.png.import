@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/AreaAutotile_output.png-77cdb691e672d6b1d77fdcadab3919b1.stex"
+path="res://.import/GreenAreaAutotile.png-99c82c4574b46b530a0d33b987007c2e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/Combat/Area/AreaAutotile_output.png"
-dest_files=[ "res://.import/AreaAutotile_output.png-77cdb691e672d6b1d77fdcadab3919b1.stex" ]
+source_file="res://Scenes/Combat/Area/GreenAreaAutotile.png"
+dest_files=[ "res://.import/GreenAreaAutotile.png-99c82c4574b46b530a0d33b987007c2e.stex" ]
 
 [params]
 
