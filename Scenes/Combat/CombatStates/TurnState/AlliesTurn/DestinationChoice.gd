@@ -25,15 +25,14 @@ func enter_state():
 	path = []
 	
 	if owner.active_actor != null:
-		owner.map_node.draw_movement_area()
+		owner.map_node.draw_movement_area(owner.active_actor)
 
 
 # Empty the path variable when the state is exited and 
 func exit_state():
 	path = []
+	owner.map_node.clear_area()
 	EVENTS.emit_signal("clear_movement_arrow")
-	
-	owner.area_node.clear()
 
 
 #### LOGIC ####
@@ -69,7 +68,7 @@ func _unhandled_input(event):
 		if event.get_button_index() == BUTTON_LEFT && event.pressed:
 			if check_path(path):
 				owner.active_actor.move(path)
-				owner.area_node.clear() # Clear every cells in the area tilemap
+				owner.map_node.clear_area()
 				states_machine.set_state("MoveAnimation")
 
 

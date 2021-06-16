@@ -14,6 +14,9 @@ signal max_z_changed
 
 #### ACCESSORS ####
 
+func is_class(value: String): return value == "Cursor" or .is_class(value)
+func get_class() -> String: return "Cursor"
+
 func set_current_cell(value: Vector3):
 	if value != current_cell:
 		if map_node.is_cell_ground(value):
@@ -29,8 +32,6 @@ func set_max_z(value : int):
 	if value != max_z && value > 0 && value <= current_cell_max_z + 1:
 		max_z = value
 		emit_signal("max_z_changed", max_z)
-
-
 func get_max_z() -> int:
 	return max_z
 

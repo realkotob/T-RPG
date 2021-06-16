@@ -18,20 +18,11 @@ tile_data = PoolIntArray( 131094, 75, 2 )
 [node name="EastWall" parent="Map/Layer" index="1"]
 tile_data = PoolIntArray( 131094, 75, 5 )
 
-[node name="Walls" parent="Map/Layer" index="3"]
-tile_data = PoolIntArray( 131093, 80, 0 )
-
 [node name="Layer2" parent="Map" index="4" instance=ExtResource( 3 )]
 position = Vector2( 0, -16 )
 
-[node name="Walls" parent="Map/Layer2" index="3"]
-tile_data = PoolIntArray( 131093, 80, 0 )
-
 [node name="Layer3" parent="Map" index="5" instance=ExtResource( 3 )]
 position = Vector2( 0, -32 )
-
-[node name="Walls" parent="Map/Layer3" index="3"]
-tile_data = PoolIntArray( 131093, 80, 0 )
 
 [node name="Layer4" parent="Map" index="6" instance=ExtResource( 3 )]
 position = Vector2( 0, -48 )

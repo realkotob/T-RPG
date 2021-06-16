@@ -20,4 +20,4 @@ func enter_state():
 	EVENTS.emit_signal("disable_actions")
 
 func exit_state():
-	owner.area_node.clear()
+	owner.map_node.clear_area()

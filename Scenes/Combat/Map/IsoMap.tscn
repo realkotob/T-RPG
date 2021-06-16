@@ -1,9 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://BabaGodotLib/Isometric/IsoMap/IsoMapLayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://BabaGodotLib/Isometric/IsoMap/CombatIsoMap.gd" type="Script" id=2]
 [ext_resource path="res://BabaGodotLib/Isometric/Pathfinder/IsoPathfinding.gd" type="Script" id=3]
-[ext_resource path="res://Scenes/Combat/Area/WalkableArea/WalkableArea.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/MovementArrow/MovementArrow.gd" type="Script" id=5]
 [ext_resource path="res://Scenes/Combat/Cursor/Cursor.tscn" type="PackedScene" id=6]
 [ext_resource path="res://BabaGodotLib/Isometric/IsoRaycast/IsoRaycast.gd" type="Script" id=7]
@@ -18,16 +17,6 @@ script = ExtResource( 7 )
 script = ExtResource( 3 )
 
 [node name="Interactives" type="Node2D" parent="."]
-
-[node name="Areas" type="Node2D" parent="Interactives"]
-modulate = Color( 1, 1, 1, 0.470588 )
-script = ExtResource( 4 )
-
-[node name="View" type="Node2D" parent="Interactives/Areas"]
-
-[node name="Damage" type="Node2D" parent="Interactives/Areas"]
-
-[node name="Move" type="Node2D" parent="Interactives/Areas"]
 
 [node name="Cursor" parent="Interactives" instance=ExtResource( 6 )]
 

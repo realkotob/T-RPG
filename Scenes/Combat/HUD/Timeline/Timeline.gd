@@ -125,7 +125,6 @@ func remove_actor_portrait(actor: TRPG_Actor) -> void:
 	update_timeline_size()
 
 
-
 func get_portraits() -> Array:
 	return order_node.get_children()
 

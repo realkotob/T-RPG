@@ -139,7 +139,7 @@ script = ExtResource( 20 )
 [node name="Interactives" parent="Map" index="2"]
 z_index = 99
 
-[node name="Cursor" parent="Map/Interactives" index="1"]
+[node name="Cursor" parent="Map/Interactives" index="0"]
 position = Vector2( 352, 200 )
 
 [node name="ActorTeams" type="Node2D" parent="Map/Interactives" index="2"]

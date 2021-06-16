@@ -3,7 +3,6 @@ class_name CombatLoop
 
 onready var ia = $IA
 onready var map_node = $Map
-onready var area_node = $Map/Interactives/Areas
 onready var cursor_node = $Map/Interactives/Cursor
 onready var renderer = $Renderer
 onready var combat_state_node = $CombatStatesMachine

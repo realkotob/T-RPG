@@ -31,10 +31,6 @@ func enter_state():
 		EVENTS.emit_signal("update_unabled_actions", move, attack, item, skill, wait)
 
 
-# Called when the current state of the state machine is switched to another one
-func exit_state():
-	combat_loop.area_node.clear()
-
 
 #### LOGIC ####
 
