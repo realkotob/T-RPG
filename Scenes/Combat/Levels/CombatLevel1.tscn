@@ -40,12 +40,12 @@ default_attack_effect = SubResource( 1 )
 default_attack_aoe = SubResource( 2 )
 
 [node name="BlueSlime2" parent="Map/Interactives/ActorTeams/Enemies" index="1" instance=ExtResource( 4 )]
-position = Vector2( 304, 96 )
+position = Vector2( 304, 93 )
 default_attack_effect = SubResource( 1 )
 default_attack_aoe = SubResource( 2 )
 
 [node name="BlueSlime3" parent="Map/Interactives/ActorTeams/Enemies" index="2" instance=ExtResource( 4 )]
-position = Vector2( 464, 64 )
+position = Vector2( 464, 61.5 )
 default_attack_effect = SubResource( 1 )
 default_attack_aoe = SubResource( 2 )
 

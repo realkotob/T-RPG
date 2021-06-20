@@ -42,8 +42,10 @@ func can_move() -> bool:
 func can_attack() -> bool:
 	return owner.map_node.has_target_reachable(owner.active_actor)
 
+
 func can_use_item() -> bool:
 	return !owner.active_actor.get_team().get_inventory().empty()
+
 
 func can_use_skill() -> bool:
 	return owner.active_actor.get_skills().size() != 0

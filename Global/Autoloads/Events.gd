@@ -15,7 +15,8 @@ signal timeline_movement_finished()
 signal timeline_resize_finished()
 
 signal area_added(map)
-signal area_removed(map)
+signal area_cell_removed(tilemap, cell)
+signal area_cleared(map)
 
 signal combat_effect_object_chosen(obj)
 

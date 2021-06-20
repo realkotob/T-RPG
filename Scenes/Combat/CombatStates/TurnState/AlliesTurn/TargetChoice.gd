@@ -53,6 +53,7 @@ func enter_state():
 
 func exit_state():
 	highlight_targets(false)
+	owner.map_node.clear_area()
 	reachables = PoolVector3Array()
 	target_area = PoolVector3Array()
 	set_aoe(null)
@@ -75,7 +76,7 @@ func generate_area(area_type: int):
 	aoe_target = AOE_Target.new(actor_cell, cursor_cell, aoe, square_dir)
 	
 	var cells_in_range := PoolVector3Array()
-	var area_type_name = "view" if area_type == AREA_TYPE.REACHABLE else "damage"
+	var area_type_name = "Target" if area_type == AREA_TYPE.REACHABLE else "damage"
 	
 	if area_type == AREA_TYPE.REACHABLE:
 		match(aoe.area_type.name):
@@ -140,10 +141,13 @@ func on_cursor_changed_cell(cursor : Cursor, cell: Vector3):
 	
 	if combat_loop.cursor_node.get_target() != null:
 		cursor.change_color(Color.white)
+	
 	else:
 		cursor.change_color(Color.red)
 	
-	owner.map_node.clear_area()
+	owner.map_node.clear_area("Damage")
+	generate_area(AREA_TYPE.REACHABLE)
+	
 	highlight_targets(false)
 	
 	if cell in reachables:

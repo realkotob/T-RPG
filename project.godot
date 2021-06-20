@@ -114,6 +114,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/Area/WalkableArea/WalkableArea.gd"
 }, {
+"base": "Trigger",
+"class": "AreaTrigger",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Triggers/AreaTrigger.gd"
+}, {
 "base": "InteractiveObject",
 "class": "Collectable",
 "language": "GDScript",
@@ -213,6 +218,11 @@ _global_script_classes=[ {
 "class": "Effect",
 "language": "GDScript",
 "path": "res://Resources/Effect.gd"
+}, {
+"base": "Node2D",
+"class": "Event",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Event/Event.gd"
 }, {
 "base": "Node",
 "class": "EventsBase",
@@ -359,6 +369,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Resources/CombatEffectObject/Items/Item.gd"
 }, {
+"base": "Event",
+"class": "LevelEvent",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Event/LevelEvent.gd"
+}, {
 "base": "Node",
 "class": "LevelLoader",
 "language": "GDScript",
@@ -438,6 +453,11 @@ _global_script_classes=[ {
 "class": "OffensiveStrategy",
 "language": "GDScript",
 "path": "res://Scenes/Combat/IA/IA_Strategy/OffensiveStrategy.gd"
+}, {
+"base": "Trigger",
+"class": "OnStartTrigger",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Triggers/OnStartTrigger.gd"
 }, {
 "base": "CombatStateBase",
 "class": "OptionChoiceState",
@@ -528,6 +548,11 @@ _global_script_classes=[ {
 "class": "SceneFinder",
 "language": "GDScript",
 "path": "res://BabaGodotLib/Absract/SceneFinder/SceneFinder.gd"
+}, {
+"base": "Trigger",
+"class": "SignalTrigger",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Triggers/SignalTrigger.gd"
 }, {
 "base": "CombatEffectObject",
 "class": "Skill",
@@ -669,6 +694,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BabaGodotLib/Absract/StateMachine/ToolStateMachine.gd"
 }, {
+"base": "Node2D",
+"class": "Trigger",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Triggers/Trigger.gd"
+}, {
 "base": "Object",
 "class": "Utils",
 "language": "GDScript",
@@ -721,6 +751,7 @@ _global_script_class_icons={
 "AnimatedObjectStateBase": "",
 "AppearState": "",
 "AreaContainer": "",
+"AreaTrigger": "",
 "Collectable": "",
 "Collectable_CollectState": "",
 "Collectable_FollowState": "",
@@ -741,6 +772,7 @@ _global_script_class_icons={
 "DirNavHelper": "",
 "Disappear": "",
 "Effect": "",
+"Event": "",
 "EventsBase": "",
 "ExploreStrategy": "",
 "FadeTransition": "",
@@ -770,6 +802,7 @@ _global_script_class_icons={
 "IsoRenderer": "",
 "IsoSprite": "",
 "Item": "",
+"LevelEvent": "",
 "LevelLoader": "",
 "LevelNode": "",
 "LevelNodeBind": "",
@@ -786,6 +819,7 @@ _global_script_class_icons={
 "NormalLineData": "",
 "Obstacle": "",
 "OffensiveStrategy": "",
+"OnStartTrigger": "",
 "OptionChoiceState": "",
 "OptionDataContainer": "",
 "OptionLineContainer": "",
@@ -804,6 +838,7 @@ _global_script_class_icons={
 "ResizableWindow": "",
 "SFX_AnimationBase": "",
 "SceneFinder": "",
+"SignalTrigger": "",
 "Skill": "",
 "SoundEffectsHandler": "",
 "StateBase": "",
@@ -832,6 +867,7 @@ _global_script_class_icons={
 "Timeline": "",
 "TimelinePortrait": "",
 "ToolStatesMachine": "",
+"Trigger": "",
 "Utils": "",
 "WaitCombatState": "",
 "Weapon": "",
