@@ -29,8 +29,7 @@ func enter_state() -> void:
 	target_array = map.get_damagable_in_area(aoe_target)
 	
 	for target in target_array:
-		var __ = target.connect("action_consequence_finished", self, 
-					"_on_action_consequence_finished", [target], CONNECT_ONESHOT)
+		var __ = target.connect("action_consequence_finished", self, "_on_action_consequence_finished", [target])
 
 
 func exit_state() -> void:
@@ -51,6 +50,8 @@ func exit_state() -> void:
 
 func _on_action_consequence_finished(target: TRPG_DamagableObject) -> void:
 	if target in target_array:
+		if target.is_connected("action_consequence_finished", self, "_on_action_consequence_finished"):
+			target.disconnect("action_consequence_finished", self, "_on_action_consequence_finished")
 		target_array.erase(target)
 	
 	if target_array.empty() && !timeline_resise_needed:

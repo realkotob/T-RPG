@@ -45,7 +45,9 @@ func attack(actor: TRPG_Actor, map: CombatIsoMap) -> Array:
 	var total_range = (actions - 1) * movements + attack_range
 	
 	var targetables = map.get_targetables_in_range(actor, total_range)
-	var AOE_target = _choose_AOE_target(actor, targetables)
+	var reacheable_targets = map.get_reachable_targets(actor, total_range, targetables)
+	
+	var AOE_target = _choose_AOE_target(actor, reacheable_targets)
 	
 	if AOE_target == null:
 		return []
