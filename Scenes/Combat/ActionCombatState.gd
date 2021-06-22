@@ -31,8 +31,6 @@ func enter_state() -> void:
 	for target in target_array:
 		var __ = target.connect("action_consequence_finished", self, 
 					"_on_action_consequence_finished", [target], CONNECT_ONESHOT)
-	
-	
 
 
 func exit_state() -> void:

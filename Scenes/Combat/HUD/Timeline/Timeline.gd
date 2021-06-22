@@ -120,7 +120,7 @@ func remove_actor_portrait(actor: TRPG_Actor) -> void:
 	var portrait = get_actor_portrait(actor)
 	portrait.queue_free()
 	
-	yield(get_tree(), "idle_frame")
+	yield(portrait, "tree_exited")
 
 	update_timeline_size()
 
