@@ -8,7 +8,7 @@ export var extract_offset : int = 55
 # We can get which portraits to extract by getting every portrait going further in the timeline
 # Than its current position
 func enter_state():
-	for port in portrait_array:
+	for port in owner.get_portraits():
 		if port.timeline_id_dest > port.get_index():
 			if port.timeline_id_dest != -1:
 				owner.move_portrait(port, Vector2(extract_offset, port.position.y), 0.28)

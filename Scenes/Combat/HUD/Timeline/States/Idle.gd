@@ -11,7 +11,7 @@ func _ready():
 # Reset the destinations values of every portrait in the timeline
 # Call the method that update_state the order of the timeline nodes in the hierarchy
 func enter_state():
-	for port in portrait_array:
+	for port in owner.get_portraits():
 		port.timeline_id_dest = -1
 	
 	if states_machine.previous_state != null:

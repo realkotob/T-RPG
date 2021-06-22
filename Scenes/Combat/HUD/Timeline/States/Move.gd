@@ -5,9 +5,11 @@ extends TL_StateBase
 # Give every portrait in the time line its new destination
 func enter_state():
 	# Get the height of a slot in the timeline
-	var slot_height = portrait_array[0].get_slot_height()
+	var portraits = owner.get_portraits()
 	
-	for port in portrait_array:
+	var slot_height = portraits[0].get_slot_height()
+	
+	for port in portraits:
 		if port.timeline_id_dest != -1:
 			var dest = Vector2(port.position.x, port.timeline_id_dest * slot_height)
 			owner.move_portrait(port, dest, 0.3)

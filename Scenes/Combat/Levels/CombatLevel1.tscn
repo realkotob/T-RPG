@@ -32,20 +32,20 @@ position = Vector2( 384, 72 )
 print_logs = true
 
 [node name="Character" parent="Map/Interactives/ActorTeams/Allies" index="0" instance=ExtResource( 2 )]
-position = Vector2( 288, 56 )
+position = Vector2( 432, 64 )
 
 [node name="BlueSlime" parent="Map/Interactives/ActorTeams/Enemies" index="0" instance=ExtResource( 4 )]
-position = Vector2( 304, 64 )
+position = Vector2( 400, 81 )
 default_attack_effect = SubResource( 1 )
 default_attack_aoe = SubResource( 2 )
 
 [node name="BlueSlime2" parent="Map/Interactives/ActorTeams/Enemies" index="1" instance=ExtResource( 4 )]
-position = Vector2( 304, 43.3386 )
+position = Vector2( 448, 70 )
 default_attack_effect = SubResource( 1 )
 default_attack_aoe = SubResource( 2 )
 
 [node name="BlueSlime3" parent="Map/Interactives/ActorTeams/Enemies" index="2" instance=ExtResource( 4 )]
-position = Vector2( 320.242, 54.3386 )
+position = Vector2( 416, 72 )
 default_attack_effect = SubResource( 1 )
 default_attack_aoe = SubResource( 2 )
 
