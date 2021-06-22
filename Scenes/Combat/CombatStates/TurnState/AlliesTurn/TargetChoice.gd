@@ -111,8 +111,9 @@ func highlight_targets(is_targeted: bool):
 # Target choice
 func _unhandled_input(event):
 	if event is InputEventMouseButton && is_current_state():
-		if event.get_button_index() == BUTTON_LEFT && event.pressed && aoe_target != null:
-			emit_signal("target_chosen", aoe_target)
+		if event.get_button_index() == BUTTON_LEFT && event.pressed:
+			if aoe_target != null && combat_loop.cursor_node.get_current_cell() in reachables:
+				emit_signal("target_chosen", aoe_target)
 		
 		elif Input.is_action_just_pressed("rotateCW"):
 			square_dir = wrapi(square_dir + 1, 0, 4)
@@ -139,7 +140,7 @@ func on_cursor_changed_cell(cursor : Cursor, cell: Vector3):
 	if !is_current_state():
 		return
 	
-	if combat_loop.cursor_node.get_target() != null:
+	if cursor.get_target() != null:
 		cursor.change_color(Color.white)
 	
 	else:
