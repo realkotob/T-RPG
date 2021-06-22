@@ -13,9 +13,7 @@ func enter_state():
 				var dest = port.position * Vector2(0, 1)
 				owner.move_portrait(port, dest, 0.28)
 	
-	var __ = owner.tween.connect("tween_all_completed", self, "_on_tween_all_completed", 
-				[], CONNECT_ONESHOT)
-
+	var __ = owner.tween.connect("tween_all_completed", self, "_on_tween_all_completed")
 
 
 func _on_tween_all_completed() -> void:

@@ -13,9 +13,7 @@ func enter_state():
 			if port.timeline_id_dest != -1:
 				owner.move_portrait(port, Vector2(extract_offset, port.position.y), 0.28)
 	
-	var __ = owner.tween.connect("tween_all_completed", self, "_on_tween_all_completed", 
-				[], CONNECT_ONESHOT)
-
+	var __ = owner.tween.connect("tween_all_completed", self, "_on_tween_all_completed")
 
 
 func _on_tween_all_completed() -> void:

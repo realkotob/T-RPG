@@ -13,3 +13,12 @@ func is_every_portrait_arrived() -> bool:
 			all_arrived = false
 	
 	return all_arrived
+
+
+func exit_state():
+	if owner.tween.is_connected("tween_all_completed", self, "_on_tween_all_completed"):
+		owner.tween.disconnect("tween_all_completed", self, "_on_tween_all_completed")
+
+
+func _on_tween_all_completed() -> void:
+	pass
