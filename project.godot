@@ -529,7 +529,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BabaGodotLib/Absract/Raycast/RayCastBase.gd"
 }, {
-"base": "Node2D",
+"base": "Sprite",
 "class": "RenderPart",
 "language": "GDScript",
 "path": "res://BabaGodotLib/Isometric/IsoRenderer/RenderPart/RenderPart.gd"

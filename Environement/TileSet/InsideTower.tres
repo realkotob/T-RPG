@@ -190,7 +190,7 @@
 71/shape_one_way_margin = 0.0
 71/shapes = [  ]
 71/z_index = 0
-72/name = "Tileset.png 72"
+72/name = "Stairs"
 72/texture = ExtResource( 1 )
 72/tex_offset = Vector2( 0, 0 )
 72/modulate = Color( 1, 1, 1, 1 )

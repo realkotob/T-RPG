@@ -9,17 +9,15 @@
 [node name="Character" parent="Map/Interactives/ActorTeams/Allies" index="0" instance=ExtResource( 2 )]
 position = Vector2( 320, 200.167 )
 
-[node name="Layer" parent="Map" index="3"]
-tile_data = PoolIntArray( 131094, 74, 131073 )
-
-[node name="WestWall" parent="Map/Layer" index="0"]
-tile_data = PoolIntArray( 131094, 75, 2 )
-
-[node name="EastWall" parent="Map/Layer" index="1"]
-tile_data = PoolIntArray( 131094, 75, 5 )
-
 [node name="Layer2" parent="Map" index="4" instance=ExtResource( 3 )]
 position = Vector2( 0, -16 )
+tile_data = PoolIntArray( 131091, 77, 131073 )
+
+[node name="WestWall" parent="Map/Layer2" index="0"]
+tile_data = PoolIntArray( 131091, 76, 1 )
+
+[node name="EastWall" parent="Map/Layer2" index="1"]
+tile_data = PoolIntArray( 131091, 76, 4 )
 
 [node name="Layer3" parent="Map" index="5" instance=ExtResource( 3 )]
 position = Vector2( 0, -32 )
