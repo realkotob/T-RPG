@@ -21,7 +21,7 @@ func move(actor: TRPG_Actor, map: CombatIsoMap) -> Array:
 	var max_turn_movement = actor.get_current_movements() * actor.get_current_actions()
 	# Must be properly computed (Must takes wait situation & ailments in account)
 	var next_turn_actions = actor.get_max_actions()
-	var attack_range = actor.get_attack_aoe().range_size
+	var attack_range = actor.get_current_range()
 	
 	var next_turn_max_movement = (next_turn_actions - 1) * actor.get_current_movements()
 	var total_movement = max_turn_movement + next_turn_max_movement
