@@ -45,7 +45,7 @@ func attack(actor: TRPG_Actor, map: CombatIsoMap) -> Array:
 	var total_range = (actions - 1) * movements + attack_range
 	
 	var targetables = map.get_targetables_in_range(actor, total_range)
-	var AOE_target = _choose_target(actor, targetables)
+	var AOE_target = _choose_AOE_target(actor, targetables)
 	
 	if AOE_target == null:
 		return []
@@ -107,15 +107,24 @@ func _create_action_from_target(actor: TRPG_Actor, map: IsoMap, aoe_target: AOE_
 	var actor_range = actor.get_current_range()
 	var actor_cell = actor.get_current_cell()
 	var target_dist = IsoLogic.iso_2D_dist(actor_cell, aoe_target.target_cell)
-	var actor_movement = actor.get_current_movements()
 	
+	# Move towards the target if needed
 	if target_dist > actor_range:
-		var path_to_reach = map.pathfinding.find_path_to_reach(actor_cell, aoe_target.target_cell)
-		path_to_reach.resize(int(clamp(actor_movement, 0, path_to_reach.size())))
-	
-		actions_array.push_front(ActorActionRequest.new(actor, "move", [path_to_reach]))
+		var move_action = _approch_cell(map, actor, aoe_target.target_cell)
+		actions_array.push_front(move_action)
 	
 	return actions_array
+
+
+# Retruns an ActorActionRequest that contains the order to move towards a cell as much as possible
+func _approch_cell(map: CombatIsoMap, actor: TRPG_Actor, cell: Vector3, max_movement : int = -1) -> ActorActionRequest:
+	var actor_cell = actor.get_current_cell()
+	var actor_movement = actor.get_current_movements() if max_movement == -1 else max_movement
+	
+	var path_to_reach = map.pathfinding.find_path_to_reach(actor_cell, cell)
+	path_to_reach.resize(int(clamp(actor_movement + 1, 0, path_to_reach.size())))
+	
+	return ActorActionRequest.new(actor, "move", [path_to_reach])
 
 
 func _convert_targetables_to_aoe_targets(actor: TRPG_Actor, targetables: Array) -> Array:
@@ -128,7 +137,7 @@ func _convert_targetables_to_aoe_targets(actor: TRPG_Actor, targetables: Array) 
 	return aoe_targets_array
 
 
-func _choose_target(actor: TRPG_Actor, targetables: Array) -> AOE_Target:
+func _choose_AOE_target(actor: TRPG_Actor, targetables: Array) -> AOE_Target:
 	var target = null
 	
 	if !targetables.empty():
@@ -175,6 +184,11 @@ func _compute_attack_coefficient(attack_request: ActorActionRequest, map: IsoMap
 	
 	return coefficient
 
+
+func _choose_best_target(targets_array: Array) -> TRPG_DamagableObject:
+	var rdm_id = randi() % targets_array.size()
+	
+	return targets_array[rdm_id]
 
 #### INPUTS ####
 

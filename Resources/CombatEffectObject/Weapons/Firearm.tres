@@ -14,7 +14,7 @@ range_size = 1
 [sub_resource type="Resource" id=2]
 script = ExtResource( 3 )
 nb_hits = 1
-damage = 50
+damage = 5
 damage_variance = 0.0
 damage_type = 1
 ailment_array = [  ]

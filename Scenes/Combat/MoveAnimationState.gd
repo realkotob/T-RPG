@@ -14,8 +14,14 @@ func get_class() -> String: return "MoveAnimationState"
 #### VIRTUALS ####
 
 func enter_state() -> void:
-	var _err = owner.active_actor.connect("action_finished", self, 
-			"_on_actor_movement_finished", [], CONNECT_ONESHOT)
+	if !owner.active_actor.is_connected("action_finished", self, "_on_actor_movement_finished"):
+		var _err = owner.active_actor.connect("action_finished", self, "_on_actor_movement_finished")
+
+
+func exit_state() -> void:
+	if owner.active_actor.is_connected("action_finished", self, "_on_actor_movement_finished"):
+		owner.active_actor.disconnect("action_finished", self, "_on_actor_movement_finished")
+
 
 #### LOGIC ####
 
