@@ -122,6 +122,9 @@ func _input(_event):
 	elif Input.is_action_just_pressed("ui_left"):
 		move_cursor(Vector2.LEFT)
 
+	elif Input.is_action_just_pressed("click"):
+		EVENTS.emit_signal("click_at_cell", current_cell)
+
 	var cell_stack = Array(map_node.get_cell_stack_at_pos(mouse_pos))
 	var index = cell_stack.find(current_cell)
 	

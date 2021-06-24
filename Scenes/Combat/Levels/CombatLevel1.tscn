@@ -34,18 +34,13 @@ print_logs = true
 [node name="Character" parent="Map/Interactives/ActorTeams/Allies" index="0" instance=ExtResource( 2 )]
 position = Vector2( 384, 104 )
 
-[node name="BlueSlime" parent="Map/Interactives/ActorTeams/Enemies" index="0" instance=ExtResource( 4 )]
-position = Vector2( 288, 84 )
+[node name="BlueSlime2" parent="Map/Interactives/ActorTeams/Enemies" index="0" instance=ExtResource( 4 )]
+position = Vector2( 400, 48 )
 default_attack_effect = SubResource( 1 )
 default_attack_aoe = SubResource( 2 )
 
-[node name="BlueSlime2" parent="Map/Interactives/ActorTeams/Enemies" index="1" instance=ExtResource( 4 )]
-position = Vector2( 384, 57.1672 )
-default_attack_effect = SubResource( 1 )
-default_attack_aoe = SubResource( 2 )
-
-[node name="BlueSlime3" parent="Map/Interactives/ActorTeams/Enemies" index="2" instance=ExtResource( 4 )]
-position = Vector2( 336, 63.1672 )
+[node name="BlueSlime3" parent="Map/Interactives/ActorTeams/Enemies" index="1" instance=ExtResource( 4 )]
+position = Vector2( 352, 38 )
 default_attack_effect = SubResource( 1 )
 default_attack_aoe = SubResource( 2 )
 

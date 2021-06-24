@@ -192,6 +192,7 @@ func _choose_best_target(targets_array: Array) -> TRPG_DamagableObject:
 	
 	return targets_array[rdm_id]
 
+
 #### INPUTS ####
 
 
