@@ -20,16 +20,18 @@ func get_class() -> String: return "ExploreStrategy"
 
 # Function override
 func move(actor: TRPG_Actor, map: CombatIsoMap) -> Array:
-	var actor_movement = actor.get_current_movements()
-	var actor_cell = actor.get_current_cell()
-	var reachable_cell = map.pathfinding.find_reachable_cells(actor_cell, actor_movement + 1)
+	var smallest_knowledge_id = find_segment_to_explore(actor, map)
+	var less_known_seg_center = map.segment_get_center(smallest_knowledge_id)
 	
-	var cell_by_dist_dict = IsoLogic.sort_cells_by_dist(actor_cell, reachable_cell)
-	var farthest_cells = find_farthest_cell_array(cell_by_dist_dict)
-	var rdm_cell = farthest_cells[randi() % farthest_cells.size()]
+	var path = find_approch_cell_path(map, actor, less_known_seg_center, -1)
+	var splitted_path = _split_move_path(path, actor.get_current_movements())
+	var actions_array = []
 	
-	var action = _approch_cell(map, actor, rdm_cell)
-	return [action]
+	for sub_path in splitted_path:
+		var action = ActorActionRequest.new(actor, "move", [sub_path])
+		actions_array.append(action)
+	
+	return actions_array
 
 
 func find_farthest_cell_array(cell_by_dist_dict: Dictionary) -> Array:
@@ -41,6 +43,31 @@ func find_farthest_cell_array(cell_by_dist_dict: Dictionary) -> Array:
 	
 	return cell_by_dist_dict[biggest_key]
 
+
+func find_segment_to_explore(actor: TRPG_Actor, map: CombatIsoMap) -> int:
+	var current_segment_id = map.cell_get_segment(actor.get_current_cell())
+	var current_segment_pos = map.segment_get_pos(current_segment_id)
+	var adjacent_segments_array = IsoLogic.get_adjacent_cells(current_segment_pos)
+	
+	var team = actor.get_team()
+	
+	var smallest_knowledge = INF
+	var smallest_knowledge_id = -1
+	
+	for i in range(adjacent_segments_array.size()):
+		var seg = adjacent_segments_array[i]
+		
+		if !map.segment_exists_v(seg):
+			continue
+		
+		var seg_id = map.get_segment_id(seg)
+		var knowledge = team.get_segment_knowledge(seg_id)
+		
+		if knowledge < smallest_knowledge:
+			smallest_knowledge = knowledge
+			smallest_knowledge_id = seg_id
+	
+	return smallest_knowledge_id
 
 
 #### INPUTS ####

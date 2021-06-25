@@ -28,6 +28,9 @@ signal clear_movement_arrow()
 
 signal damagable_targeted(damagable)
 
+signal active_actor_turn_finished(actor)
+signal IA_overlook_begun(actor)
+
 signal actor_action_finished(actor)
 signal actor_action_animation_finished(actor)
 signal actor_cell_changed(actor)

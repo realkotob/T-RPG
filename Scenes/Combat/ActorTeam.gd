@@ -7,6 +7,9 @@ enum TEAM_TYPE{
 	ENEMY
 }
 
+var map_knowledge_array = []
+var map = null
+
 export(TEAM_TYPE) var team_side = TEAM_TYPE.ENEMY setget set_team_side, get_team_side
 export var inventory := Array() setget set_inventory, get_inventory
 
@@ -31,6 +34,7 @@ func is_team_side(value: int) -> bool: return value == team_side
 
 func _ready() -> void:
 	var _err = EVENTS.connect("visible_cells_changed", self, "_on_visible_cells_changed")
+	_err = EVENTS.connect("IA_overlook_begun", self, "_on_IA_overlook_begun")
 	
 	for child in get_children():
 		child.add_to_group(name)
@@ -69,6 +73,14 @@ func is_actor_in_team(actor: TRPG_Actor) -> bool:
 		if child == actor:
 			return true
 	return false
+
+
+func is_cell_2D_in_view_field(cell: Vector2):
+	for array in get_view_field():
+		for cell_3D in array:
+			if cell.x == cell_3D.x && cell.y == cell_3D.y:
+				return true
+	return false 
 
 
 func is_cell_in_view_field(cell: Vector3):
@@ -111,7 +123,58 @@ func get_actors() -> Array:
 	return actors_array
 
 
+func _compute_map_segment_knowledge(segment_id : int) -> float:
+	var segment_origin = map.segment_get_origin(segment_id)
+	var segment_nb_tiles = map.segment_get_nb_tiles(segment_id)
+	var absolute_knowledge = 0
+	
+	for i in range(map.MAP_SEGMENT_SIZE):
+		for j in range(map.MAP_SEGMENT_SIZE):
+			var cell = segment_origin + Vector2(j, i)
+			if !map.has_2D_cell(cell):
+				continue
+			
+			if is_cell_2D_in_view_field(cell):
+				absolute_knowledge += 1
+	
+	if segment_nb_tiles == 0:
+		return 0.0
+	
+	return float(absolute_knowledge) / segment_nb_tiles
+
+
+func _update_map_knowledge() -> void:
+	map_knowledge_array = []
+	var nb_segments_v = map.get_nb_segments()
+	var nb_segments = nb_segments_v.x * nb_segments_v.y
+	for i in range(nb_segments):
+		map_knowledge_array.append(_compute_map_segment_knowledge(i))
+
+
+func get_segment_knowledge(seg_id: int) -> float:
+	return map_knowledge_array[seg_id]
+
+
+#### DEBUG ####
+
+func _print_map_knowledge() -> void:
+	if team_side == TEAM_TYPE.ALLY:
+		print("## ALLY TEAM ##")
+	else:
+		print("## ENEMY TEAM ##")
+	
+	for i in range(map_knowledge_array.size()):
+		print("Segment %d knowledge score %f" % [i, map_knowledge_array[i]] )
+
+
+func _print_segments_origin() -> void:
+	for i in range(map_knowledge_array.size()):
+		var origin = map.segment_get_origin(i)
+		print("Segment %s origin: %s" % [String(i), String(origin)])
+
+
 #### INPUTS ####
+
 
 
 #### SIGNAL RESPONSES ####
@@ -120,3 +183,10 @@ func get_actors() -> Array:
 func _on_visible_cells_changed(actor: TRPG_Actor):
 	if is_team_side(TEAM_TYPE.ALLY) && is_actor_in_team(actor):
 		update_view_field_rendering()
+
+
+func _on_IA_overlook_begun(actor: TRPG_Actor) -> void:
+	if is_actor_in_team(actor):
+		_update_map_knowledge()
+#		_print_segments_origin()
+		_print_map_knowledge()

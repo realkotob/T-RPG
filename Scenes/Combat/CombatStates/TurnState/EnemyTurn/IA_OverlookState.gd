@@ -18,6 +18,8 @@ func get_class() -> String: return "IA_OverlookState"
 
 func enter_state():
 	.enter_state()
+	EVENTS.emit_signal("IA_overlook_begun", owner.active_actor)
+	
 	enemy_action()
 
 

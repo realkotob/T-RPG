@@ -110,6 +110,8 @@ func new_turn():
 
 # End of turn procedure, called right before a new turn start
 func end_turn():
+	EVENTS.emit_signal("active_actor_turn_finished", active_actor)
+	
 	if active_actor.is_connected("state_changed", self, "_on_active_actor_state_changed"):
 		active_actor.disconnect("state_changed", self, "_on_active_actor_state_changed")
 	

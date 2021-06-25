@@ -9,7 +9,10 @@ func get_class() -> String: return "TeamsContainer"
 
 #### BUILT-IN ####
 
-
+func _ready() -> void:
+	var map = get_parent().get_parent()
+	for team in get_children():
+		team.map = map
 
 #### VIRTUALS ####
 

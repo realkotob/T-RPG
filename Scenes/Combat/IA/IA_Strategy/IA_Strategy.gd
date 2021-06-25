@@ -112,21 +112,24 @@ func _create_action_from_target(actor: TRPG_Actor, map: IsoMap, aoe_target: AOE_
 	
 	# Move towards the target if needed
 	if target_dist > actor_range:
-		var move_action = _approch_cell(map, actor, aoe_target.target_cell)
-		actions_array.push_front(move_action)
+		var path = find_approch_cell_path(map, actor, aoe_target.target_cell)
+		var action = ActorActionRequest.new(actor, "move", [path])
+		actions_array.push_front(action)
 	
 	return actions_array
 
 
 # Retruns an ActorActionRequest that contains the order to move towards a cell as much as possible
-func _approch_cell(map: CombatIsoMap, actor: TRPG_Actor, cell: Vector3, max_movement : int = -1) -> ActorActionRequest:
+func find_approch_cell_path(map: CombatIsoMap, actor: TRPG_Actor, cell: Vector3, max_movement : int = 0) -> PoolVector3Array:
 	var actor_cell = actor.get_current_cell()
-	var actor_movement = actor.get_current_movements() if max_movement == -1 else max_movement
+	var actor_movement = actor.get_current_movements() if max_movement == 0 else max_movement
 	
 	var path_to_reach = map.pathfinding.find_path_to_reach(actor_cell, cell)
-	path_to_reach.resize(int(clamp(actor_movement + 1, 0, path_to_reach.size())))
 	
-	return ActorActionRequest.new(actor, "move", [path_to_reach])
+	if max_movement != -1:
+		path_to_reach.resize(int(clamp(actor_movement + 1, 0, path_to_reach.size())))
+	
+	return path_to_reach
 
 
 func _convert_targetables_to_aoe_targets(actor: TRPG_Actor, targetables: Array) -> Array:
@@ -191,6 +194,23 @@ func _choose_best_target(targets_array: Array) -> TRPG_DamagableObject:
 	var rdm_id = randi() % targets_array.size()
 	
 	return targets_array[rdm_id]
+
+
+func _split_move_path(path: PoolVector3Array, segment_size: int) -> Array:
+	var path_a = Array(path)
+	var slices_array = []
+	var nb_sub_path = int(path.size() / segment_size)
+	var rest = path.size() % segment_size
+	var is_rest = bool(rest)
+	
+	for i in range(nb_sub_path + 1 * int(is_rest)):
+		var nb_elem = segment_size if i < nb_sub_path else rest
+		var sub_path = []
+		for j in range(nb_elem):
+			sub_path.append(path_a[i * segment_size + j])
+		slices_array.append(sub_path)
+	
+	return slices_array
 
 
 #### INPUTS ####
