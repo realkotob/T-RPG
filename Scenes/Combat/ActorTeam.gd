@@ -189,4 +189,4 @@ func _on_IA_overlook_begun(actor: TRPG_Actor) -> void:
 	if is_actor_in_team(actor):
 		_update_map_knowledge()
 #		_print_segments_origin()
-		_print_map_knowledge()
+#		_print_map_knowledge()

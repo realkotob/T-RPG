@@ -199,6 +199,7 @@ func _choose_best_target(targets_array: Array) -> TRPG_DamagableObject:
 func _split_move_path(path: PoolVector3Array, segment_size: int) -> Array:
 	var path_a = Array(path)
 	var slices_array = []
+	#warning-ignore:integer_division
 	var nb_sub_path = int(path.size() / segment_size)
 	var rest = path.size() % segment_size
 	var is_rest = bool(rest)

@@ -43,8 +43,11 @@ func enemy_action():
 	get_parent().set_state(action_state_name)
 	
 	if print_logs:
-		print("%s decided to %s" % [actor.name, action.method_name])
-	
+		if action.method_name == "move":
+			print("%s decided to %s at %s" % [actor.name, action.method_name, String(action.arguments[0][-1])])
+		else:
+			print("%s decided to %s" % [actor.name, action.method_name])
+		
 	action.trigger_action()
 
 
