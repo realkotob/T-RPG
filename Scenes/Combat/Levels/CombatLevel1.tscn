@@ -14,10 +14,10 @@ script = ExtResource( 5 )
 HP = 20
 MP = 10
 actions = 2
-movements = 6
+movements = 5
 attack_range = 3
 defense = 3
-view_range = 10
+view_range = 6
 
 [sub_resource type="Resource" id=2]
 script = ExtResource( 9 )
@@ -35,7 +35,6 @@ area_size = 1
 range_size = 1
 
 [node name="CombatLevel1" instance=ExtResource( 1 )]
-fog_of_war = true
 
 [node name="Camera2D" parent="." index="2"]
 position = Vector2( 384, 72 )
@@ -44,7 +43,7 @@ position = Vector2( 384, 72 )
 print_logs = true
 
 [node name="Character" parent="Map/Interactives/ActorTeams/Allies" index="0" instance=ExtResource( 2 )]
-position = Vector2( 384, 104 )
+position = Vector2( 385, 104 )
 MaxStats = SubResource( 1 )
 
 [node name="BlueSlime2" parent="Map/Interactives/ActorTeams/Enemies" index="0" instance=ExtResource( 4 )]

@@ -137,12 +137,8 @@ func first_become_last(array : Array) -> void:
 	array.append(first)
 
 
-func update_view_field() -> void:
-	if !fog_of_war:
-		return
-	
-	for actor in actors_order:
-		map_node.update_view_field(actor)
+func update_view_field(actor: TRPG_Actor) -> void:
+	map_node.update_view_field(actor)
 
 
 #### INPUTS ####
@@ -158,7 +154,8 @@ func _input(_event: InputEvent) -> void:
 
 func _on_map_generation_finished():
 	if fog_of_war:
-		update_view_field()
+		for actor in actors_order:
+			update_view_field(actor)
 
 
 # Triggered when the timeline movement is finished
@@ -186,9 +183,9 @@ func _on_iso_object_unfocused(focus_obj: IsoObject):
 	focused_objects_array.erase(focus_obj)
 
 
-func _on_actor_cell_changed(_actor: TRPG_Actor):
+func _on_actor_cell_changed(actor: TRPG_Actor):
 	if fog_of_war:
-		update_view_field()
+		update_view_field(actor)
 
 
 func _on_active_actor_turn_finished():
@@ -199,7 +196,7 @@ func _on_action_phase_finished() -> void:
 	EVENTS.emit_signal("unfocus_all_iso_object_query")
 
 	if active_actor.get_team_side() != ActorTeam.TEAM_TYPE.ALLY:
-		update_view_field()
+		update_view_field(active_actor)
 
 	if active_actor.get_current_actions() == 0:
 		EVENTS.emit_signal("turn_finished")
