@@ -2,7 +2,7 @@ extends Node
 class_name IA
 
 var strategy : Node = null
-onready var stategy_container = $Strategies 
+onready var strategy_container = $Strategies 
 onready var criterias_container = $Criterias
 
 #### ACCESSORS ####
@@ -25,7 +25,7 @@ func set_strategy(value: Node): strategy = value
 
 func choose_best_strategy(actor: TRPG_Actor, map: CombatIsoMap) -> void:
 	var total_incentives = Dictionary()
-	
+
 	# Fetch the incentives based on the IA criterias
 	for criteria in criterias_container.get_children():
 		var incentives = criteria.compute_strategy_incentives(actor, map)
@@ -34,18 +34,18 @@ func choose_best_strategy(actor: TRPG_Actor, map: CombatIsoMap) -> void:
 				total_incentives[key] += incentives[key]
 			else:
 				total_incentives[key] = incentives[key]
-	
+
 	# Find the best strategy based on the incentives
 	var best_strategy = ""
 	var max_incentive = -INF
-	
+
 	for key in total_incentives.keys():
 		var incentive = total_incentives[key]
 		if incentive > max_incentive:
 			max_incentive = incentive
 			best_strategy = key
-	
-	var chose_strategy = stategy_container.get_node(best_strategy)
+
+	var chose_strategy = strategy_container.get_node(best_strategy)
 	set_strategy(chose_strategy)
 
 

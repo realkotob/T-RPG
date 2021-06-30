@@ -52,7 +52,7 @@ func can_use_skill() -> bool:
 
 # Check if the active actor can move
 func can_wait() -> bool:
-	return owner.active_actor.get_current_actions() >= owner.active_actor.get_max_actions()
+	return true
 
 
 #### SIGNAL RESPONSES ####

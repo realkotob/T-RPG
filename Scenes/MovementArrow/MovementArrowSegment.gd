@@ -26,6 +26,7 @@ func get_next_segment_dir() -> Vector2: return next_segment_dir
 func _enter_tree() -> void:
 	apply_correct_texture()
 
+
 #### VIRTUALS ####
 
 
@@ -83,18 +84,32 @@ func apply_correct_texture():
 func is_slope():
 	return int(current_cell.z) != current_cell.z
 
+
 func is_one_dir(dir: Vector2):
 	return previous_segment_dir == dir or next_segment_dir == dir
+
 
 func is_path_end():
 	return next_segment_dir == Vector2.INF
 
+
 func is_path_start():
 	return previous_segment_dir == Vector2.INF
+
 
 func is_straight_line() -> bool:
 	return (previous_segment_dir.x + next_segment_dir.x == 0 &&\
 		previous_segment_dir.y + next_segment_dir.y == 0)
+
+
+func change_segment_dir(previous := Vector2.INF, next := Vector2.INF) -> void:
+	if previous == previous_segment_dir && next == next_segment_dir:
+		return
+	
+	set_previous_segment_dir(previous)
+	set_next_segment_dir(next)
+	apply_correct_texture()
+
 
 
 #### INPUTS ####

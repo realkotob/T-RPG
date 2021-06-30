@@ -1,6 +1,8 @@
 extends Object
 class_name StrategyCriteria
 
+export var curve : Curve = null
+
 export var incentives : Dictionary = {
 	"Offensive": 0.0,
 	"Defensive": 0.0,
@@ -28,9 +30,10 @@ func _compute_criteria_ratio(_actor: TRPG_Actor, _map: CombatIsoMap) -> float:
 func compute_strategy_incentives(actor: TRPG_Actor, map: CombatIsoMap) -> Dictionary:
 	var ratio = _compute_criteria_ratio(actor, map)
 	var output_incentives = Dictionary()
+	var output_ratio = ratio if curve == null else curve.interpolate(ratio)
 	
 	for key in incentives.keys():
-		output_incentives[key] = incentives[key] * ratio
+			output_incentives[key] = incentives[key] * output_ratio
 	
 	return output_incentives
 

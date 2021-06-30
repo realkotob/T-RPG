@@ -195,9 +195,6 @@ func _on_active_actor_turn_finished():
 func _on_action_phase_finished() -> void:
 	EVENTS.emit_signal("unfocus_all_iso_object_query")
 
-	if active_actor.get_team_side() != ActorTeam.TEAM_TYPE.ALLY:
-		update_view_field(active_actor)
-
 	if active_actor.get_current_actions() == 0:
 		EVENTS.emit_signal("turn_finished")
 	else:
