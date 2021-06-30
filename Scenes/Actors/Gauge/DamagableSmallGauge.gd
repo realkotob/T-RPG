@@ -1,8 +1,6 @@
 extends Gauge
 class_name DamagableSmallGauge
 
-onready var damagable = get_parent()
-
 #### ACCESSORS ####
 
 func is_class(value: String): return value == "ActorSmallGauge" or .is_class(value)
@@ -10,9 +8,6 @@ func get_class() -> String: return "ActorSmallGauge"
 
 
 #### BUILT-IN ####
-
-func _ready() -> void:
-	var __ = damagable.connect("hp_changed", self, "_on_damagable_hp_changed")
 
 
 #### VIRTUALS ####

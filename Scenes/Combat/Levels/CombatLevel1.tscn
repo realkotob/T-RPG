@@ -49,6 +49,7 @@ MaxStats = SubResource( 1 )
 
 [node name="BlueSlime2" parent="Map/Interactives/ActorTeams/Enemies" index="0" instance=ExtResource( 4 )]
 position = Vector2( 400, 48 )
+current_HP = 5
 default_attack_effect = SubResource( 2 )
 default_attack_aoe = SubResource( 3 )
 

@@ -1,10 +1,13 @@
 extends StrategyCriteria
-class_name EnemyVisible
+class_name OpponentVisible
+
+export var expect_nb_opponent : int = 0
+export var nb_opponent_threshold : int = 4
 
 #### ACCESSORS ####
 
-func is_class(value: String): return value == "EnemyVisible" or .is_class(value)
-func get_class() -> String: return "EnemyVisible"
+func is_class(value: String): return value == "OpponentVisible" or .is_class(value)
+func get_class() -> String: return "OpponentVisible"
 
 
 #### BUILT-IN ####
@@ -17,11 +20,9 @@ func get_class() -> String: return "EnemyVisible"
 
 #### LOGIC ####
 
-
 func _compute_criteria_ratio(actor: TRPG_Actor, map: CombatIsoMap) -> float:
-	return 0.0 
-
-
+	var nb_opponents = map.get_nearby_opponents(actor, actor.get_view_range(), true).size()
+	return clamp(float(nb_opponents) / float(nb_opponent_threshold), 0.0, 1.0)
 
 
 #### INPUTS ####

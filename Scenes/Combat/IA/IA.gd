@@ -51,9 +51,8 @@ func choose_best_strategy(actor: TRPG_Actor, map: CombatIsoMap) -> void:
 
 func make_decision(actor: TRPG_Actor, map: CombatIsoMap) -> Array:
 	choose_best_strategy(actor, map)
-	# Check if the current strategy is the best one before making a decision
+	print("%s decided to use the strategy %s" % [actor.name, strategy.name])
 	return strategy.choose_best_action(actor, map)
-
 
 
 #### INPUTS ####

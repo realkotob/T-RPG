@@ -1,14 +1,12 @@
 extends Object
 class_name StrategyCriteria
 
-export var curve : Curve = null
-
 export var incentives : Dictionary = {
-	"Offensive": 0.0,
-	"Defensive": 0.0,
-	"Explore": 0.0,
-	"Passive": 0.0,
-	"RunAway": 0.0
+	"Offensive": null,
+	"Defensive": null,
+	"Explore": null,
+	"Passive": null,
+	"RunAway": null
 }
 
 #### ACCESSORS ####
@@ -30,10 +28,18 @@ func _compute_criteria_ratio(_actor: TRPG_Actor, _map: CombatIsoMap) -> float:
 func compute_strategy_incentives(actor: TRPG_Actor, map: CombatIsoMap) -> Dictionary:
 	var ratio = _compute_criteria_ratio(actor, map)
 	var output_incentives = Dictionary()
-	var output_ratio = ratio if curve == null else curve.interpolate(ratio)
 	
 	for key in incentives.keys():
-			output_incentives[key] = incentives[key] * output_ratio
+		var incentive = incentives[key]
+		
+		if !is_instance_valid(incentive) or incentive == null:
+			output_incentives[key] = 0.0
+			continue
+		
+		var value = incentive.value
+		var curve = incentive.curve
+		var output_ratio = ratio if curve == null else curve.interpolate(ratio)
+		output_incentives[key] = value * output_ratio
 	
 	return output_incentives
 
