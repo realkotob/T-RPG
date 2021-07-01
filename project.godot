@@ -179,6 +179,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/CombatStates/CombatStateBase.gd"
 }, {
+"base": "StrategyCriteria",
+"class": "ConditionCriteria",
+"language": "GDScript",
+"path": "res://Scenes/Combat/IA/StrategyCriteria/ConditionCriteria.gd"
+}, {
 "base": "IsoObject",
 "class": "Cursor",
 "language": "GDScript",
@@ -269,6 +274,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/HUD/ActorInfos/Gauge/HUD_Gauge.gd"
 }, {
+"base": "ConditionCriteria",
+"class": "HasSupportObject_Criteria",
+"language": "GDScript",
+"path": "res://Scenes/Combat/IA/HasSupportObject.gd"
+}, {
 "base": "IA_Strategy",
 "class": "HealStrategy",
 "language": "GDScript",
@@ -278,6 +288,11 @@ _global_script_classes=[ {
 "class": "IA",
 "language": "GDScript",
 "path": "res://Scenes/Combat/IA/IA.gd"
+}, {
+"base": "StrategyCriteria",
+"class": "IA_CriteriaGroup",
+"language": "GDScript",
+"path": "res://Scenes/Combat/IA/IA_CriteriaGroup.gd"
 }, {
 "base": "Resource",
 "class": "IA_Incentive",
@@ -428,6 +443,11 @@ _global_script_classes=[ {
 "class": "ListMenu",
 "language": "GDScript",
 "path": "res://BabaGodotLib/UI/Menu/ListMenu.gd"
+}, {
+"base": "IA_CriteriaGroup",
+"class": "LowHPAlly_Group",
+"language": "GDScript",
+"path": "res://Scenes/Combat/IA/StrategyCriteria/LowHPAlly_Group.gd"
 }, {
 "base": "Object",
 "class": "Math",
@@ -614,7 +634,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BabaGodotLib/Absract/StateMachine/StateMachine.gd"
 }, {
-"base": "Object",
+"base": "Node",
 "class": "StrategyCriteria",
 "language": "GDScript",
 "path": "res://Scenes/Combat/IA/StrategyCriteria/StrategyCriteria.gd"
@@ -804,6 +824,7 @@ _global_script_class_icons={
 "CombatIsoMap": "",
 "CombatLoop": "",
 "CombatStateBase": "",
+"ConditionCriteria": "",
 "Cursor": "",
 "DamagableSmallGauge": "",
 "DamageContainer": "",
@@ -822,8 +843,10 @@ _global_script_class_icons={
 "GameSaver": "",
 "Gauge": "",
 "HUD_Gauge": "",
+"HasSupportObject_Criteria": "",
 "HealStrategy": "",
 "IA": "",
+"IA_CriteriaGroup": "",
 "IA_Incentive": "",
 "IA_OverlookState": "",
 "IA_Strategy": "",
@@ -854,6 +877,7 @@ _global_script_class_icons={
 "LineContainer": "",
 "LineData": "",
 "ListMenu": "",
+"LowHPAlly_Group": "",
 "Math": "",
 "MenuBase": "",
 "MenuOptionsBase": "",

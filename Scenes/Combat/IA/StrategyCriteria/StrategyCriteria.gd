@@ -1,4 +1,4 @@
-extends Object
+extends Node
 class_name StrategyCriteria
 
 export var incentives : Dictionary = {
@@ -6,7 +6,8 @@ export var incentives : Dictionary = {
 	"Defensive": null,
 	"Explore": null,
 	"Passive": null,
-	"RunAway": null
+	"RunAway": null,
+	"Support": null
 }
 
 #### ACCESSORS ####
@@ -21,12 +22,16 @@ func get_class() -> String: return "StrategyCriteria"
 
 #### VIRTUALS ####
 
-func _compute_criteria_ratio(_actor: TRPG_Actor, _map: CombatIsoMap) -> float:
+func compute_criteria_ratio(_actor: TRPG_Actor, _map: CombatIsoMap) -> float:
 	return 0.0
 
 
 func compute_strategy_incentives(actor: TRPG_Actor, map: CombatIsoMap) -> Dictionary:
-	var ratio = _compute_criteria_ratio(actor, map)
+	var ratio = compute_criteria_ratio(actor, map)
+	return _compute_incentives(ratio)
+
+
+func _compute_incentives(ratio: float) -> Dictionary:
 	var output_incentives = Dictionary()
 	
 	for key in incentives.keys():

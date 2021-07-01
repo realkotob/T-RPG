@@ -118,8 +118,8 @@ func get_view_field() -> Array:
 func get_actors() -> Array:
 	var actors_array = []
 	for child in get_children():
-		if child.is_class("TRPG_Actor"):
-			actors_array.append(actors_array)
+		if child.is_class("TRPG_Actor") && is_instance_valid(child):
+			actors_array.append(child)
 	return actors_array
 
 

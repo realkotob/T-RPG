@@ -29,6 +29,10 @@ func feed(_aoe: Resource, _positive: bool, _friendly_fire: bool, _caster_fire: b
 	friendly_fire = _friendly_fire
 	caster_fire = _caster_fire
 
+
+func is_support_object() -> bool:
+	return effect != null && effect.is_support_effect()
+
 #### INPUTS ####
 
 

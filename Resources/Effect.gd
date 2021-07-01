@@ -24,3 +24,8 @@ export(AILMENT_MODE) var ailment_mode : int = AILMENT_MODE.ADD_EVERY_STATE
 
 func is_class(value: String): return value == "Effect" or .is_class(value)
 func get_class() -> String: return "Effect"
+
+
+func is_support_effect() -> bool:
+	return (ailment_mode in [AILMENT_MODE.REMOVE_EVERY_STATE, AILMENT_MODE.REMOVE_RANDOM_STATE] && !ailment_array.empty()) or \
+		damage < 0

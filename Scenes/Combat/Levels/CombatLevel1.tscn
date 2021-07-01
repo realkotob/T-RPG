@@ -17,7 +17,7 @@ actions = 2
 movements = 5
 attack_range = 3
 defense = 3
-view_range = 6
+view_range = 4
 
 [sub_resource type="Resource" id=2]
 script = ExtResource( 9 )
@@ -49,7 +49,7 @@ MaxStats = SubResource( 1 )
 
 [node name="BlueSlime2" parent="Map/Interactives/ActorTeams/Enemies" index="0" instance=ExtResource( 4 )]
 position = Vector2( 400, 48 )
-current_HP = 5
+current_HP = 1
 default_attack_effect = SubResource( 2 )
 default_attack_aoe = SubResource( 3 )
 
