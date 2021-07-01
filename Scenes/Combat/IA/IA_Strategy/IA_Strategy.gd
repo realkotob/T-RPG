@@ -6,7 +6,9 @@ export var action_list := PoolStringArray()
 export var default_coef : Dictionary = {
 	"wait" : 20.0,
 	"attack" : 0.0,
-	"move" : 30.0
+	"move" : 30.0,
+	"skill": 0.0,
+	"item": 0.0
 }
 
 export var target_coef_mod : Dictionary = {
@@ -33,7 +35,6 @@ func get_class() -> String: return "IA_Strategy"
 
 #### VIRTUALS ####
 
-
 func wait(actor: TRPG_Actor, _map: CombatIsoMap) -> Array:
 	return [ActorActionRequest.new(actor, "wait")]
 
@@ -58,6 +59,13 @@ func attack(actor: TRPG_Actor, map: CombatIsoMap) -> Array:
 func move(_actor: TRPG_Actor, _map: CombatIsoMap) -> Array:
 	return []
 
+
+func item(_actor: TRPG_Actor, _map: CombatIsoMap) -> Array:
+	return [] 
+
+
+func skill(_actor: TRPG_Actor, _map: CombatIsoMap) -> Array:
+	return [] 
 
 
 #### LOGIC ####

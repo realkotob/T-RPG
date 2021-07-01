@@ -2,6 +2,7 @@
 
 [ext_resource path="res://Resources/CombatEffectObject/Items/Item.gd" type="Script" id=1]
 [ext_resource path="res://Resources/IconTileset.png" type="Texture" id=2]
+[ext_resource path="res://Resources/Effect.gd" type="Script" id=3]
 [ext_resource path="res://Resources/AOE/AOE_AreaType/AOE_Type_Circle.tres" type="Resource" id=4]
 [ext_resource path="res://Resources/AOE/AOE.gd" type="Script" id=5]
 
@@ -11,45 +12,16 @@ area_type = ExtResource( 4 )
 area_size = 1
 range_size = 1
 
-[sub_resource type="GDScript" id=2]
-script/source = "extends Resource
-class_name Effect
-
-enum DAMAGE_TYPE {
-	PHYSICAL,
-	MAGIC
-}
-
-enum AILMENT_MODE {
-	ADD_RANDOM_STATE,
-	ADD_EVERY_STATE,
-	REMOVE_RANDOM_STATE,
-	REMOVE_EVERY_STATE
-}
-
-export var nb_hits = 1
-export var damage : int = 0
-export var damage_variance : float = 0.0
-
-export var damage_type : int = DAMAGE_TYPE.MAGIC
-
-export var ailment_array : Array = []
-export var ailment_mode : int = AILMENT_MODE.ADD_EVERY_STATE
-
-func is_class(value: String): return value == \"Effect\" or .is_class(value)
-func get_class() -> String: return \"Effect\"
-"
-
-[sub_resource type="Resource" id=3]
-script = SubResource( 2 )
+[sub_resource type="Resource" id=2]
+script = ExtResource( 3 )
 nb_hits = 1
-damage = 0
+damage = -20
 damage_variance = 0.0
 damage_type = 1
 ailment_array = [  ]
 ailment_mode = 1
 
-[sub_resource type="AtlasTexture" id=4]
+[sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 2 )
 region = Rect2( 0, 0, 16, 16 )
 
@@ -61,7 +33,7 @@ aoe = SubResource( 1 )
 positive = false
 friendly_fire = true
 caster_fire = true
-effect = SubResource( 3 )
-icon = SubResource( 4 )
+effect = SubResource( 2 )
+icon = SubResource( 3 )
 cost = 20
 usability = 0

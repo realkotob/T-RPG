@@ -9,7 +9,7 @@
 [ext_resource path="res://Scenes/Combat/IA/StrategyCriteria/ResemblanceCriteria.gd" type="Script" id=7]
 [ext_resource path="res://Scenes/Combat/IA/StrategyCriteria/EnemyVisible.gd" type="Script" id=8]
 [ext_resource path="res://Scenes/Combat/IA/StrategyCriteria/IA_Incentive/IA_Incentive.gd" type="Script" id=9]
-[ext_resource path="res://Scenes/Combat/IA/HealStrategy.gd" type="Script" id=10]
+[ext_resource path="res://Scenes/Combat/IA/IA_Strategy/Support/SupportStrategy.gd" type="Script" id=10]
 [ext_resource path="res://Scenes/Combat/IA/IA_CriteriaGroup.gd" type="Script" id=11]
 [ext_resource path="res://Scenes/Combat/IA/HasSupportObject.gd" type="Script" id=12]
 [ext_resource path="res://Scenes/Combat/IA/StrategyCriteria/LowHPAlly_Group.gd" type="Script" id=13]
@@ -102,6 +102,13 @@ script = ExtResource( 6 )
 
 [node name="Support" type="Node" parent="Strategies"]
 script = ExtResource( 10 )
+default_coef = {
+"attack": 15.0,
+"item": 80.0,
+"move": 0.0,
+"skill": 100.0,
+"wait": 10.0
+}
 
 [node name="Criterias" type="Node" parent="."]
 

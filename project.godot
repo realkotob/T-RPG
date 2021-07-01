@@ -89,6 +89,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://AbstractClasses/ActorStats.gd"
 }, {
+"base": "Object",
+"class": "ActorSupportNeed",
+"language": "GDScript",
+"path": "res://Scenes/Combat/IA/IA_Strategy/Support/ActorSupportNeed/ActorSupportNeed.gd"
+}, {
 "base": "Node2D",
 "class": "ActorTeam",
 "language": "GDScript",
@@ -278,11 +283,6 @@ _global_script_classes=[ {
 "class": "HasSupportObject_Criteria",
 "language": "GDScript",
 "path": "res://Scenes/Combat/IA/HasSupportObject.gd"
-}, {
-"base": "IA_Strategy",
-"class": "HealStrategy",
-"language": "GDScript",
-"path": "res://Scenes/Combat/IA/HealStrategy.gd"
 }, {
 "base": "Node",
 "class": "IA",
@@ -639,6 +639,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/IA/StrategyCriteria/StrategyCriteria.gd"
 }, {
+"base": "Object",
+"class": "SupportNeed",
+"language": "GDScript",
+"path": "res://Scenes/Combat/IA/IA_Strategy/Support/ActorSupportNeed/SupportNeed.gd"
+}, {
+"base": "IA_Strategy",
+"class": "SupportStrategy",
+"language": "GDScript",
+"path": "res://Scenes/Combat/IA/IA_Strategy/Support/SupportStrategy.gd"
+}, {
 "base": "ActorActionState",
 "class": "TB_ActorActionState",
 "language": "GDScript",
@@ -806,6 +816,7 @@ _global_script_class_icons={
 "ActorPath": "",
 "ActorStateBase": "",
 "ActorStats": "",
+"ActorSupportNeed": "",
 "ActorTeam": "",
 "Ailment": "",
 "AnimatedObjectStateBase": "",
@@ -844,7 +855,6 @@ _global_script_class_icons={
 "Gauge": "",
 "HUD_Gauge": "",
 "HasSupportObject_Criteria": "",
-"HealStrategy": "",
 "IA": "",
 "IA_CriteriaGroup": "",
 "IA_Incentive": "",
@@ -916,6 +926,8 @@ _global_script_class_icons={
 "StateLabel": "",
 "StatesMachine": "",
 "StrategyCriteria": "",
+"SupportNeed": "",
+"SupportStrategy": "",
 "TB_ActorActionState": "",
 "TB_ActorFallState": "",
 "TB_ActorIdleState": "",
