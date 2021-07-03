@@ -43,133 +43,6 @@ __meta__ = {
 }
 fog_of_war = false
 
-[node name="IA" parent="." instance=ExtResource( 4 )]
-
-[node name="Renderer" type="Node2D" parent="."]
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="Tween" type="Tween" parent="Renderer"]
-script = ExtResource( 16 )
-
-[node name="RenderingQueue" type="Node2D" parent="Renderer"]
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 360, 136 )
-z_index = 999
-current = true
-
-[node name="CombatStatesMachine" type="Node2D" parent="."]
-script = ExtResource( 10 )
-
-[node name="PlayerTurn" type="Node2D" parent="CombatStatesMachine"]
-script = ExtResource( 41 )
-
-[node name="Overlook" type="Node" parent="CombatStatesMachine/PlayerTurn"]
-script = ExtResource( 12 )
-
-[node name="Move" type="Node2D" parent="CombatStatesMachine/PlayerTurn"]
-script = ExtResource( 15 )
-reset_to_default = true
-
-[node name="DestinationChoice" type="Node" parent="CombatStatesMachine/PlayerTurn/Move"]
-script = ExtResource( 35 )
-
-[node name="MoveAnimation" type="Node" parent="CombatStatesMachine/PlayerTurn/Move"]
-script = ExtResource( 14 )
-
-[node name="Attack" type="Node2D" parent="CombatStatesMachine/PlayerTurn"]
-script = ExtResource( 17 )
-reset_to_default = true
-
-[node name="TargetChoice" type="Node" parent="CombatStatesMachine/PlayerTurn/Attack"]
-script = ExtResource( 32 )
-
-[node name="Animation" type="Node" parent="CombatStatesMachine/PlayerTurn/Attack"]
-script = ExtResource( 31 )
-
-[node name="Skill" type="Node2D" parent="CombatStatesMachine/PlayerTurn"]
-script = ExtResource( 18 )
-reset_to_default = true
-
-[node name="OptionChoice" type="Node" parent="CombatStatesMachine/PlayerTurn/Skill"]
-script = ExtResource( 24 )
-
-[node name="TargetChoice" type="Node" parent="CombatStatesMachine/PlayerTurn/Skill"]
-script = ExtResource( 32 )
-
-[node name="Animation" type="Node" parent="CombatStatesMachine/PlayerTurn/Skill"]
-script = ExtResource( 31 )
-
-[node name="Item" type="Node2D" parent="CombatStatesMachine/PlayerTurn"]
-script = ExtResource( 19 )
-
-[node name="OptionChoice" type="Node" parent="CombatStatesMachine/PlayerTurn/Item"]
-script = ExtResource( 24 )
-
-[node name="TargetChoice" type="Node" parent="CombatStatesMachine/PlayerTurn/Item"]
-script = ExtResource( 32 )
-
-[node name="Animation" type="Node" parent="CombatStatesMachine/PlayerTurn/Item"]
-script = ExtResource( 31 )
-
-[node name="Wait" type="Node" parent="CombatStatesMachine/PlayerTurn"]
-script = ExtResource( 20 )
-
-[node name="IATurn" type="Node2D" parent="CombatStatesMachine"]
-script = ExtResource( 10 )
-reset_to_default = true
-
-[node name="Overlook" type="Node" parent="CombatStatesMachine/IATurn"]
-script = ExtResource( 26 )
-
-[node name="Move" type="Node" parent="CombatStatesMachine/IATurn"]
-script = ExtResource( 14 )
-
-[node name="Attack" type="Node" parent="CombatStatesMachine/IATurn"]
-script = ExtResource( 31 )
-
-[node name="Skill" type="Node" parent="CombatStatesMachine/IATurn"]
-script = ExtResource( 31 )
-
-[node name="Item" type="Node" parent="CombatStatesMachine/IATurn"]
-script = ExtResource( 31 )
-
-[node name="Wait" type="Node" parent="CombatStatesMachine/IATurn"]
-script = ExtResource( 20 )
-
-[node name="Map" parent="." instance=ExtResource( 6 )]
-
-[node name="Interactives" parent="Map" index="2"]
-z_index = 99
-
-[node name="Cursor" parent="Map/Interactives" index="0"]
-position = Vector2( 352, 200 )
-
-[node name="ActorTeams" type="Node2D" parent="Map/Interactives" index="2"]
-script = ExtResource( 36 )
-
-[node name="Allies" type="Node2D" parent="Map/Interactives/ActorTeams"]
-script = ExtResource( 8 )
-team_side = 0
-inventory = [ [ ExtResource( 28 ), 3 ] ]
-
-[node name="Enemies" type="Node2D" parent="Map/Interactives/ActorTeams"]
-script = ExtResource( 8 )
-
-[node name="Obstacles" type="Node2D" parent="Map/Interactives" index="3"]
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="EastWall" parent="Map/Layer" index="1"]
-z_index = -1
-
-[node name="DamageContainer" type="Node2D" parent="."]
-script = ExtResource( 33 )
-
 [node name="HUD" type="CanvasLayer" parent="."]
 layer = 2
 script = ExtResource( 11 )
@@ -412,6 +285,133 @@ text = "Cursor Pos:
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="IA" parent="." instance=ExtResource( 4 )]
+
+[node name="Renderer" type="Node2D" parent="."]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Tween" type="Tween" parent="Renderer"]
+script = ExtResource( 16 )
+
+[node name="RenderingQueue" type="Node2D" parent="Renderer"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 360, 136 )
+z_index = 999
+current = true
+
+[node name="CombatStatesMachine" type="Node2D" parent="."]
+script = ExtResource( 10 )
+
+[node name="PlayerTurn" type="Node2D" parent="CombatStatesMachine"]
+script = ExtResource( 41 )
+
+[node name="Overlook" type="Node" parent="CombatStatesMachine/PlayerTurn"]
+script = ExtResource( 12 )
+
+[node name="Move" type="Node2D" parent="CombatStatesMachine/PlayerTurn"]
+script = ExtResource( 15 )
+reset_to_default = true
+
+[node name="DestinationChoice" type="Node" parent="CombatStatesMachine/PlayerTurn/Move"]
+script = ExtResource( 35 )
+
+[node name="MoveAnimation" type="Node" parent="CombatStatesMachine/PlayerTurn/Move"]
+script = ExtResource( 14 )
+
+[node name="Attack" type="Node2D" parent="CombatStatesMachine/PlayerTurn"]
+script = ExtResource( 17 )
+reset_to_default = true
+
+[node name="TargetChoice" type="Node" parent="CombatStatesMachine/PlayerTurn/Attack"]
+script = ExtResource( 32 )
+
+[node name="Animation" type="Node" parent="CombatStatesMachine/PlayerTurn/Attack"]
+script = ExtResource( 31 )
+
+[node name="Skill" type="Node2D" parent="CombatStatesMachine/PlayerTurn"]
+script = ExtResource( 18 )
+reset_to_default = true
+
+[node name="OptionChoice" type="Node" parent="CombatStatesMachine/PlayerTurn/Skill"]
+script = ExtResource( 24 )
+
+[node name="TargetChoice" type="Node" parent="CombatStatesMachine/PlayerTurn/Skill"]
+script = ExtResource( 32 )
+
+[node name="Animation" type="Node" parent="CombatStatesMachine/PlayerTurn/Skill"]
+script = ExtResource( 31 )
+
+[node name="Item" type="Node2D" parent="CombatStatesMachine/PlayerTurn"]
+script = ExtResource( 19 )
+
+[node name="OptionChoice" type="Node" parent="CombatStatesMachine/PlayerTurn/Item"]
+script = ExtResource( 24 )
+
+[node name="TargetChoice" type="Node" parent="CombatStatesMachine/PlayerTurn/Item"]
+script = ExtResource( 32 )
+
+[node name="Animation" type="Node" parent="CombatStatesMachine/PlayerTurn/Item"]
+script = ExtResource( 31 )
+
+[node name="Wait" type="Node" parent="CombatStatesMachine/PlayerTurn"]
+script = ExtResource( 20 )
+
+[node name="IATurn" type="Node2D" parent="CombatStatesMachine"]
+script = ExtResource( 10 )
+reset_to_default = true
+
+[node name="Overlook" type="Node" parent="CombatStatesMachine/IATurn"]
+script = ExtResource( 26 )
+
+[node name="Move" type="Node" parent="CombatStatesMachine/IATurn"]
+script = ExtResource( 14 )
+
+[node name="Attack" type="Node" parent="CombatStatesMachine/IATurn"]
+script = ExtResource( 31 )
+
+[node name="Skill" type="Node" parent="CombatStatesMachine/IATurn"]
+script = ExtResource( 31 )
+
+[node name="Item" type="Node" parent="CombatStatesMachine/IATurn"]
+script = ExtResource( 31 )
+
+[node name="Wait" type="Node" parent="CombatStatesMachine/IATurn"]
+script = ExtResource( 20 )
+
+[node name="Map" parent="." instance=ExtResource( 6 )]
+
+[node name="Interactives" parent="Map" index="2"]
+z_index = 99
+
+[node name="Cursor" parent="Map/Interactives" index="0"]
+position = Vector2( 352, 200 )
+
+[node name="ActorTeams" type="Node2D" parent="Map/Interactives" index="2"]
+script = ExtResource( 36 )
+
+[node name="Allies" type="Node2D" parent="Map/Interactives/ActorTeams"]
+script = ExtResource( 8 )
+team_side = 0
+inventory = [ [ ExtResource( 28 ), 3 ] ]
+
+[node name="Enemies" type="Node2D" parent="Map/Interactives/ActorTeams"]
+script = ExtResource( 8 )
+
+[node name="Obstacles" type="Node2D" parent="Map/Interactives" index="3"]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="EastWall" parent="Map/Layer" index="1"]
+z_index = -1
+
+[node name="DamageContainer" type="Node2D" parent="."]
+script = ExtResource( 33 )
 
 [editable path="Map"]
 [editable path="Map/Layer"]
