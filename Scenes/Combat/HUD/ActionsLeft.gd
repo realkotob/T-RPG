@@ -2,18 +2,24 @@ extends HBoxContainer
 
 onready var action_node_scene = preload("res://Scenes/Combat/HUD/ActorInfos/Actions/ActionLeft.tscn")
 
+var actor_max_actions : int = 0
+
 #### ACCESSORS ####
+
+
+#### BUILT-IN ####
+
+func _ready() -> void:
+	var __ = EVENTS.connect("active_actor_turn_started", self, "_on_active_actor_turn_started")
 
 
 #### LOGIC ####
 
 # Create or destroy the right number of action to corespond the amount of action
 # the active actor has
-func update_action_number(actor: TRPG_Actor):
-	var max_action = actor.get_max_actions() + actor.get_action_modifier()
-	
+func update_max_action_number():
 	var nb_icon = get_child_count()
-	var diff = max_action - nb_icon
+	var diff = actor_max_actions - nb_icon
 	
 	# Create or destroy the right numbers of icons
 	for _i in range(abs(diff)):
@@ -24,35 +30,28 @@ func update_action_number(actor: TRPG_Actor):
 			get_child(get_child_count() - 1).queue_free()
 
 
-# Make the lights appear/disappear,
-# based on the difference between the new value and actions_left
 func update_display(actor: TRPG_Actor):
-	update_action_number(actor)
-	var new_value = actor.get_current_actions()
-	
-	var active_action = count_active_actions()
-	var offset = new_value - active_action
-	var actions_node_array = get_children()
-	
-	# If the new value is the actions_left, 
-	# or if the actions_left would be negative after this method : abort
-	if actions_node_array == [] or new_value == active_action or active_action + offset < 0 or offset == 0:
+	if get_child_count() == 0:
 		return
+	
+	var nb_current_active_actions = count_active_actions()
+	var actions_left = actor.get_current_actions()
+	
+	var diff = nb_current_active_actions - actions_left
+	
+	if diff == 0:
+		return
+	elif diff > 0:
+		for i in range(diff):
+			var id = _find_first_active_action_id()
+			get_child(id).set_active(false)
+	else:
+		for i in range(abs(diff)):
+			var id = Math.clampi(_find_first_active_action_id() + 1, 0, get_child_count())
+			var action_node = get_child(id)
+			if is_instance_valid(action_node):
+				action_node.set_active(true)
 
-	var unactive_actions = 0
-	var total_actions = get_child_count()
-	
-	# If we are substracting from the current amount of actions,
-	# Set the first action from which we will loop to be the first non-empty action
-	if offset < 0:
-		unactive_actions = total_actions - count_active_actions() - 1
-	
-	# Make the appropriate lights appear/disapear
-	var activate : bool = offset > 0
-	for i in range(abs(offset)):
-		if i + unactive_actions >= actions_node_array.size():
-			break
-		actions_node_array[i + unactive_actions].set_active(activate)
 
 
 # Return the number of action currently active
@@ -62,3 +61,22 @@ func count_active_actions() -> int:
 		if child.is_active():
 			nb += 1
 	return nb
+
+
+func _find_first_active_action_id() -> int:
+	for child in get_children():
+		if child.is_active():
+			return child.get_index()
+	return -1
+
+
+#### SIGNAL RESPONSES ####
+
+func _on_active_actor_turn_started(actor: TRPG_Actor) -> void:
+	var current_actions = actor.get_current_actions()
+	var max_action = actor.get_max_actions()
+	
+	actor_max_actions = int(max(current_actions, max_action))
+	
+	update_max_action_number()
+	update_display(actor)

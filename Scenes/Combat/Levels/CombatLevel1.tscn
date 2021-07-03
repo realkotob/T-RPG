@@ -38,6 +38,9 @@ range_size = 1
 [node name="CombatLevel1" instance=ExtResource( 1 )]
 fog_of_war = true
 
+[node name="ActionsLeft" parent="HUD/ActorInfos/ActorData" index="1"]
+grow_horizontal = 1
+
 [node name="VBoxContainer" parent="DebugPanel" index="0"]
 margin_top = -175.0
 margin_bottom = 0.0

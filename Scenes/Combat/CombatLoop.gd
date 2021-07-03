@@ -103,7 +103,7 @@ func new_turn():
 	var turn_type_changed = new_state_name != current_state_name
 	set_state(new_state_name)
 	
-	# 
+	# Return to Overlook state when the turn start
 	if !turn_type_changed or current_state_name == "":
 		set_turn_state("Overlook")
 	
