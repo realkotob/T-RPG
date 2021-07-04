@@ -3,12 +3,13 @@ class_name ActorTeam
 
 enum TEAM_TYPE{
 	ALLY,
-	NPC_ALLY,
 	ENEMY
 }
 
 var map_knowledge_array = []
 var map = null
+
+export var IA_controled : bool = false
 
 export(TEAM_TYPE) var team_side = TEAM_TYPE.ENEMY setget set_team_side, get_team_side
 export var inventory := Array() setget set_inventory, get_inventory
@@ -155,6 +156,7 @@ func get_segment_knowledge(seg_id: int) -> float:
 	return map_knowledge_array[seg_id]
 
 
+
 #### DEBUG ####
 
 func _print_map_knowledge() -> void:
@@ -186,7 +188,7 @@ func _on_visible_cells_changed(actor: TRPG_Actor):
 
 
 func _on_IA_overlook_begun(actor: TRPG_Actor) -> void:
-	if is_actor_in_team(actor):
+	if team_side == TEAM_TYPE.ENEMY && is_actor_in_team(actor):
 		_update_map_knowledge()
 #		_print_segments_origin()
 #		_print_map_knowledge()

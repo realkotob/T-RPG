@@ -67,6 +67,9 @@ position = Vector2( 384, 72 )
 [node name="Overlook" parent="CombatStatesMachine/IATurn" index="0"]
 print_logs = true
 
+[node name="Map" parent="." index="6"]
+fog_of_war = true
+
 [node name="Character" parent="Map/Interactives/ActorTeams/Allies" index="0" instance=ExtResource( 2 )]
 position = Vector2( 416, 56 )
 MaxStats = SubResource( 1 )

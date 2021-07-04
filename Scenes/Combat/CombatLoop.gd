@@ -68,7 +68,6 @@ func _ready() -> void:
 	_err = map_node.connect("map_generation_finished", self, "_on_map_generation_finished")
 	_err = EVENTS.connect("timeline_movement_finished", self, "_on_timeline_movement_finished")
 	_err = EVENTS.connect("action_phase_finished", self, "_on_action_phase_finished")
-	_err = EVENTS.connect("actor_cell_changed", self, "_on_actor_cell_changed")
 	_err = EVENTS.connect("damagable_targeted", self, "_on_damagable_targeted")
 	_err = EVENTS.connect("iso_object_focused", self, "_on_iso_object_focused")
 	_err = EVENTS.connect("iso_object_unfocused", self, "_on_iso_object_unfocused")
@@ -139,10 +138,6 @@ func first_become_last(array : Array) -> void:
 	array.append(first)
 
 
-func update_view_field(actor: TRPG_Actor) -> void:
-	map_node.update_view_field(actor)
-
-
 #### INPUTS ####
 
 func _input(_event: InputEvent) -> void:
@@ -154,15 +149,14 @@ func _input(_event: InputEvent) -> void:
 
 #### SIGNALS ####
 
-func _on_map_generation_finished():
-	if fog_of_war:
-		for actor in actors_order:
-			update_view_field(actor)
+func _on_map_generation_finished() -> void:
+	for actor in actors_order:
+		map_node.update_view_field(actor)
 
 
 # Triggered when the timeline movement is finished
 # Update the order of children nodes in the hierachy of the timeline to match the actor order
-func _on_timeline_movement_finished():
+func _on_timeline_movement_finished() -> void:
 	set_actors_order(future_actors_order)
 	HUD_node.update_timeline_order(actors_order)
 	
@@ -170,27 +164,22 @@ func _on_timeline_movement_finished():
 	new_turn()
 
 
-func on_focus_changed():
+func on_focus_changed() -> void:
 	$Renderer.set_focus_array([active_actor, cursor_node])
 
 
 # Update the focus objects by adding a new one
-func _on_iso_object_focused(focus_obj: IsoObject):
+func _on_iso_object_focused(focus_obj: IsoObject) -> void:
 	focused_objects_array.append(focus_obj)
 	$Renderer.set_focus_array(focused_objects_array)
 
 
 # Update the focus objects by erasing an old one
-func _on_iso_object_unfocused(focus_obj: IsoObject):
+func _on_iso_object_unfocused(focus_obj: IsoObject) -> void:
 	focused_objects_array.erase(focus_obj)
 
 
-func _on_actor_cell_changed(actor: TRPG_Actor):
-	if fog_of_war:
-		update_view_field(actor)
-
-
-func _on_active_actor_turn_finished():
+func _on_active_actor_turn_finished() -> void:
 	end_turn()
 
 

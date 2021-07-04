@@ -20,6 +20,16 @@ func _ready() -> void:
 
 #### LOGIC ####
 
+func get_teams_in_team_side(team_side: int) -> Array:
+	var teams_array = []
+	
+	for team in get_children():
+		if team.get_team_side() == team_side:
+			teams_array.append(team)
+	
+	return teams_array
+
+
 func fetch_actors_in_team_side(team_side: int) -> Array:
 	var actors_array := Array()
 	for child in get_children():

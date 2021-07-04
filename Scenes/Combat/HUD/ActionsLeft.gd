@@ -17,7 +17,7 @@ func _ready() -> void:
 
 # Create or destroy the right number of action to corespond the amount of action
 # the active actor has
-func update_max_action_number():
+func update_max_action_number() -> void:
 	var nb_icon = get_child_count()
 	var diff = actor_max_actions - nb_icon
 	
@@ -30,7 +30,7 @@ func update_max_action_number():
 			get_child(get_child_count() - 1).queue_free()
 
 
-func update_display(actor: TRPG_Actor):
+func update_display(actor: TRPG_Actor) -> void:
 	if get_child_count() == 0:
 		return
 	
@@ -42,16 +42,15 @@ func update_display(actor: TRPG_Actor):
 	if diff == 0:
 		return
 	elif diff > 0:
-		for i in range(diff):
+		for _i in range(diff):
 			var id = _find_first_active_action_id()
 			get_child(id).set_active(false)
 	else:
-		for i in range(abs(diff)):
-			var id = Math.clampi(_find_first_active_action_id() + 1, 0, get_child_count())
+		for _i in range(abs(diff)):
+			var id = Math.clampi(_find_first_active_action_id() + 1, 0, get_child_count() - 1)
 			var action_node = get_child(id)
 			if is_instance_valid(action_node):
 				action_node.set_active(true)
-
 
 
 # Return the number of action currently active
