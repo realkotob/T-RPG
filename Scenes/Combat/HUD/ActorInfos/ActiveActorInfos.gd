@@ -96,5 +96,5 @@ func _on_current_actor_action_finished(_action_name: String):
 	actions_left_node.update_display(current_actor)
 
 
-func _on_current_actor_cell_changed(cell: Vector3):
-	_update_altitude_label(cell.z)
+func _on_current_actor_cell_changed(_from: Vector3, to: Vector3):
+	_update_altitude_label(to.z)

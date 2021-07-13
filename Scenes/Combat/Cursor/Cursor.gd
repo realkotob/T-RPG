@@ -20,10 +20,11 @@ func get_class() -> String: return "Cursor"
 func set_current_cell(value: Vector3):
 	if value != current_cell:
 		if map_node.is_cell_ground(value):
+			var previous_cell = current_cell
 			current_cell = value
 			EVENTS.emit_signal("cursor_cell_changed", self, current_cell)
 			EVENTS.emit_signal("iso_object_cell_changed", self)
-			emit_signal("cell_changed", current_cell)
+			emit_signal("cell_changed", previous_cell, current_cell)
 		else:
 			change_color(Color.transparent)
 

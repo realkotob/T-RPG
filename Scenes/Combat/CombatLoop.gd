@@ -74,6 +74,8 @@ func _ready() -> void:
 	_err = EVENTS.connect("iso_object_unfocused", self, "_on_iso_object_unfocused")
 	_err = EVENTS.connect("turn_finished", self, "_on_active_actor_turn_finished")
 	_err = EVENTS.connect("actor_died", self, "_on_actor_died")
+	_err = EVENTS.connect("actor_cell_changed", self, "_on_actor_cell_changed")
+	
 	EVENTS.emit_signal("hide_iso_objects", true)
 	
 	HUD_node.generate_timeline(actors_order)
@@ -206,3 +208,15 @@ func _on_actor_died(actor: TRPG_Actor) -> void:
 	if actor in actors_order:
 		actors_order.erase(actor)
 		timeline.remove_actor_portrait(actor)
+
+
+func _on_actor_cell_changed(actor: TRPG_Actor, from: Vector3, to: Vector3) -> void:
+	map_node.update_view_field(actor)
+	map_node.actor_update_visibility(actor)
+	
+	var opponent_teams = teams_container.get_teams_in_team_side(!actor.get_team_side())
+	
+	for team in opponent_teams:
+		for opponent in team.get_actors():
+			if opponent.can_see_cell(from) or opponent.can_see_cell(to):
+				map_node.update_view_field(opponent)
