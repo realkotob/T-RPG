@@ -33,6 +33,7 @@ func flash(color: Color, duration: float = 0.5, trans_type : int = TRANS_LINEAR)
 	
 	emit_signal("flash_finished")
 
+
 #### INPUTS ####
 
 
