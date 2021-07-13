@@ -299,12 +299,12 @@ animations = [ {
 "name": "MoveBottom",
 "speed": 10.0
 }, {
-"frames": [ SubResource( 43 ), SubResource( 44 ), SubResource( 45 ), SubResource( 46 ), SubResource( 47 ) ],
+"frames": [ SubResource( 43 ), SubResource( 44 ), SubResource( 45 ), SubResource( 46 ), SubResource( 47 ), SubResource( 43 ) ],
 "loop": false,
 "name": "HurtTop",
 "speed": 13.0
 }, {
-"frames": [ SubResource( 48 ), SubResource( 49 ), SubResource( 50 ), SubResource( 51 ), SubResource( 52 ) ],
+"frames": [ SubResource( 48 ), SubResource( 49 ), SubResource( 50 ), SubResource( 51 ), SubResource( 52 ), SubResource( 48 ) ],
 "loop": false,
 "name": "HurtBottom",
 "speed": 13.0
