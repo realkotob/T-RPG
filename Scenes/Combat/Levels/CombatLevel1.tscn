@@ -36,6 +36,7 @@ range_size = 1
 
 [node name="CombatLevel1" instance=ExtResource( 1 )]
 fog_of_war = true
+auto_combat = true
 
 [node name="ActionsLeft" parent="HUD/ActorInfos/ActorData" index="1"]
 grow_horizontal = 1
@@ -68,9 +69,6 @@ print_logs = true
 
 [node name="Map" parent="." index="6"]
 fog_of_war = true
-
-[node name="Allies" parent="Map/Interactives/ActorTeams" index="0"]
-IA_controled = true
 
 [node name="Character" parent="Map/Interactives/ActorTeams/Allies" index="0" instance=ExtResource( 2 )]
 position = Vector2( 416, 88 )

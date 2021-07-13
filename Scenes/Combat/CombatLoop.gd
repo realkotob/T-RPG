@@ -24,7 +24,8 @@ var previous_actor : TRPG_Actor = null
 var future_actors_order : Array
 var is_ready : bool = false
 
-export var fog_of_war : bool = true
+export var fog_of_war: bool = true
+export var auto_combat: bool = false
 
 signal active_actor_changed
 signal active_actor_state_changed(state)
@@ -98,7 +99,7 @@ func new_turn():
 	on_focus_changed()
 	
 	var current_state_name = get_state_name()
-	var new_state_name = "PlayerTurn" if !active_actor.get_team().IA_controled else "IATurn"
+	var new_state_name = "IATurn" if active_actor.get_team().IA_controled or auto_combat else "PlayerTurn"
 	var turn_type_changed = new_state_name != current_state_name
 	set_state(new_state_name)
 	
