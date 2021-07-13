@@ -23,7 +23,7 @@ func move(actor: TRPG_Actor, map: CombatIsoMap) -> Array:
 	var smallest_knowledge_id = find_segment_to_explore(actor, map)
 	var less_known_seg_center = map.segment_get_center(smallest_knowledge_id)
 	
-	var path = find_approch_cell_path(map, actor, less_known_seg_center, -1)
+	var path = map.find_approch_cell_path(actor, less_known_seg_center, -1)
 	var splitted_path = _split_move_path(path, actor.get_current_movements())
 	var actions_array = []
 	var nb_actions = actor.get_current_actions()

@@ -20,7 +20,7 @@ func move(actor: TRPG_Actor, map: CombatIsoMap) -> Array:
 	var total_movement = actor.get_current_actions() * actor.get_current_movements()
 	
 	var dest = _find_destination(actor, map, chosen_dir)
-	var path = find_approch_cell_path(map, actor, dest, total_movement)
+	var path = map.find_approch_cell_path(actor, dest, total_movement)
 	
 	var splitted_path_array = _split_move_path(path, actor.get_current_movements())
 	

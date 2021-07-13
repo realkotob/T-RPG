@@ -120,25 +120,11 @@ func _create_action_from_target(actor: TRPG_Actor, map: IsoMap, aoe_target: AOE_
 	
 	# Move towards the target if needed
 	if target_dist > actor_range:
-		var path = find_approch_cell_path(map, actor, aoe_target.target_cell)
+		var path = map.find_approch_cell_path(actor, aoe_target.target_cell)
 		var action = ActorActionRequest.new(actor, "move", [path])
 		actions_array.push_front(action)
 	
 	return actions_array
-
-
-### MOVE IT TO IsoMap ###
-# Retruns a PoolVector3Array that contains the path to move towards a cell as much as possible
-func find_approch_cell_path(map: CombatIsoMap, actor: TRPG_Actor, cell: Vector3, max_movement : int = 0) -> PoolVector3Array:
-	var actor_cell = actor.get_current_cell()
-	var actor_movement = actor.get_current_movements() if max_movement == 0 else max_movement
-	
-	var path_to_reach = map.pathfinding.find_path_to_reach(actor_cell, cell)
-	
-	if max_movement != -1:
-		path_to_reach.resize(int(clamp(actor_movement + 1, 0, path_to_reach.size())))
-	
-	return path_to_reach
 
 
 func _convert_targetables_to_aoe_targets(actor: TRPG_Actor, targetables: Array) -> Array:
