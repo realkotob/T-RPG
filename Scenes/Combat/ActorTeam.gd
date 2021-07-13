@@ -188,7 +188,7 @@ func _on_visible_cells_changed(actor: TRPG_Actor):
 
 
 func _on_IA_overlook_begun(actor: TRPG_Actor) -> void:
-	if team_side == TEAM_TYPE.ENEMY && is_actor_in_team(actor):
+	if IA_controled && is_actor_in_team(actor):
 		_update_map_knowledge()
 #		_print_segments_origin()
 #		_print_map_knowledge()

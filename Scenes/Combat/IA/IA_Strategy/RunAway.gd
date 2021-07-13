@@ -23,8 +23,10 @@ func move(actor: TRPG_Actor, map: CombatIsoMap) -> Array:
 	var path = map.find_approch_cell_path(actor, dest, total_movement)
 	
 	var splitted_path_array = _split_move_path(path, actor.get_current_movements())
-	
+
 	for i in range(actor.get_current_actions()):
+		if splitted_path_array.size() <= i:
+			break
 		actions_array.append(ActorActionRequest.new(actor, "move", [splitted_path_array[i]]))
 	
 	return actions_array

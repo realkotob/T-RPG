@@ -98,7 +98,7 @@ func new_turn():
 	on_focus_changed()
 	
 	var current_state_name = get_state_name()
-	var new_state_name = "PlayerTurn" if active_actor.is_team_side(ActorTeam.TEAM_TYPE.ALLY) else "IATurn"
+	var new_state_name = "PlayerTurn" if !active_actor.get_team().IA_controled else "IATurn"
 	var turn_type_changed = new_state_name != current_state_name
 	set_state(new_state_name)
 	
