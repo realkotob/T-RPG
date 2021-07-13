@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://Scenes/Combat/IA/IA.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Combat/IA/IA_Strategy/ExploreStrategy.gd" type="Script" id=2]
@@ -22,8 +22,16 @@ script = ExtResource( 9 )
 curve = SubResource( 1 )
 value = 50
 
+[sub_resource type="Curve" id=15]
+_data = [ Vector2( 0, 1 ), 0.0, -1.43377, 0, 0, Vector2( 1, 0 ), -2.90909, 0.0, 0, 0 ]
+
+[sub_resource type="Resource" id=16]
+script = ExtResource( 9 )
+curve = SubResource( 15 )
+value = 100
+
 [sub_resource type="Curve" id=3]
-_data = [ Vector2( 0.501661, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 6.21902, 0.0, 0, 0 ]
+_data = [ Vector2( 0.499157, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.996627, 0.990909 ), 0.735124, 0.0, 0, 0 ]
 
 [sub_resource type="Resource" id=4]
 script = ExtResource( 9 )
@@ -47,12 +55,12 @@ curve = SubResource( 7 )
 value = 100
 
 [sub_resource type="Curve" id=9]
-_data = [ Vector2( 0.211796, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.257373, 0.972727 ), 0.0762001, 0.0762001, 0, 0, Vector2( 1, 0 ), -1.84958, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.0608519, 0 ), 0.0762001, 0.0762001, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Resource" id=10]
 script = ExtResource( 9 )
 curve = SubResource( 9 )
-value = 100
+value = -100
 
 [sub_resource type="Curve" id=11]
 _data = [ Vector2( 0.243655, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 2.37296, 0.0, 0, 0 ]
@@ -94,11 +102,18 @@ script = ExtResource( 5 )
 default_coef = {
 "attack": 0.0,
 "move": 0.0,
-"wait": 10.0
+"wait": 100.0
 }
 
 [node name="RunAway" type="Node" parent="Strategies"]
 script = ExtResource( 6 )
+default_coef = {
+"attack": 0.0,
+"item": 0.0,
+"move": 60.0,
+"skill": 0.0,
+"wait": 10.0
+}
 
 [node name="Support" type="Node" parent="Strategies"]
 script = ExtResource( 10 )
@@ -117,7 +132,7 @@ script = ExtResource( 7 )
 incentives = {
 "Defensive": SubResource( 2 ),
 "Explore": null,
-"Offensive": null,
+"Offensive": SubResource( 16 ),
 "Passive": null,
 "RunAway": SubResource( 4 )
 }
