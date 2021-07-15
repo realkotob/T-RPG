@@ -6,6 +6,11 @@ var target_array = []
 
 var timeline_resise_needed : bool = false 
 
+var action_anim_finished : bool = false
+var action_consequence_finished : bool = false
+
+signal action_feedback_finished
+
 #### ACCESSORS ####
 
 func is_class(value: String): return value == "AnimationCombatState" or .is_class(value)
@@ -20,6 +25,7 @@ func get_aoe_target() -> AOE_Target: return aoe_target
 func _ready() -> void:
 	var __ = EVENTS.connect("timeline_resize_finished", self, "_on_timeline_resize_finished")
 	__ = EVENTS.connect("actor_died", self, "_on_actor_died")
+	__ = connect("action_feedback_finished", self, "_on_action_feedback_finished")
 
 
 #### VIRTUALS ####
@@ -27,15 +33,20 @@ func _ready() -> void:
 func enter_state() -> void:
 	var map = owner.map_node
 	target_array = map.get_damagable_in_area(aoe_target)
+	var actor = owner.active_actor
+	
+	var __ = actor.connect("action_finished", self, "_on_active_actor_action_finished")
 	
 	for target in target_array:
-		var __ = target.connect("action_consequence_finished", self, "_on_action_consequence_finished", [target])
+		__ = target.connect("action_consequence_finished", self, "_on_action_consequence_finished", [target])
 
 
 func exit_state() -> void:
 	aoe_target = null
 	target_array = []
 	timeline_resise_needed = false
+	action_anim_finished = false
+	action_consequence_finished = false
 
 
 #### LOGIC ####
@@ -48,14 +59,33 @@ func exit_state() -> void:
 
 #### SIGNAL RESPONSES ####
 
+func _on_active_actor_action_finished(previous_state_name: String) -> void:
+	if previous_state_name == self.name:
+		action_anim_finished = true
+		
+		if action_consequence_finished:
+			emit_signal("action_feedback_finished")
+
+
 func _on_action_consequence_finished(target: TRPG_DamagableObject) -> void:
+	action_consequence_finished = true
+	
 	if target in target_array:
 		if target.is_connected("action_consequence_finished", self, "_on_action_consequence_finished"):
 			target.disconnect("action_consequence_finished", self, "_on_action_consequence_finished")
 		target_array.erase(target)
 	
-	if target_array.empty() && !timeline_resise_needed:
-		EVENTS.emit_signal("action_phase_finished")
+	if action_anim_finished:
+		emit_signal("action_feedback_finished")
+
+
+func _on_action_feedback_finished() -> void:
+	owner.active_actor.disconnect("action_finished", self, "_on_active_actor_action_finished")
+	
+	if timeline_resise_needed:
+		yield(EVENTS, "timeline_resize_finished")
+	
+	EVENTS.emit_signal("action_phase_finished")
 
 
 func _on_actor_died(actor: TRPG_Actor) -> void:
@@ -64,10 +94,4 @@ func _on_actor_died(actor: TRPG_Actor) -> void:
 
 
 func _on_timeline_resize_finished() -> void:
-	if !is_current_state():
-		return
-	
 	timeline_resise_needed = false
-	
-	if target_array.empty():
-		EVENTS.emit_signal("action_phase_finished")

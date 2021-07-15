@@ -20,7 +20,7 @@ func get_class() -> String: return "IsoObjectTween"
 #### LOGIC ####
 
 func flash(color: Color, duration: float = 0.5, trans_type : int = TRANS_LINEAR) -> void:
-	var initial_modulate = owner.get_modulate()
+	var initial_modulate = Color.white
 	
 	for i in range(2):
 		var start = initial_modulate if i == 0 else color
