@@ -59,7 +59,7 @@ func _find_destination(actor: TRPG_Actor, map: CombatIsoMap, dir: Vector2) -> Ve
 	
 	var theorical_dest = actor.get_current_cell() + Vector3(move_vector.x, move_vector.y, 0)
 	
-	return map.get_nearest_reachable_cell(theorical_dest, actor)
+	return map.get_nearest_reachable_cell(theorical_dest, actor, movement_pts)
 
 
 
