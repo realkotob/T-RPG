@@ -33,6 +33,8 @@ func feed(_aoe: Resource, _positive: bool, _friendly_fire: bool, _caster_fire: b
 func is_support_object() -> bool:
 	return effect != null && effect.is_support_effect()
 
+
+
 #### INPUTS ####
 
 

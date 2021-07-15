@@ -141,7 +141,8 @@ func _choose_AOE_target(actor: TRPG_Actor, targetables: Array) -> AOE_Target:
 	var target = null
 	
 	if !targetables.empty():
-		target = targetables[Math.randi_range(0, targetables.size() - 1)]
+		var combat_effect_obj = actor.get_current_attack_combat_effect_object()
+		target = _choose_best_target(actor, targetables, combat_effect_obj)
 	else:
 		return null
 	
@@ -185,10 +186,52 @@ func _compute_attack_coefficient(attack_request: ActorActionRequest, map: IsoMap
 	return coefficient
 
 
-func _choose_best_target(targets_array: Array) -> TRPG_DamagableObject:
-	var rdm_id = randi() % targets_array.size()
+func _choose_best_target(actor: TRPG_Actor, targets_array: Array, effect: CombatEffectObject) -> TRPG_DamagableObject:
+	var indirect_targets = []
+	var direct_targets = _find_direct_targets(actor, targets_array, effect)
 	
-	return targets_array[rdm_id]
+	for target in targets_array:
+		if not target in direct_targets:
+			indirect_targets.append(target)
+	
+	var array_to_check = direct_targets if !direct_targets.empty() else indirect_targets
+	var lowest_hp_target = _find_lowest_HP_target(array_to_check)
+	
+	return lowest_hp_target
+
+
+func _find_lowest_HP_target(target_array: Array) -> TRPG_DamagableObject:
+	var lowest_HP_target = null
+	var lowest_HP = INF
+	
+	for target in target_array:
+		var hp = target.get_current_HP()
+		if hp < lowest_HP:
+			lowest_HP = hp
+			lowest_HP_target = target
+	
+	return lowest_HP_target
+
+
+# Returns an array containing every targets targettable this turn
+func _find_direct_targets(actor: TRPG_Actor, target_array: Array, effect: CombatEffectObject) -> Array:
+	var direct_targets = []
+	var aoe = effect.aoe
+	var actor_cell = actor.get_current_cell()
+	
+	#  Should be done dynamicly
+	var left_actions = actor.get_current_actions() - 1
+	
+	var movement_range = actor.get_current_movements() * left_actions
+	var effect_range = aoe.range_size + aoe.area_size
+	var total_range = effect_range + movement_range
+	
+	for target in target_array:
+		var dist = IsoLogic.iso_2D_dist(actor_cell, target.get_current_cell())
+		if dist <= total_range:
+			direct_targets.append(target)
+	
+	return direct_targets
 
 
 func _split_move_path(path: PoolVector3Array, segment_size: int) -> Array:

@@ -12,3 +12,9 @@ export var aoe : Resource = null setget, get_aoe
 func get_attack_effect() -> Resource: return attack_effect
 
 func get_aoe() -> Resource: return aoe
+
+func get_combat_effect_object() -> CombatEffectObject:
+	var effect_obj = CombatEffectObject.new()
+	effect_obj.aoe = aoe
+	effect_obj.effect = attack_effect
+	return effect_obj
