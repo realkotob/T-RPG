@@ -19,7 +19,6 @@ func get_class() -> String: return "IA_OverlookState"
 func enter_state():
 	.enter_state()
 	EVENTS.emit_signal("IA_overlook_begun", owner.active_actor)
-	
 	enemy_action()
 
 
@@ -49,7 +48,6 @@ func enemy_action():
 			print("%s decided to %s" % [actor.name, action.method_name])
 		
 	action.trigger_action()
-
 
 
 func get_action_target(action: ActorActionRequest) -> AOE_Target:

@@ -35,6 +35,9 @@ func move(actor: TRPG_Actor, map: CombatIsoMap) -> Array:
 	var target_cell = target_to_chase.get_current_cell()
 	
 	var path = map.find_approch_cell_path(actor, target_cell)
+	if path.empty():
+		return []
+	
 	var action = ActorActionRequest.new(actor, "move", [path])
 	
 	return [action]

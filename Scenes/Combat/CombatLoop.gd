@@ -24,6 +24,8 @@ var previous_actor : TRPG_Actor = null
 var future_actors_order : Array
 var is_ready : bool = false
 
+var default_state = ""
+
 export var fog_of_war: bool = true
 export var auto_combat: bool = false
 
@@ -81,10 +83,10 @@ func _ready() -> void:
 	HUD_node.generate_timeline(actors_order)
 	focused_objects_array = [cursor_node, active_actor]
 	
+	is_ready = true
+	
 	# First turn trigger
 	new_turn()
-	
-	is_ready = true
 	
 	var iso_object_array = get_tree().get_nodes_in_group("IsoObject")
 	$Renderer.init_rendering_queue(map_node.get_layers_array(), iso_object_array)
@@ -97,6 +99,8 @@ func new_turn():
 	previous_actor = active_actor
 	set_active_actor(actors_order[0])
 	var __ = active_actor.connect("state_changed", self, "_on_active_actor_state_changed")
+	
+	if !map_node.is_ready: yield(map_node, "map_generation_finished")
 	
 	on_focus_changed()
 	
