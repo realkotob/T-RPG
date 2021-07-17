@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://Scenes/Combat/IA/IA.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Combat/IA/IA_Strategy/ExploreStrategy.gd" type="Script" id=2]
@@ -6,33 +6,38 @@
 [ext_resource path="res://Scenes/Combat/IA/IA_Strategy/DefensiveStrategy.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/Combat/IA/IA_Strategy/IA_Strategy.gd" type="Script" id=5]
 [ext_resource path="res://Scenes/Combat/IA/IA_Strategy/RunAway.gd" type="Script" id=6]
-[ext_resource path="res://Scenes/Combat/IA/StrategyCriteria/ResemblanceCriteria.gd" type="Script" id=7]
-[ext_resource path="res://Scenes/Combat/IA/StrategyCriteria/EnemyVisible.gd" type="Script" id=8]
-[ext_resource path="res://Scenes/Combat/IA/StrategyCriteria/IA_Incentive/IA_Incentive.gd" type="Script" id=9]
+[ext_resource path="res://Scenes/Combat/IA/IA_Criteria/ResemblanceCriteria.gd" type="Script" id=7]
+[ext_resource path="res://Scenes/Combat/IA/IA_Criteria/EnemyVisible.gd" type="Script" id=8]
+[ext_resource path="res://Scenes/Combat/IA/IA_Criteria/IA_Incentive/IA_Incentive.gd" type="Script" id=9]
 [ext_resource path="res://Scenes/Combat/IA/IA_Strategy/Support/SupportStrategy.gd" type="Script" id=10]
 [ext_resource path="res://Scenes/Combat/IA/IA_CriteriaGroup.gd" type="Script" id=11]
 [ext_resource path="res://Scenes/Combat/IA/HasSupportObject.gd" type="Script" id=12]
-[ext_resource path="res://Scenes/Combat/IA/StrategyCriteria/LowHPAlly_Group.gd" type="Script" id=13]
-[ext_resource path="res://Scenes/Combat/IA/StrategyCriteria/ConditionCriteria.gd" type="Script" id=14]
+[ext_resource path="res://Scenes/Combat/IA/IA_Criteria/LowHPAlly_Group.gd" type="Script" id=13]
+[ext_resource path="res://Scenes/Combat/IA/IA_Criteria/TargetChoiceCriterias/TargetKillCriteria.gd" type="Script" id=14]
+[ext_resource path="res://Scenes/Combat/IA/IA_Criteria/TargetChoiceCriterias/OutputHPCriteria.gd" type="Script" id=15]
+[ext_resource path="res://Scenes/Combat/IA/IA_Criteria/TargetChoiceCriterias/TargetDistanceCriteria.gd" type="Script" id=16]
+[ext_resource path="res://Scenes/Combat/IA/DamageRatio.gd" type="Script" id=17]
+[ext_resource path="res://Scenes/Combat/IA/DirectTargetCriteria.gd" type="Script" id=18]
+[ext_resource path="res://Scenes/Combat/IA/TargetChoice.gd" type="Script" id=19]
 
 [sub_resource type="Curve" id=1]
-_data = [ Vector2( 0.501661, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.987562, 0.990909 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Resource" id=2]
 script = ExtResource( 9 )
 curve = SubResource( 1 )
-value = 50
+value = 500
 
 [sub_resource type="Curve" id=3]
-_data = [ Vector2( 0, 1 ), 0.0, -1.43377, 0, 0, Vector2( 1, 0 ), -2.90909, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0 ), 0.0, 3.04545, 0, 0, Vector2( 0.995025, 1 ), 2.92364, 0.0, 0, 0 ]
 
 [sub_resource type="Resource" id=4]
 script = ExtResource( 9 )
 curve = SubResource( 3 )
-value = 100
+value = 200
 
 [sub_resource type="Curve" id=5]
-_data = [ Vector2( 0.499157, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.996627, 0.990909 ), 0.735124, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Resource" id=6]
 script = ExtResource( 9 )
@@ -40,43 +45,83 @@ curve = SubResource( 5 )
 value = 100
 
 [sub_resource type="Curve" id=7]
-_data = [ Vector2( 0.231884, 0.0090909 ), 0.0, 0.0917959, 0, 0, Vector2( 1, 0.972727 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0 ), 0.0, 1.0, 0, 1, Vector2( 1, 1 ), 1.0, 0.0, 1, 0 ]
 
 [sub_resource type="Resource" id=8]
 script = ExtResource( 9 )
 curve = SubResource( 7 )
-value = 70
+value = 200
 
 [sub_resource type="Curve" id=9]
-_data = [ Vector2( 0.00253807, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.228426, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.233503, 0 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Resource" id=10]
 script = ExtResource( 9 )
 curve = SubResource( 9 )
-value = 100
+value = 1000
 
 [sub_resource type="Curve" id=11]
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.0608519, 0 ), 0.0762001, 0.0762001, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+_data = [ Vector2( 0.501661, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Resource" id=12]
 script = ExtResource( 9 )
 curve = SubResource( 11 )
-value = -100
+value = 50
 
 [sub_resource type="Curve" id=13]
-_data = [ Vector2( 0.243655, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 2.37296, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 1 ), 0.0, -1.43377, 0, 0, Vector2( 1, 0 ), -2.90909, 0.0, 0, 0 ]
 
 [sub_resource type="Resource" id=14]
 script = ExtResource( 9 )
 curve = SubResource( 13 )
-value = 150
+value = 100
 
 [sub_resource type="Curve" id=15]
-_data = [ Vector2( 0, 0 ), 0.0, 2.0799, 0, 0, Vector2( 1, 1 ), 3.56854, 0.0, 0, 0 ]
+_data = [ Vector2( 0.499157, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.996627, 0.990909 ), 0.735124, 0.0, 0, 0 ]
 
 [sub_resource type="Resource" id=16]
 script = ExtResource( 9 )
 curve = SubResource( 15 )
+value = 100
+
+[sub_resource type="Curve" id=17]
+_data = [ Vector2( 0.231884, 0.0090909 ), 0.0, 0.0917959, 0, 0, Vector2( 1, 0.972727 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Resource" id=18]
+script = ExtResource( 9 )
+curve = SubResource( 17 )
+value = 70
+
+[sub_resource type="Curve" id=19]
+_data = [ Vector2( 0.00253807, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.228426, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.233503, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Resource" id=20]
+script = ExtResource( 9 )
+curve = SubResource( 19 )
+value = 100
+
+[sub_resource type="Curve" id=21]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.0608519, 0 ), 0.0762001, 0.0762001, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Resource" id=22]
+script = ExtResource( 9 )
+curve = SubResource( 21 )
+value = -100
+
+[sub_resource type="Curve" id=23]
+_data = [ Vector2( 0.243655, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 2.37296, 0.0, 0, 0 ]
+
+[sub_resource type="Resource" id=24]
+script = ExtResource( 9 )
+curve = SubResource( 23 )
+value = 150
+
+[sub_resource type="Curve" id=25]
+_data = [ Vector2( 0, 0 ), 0.0, 2.0799, 0, 0, Vector2( 1, 1 ), 3.56854, 0.0, 0, 0 ]
+
+[sub_resource type="Resource" id=26]
+script = ExtResource( 9 )
+curve = SubResource( 25 )
 value = 100
 
 [node name="IA" type="Node"]
@@ -93,15 +138,38 @@ default_coef = {
 }
 
 [node name="TargetChoice" type="Node" parent="Strategies/Offensive"]
+script = ExtResource( 19 )
+print_logs = true
 
 [node name="Kill" type="Node" parent="Strategies/Offensive/TargetChoice"]
 script = ExtResource( 14 )
+incentives = {
+"target": SubResource( 2 )
+}
 
 [node name="OutputHPRatio" type="Node" parent="Strategies/Offensive/TargetChoice"]
+script = ExtResource( 15 )
+incentives = {
+"target": SubResource( 4 )
+}
 
 [node name="Distance" type="Node" parent="Strategies/Offensive/TargetChoice"]
+script = ExtResource( 16 )
+incentives = {
+"target": SubResource( 6 )
+}
 
 [node name="DamageRatio" type="Node" parent="Strategies/Offensive/TargetChoice"]
+script = ExtResource( 17 )
+incentives = {
+"target": SubResource( 8 )
+}
+
+[node name="DirectTarget" type="Node" parent="Strategies/Offensive/TargetChoice"]
+script = ExtResource( 18 )
+incentives = {
+"target": SubResource( 10 )
+}
 
 [node name="Defensive" type="Node" parent="Strategies"]
 script = ExtResource( 4 )
@@ -142,11 +210,9 @@ default_coef = {
 [node name="LowHP" type="Node" parent="Criterias"]
 script = ExtResource( 7 )
 incentives = {
-"Defensive": SubResource( 2 ),
-"Explore": null,
-"Offensive": SubResource( 4 ),
-"Passive": null,
-"RunAway": SubResource( 6 )
+"Defensive": SubResource( 12 ),
+"Offensive": SubResource( 14 ),
+"RunAway": SubResource( 16 )
 }
 property = "current_HP"
 max_range_property = "max_HP"
@@ -154,22 +220,16 @@ max_range_property = "max_HP"
 [node name="OpponentVisible" type="Node" parent="Criterias"]
 script = ExtResource( 8 )
 incentives = {
-"Defensive": SubResource( 8 ),
-"Explore": SubResource( 10 ),
-"Offensive": SubResource( 12 ),
-"Passive": null,
-"RunAway": SubResource( 14 )
+"Defensive": SubResource( 18 ),
+"Explore": SubResource( 20 ),
+"Offensive": SubResource( 22 ),
+"RunAway": SubResource( 24 )
 }
 
 [node name="Support" type="Node" parent="Criterias"]
 script = ExtResource( 11 )
 incentives = {
-"Defensive": null,
-"Explore": null,
-"Offensive": null,
-"Passive": null,
-"RunAway": null,
-"Support": SubResource( 16 )
+"Support": SubResource( 26 )
 }
 exclusive_cirteria = true
 

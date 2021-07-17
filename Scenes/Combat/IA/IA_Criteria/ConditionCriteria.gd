@@ -1,4 +1,4 @@
-extends StrategyCriteria
+extends IA_Criteria
 class_name ConditionCriteria
 
 #### ACCESSORS ####
@@ -13,7 +13,7 @@ func get_class() -> String: return "ConditionCriteria"
 
 #### VIRTUALS ####
 
-func condition(_args : Dictionary) -> bool:
+func condition(args : Dictionary) -> bool:
 	return true
 
 

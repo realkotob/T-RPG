@@ -44,6 +44,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BabaGodotLib/Actor/States/ActorState/BaseStates/ActorActionState.gd"
 }, {
+"base": "Object",
+"class": "ActorCombatState",
+"language": "GDScript",
+"path": "res://Scenes/Combat/CombatEffectResult/ActorCombatState.gd"
+}, {
 "base": "ActorStateBase",
 "class": "ActorFallState",
 "language": "GDScript",
@@ -169,6 +174,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/CombatEffectObjectState.gd"
 }, {
+"base": "Object",
+"class": "CombatEffectResult",
+"language": "GDScript",
+"path": "res://Scenes/Combat/CombatEffectResult/CombatEffectResult.gd"
+}, {
 "base": "IsoMap",
 "class": "CombatIsoMap",
 "language": "GDScript",
@@ -184,10 +194,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/CombatStates/CombatStateBase.gd"
 }, {
-"base": "StrategyCriteria",
+"base": "IA_Criteria",
 "class": "ConditionCriteria",
 "language": "GDScript",
-"path": "res://Scenes/Combat/IA/StrategyCriteria/ConditionCriteria.gd"
+"path": "res://Scenes/Combat/IA/IA_Criteria/ConditionCriteria.gd"
 }, {
 "base": "IsoObject",
 "class": "Cursor",
@@ -204,6 +214,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/DamageContainer.gd"
 }, {
+"base": "IA_Criteria",
+"class": "DamageInflictedRatioCriteria",
+"language": "GDScript",
+"path": "res://Scenes/Combat/IA/DamageRatio.gd"
+}, {
 "base": "IA_Strategy",
 "class": "DefensiveStrategy",
 "language": "GDScript",
@@ -218,6 +233,11 @@ _global_script_classes=[ {
 "class": "DirNavHelper",
 "language": "GDScript",
 "path": "res://BabaGodotLib/Statics/DirNavHelper.gd"
+}, {
+"base": "IA_Criteria",
+"class": "DirectTargetCriteria",
+"language": "GDScript",
+"path": "res://Scenes/Combat/IA/DirectTargetCriteria.gd"
 }, {
 "base": "StateBase",
 "class": "Disappear",
@@ -294,7 +314,12 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/IA/IA.gd"
 }, {
-"base": "StrategyCriteria",
+"base": "Node",
+"class": "IA_Criteria",
+"language": "GDScript",
+"path": "res://Scenes/Combat/IA/IA_Criteria/IA_Criteria.gd"
+}, {
+"base": "IA_Criteria",
 "class": "IA_CriteriaGroup",
 "language": "GDScript",
 "path": "res://Scenes/Combat/IA/IA_CriteriaGroup.gd"
@@ -302,7 +327,7 @@ _global_script_classes=[ {
 "base": "Resource",
 "class": "IA_Incentive",
 "language": "GDScript",
-"path": "res://Scenes/Combat/IA/StrategyCriteria/IA_Incentive/IA_Incentive.gd"
+"path": "res://Scenes/Combat/IA/IA_Criteria/IA_Incentive/IA_Incentive.gd"
 }, {
 "base": "CombatStateBase",
 "class": "IA_OverlookState",
@@ -313,6 +338,11 @@ _global_script_classes=[ {
 "class": "IA_Strategy",
 "language": "GDScript",
 "path": "res://Scenes/Combat/IA/IA_Strategy/IA_Strategy.gd"
+}, {
+"base": "Node",
+"class": "IA_TargetChoice",
+"language": "GDScript",
+"path": "res://Scenes/Combat/IA/TargetChoice.gd"
 }, {
 "base": "LineContainer",
 "class": "IconsLineContainer",
@@ -452,7 +482,7 @@ _global_script_classes=[ {
 "base": "IA_CriteriaGroup",
 "class": "LowHPAlly_Group",
 "language": "GDScript",
-"path": "res://Scenes/Combat/IA/StrategyCriteria/LowHPAlly_Group.gd"
+"path": "res://Scenes/Combat/IA/IA_Criteria/LowHPAlly_Group.gd"
 }, {
 "base": "Object",
 "class": "Math",
@@ -504,10 +534,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BabaGodotLib/Triggers/OnStartTrigger.gd"
 }, {
-"base": "StrategyCriteria",
+"base": "IA_Criteria",
 "class": "OpponentVisible",
 "language": "GDScript",
-"path": "res://Scenes/Combat/IA/StrategyCriteria/EnemyVisible.gd"
+"path": "res://Scenes/Combat/IA/IA_Criteria/EnemyVisible.gd"
 }, {
 "base": "CombatStateBase",
 "class": "OptionChoiceState",
@@ -524,6 +554,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BabaGodotLib/UI/LineContainer/OptionLineContainer.gd"
 }, {
+"base": "IA_Criteria",
+"class": "OutputHPRatioCriteria",
+"language": "GDScript",
+"path": "res://Scenes/Combat/IA/IA_Criteria/TargetChoiceCriterias/OutputHPCriteria.gd"
+}, {
 "base": "Position2D",
 "class": "PathPoint",
 "language": "GDScript",
@@ -534,10 +569,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/AllyTurn.gd"
 }, {
-"base": "StrategyCriteria",
+"base": "IA_Criteria",
 "class": "PropertyCriteria",
 "language": "GDScript",
-"path": "res://Scenes/Combat/IA/StrategyCriteria/PropertyCriteria.gd"
+"path": "res://Scenes/Combat/IA/IA_Criteria/PropertyCriteria.gd"
 }, {
 "base": "Node2D",
 "class": "PulsingLight",
@@ -587,7 +622,7 @@ _global_script_classes=[ {
 "base": "PropertyCriteria",
 "class": "ResemblanceCriteria",
 "language": "GDScript",
-"path": "res://Scenes/Combat/IA/StrategyCriteria/ResemblanceCriteria.gd"
+"path": "res://Scenes/Combat/IA/IA_Criteria/ResemblanceCriteria.gd"
 }, {
 "base": "NinePatchRect",
 "class": "ResizableWindow",
@@ -638,11 +673,6 @@ _global_script_classes=[ {
 "class": "StatesMachine",
 "language": "GDScript",
 "path": "res://BabaGodotLib/Absract/StateMachine/StateMachine.gd"
-}, {
-"base": "Node",
-"class": "StrategyCriteria",
-"language": "GDScript",
-"path": "res://Scenes/Combat/IA/StrategyCriteria/StrategyCriteria.gd"
 }, {
 "base": "Object",
 "class": "SupportNeed",
@@ -734,6 +764,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/TargetChoice.gd"
 }, {
+"base": "IA_Criteria",
+"class": "TargetDistanceCriteria",
+"language": "GDScript",
+"path": "res://Scenes/Combat/IA/IA_Criteria/TargetChoiceCriterias/TargetDistanceCriteria.gd"
+}, {
+"base": "ConditionCriteria",
+"class": "TargetKillCriteria",
+"language": "GDScript",
+"path": "res://Scenes/Combat/IA/IA_Criteria/TargetChoiceCriterias/TargetKillCriteria.gd"
+}, {
 "base": "Node2D",
 "class": "TeamsContainer",
 "language": "GDScript",
@@ -817,6 +857,7 @@ _global_script_class_icons={
 "ActionMenu": "",
 "ActorActionRequest": "",
 "ActorActionState": "",
+"ActorCombatState": "",
 "ActorFallState": "",
 "ActorHurtState": "",
 "ActorIdleState": "",
@@ -842,6 +883,7 @@ _global_script_class_icons={
 "CombatEffectHandler": "",
 "CombatEffectObject": "",
 "CombatEffectObjectState": "",
+"CombatEffectResult": "",
 "CombatIsoMap": "",
 "CombatLoop": "",
 "CombatStateBase": "",
@@ -849,9 +891,11 @@ _global_script_class_icons={
 "Cursor": "",
 "DamagableSmallGauge": "",
 "DamageContainer": "",
+"DamageInflictedRatioCriteria": "",
 "DefensiveStrategy": "",
 "DescriptionWindow": "",
 "DirNavHelper": "",
+"DirectTargetCriteria": "",
 "Disappear": "",
 "Effect": "",
 "Event": "",
@@ -867,10 +911,12 @@ _global_script_class_icons={
 "HUD_Gauge": "",
 "HasSupportObject_Criteria": "",
 "IA": "",
+"IA_Criteria": "",
 "IA_CriteriaGroup": "",
 "IA_Incentive": "",
 "IA_OverlookState": "",
 "IA_Strategy": "",
+"IA_TargetChoice": "",
 "IconsLineContainer": "",
 "IconsLineData": "",
 "InteractiveObject": "",
@@ -913,6 +959,7 @@ _global_script_class_icons={
 "OptionChoiceState": "",
 "OptionDataContainer": "",
 "OptionLineContainer": "",
+"OutputHPRatioCriteria": "",
 "PathPoint": "",
 "PlayerTurn": "",
 "PropertyCriteria": "",
@@ -936,7 +983,6 @@ _global_script_class_icons={
 "StateBase": "",
 "StateLabel": "",
 "StatesMachine": "",
-"StrategyCriteria": "",
 "SupportNeed": "",
 "SupportStrategy": "",
 "TB_ActorActionState": "",
@@ -955,6 +1001,8 @@ _global_script_class_icons={
 "TRPG_DamagableObject": "",
 "TRPG_Events": "",
 "TargetChoiceState": "",
+"TargetDistanceCriteria": "",
+"TargetKillCriteria": "",
 "TeamsContainer": "",
 "TextLineContainer": "",
 "TileArea": "",
@@ -988,8 +1036,8 @@ GAME="*res://Global/Autoloads/GAME.gd"
 
 window/size/width=640
 window/size/height=360
-window/size/test_width=640
-window/size/test_height=360
+window/size/test_width=1280
+window/size/test_height=720
 window/vsync/use_vsync=false
 window/energy_saving/keep_screen_on=false
 window/stretch/mode="2d"

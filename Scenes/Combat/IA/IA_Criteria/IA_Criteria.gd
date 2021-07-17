@@ -1,19 +1,12 @@
 extends Node
-class_name StrategyCriteria
+class_name IA_Criteria
 
-export var incentives : Dictionary = {
-	"Offensive": null,
-	"Defensive": null,
-	"Explore": null,
-	"Passive": null,
-	"RunAway": null,
-	"Support": null
-}
+export var incentives : Dictionary = {}
 
 #### ACCESSORS ####
 
-func is_class(value: String): return value == "StrategyCriteria" or .is_class(value)
-func get_class() -> String: return "StrategyCriteria"
+func is_class(value: String): return value == "IA_Criteria" or .is_class(value)
+func get_class() -> String: return "IA_Criteria"
 
 
 #### BUILT-IN ####
@@ -22,7 +15,7 @@ func get_class() -> String: return "StrategyCriteria"
 
 #### VIRTUALS ####
 
-func compute_criteria_ratio(args: Dictionary) -> float:
+func compute_criteria_ratio(_args: Dictionary) -> float:
 	return 0.0
 
 

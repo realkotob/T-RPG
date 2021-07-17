@@ -13,7 +13,7 @@ class_name CombatEffectHandler
 
 #### LOGIC ####
 
-static func compute_average_damage(effect: Effect, caster: IsoObject, target: TRPG_DamagableObject) -> int:
+static func compute_average_damage(effect: Effect, target: TRPG_DamagableObject) -> int:
 	var total_damage = 0
 	for _i in range(effect.nb_hits):
 		var received_damage = compute_received_damage(effect.damage, target)

@@ -1,4 +1,4 @@
-extends StrategyCriteria
+extends IA_Criteria
 class_name PropertyCriteria
 
 export var property : String = ""

@@ -1,4 +1,4 @@
-extends StrategyCriteria
+extends IA_Criteria
 class_name OpponentVisible
 
 export var expect_nb_opponent : int = 0

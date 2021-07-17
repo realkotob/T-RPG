@@ -32,7 +32,7 @@ func move(actor: TRPG_Actor, map: CombatIsoMap) -> Array:
 		return []
 	
 	var attack_effect = actor.get_current_attack_combat_effect_object()
-	var target_to_chase = _choose_best_target(actor, next_turn_targetable, attack_effect)
+	var target_to_chase = _choose_best_target(actor, next_turn_targetable, attack_effect, map)
 	var target_cell = target_to_chase.get_current_cell()
 	
 	var path = map.find_approch_cell_path(actor, target_cell)

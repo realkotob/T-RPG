@@ -1,4 +1,4 @@
-extends StrategyCriteria
+extends IA_Criteria
 class_name IA_CriteriaGroup
 
 export var exclusive_cirteria : bool = false

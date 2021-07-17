@@ -22,7 +22,7 @@ func move(actor: TRPG_Actor, map: CombatIsoMap) -> Array:
 	var dest = _find_destination(actor, map, chosen_dir)
 	var path = map.find_approch_cell_path(actor, dest, total_movement)
 	
-	var splitted_path_array = _split_move_path(path, actor.get_current_movements())
+	var splitted_path_array = IsoLogic.split_move_path(path, actor.get_current_movements())
 
 	for i in range(actor.get_current_actions()):
 		if splitted_path_array.size() <= i:

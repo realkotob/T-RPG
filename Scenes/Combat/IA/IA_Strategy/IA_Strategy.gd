@@ -39,7 +39,7 @@ func attack(actor: TRPG_Actor, map: CombatIsoMap) -> Array:
 	var targetables = map.get_targetables_in_range(actor, total_range)
 	var reacheable_targets = map.get_reachable_targets(actor, total_range, targetables)
 	
-	var AOE_target = _choose_AOE_target(actor, reacheable_targets)
+	var AOE_target = _choose_AOE_target(actor, reacheable_targets, map)
 	
 	if AOE_target == null:
 		return []
@@ -128,12 +128,12 @@ func _convert_targetables_to_aoe_targets(actor: TRPG_Actor, targetables: Array) 
 	return aoe_targets_array
 
 
-func _choose_AOE_target(actor: TRPG_Actor, targetables: Array) -> AOE_Target:
+func _choose_AOE_target(actor: TRPG_Actor, targetables: Array, map: CombatIsoMap) -> AOE_Target:
 	var target = null
 	
 	if !targetables.empty():
 		var combat_effect_obj = actor.get_current_attack_combat_effect_object()
-		target = _choose_best_target(actor, targetables, combat_effect_obj)
+		target = _choose_best_target(actor, targetables, combat_effect_obj, map)
 	else:
 		return null
 	
@@ -141,7 +141,10 @@ func _choose_AOE_target(actor: TRPG_Actor, targetables: Array) -> AOE_Target:
 		actor.get_default_attack_aoe())
 
 
-func _choose_best_target(actor: TRPG_Actor, targets_array: Array, effect: CombatEffectObject) -> TRPG_DamagableObject:
+func _choose_best_target(actor: TRPG_Actor, targets_array: Array, effect: CombatEffectObject, map: CombatIsoMap) -> TRPG_DamagableObject:
+	if target_choice_incentives:
+		return target_choice_incentives.choose_best_target(actor, map, targets_array, effect)
+	
 	var indirect_targets = []
 	var direct_targets = _find_direct_targets(actor, targets_array, effect)
 	
@@ -188,23 +191,6 @@ func _find_direct_targets(actor: TRPG_Actor, target_array: Array, effect: Combat
 	
 	return direct_targets
 
-
-func _split_move_path(path: PoolVector3Array, segment_size: int) -> Array:
-	var path_a = Array(path)
-	var slices_array = []
-	#warning-ignore:integer_division
-	var nb_sub_path = int(path.size() / segment_size)
-	var rest = path.size() % segment_size
-	var is_rest = bool(rest)
-	
-	for i in range(nb_sub_path + 1 * int(is_rest)):
-		var nb_elem = segment_size if i < nb_sub_path else rest
-		var sub_path = []
-		for j in range(nb_elem):
-			sub_path.append(path_a[i * segment_size + j])
-		slices_array.append(sub_path)
-	
-	return slices_array
 
 
 #### INPUTS ####

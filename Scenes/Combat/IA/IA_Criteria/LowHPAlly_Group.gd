@@ -18,7 +18,6 @@ func get_class() -> String: return "LowHPAlly_Group"
 
 func compute_criteria_ratio(args : Dictionary) -> float:
 	var actor = args["actor"]
-	var map = args["map"]
 	
 	var biggest_ratio = -1.0
 	var allies_array = actor.get_team().get_actors()
