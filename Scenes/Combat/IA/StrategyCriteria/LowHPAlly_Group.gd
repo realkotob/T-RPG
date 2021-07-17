@@ -16,12 +16,15 @@ func get_class() -> String: return "LowHPAlly_Group"
 
 #### VIRTUALS ####
 
-func compute_criteria_ratio(actor: TRPG_Actor, map: CombatIsoMap) -> float:
+func compute_criteria_ratio(args : Dictionary) -> float:
+	var actor = args["actor"]
+	var map = args["map"]
+	
 	var biggest_ratio = -1.0
 	var allies_array = actor.get_team().get_actors()
 	
 	for ally in allies_array:
-		var ratio = low_HP.compute_criteria_ratio(ally , map)
+		var ratio = low_HP.compute_criteria_ratio(args)
 		
 		if ratio > biggest_ratio:
 			biggest_ratio = ratio

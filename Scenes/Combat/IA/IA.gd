@@ -28,7 +28,7 @@ func choose_best_strategy(actor: TRPG_Actor, map: CombatIsoMap) -> void:
 
 	# Fetch the incentives based on the IA criterias
 	for criteria in criterias_container.get_children():
-		var incentives = criteria.compute_strategy_incentives(actor, map)
+		var incentives = criteria.compute_strategy_incentives({"actor": actor, "map": map})
 		for key in incentives:
 			if total_incentives.has(key):
 				total_incentives[key] += incentives[key]

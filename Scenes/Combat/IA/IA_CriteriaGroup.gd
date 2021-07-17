@@ -15,10 +15,10 @@ func get_class() -> String: return "IA_CriteriaGroup"
 
 #### VIRTUALS ####
 
-func compute_strategy_incentives(actor: TRPG_Actor, map: CombatIsoMap) -> Dictionary:
+func compute_strategy_incentives(args: Dictionary) -> Dictionary:
 	var total_criteria = 0.0
 	for child in get_children():
-		var criteria_ratio = child.compute_criteria_ratio(actor, map)
+		var criteria_ratio = child.compute_criteria_ratio(args)
 		
 		if exclusive_cirteria && criteria_ratio == 0.0:
 			total_criteria = 0.0

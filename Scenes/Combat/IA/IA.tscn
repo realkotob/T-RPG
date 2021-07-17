@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://Scenes/Combat/IA/IA.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Combat/IA/IA_Strategy/ExploreStrategy.gd" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://Scenes/Combat/IA/IA_CriteriaGroup.gd" type="Script" id=11]
 [ext_resource path="res://Scenes/Combat/IA/HasSupportObject.gd" type="Script" id=12]
 [ext_resource path="res://Scenes/Combat/IA/StrategyCriteria/LowHPAlly_Group.gd" type="Script" id=13]
+[ext_resource path="res://Scenes/Combat/IA/StrategyCriteria/ConditionCriteria.gd" type="Script" id=14]
 
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0.501661, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
@@ -90,6 +91,17 @@ default_coef = {
 "move": 30.0,
 "wait": 20.0
 }
+
+[node name="TargetChoice" type="Node" parent="Strategies/Offensive"]
+
+[node name="Kill" type="Node" parent="Strategies/Offensive/TargetChoice"]
+script = ExtResource( 14 )
+
+[node name="OutputHPRatio" type="Node" parent="Strategies/Offensive/TargetChoice"]
+
+[node name="Distance" type="Node" parent="Strategies/Offensive/TargetChoice"]
+
+[node name="DamageRatio" type="Node" parent="Strategies/Offensive/TargetChoice"]
 
 [node name="Defensive" type="Node" parent="Strategies"]
 script = ExtResource( 4 )

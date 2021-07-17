@@ -309,7 +309,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/CombatStates/TurnState/EnemyTurn/IA_OverlookState.gd"
 }, {
-"base": "Object",
+"base": "Node",
 "class": "IA_Strategy",
 "language": "GDScript",
 "path": "res://Scenes/Combat/IA/IA_Strategy/IA_Strategy.gd"
@@ -988,7 +988,6 @@ GAME="*res://Global/Autoloads/GAME.gd"
 
 window/size/width=640
 window/size/height=360
-window/size/fullscreen=true
 window/size/test_width=640
 window/size/test_height=360
 window/vsync/use_vsync=false

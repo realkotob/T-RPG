@@ -13,12 +13,12 @@ func get_class() -> String: return "ConditionCriteria"
 
 #### VIRTUALS ####
 
-func condition(_actor: TRPG_Actor, _map: CombatIsoMap) -> bool:
+func condition(_args : Dictionary) -> bool:
 	return true
 
 
-func compute_criteria_ratio(actor: TRPG_Actor, map: CombatIsoMap) -> float:
-	return float(condition(actor, map))
+func compute_criteria_ratio(args: Dictionary) -> float:
+	return float(condition(args))
 
 
 #### LOGIC ####

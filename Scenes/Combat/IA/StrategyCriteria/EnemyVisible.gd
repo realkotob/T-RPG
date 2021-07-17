@@ -20,7 +20,10 @@ func get_class() -> String: return "OpponentVisible"
 
 #### LOGIC ####
 
-func compute_criteria_ratio(actor: TRPG_Actor, map: CombatIsoMap) -> float:
+func compute_criteria_ratio(args: Dictionary) -> float:
+	var actor = args["actor"]
+	var map = args["map"]
+	
 	var nb_opponents = map.get_nearby_opponents(actor, actor.get_view_range(), true).size()
 	var ratio = clamp(float(nb_opponents) / float(nb_opponent_threshold), 0.0, 1.0)
 	return ratio

@@ -1,5 +1,7 @@
-extends Object
+extends Node
 class_name IA_Strategy
+
+onready var target_choice_incentives = get_node_or_null("TargetChoice")
 
 export var action_list := PoolStringArray() 
 
@@ -11,17 +13,6 @@ export var default_coef : Dictionary = {
 	"item": 0.0
 }
 
-export var target_coef_mod : Dictionary = {
-	"ally": -50.0,
-	"enemy": 30.0,
-	"obstacle": 10.0
-}
-
-export var attack_result_coef_mod : Dictionary = {
-	"kill": 30.0,
-	"low_hp": 15.0,
-	"high_damage": 10.0
-}
 
 #### ACCESSORS ####
 
@@ -150,42 +141,6 @@ func _choose_AOE_target(actor: TRPG_Actor, targetables: Array) -> AOE_Target:
 		actor.get_default_attack_aoe())
 
 
-func _compute_attack_coefficient(attack_request: ActorActionRequest, map: IsoMap) -> int:
-	var coefficient : int = 0
-	var attacker : TRPG_Actor = attack_request.actor
-	var attacker_team = attacker.get_team()
-	var aoe_target : AOE_Target = attack_request.arguments[0]
-	var targets_array = map.get_damagable_in_area(aoe_target)
-	var attack_effect = attacker.get_current_attack_effect()
-	
-	for target in targets_array:
-		var target_type_name = ""
-		var coef_modifier : int = 0 
-		if target.is_class("TRPG_Actor"):
-			target_type_name = "ally" if target.get_team() == attacker_team else "enemy"
-			
-			var coef_mod_dict = attack_result_coef_mod
-			var avg_damage = attack_effect.damage
-			var received_damage = CombatEffectHandler.compute_received_damage(avg_damage, target)
-			var target_max_HP = target.get_max_HP()
-			var HP_lost_ratio : float = float(received_damage) / float(target_max_HP)
-			var HP_left = clamp(target_max_HP - received_damage, 0.0, target_max_HP)
-			var HP_left_ratio : float = HP_left / target_max_HP
-			
-			if HP_left_ratio < 0.25:
-				coef_modifier = coef_mod_dict["low_hp"]
-			elif HP_left_ratio == 0.0:
-				coef_modifier = coef_mod_dict["kill"]
-			elif HP_lost_ratio > 0.2:
-				coef_modifier = coef_mod_dict["high_damage"]
-			
-		else:
-			target_type_name = "obstacle"
-		coefficient += target_coef_mod[target_type_name] + coef_modifier
-	
-	return coefficient
-
-
 func _choose_best_target(actor: TRPG_Actor, targets_array: Array, effect: CombatEffectObject) -> TRPG_DamagableObject:
 	var indirect_targets = []
 	var direct_targets = _find_direct_targets(actor, targets_array, effect)
@@ -213,7 +168,7 @@ func _find_lowest_HP_target(target_array: Array) -> TRPG_DamagableObject:
 	return lowest_HP_target
 
 
-# Returns an array containing every targets targettable this turn
+# Returns an array containing every targets targetable this turn
 func _find_direct_targets(actor: TRPG_Actor, target_array: Array, effect: CombatEffectObject) -> Array:
 	var direct_targets = []
 	var aoe = effect.aoe

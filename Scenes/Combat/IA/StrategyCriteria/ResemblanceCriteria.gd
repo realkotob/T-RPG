@@ -16,7 +16,9 @@ func get_class() -> String: return "ResemblanceCriteria"
 
 #### VIRTUALS ####
 
-func compute_criteria_ratio(actor: TRPG_Actor, _map: CombatIsoMap) -> float:
+func compute_criteria_ratio(args: Dictionary) -> float:
+	var actor = args["actor"]
+	
 	var value := float(actor.get(property))
 	var max_value := float(actor.get(max_range_property))
 	

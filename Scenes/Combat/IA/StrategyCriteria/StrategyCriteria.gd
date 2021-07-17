@@ -22,12 +22,12 @@ func get_class() -> String: return "StrategyCriteria"
 
 #### VIRTUALS ####
 
-func compute_criteria_ratio(_actor: TRPG_Actor, _map: CombatIsoMap) -> float:
+func compute_criteria_ratio(args: Dictionary) -> float:
 	return 0.0
 
 
-func compute_strategy_incentives(actor: TRPG_Actor, map: CombatIsoMap) -> Dictionary:
-	var ratio = compute_criteria_ratio(actor, map)
+func compute_strategy_incentives(args: Dictionary) -> Dictionary:
+	var ratio = compute_criteria_ratio(args)
 	return _compute_incentives(ratio)
 
 

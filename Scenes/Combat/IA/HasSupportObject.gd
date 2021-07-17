@@ -14,7 +14,8 @@ func get_class() -> String: return "HasSupportObject_Criteria"
 #### VIRTUALS ####
 
 # function overrride
-func condition(actor: TRPG_Actor, _map: CombatIsoMap) -> bool:
+func condition(args: Dictionary) -> bool:
+	var actor = args["actor"] 
 	var objects_array = actor.get_skills() + actor.get_items()
 	
 	for obj in objects_array:
