@@ -1,23 +1,30 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scenes/Combat/CombatLevelBase.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Actors/Allies/Character.tscn" type="PackedScene" id=2]
 [ext_resource path="res://BabaGodotLib/Isometric/IsoMap/IsoMapLayer.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Actors/Enemies/Slime/BlueSlime.tscn" type="PackedScene" id=4]
 
 [node name="LevelDebug" instance=ExtResource( 1 )]
+print_logs = true
 
 [node name="Character" parent="Map/Interactives/ActorTeams/Allies" index="0" instance=ExtResource( 2 )]
 position = Vector2( 320, 200.167 )
 
+[node name="BlueSlime" parent="Map/Interactives/ActorTeams/Enemies" index="0" instance=ExtResource( 4 )]
+position = Vector2( 336, 207 )
+
+[node name="Layer" parent="Map" index="3"]
+tile_data = PoolIntArray( 131094, 77, 2, 131095, 77, 131076 )
+
+[node name="WestWall" parent="Map/Layer" index="0"]
+tile_data = PoolIntArray( 131094, 76, 1, 131095, 76, 2 )
+
+[node name="EastWall" parent="Map/Layer" index="1"]
+tile_data = PoolIntArray( 131095, 76, 5 )
+
 [node name="Layer2" parent="Map" index="4" instance=ExtResource( 3 )]
 position = Vector2( 0, -16 )
-tile_data = PoolIntArray( 131091, 77, 131073 )
-
-[node name="WestWall" parent="Map/Layer2" index="0"]
-tile_data = PoolIntArray( 131091, 76, 1 )
-
-[node name="EastWall" parent="Map/Layer2" index="1"]
-tile_data = PoolIntArray( 131091, 76, 4 )
 
 [node name="Layer3" parent="Map" index="5" instance=ExtResource( 3 )]
 position = Vector2( 0, -32 )

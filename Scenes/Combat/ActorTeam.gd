@@ -76,7 +76,7 @@ func is_actor_in_team(actor: TRPG_Actor) -> bool:
 	return false
 
 
-func is_cell_2D_in_view_field(cell: Vector2):
+func _is_cell_2D_in_view_field(cell: Vector2):
 	for array in get_view_field():
 		for cell_3D in array:
 			if cell.x == cell_3D.x && cell.y == cell_3D.y:
@@ -84,11 +84,25 @@ func is_cell_2D_in_view_field(cell: Vector2):
 	return false 
 
 
-func is_cell_in_view_field(cell: Vector3):
+func _is_cell_in_view_field(cell: Vector3):
 	for array in get_view_field():
 		if cell in array:
 			return true
 	return false 
+
+
+func can_see(damagable: TRPG_DamagableObject) -> bool:
+	for actor in get_actors():
+		if actor.can_see(damagable):
+			return true
+	return false
+
+
+func can_see_cell(cell: Vector3) -> bool:
+	for actor in get_actors():
+		if actor.can_see_cell(cell):
+			return true
+	return false
 
 
 # Check if the view field of the team is empty
@@ -135,7 +149,7 @@ func _compute_map_segment_knowledge(segment_id : int) -> float:
 			if !map.has_2D_cell(cell):
 				continue
 			
-			if is_cell_2D_in_view_field(cell):
+			if _is_cell_2D_in_view_field(cell):
 				absolute_knowledge += 1
 	
 	if segment_nb_tiles == 0:

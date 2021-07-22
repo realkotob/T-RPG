@@ -19,7 +19,6 @@ func compute_criteria_ratio(args: Dictionary) -> float:
 	var map : CombatIsoMap = args["map"]
 	var skill : Skill = args.get("Skill")
 	
-	var action_left = caster.get_current_actions()
 	var path = map.pathfinding.find_path(caster.get_current_cell(), target.get_current_cell())
 	var caster_movements = caster.get_current_movements()
 	

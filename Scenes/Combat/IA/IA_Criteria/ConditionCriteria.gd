@@ -13,7 +13,7 @@ func get_class() -> String: return "ConditionCriteria"
 
 #### VIRTUALS ####
 
-func condition(args : Dictionary) -> bool:
+func condition(_args : Dictionary) -> bool:
 	return true
 
 

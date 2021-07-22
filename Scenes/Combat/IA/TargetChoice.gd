@@ -19,8 +19,7 @@ func get_class() -> String: return "IA_TargetChoice"
 
 #### LOGIC ####
 
-func choose_best_target(caster: TRPG_Actor, map: CombatIsoMap, 
-		target_array: Array, skill : Skill = null) -> TRPG_DamagableObject:
+func choose_best_target(caster: TRPG_Actor, map: CombatIsoMap, target_array: Array, skill : Skill = null) -> TRPG_DamagableObject:
 	
 	var biggest_score = 0.0
 	var best_target = null
@@ -52,6 +51,7 @@ func _compute_target_score(args_dict: Dictionary) -> float:
 		if value != null: 
 			score += value
 	return score
+
 
 #### INPUTS ####
 

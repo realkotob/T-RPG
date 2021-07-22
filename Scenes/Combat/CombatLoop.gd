@@ -16,6 +16,8 @@ onready var timeline = $HUD/Timeline
 onready var allies_array : Array = get_tree().get_nodes_in_group("Allies")
 onready var actors_order : Array = get_tree().get_nodes_in_group("Actors") setget set_actors_order
 
+export var print_logs : bool = false
+
 var focused_objects_array : Array = []
 
 var active_actor : TRPG_Actor setget set_active_actor, get_active_actor
@@ -103,6 +105,10 @@ func new_turn():
 	if !map_node.is_ready: yield(map_node, "map_generation_finished")
 	
 	on_focus_changed()
+	
+	if print_logs:
+		print(" ")
+		print("#### %s's turn started ####" % active_actor.name)
 	
 	var current_state_name = get_state_name()
 	var new_state_name = "IATurn" if active_actor.get_team().IA_controled or auto_combat else "PlayerTurn"

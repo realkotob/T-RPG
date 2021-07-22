@@ -35,6 +35,7 @@ area_size = 1
 range_size = 1
 
 [node name="CombatLevel1" instance=ExtResource( 1 )]
+print_logs = true
 fog_of_war = true
 auto_combat = true
 
@@ -67,15 +68,9 @@ position = Vector2( 384, 72 )
 [node name="Overlook" parent="CombatStatesMachine/IATurn" index="0"]
 print_logs = true
 
-[node name="Map" parent="." index="6"]
-fog_of_war = true
-
 [node name="Character" parent="Map/Interactives/ActorTeams/Allies" index="0" instance=ExtResource( 2 )]
 position = Vector2( 432, 45.3386 )
 MaxStats = SubResource( 1 )
-
-[node name="Enemies" parent="Map/Interactives/ActorTeams" index="1"]
-IA_controled = true
 
 [node name="Robert" parent="Map/Interactives/ActorTeams/Enemies" index="0" instance=ExtResource( 4 )]
 position = Vector2( 416, 40.9053 )

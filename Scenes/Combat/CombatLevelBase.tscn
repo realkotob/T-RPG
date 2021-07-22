@@ -401,6 +401,7 @@ inventory = [ [ ExtResource( 28 ), 3 ] ]
 
 [node name="Enemies" type="Node2D" parent="Map/Interactives/ActorTeams"]
 script = ExtResource( 8 )
+IA_controled = true
 
 [node name="Obstacles" type="Node2D" parent="Map/Interactives" index="3"]
 __meta__ = {
