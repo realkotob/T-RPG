@@ -8,16 +8,7 @@
 [node name="AnimatedSprite" parent="." index="2"]
 offset = Vector2( 0, -5 )
 
-[node name="AttackHit" type="Node" parent="AnimatedSprite" index="0"]
-script = ExtResource( 2 )
-animation_name = "Attack"
-subsequence_anim_name = true
-trigger_frames = PoolIntArray( 2 )
-target_node_path = "."
-target_method = "emit_signal"
-arguments = [ "hit" ]
-
-[node name="HeightGain" type="Node" parent="AnimatedSprite" index="1"]
+[node name="HeightGain" type="Node" parent="AnimatedSprite" index="0"]
 script = ExtResource( 2 )
 animation_name = "Attack"
 subsequence_anim_name = true
@@ -26,7 +17,7 @@ target_node_path = "."
 target_method = "set_height"
 arguments = [ 2 ]
 
-[node name="HeightLoss" type="Node" parent="AnimatedSprite" index="2"]
+[node name="HeightLoss" type="Node" parent="AnimatedSprite" index="1"]
 script = ExtResource( 2 )
 animation_name = "Attack"
 subsequence_anim_name = true

@@ -37,7 +37,8 @@ func _update_idle_anim_variation() -> void:
 	if is_static_anim:
 		var delay = rand_range(3.0, 5.0)
 		yield(get_tree().create_timer(delay), "timeout")
-		_play_variation_animation()
+		if is_current_state():
+			_play_variation_animation()
 	else:
 		idle_anim_count = Math.randi_range(3, 5)
 		_play_variation_animation()
@@ -72,7 +73,8 @@ func _get_anim_variations() -> PoolStringArray:
 #### SIGNAL RESPONSES ####
 
 func _on_idle_animation_finished() -> void:
-	if !is_current_state(): return
+	if !is_current_state(): 
+		return
 	
 	var anim_name = _get_animation_name()
 	var is_static_anim = animated_sprite.get_sprite_frames().get_frame_count(anim_name) == 1

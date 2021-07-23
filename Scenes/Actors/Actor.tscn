@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://BabaGodotLib/Isometric/IsoObjects/TRPG_Actor.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Actors/Allies/States/TRPG_ActorIdleState.gd" type="Script" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://Resources/Effect.gd" type="Script" id=14]
 [ext_resource path="res://BabaGodotLib/Absract/StateMachine/StateLabel.gd" type="Script" id=15]
 [ext_resource path="res://Scenes/Actors/Death.gd" type="Script" id=16]
+[ext_resource path="res://BabaGodotLib/AnimationEvents/AnimationEvent.gd" type="Script" id=17]
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 14 )
@@ -89,3 +90,12 @@ frames = SubResource( 3 )
 animation = "IdleBottom"
 playing = true
 script = ExtResource( 3 )
+
+[node name="AttackHit" type="Node" parent="AnimatedSprite" index="0"]
+script = ExtResource( 17 )
+animation_name = "Attack"
+subsequence_anim_name = true
+trigger_frames = PoolIntArray( 2 )
+target_node_path = "."
+target_method = "emit_signal"
+arguments = [ "hit" ]
