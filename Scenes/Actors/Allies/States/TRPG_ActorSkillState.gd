@@ -12,9 +12,9 @@ func get_class() -> String: return "TRPG_ActorSkillState"
 func _ready() -> void:
 	yield(owner, "ready")
 	
-	var anim_player = owner.animation_player
-	if anim_player != null:
-		var __ = anim_player.connect("animation_finished", self, "_on_animation_player_animation_finished")
+#	var anim_player = owner.animation_player
+#	if anim_player != null:
+#		var __ = anim_player.connect("animation_finished", self, "_on_animation_player_animation_finished")
 
 #### VIRTUALS ####
 

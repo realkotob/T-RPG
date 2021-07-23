@@ -90,8 +90,7 @@ func _ready() -> void:
 	# First turn trigger
 	new_turn()
 	
-	var iso_object_array = get_tree().get_nodes_in_group("IsoObject")
-	$Renderer.init_rendering_queue(map_node.get_layers_array(), iso_object_array)
+	$Renderer.init_rendering_queue(map_node.get_layers_array())
 
 
 #### LOGIC ####
