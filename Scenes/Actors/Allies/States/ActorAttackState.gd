@@ -16,8 +16,10 @@ func get_class() -> String: return "ActorAttackState"
 func enter_state() -> void:
 	.enter_state()
 
+
 func exit_state() -> void:
 	.exit_state()
+
 
 #### LOGIC ####
 

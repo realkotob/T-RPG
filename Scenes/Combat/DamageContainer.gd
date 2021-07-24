@@ -22,10 +22,11 @@ func _ready() -> void:
 #### LOGIC ####
 
 # Instanciate a damage label with the given amount on top of the given target
-func instance_damage_label(damage: int, target: TRPG_DamagableObject):
+func instance_damage_label(damage: int, target: TRPG_DamagableObject, critical: bool):
+	var combat_damage_obj = CombatDamage.new(damage, target, critical)
 	var damage_label = DAMAGE_LABEL_SCENE.instance()
 	damage_label.set_global_position(target.get_global_position())
-	damage_label.set_damage(damage)
+	damage_label.set_combat_damage(combat_damage_obj)
 	
 	call_deferred("add_child", damage_label)
 

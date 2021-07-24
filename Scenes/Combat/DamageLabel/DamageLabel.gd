@@ -1,44 +1,57 @@
 extends Position2D
 
 const UPPER_MOVEMENT = Vector2(0, -60)
-const UPSCALE = Vector2(1.2, 1.2)
 
-var damage : int setget set_damage, get_damage
+onready var tween = $Tween
+
+var combat_damage : CombatDamage = null
 
 #### ACCESSORS ####
 
-func set_damage(value: int):
-	damage = value
-	$DamageLabel.set_text(String(damage))
+func set_combat_damage(value: CombatDamage):
+	combat_damage = value
+	$DamageLabel.set_text(String(combat_damage.damage))
 
-func get_damage() -> int:
-	return damage
+func get_combat_damage() -> CombatDamage: return combat_damage
 
 #### BUILT-IN ####
 
 func _ready():
-	var tween_node : Tween = get_node("Tween")
-	animate(tween_node)
-	yield(tween_node, "tween_all_completed")
+	animate()
+	yield(tween, "tween_all_completed")
 	
 	queue_free()
 
 #### LOGIC ####
 
-func animate(tween_node: Tween):
-	var _err = tween_node.interpolate_property(self, "scale",
-		Vector2(1, 1), UPSCALE, 0.2,
+func animate():
+	var damage_scale = combat_damage.get_damage_scale()
+	
+	grow_animation(damage_scale)
+	movement_animation()
+	fade_out_animation()
+	
+	var _err = tween.start()
+
+
+func grow_animation(damage_scale: int) -> void:
+	var upscale = 1.2
+	match(damage_scale):
+		CombatDamage.DAMAGE_SCALE.HIGH: upscale = 1.5
+		CombatDamage.DAMAGE_SCALE.SEVERE: upscale = 2
+	
+	var _err = tween.interpolate_property(self, "scale", Vector2(1, 1), Vector2.ONE * upscale, 0.2,
 		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	
-	_err = tween_node.interpolate_property(self, "scale",
-		UPSCALE, Vector2(1, 1), 0.2,
+	_err = tween.interpolate_property(self, "scale", Vector2.ONE * upscale, Vector2(1, 1), 0.2,
 		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT, 0.2)
-	
-	_err = tween_node.interpolate_property(self, "modulate",
-		Color.white, Color.transparent, 1.6,
-		Tween.TRANS_LINEAR, Tween.EASE_OUT, 0.4)
-	
-	_err = tween_node.interpolate_property(self, "position",
-		position, position + UPPER_MOVEMENT, 2,
+
+
+func movement_animation() -> void:
+	var _err = tween.interpolate_property(self, "position", position, position + UPPER_MOVEMENT, 2,
 		Tween.TRANS_LINEAR, Tween.EASE_IN)
-	_err = tween_node.start()
+
+
+func fade_out_animation() -> void:
+	var _err = tween.interpolate_property(self, "modulate", Color.white, Color.transparent, 1.6,
+		Tween.TRANS_LINEAR, Tween.EASE_OUT, 0.4)

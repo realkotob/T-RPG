@@ -35,7 +35,7 @@ signal IA_overlook_begun(actor)
 signal actor_action_finished(actor)
 signal actor_action_animation_finished(actor)
 signal actor_cell_changed(actor, from, to)
-signal damage_inflicted(damage_amount, target)
+signal damage_inflicted(damage_amount, target, critical)
 
 #### ACTION MENU ####
 
