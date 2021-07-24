@@ -52,7 +52,7 @@ func update_view_field_rendering() -> void:
 	
 	# Give every objects its visibility
 	for obj in get_tree().get_nodes_in_group("IsoObject"):
-		var obj_cell = obj.get_current_cell()
+		var obj_cell = obj.get_current_cell().round()
 		var visibility = IsoObject.VISIBILITY.VISIBLE
 		
 		if obj_cell in team_view_field[IsoObject.VISIBILITY.BARELY_VISIBLE]:
@@ -86,7 +86,7 @@ func _is_cell_2D_in_view_field(cell: Vector2):
 
 func _is_cell_in_view_field(cell: Vector3):
 	for array in get_view_field():
-		if cell in array:
+		if cell.round() in array:
 			return true
 	return false 
 
