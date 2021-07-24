@@ -13,22 +13,16 @@ func _ready():
 
 # Called when the current state of the state machine is set to this node
 func enter_state():
-	if !owner.is_ready:
-		yield(owner, "ready")
-	
-	var active_actor = combat_loop.active_actor
-	
 	EVENTS.emit_signal("goto_menu_root")
 	
 	# Update the actions
-	if active_actor.is_team_side(ActorTeam.TEAM_TYPE.ALLY):
-		var move = can_move()
-		var attack = can_attack()
-		var skill = can_use_skill()
-		var item = can_use_item()
-		var wait = can_wait()
-		
-		EVENTS.emit_signal("update_unabled_actions", move, attack, item, skill, wait)
+	var move = can_move()
+	var attack = can_attack()
+	var skill = can_use_skill()
+	var item = can_use_item()
+	var wait = can_wait()
+	
+	EVENTS.emit_signal("update_unabled_actions", move, attack, item, skill, wait)
 
 
 

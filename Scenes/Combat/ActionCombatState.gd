@@ -60,7 +60,7 @@ func exit_state() -> void:
 #### SIGNAL RESPONSES ####
 
 func _on_active_actor_action_finished(previous_state_name: String) -> void:
-	if previous_state_name == self.name:
+	if previous_state_name in [name, get_parent().name]:
 		action_anim_finished = true
 		
 		if action_consequence_finished:

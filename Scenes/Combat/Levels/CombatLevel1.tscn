@@ -64,6 +64,9 @@ margin_bottom = 175.0
 [node name="Camera2D" parent="." index="4"]
 position = Vector2( 384, 72 )
 
+[node name="CombatStatesMachine" parent="." index="5"]
+no_default_state = true
+
 [node name="Overlook" parent="CombatStatesMachine/IATurn" index="0"]
 print_logs = true
 

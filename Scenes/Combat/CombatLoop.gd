@@ -26,13 +26,12 @@ var previous_actor : TRPG_Actor = null
 var future_actors_order : Array
 var is_ready : bool = false
 
-var default_state = ""
-
 export var fog_of_war: bool = true
 export var auto_combat: bool = false
 
 signal active_actor_changed
 signal active_actor_state_changed(state)
+signal combat_map_ready()
 
 #### ACCESSORS ####
 
@@ -85,10 +84,10 @@ func _ready() -> void:
 	HUD_node.generate_timeline(actors_order)
 	focused_objects_array = [cursor_node, active_actor]
 	
-	is_ready = true
-	
 	# First turn trigger
 	new_turn()
+	
+	is_ready = true
 	
 	$Renderer.init_rendering_queue(map_node.get_layers_array())
 
@@ -101,7 +100,8 @@ func new_turn():
 	set_active_actor(actors_order[0])
 	var __ = active_actor.connect("state_changed", self, "_on_active_actor_state_changed")
 	
-	if !map_node.is_ready: yield(map_node, "map_generation_finished")
+	if !is_ready:
+		yield(self, "combat_map_ready")
 	
 	on_focus_changed()
 	
@@ -164,6 +164,8 @@ func _input(_event: InputEvent) -> void:
 func _on_map_generation_finished() -> void:
 	for actor in actors_order:
 		map_node.update_view_field(actor)
+	
+	emit_signal("combat_map_ready")
 
 
 # Triggered when the timeline movement is finished
