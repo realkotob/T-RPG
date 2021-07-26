@@ -25,7 +25,8 @@ func _ready() -> void:
 func instance_damage_label(damage: int, target: TRPG_DamagableObject, critical: bool):
 	var combat_damage_obj = CombatDamage.new(damage, target, critical)
 	var damage_label = DAMAGE_LABEL_SCENE.instance()
-	damage_label.set_global_position(target.get_global_position())
+	var pos = target.get_global_position() - (GAME.TILE_SIZE * Vector2.DOWN * target.get_height()) / 2
+	damage_label.set_global_position(pos)
 	damage_label.set_combat_damage(combat_damage_obj)
 	
 	call_deferred("add_child", damage_label)

@@ -329,9 +329,6 @@ animations = [ {
 default_attack_effect = SubResource( 1 )
 default_attack_aoe = SubResource( 2 )
 
-[node name="StateLabel" parent="States" index="6"]
-visible = true
-
 [node name="AnimatedSprite" parent="." index="2"]
 frames = SubResource( 62 )
 offset = Vector2( 0, -24 )

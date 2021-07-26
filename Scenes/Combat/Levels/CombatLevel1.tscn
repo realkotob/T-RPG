@@ -17,7 +17,7 @@ actions = 2
 movements = 5
 attack_range = 3
 defense = 3
-view_range = 10
+view_range = 6
 
 [sub_resource type="Resource" id=2]
 script = ExtResource( 9 )
@@ -37,9 +37,14 @@ range_size = 1
 [node name="CombatLevel1" instance=ExtResource( 1 )]
 print_logs = true
 fog_of_war = true
+auto_combat = true
 
 [node name="ActionsLeft" parent="HUD/ActorInfos/ActorData" index="1"]
 grow_horizontal = 1
+
+[node name="ActionMenu" parent="HUD" index="2"]
+margin_left = 566.092
+margin_right = -3.90796
 
 [node name="VBoxContainer" parent="DebugPanel" index="0"]
 margin_top = -175.0

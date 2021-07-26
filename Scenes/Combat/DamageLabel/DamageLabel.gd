@@ -1,6 +1,9 @@
 extends Position2D
 
-const UPPER_MOVEMENT = Vector2(0, -60)
+const UPPER_MOVEMENT = -40
+const LATERAL_MOVEMENT = 20
+const ANIMATION_DUR = 1.0
+const FADE_DELAY = 0.4
 
 onready var tween = $Tween
 
@@ -14,6 +17,7 @@ func set_combat_damage(value: CombatDamage):
 
 func get_combat_damage() -> CombatDamage: return combat_damage
 
+
 #### BUILT-IN ####
 
 func _ready():
@@ -22,12 +26,14 @@ func _ready():
 	
 	queue_free()
 
+
 #### LOGIC ####
 
 func animate():
 	var damage_scale = combat_damage.get_damage_scale()
 	
 	grow_animation(damage_scale)
+	rotate_animation()
 	movement_animation()
 	fade_out_animation()
 	
@@ -48,10 +54,25 @@ func grow_animation(damage_scale: int) -> void:
 
 
 func movement_animation() -> void:
-	var _err = tween.interpolate_property(self, "position", position, position + UPPER_MOVEMENT, 2,
-		Tween.TRANS_LINEAR, Tween.EASE_IN)
+	var movement = UPPER_MOVEMENT + UPPER_MOVEMENT * rand_range(0, 0.3) * Math.rand_sign()
+	
+	var _err = tween.interpolate_property(self, "position:y", position.y, 
+		position.y + movement, ANIMATION_DUR,
+		Tween.TRANS_BACK, Tween.EASE_OUT)
 
 
 func fade_out_animation() -> void:
-	var _err = tween.interpolate_property(self, "modulate", Color.white, Color.transparent, 1.6,
-		Tween.TRANS_LINEAR, Tween.EASE_OUT, 0.4)
+	var _err = tween.interpolate_property(self, "modulate", Color.white, Color.transparent, 
+		ANIMATION_DUR - FADE_DELAY, Tween.TRANS_CUBIC, Tween.EASE_OUT, FADE_DELAY)
+
+
+func rotate_animation() -> void:
+	var rdm_angle = deg2rad(rand_range(15, 25) * Math.rand_sign())
+	var dir = Vector2.UP.rotated(rdm_angle * 3)
+	var lateral_movement = LATERAL_MOVEMENT + LATERAL_MOVEMENT * rand_range(0, 0.3) * Math.rand_sign()
+	
+	var _err = tween.interpolate_property(self, "position:x", position.x, 
+		(position + dir * lateral_movement).x, ANIMATION_DUR, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	
+	_err = tween.interpolate_property(self, "rotation", rotation, rotation + rdm_angle,
+		ANIMATION_DUR, Tween.TRANS_LINEAR, Tween.EASE_OUT)

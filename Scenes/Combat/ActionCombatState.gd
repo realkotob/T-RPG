@@ -42,6 +42,13 @@ func enter_state() -> void:
 
 
 func exit_state() -> void:
+	for target in target_array:
+		target.disconnect("action_consequence_finished", self, "_on_action_consequence_finished")
+	
+	var actor = owner.active_actor
+	if actor.is_connected("action_finished", self, "_on_active_actor_action_finished"):
+		owner.active_actor.disconnect("action_finished", self, "_on_active_actor_action_finished")
+	
 	aoe_target = null
 	target_array = []
 	timeline_resise_needed = false
@@ -62,6 +69,7 @@ func exit_state() -> void:
 func _on_active_actor_action_finished(previous_state_name: String) -> void:
 	if previous_state_name in ["Attack", "Action"]:
 		action_anim_finished = true
+		owner.active_actor.disconnect("action_finished", self, "_on_active_actor_action_finished")
 		
 		if action_consequence_finished:
 			emit_signal("action_feedback_finished")
@@ -80,7 +88,6 @@ func _on_action_consequence_finished(target: TRPG_DamagableObject) -> void:
 
 
 func _on_action_feedback_finished() -> void:
-	owner.active_actor.disconnect("action_finished", self, "_on_active_actor_action_finished")
 	
 	if timeline_resise_needed:
 		yield(EVENTS, "timeline_resize_finished")
