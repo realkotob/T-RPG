@@ -115,7 +115,7 @@ func new_turn():
 	set_state(new_state_name)
 	
 	# Return to Overlook state when the turn start
-	if !turn_type_changed or current_state_name == "":
+	if !turn_type_changed:
 		set_turn_state("Overlook")
 	
 	EVENTS.emit_signal("combat_new_turn_started", active_actor)

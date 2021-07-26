@@ -47,6 +47,7 @@ margin_left = 566.092
 margin_right = -3.90796
 
 [node name="VBoxContainer" parent="DebugPanel" index="0"]
+visible = true
 margin_top = -175.0
 margin_bottom = 0.0
 
