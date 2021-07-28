@@ -494,6 +494,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/IA/IA_Criteria/LowHPAlly_Group.gd"
 }, {
+"base": "Node2D",
+"class": "MapEditor",
+"language": "GDScript",
+"path": "res://Scenes/MapEditor/MapEditor.gd"
+}, {
 "base": "Object",
 "class": "Math",
 "language": "GDScript",
@@ -957,6 +962,7 @@ _global_script_class_icons={
 "LineData": "",
 "ListMenu": "",
 "LowHPAlly_Group": "",
+"MapEditor": "",
 "Math": "",
 "MenuBase": "",
 "MenuOptionsBase": "",
@@ -1035,7 +1041,7 @@ _global_script_class_icons={
 [application]
 
 config/name="TRPG"
-run/main_scene="res://Scenes/Combat/Levels/CombatLevel1.tscn"
+run/main_scene="res://Scenes/MapEditor/MapEditor.tscn"
 config/icon="res://icon.png"
 
 [autoload]

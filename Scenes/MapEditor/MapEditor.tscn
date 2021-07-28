@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/MapEditor/MapEditor.gd" type="Script" id=1]
+[ext_resource path="res://BabaGodotLib/Isometric/IsoRenderer/Renderer.tscn" type="PackedScene" id=2]
+
+[node name="MapEditor" type="Node2D"]
+script = ExtResource( 1 )
+map_scene_path = "res://Scenes/Combat/Map/Map1.tscn"
+
+[node name="Renderer" parent="." instance=ExtResource( 2 )]
