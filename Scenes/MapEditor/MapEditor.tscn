@@ -1,10 +1,52 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scenes/MapEditor/MapEditor.gd" type="Script" id=1]
 [ext_resource path="res://BabaGodotLib/Isometric/IsoRenderer/Renderer.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/MapEditor/TileList.gd" type="Script" id=3]
 
 [node name="MapEditor" type="Node2D"]
 script = ExtResource( 1 )
 map_scene_path = "res://Scenes/Combat/Map/Map1.tscn"
 
 [node name="Renderer" parent="." instance=ExtResource( 2 )]
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="TileList" type="Control" parent="UI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="UI/TileList"]
+anchor_left = 0.75
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -16.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="UI/TileList/Panel"]
+anchor_right = 1.0
+margin_bottom = 360.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CategoryContainer" type="HBoxContainer" parent="UI/TileList/Panel/Control"]
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ItemList" type="ItemList" parent="UI/TileList/Panel/Control"]
+margin_top = 24.0
+margin_right = 176.0
+margin_bottom = 360.0
+icon_mode = 0
+fixed_icon_size = Vector2( 32, 32 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -2,6 +2,7 @@ extends Node2D
 class_name MapEditor
 
 onready var renderer = $Renderer
+onready var tile_list = $UI/TileList
 
 export var map_scene_path : String = ""
 var map : IsoMap = null
@@ -53,3 +54,4 @@ func _change_map(map_path: String) -> void:
 
 func _on_map_generation_finished() -> void:
 	renderer.init_rendering_queue(map.get_layers_array())
+	tile_list.update_tile_list(map)

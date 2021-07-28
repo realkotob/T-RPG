@@ -6,7 +6,7 @@
 [ext_resource path="res://Environement/Tiles/Autotiles/StoneAutotile.png" type="Texture" id=4]
 
 [resource]
-5/name = "Tileset.png 5"
+5/name = "BrokenColumn"
 5/texture = ExtResource( 1 )
 5/tex_offset = Vector2( 0, -32 )
 5/modulate = Color( 1, 1, 1, 1 )
@@ -19,8 +19,8 @@
 5/shape_one_way = false
 5/shape_one_way_margin = 0.0
 5/shapes = [  ]
-5/z_index = 0
-6/name = "Tileset.png 6"
+5/z_index = 1
+6/name = "Column"
 6/texture = ExtResource( 1 )
 6/tex_offset = Vector2( 0, -64 )
 6/modulate = Color( 1, 1, 1, 1 )
@@ -33,8 +33,8 @@
 6/shape_one_way = false
 6/shape_one_way_margin = 0.0
 6/shapes = [  ]
-6/z_index = 0
-17/name = "Skulls"
+6/z_index = 1
+17/name = "Skull1"
 17/texture = ExtResource( 1 )
 17/tex_offset = Vector2( 0, 0 )
 17/modulate = Color( 1, 1, 1, 1 )
@@ -47,8 +47,8 @@
 17/shape_one_way = false
 17/shape_one_way_margin = 0.0
 17/shapes = [  ]
-17/z_index = 0
-18/name = "Tileset.png 18"
+17/z_index = 2
+18/name = "Skull2"
 18/texture = ExtResource( 1 )
 18/tex_offset = Vector2( 0, 0 )
 18/modulate = Color( 1, 1, 1, 1 )
@@ -61,8 +61,8 @@
 18/shape_one_way = false
 18/shape_one_way_margin = 0.0
 18/shapes = [  ]
-18/z_index = 0
-19/name = "Tileset.png 19"
+18/z_index = 2
+19/name = "Stone1"
 19/texture = ExtResource( 1 )
 19/tex_offset = Vector2( 0, 0 )
 19/modulate = Color( 1, 1, 1, 1 )
@@ -75,22 +75,8 @@
 19/shape_one_way = false
 19/shape_one_way_margin = 0.0
 19/shapes = [  ]
-19/z_index = 0
-20/name = "Tileset.png 20"
-20/texture = ExtResource( 1 )
-20/tex_offset = Vector2( 0, 0 )
-20/modulate = Color( 1, 1, 1, 1 )
-20/region = Rect2( 224, 64, 32, 16 )
-20/tile_mode = 0
-20/occluder_offset = Vector2( 0, 0 )
-20/navigation_offset = Vector2( 0, 0 )
-20/shape_offset = Vector2( 0, 0 )
-20/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-20/shape_one_way = false
-20/shape_one_way_margin = 0.0
-20/shapes = [  ]
-20/z_index = 0
-21/name = "Tileset.png 21"
+19/z_index = 2
+21/name = "BearTrap"
 21/texture = ExtResource( 1 )
 21/tex_offset = Vector2( 0, -16 )
 21/modulate = Color( 1, 1, 1, 1 )
@@ -103,21 +89,7 @@
 21/shape_one_way = false
 21/shape_one_way_margin = 0.0
 21/shapes = [  ]
-21/z_index = 0
-37/name = "Tileset.png 37"
-37/texture = ExtResource( 1 )
-37/tex_offset = Vector2( 0, 0 )
-37/modulate = Color( 1, 1, 1, 1 )
-37/region = Rect2( 224, 112, 32, 16 )
-37/tile_mode = 0
-37/occluder_offset = Vector2( 0, 0 )
-37/navigation_offset = Vector2( 0, 0 )
-37/shape_offset = Vector2( 0, 0 )
-37/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-37/shape_one_way = false
-37/shape_one_way_margin = 0.0
-37/shapes = [  ]
-37/z_index = 0
+21/z_index = 2
 60/name = "Tileset.png 60"
 60/texture = ExtResource( 1 )
 60/tex_offset = Vector2( 0, 0 )
@@ -140,7 +112,7 @@
 60/shape_one_way = false
 60/shape_one_way_margin = 0.0
 60/shapes = [  ]
-60/z_index = 0
+60/z_index = -1
 61/name = "LeftBridge2"
 61/texture = ExtResource( 1 )
 61/tex_offset = Vector2( -10, -40 )
@@ -154,7 +126,7 @@
 61/shape_one_way = false
 61/shape_one_way_margin = 0.0
 61/shapes = [  ]
-61/z_index = 0
+61/z_index = -1
 62/name = "RightBridge2"
 62/texture = ExtResource( 1 )
 62/tex_offset = Vector2( 0, 0 )
@@ -168,7 +140,7 @@
 62/shape_one_way = false
 62/shape_one_way_margin = 0.0
 62/shapes = [  ]
-62/z_index = 0
+62/z_index = -1
 71/name = "Bones"
 71/texture = ExtResource( 1 )
 71/tex_offset = Vector2( 0, 0 )
@@ -189,7 +161,7 @@
 71/shape_one_way = false
 71/shape_one_way_margin = 0.0
 71/shapes = [  ]
-71/z_index = 0
+71/z_index = 2
 72/name = "Stairs"
 72/texture = ExtResource( 1 )
 72/tex_offset = Vector2( 0, 0 )
@@ -211,7 +183,7 @@
 72/shape_one_way_margin = 0.0
 72/shapes = [  ]
 72/z_index = 0
-73/name = "Tileset.png 73"
+73/name = "Graves"
 73/texture = ExtResource( 1 )
 73/tex_offset = Vector2( -8, -20 )
 73/modulate = Color( 1, 1, 1, 1 )
@@ -231,7 +203,7 @@
 73/shape_one_way = false
 73/shape_one_way_margin = 0.0
 73/shapes = [  ]
-73/z_index = 0
+73/z_index = 1
 74/name = "Earth"
 74/texture = ExtResource( 2 )
 74/tex_offset = Vector2( 0, 0 )
@@ -275,7 +247,7 @@
 75/shape_one_way = false
 75/shape_one_way_margin = 0.0
 75/shapes = [  ]
-75/z_index = 0
+75/z_index = -1
 76/name = "GrassWall"
 76/texture = ExtResource( 3 )
 76/tex_offset = Vector2( 0, 0 )
@@ -296,7 +268,7 @@
 76/shape_one_way = false
 76/shape_one_way_margin = 0.0
 76/shapes = [  ]
-76/z_index = 0
+76/z_index = -1
 77/name = "Grass"
 77/texture = ExtResource( 3 )
 77/tex_offset = Vector2( 0, 0 )
@@ -363,7 +335,7 @@
 79/shape_one_way = false
 79/shape_one_way_margin = 0.0
 79/shapes = [  ]
-79/z_index = 0
+79/z_index = -1
 80/name = "Walls"
 80/texture = ExtResource( 1 )
 80/tex_offset = Vector2( 0, -16 )
@@ -385,7 +357,7 @@
 80/shape_one_way_margin = 0.0
 80/shapes = [  ]
 80/z_index = 0
-81/name = "Tileset.png 81"
+81/name = "Crate"
 81/texture = ExtResource( 1 )
 81/tex_offset = Vector2( 0, -16 )
 81/modulate = Color( 1, 1, 1, 1 )
@@ -398,8 +370,8 @@
 81/shape_one_way = false
 81/shape_one_way_margin = 0.0
 81/shapes = [  ]
-81/z_index = 0
-82/name = "Tileset.png 82"
+81/z_index = 1
+82/name = "Barrel"
 82/texture = ExtResource( 1 )
 82/tex_offset = Vector2( 0, -32 )
 82/modulate = Color( 1, 1, 1, 1 )
@@ -412,8 +384,8 @@
 82/shape_one_way = false
 82/shape_one_way_margin = 0.0
 82/shapes = [  ]
-82/z_index = 0
-83/name = "Tileset.png 83"
+82/z_index = 1
+83/name = "Pot"
 83/texture = ExtResource( 1 )
 83/tex_offset = Vector2( 0, -16 )
 83/modulate = Color( 1, 1, 1, 1 )
@@ -433,4 +405,4 @@
 83/shape_one_way = false
 83/shape_one_way_margin = 0.0
 83/shapes = [  ]
-83/z_index = 0
+83/z_index = 1
