@@ -18,12 +18,19 @@ func generate_timeline(actors_array : Array):
 		
 		order_node.add_child(new_TL_port)
 		
-		var slot = new_TL_port.get_node("Border").get_texture().get_height() + 2
+		var border_size = new_TL_port.get_node("Border").get_texture().get_size()
+		var slot = border_size.y + 2
 		new_TL_port.actor_node = actor
-		new_TL_port.set_portrait_texture(actor.timeline_port)
+		
+		var texture = actor.get_idle_bottom_texture()
+		var atlas_texture = AtlasTexture.new()
+		atlas_texture.set_atlas(texture)
+		atlas_texture.set_region(Rect2(Vector2.ZERO, Vector2(texture.get_width(), border_size.y)))
+		
+		new_TL_port.set_portrait_texture(atlas_texture)
 		new_TL_port.set_position(Vector2(0, slot * i))
 		
-		if actor.is_team_side(ActorTeam.TEAM_TYPE.ALLY):
+		if !actor.is_team_side(ActorTeam.TEAM_TYPE.ALLY):
 			new_TL_port.get_node("Background").set_modulate(Color.red)
 
 

@@ -293,7 +293,6 @@ func get_file_name(path: String) -> String:
 	return file_name.split(".")[0]
 
 
-
 func _instanciate_file_dialogue():
 	file_dialogue = file_dialogue_scene.instance()
 	file_dialogue.connect("file_selected", self, "_on_file_dialogue_file_selected")

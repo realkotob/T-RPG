@@ -22,7 +22,6 @@ func set_current_actor(value: TRPG_Actor):
 	previous_actor = current_actor
 	current_actor = value
 	emit_signal("current_actor_changed", current_actor)
-
 func get_current_actor() -> TRPG_Actor: return current_actor
 
 #### BUILT-IN ####
@@ -38,7 +37,7 @@ func _ready():
 func _update_actor_info(instantanious : bool = false):
 	var is_ally = current_actor.is_team_side(ActorTeam.TEAM_TYPE.ALLY)
 	
-	actor_data_container.set_visible(is_ally)
+	set_visible(is_ally)
 	_update_gauges(instantanious)
 	_update_portrait()
 	_update_altitude_label(current_actor.get_current_cell().z)

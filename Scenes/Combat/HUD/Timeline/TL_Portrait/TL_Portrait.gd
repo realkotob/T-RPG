@@ -7,7 +7,7 @@ var actor_node : Node
 var timeline_id_dest := -1
 
 
-func set_portrait_texture(portrait : Texture):
+func set_portrait_texture(portrait: Texture):
 	portrait_node.set_texture(portrait)
 
 
