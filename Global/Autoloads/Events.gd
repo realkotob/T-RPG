@@ -14,6 +14,10 @@ signal actor_stats_changed(actor)
 signal timeline_movement_finished()
 signal timeline_resize_finished()
 
+signal tile_added(tilemap, cell)
+signal tile_removed(tilemap, cell)
+signal iso_tilemap_cleared(tilemap)
+
 signal area_added(map)
 signal area_cell_removed(tilemap, cell)
 signal area_cleared(map)

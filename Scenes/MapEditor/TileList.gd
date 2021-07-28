@@ -5,12 +5,16 @@ onready var item_list = $Panel/Control/ItemList
 onready var category_container = $Panel/Control/CategoryContainer
 
 var map : IsoMap = null setget set_map, get_map 
+var current_category : int = 0
 
 enum TILE_TYPE {
 	TILE,
 	OBSTACLE,
 	DECORATION
 }
+
+signal tile_selected(tile_id)
+
 
 #### ACCESSORS ####
 
@@ -23,6 +27,7 @@ func get_map() -> IsoMap: return map
 #### BUILT-IN ####
 
 func _ready() -> void:
+	var __ = item_list.connect("item_selected", self, "_on_item_list_item_selected")
 	_generate_categories()
 
 
@@ -80,4 +85,11 @@ func _input(event: InputEvent) -> void:
 
 func _on_category_button_down(button: Button) -> void:
 	item_list.clear()
-	update_tile_list(map, button.get_index())
+	current_category = button.get_index()
+	update_tile_list(map, current_category)
+
+
+func _on_item_list_item_selected(item_list_id: int) -> void:
+	var item_text = item_list.get_item_text(item_list_id)
+	var tile_id = map.get_tileset().find_tile_by_name(item_text)
+	emit_signal("tile_selected", tile_id)
