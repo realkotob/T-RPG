@@ -41,6 +41,8 @@ func _change_map(map_path: String) -> void:
 	
 	add_child(map)
 	map.set_owner(self)
+	
+	map.cursor.set_display_on_empty_cell(true)
 
 
 #### INPUTS ####

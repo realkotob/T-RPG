@@ -3,6 +3,8 @@ class_name Cursor
 
 onready var sprite_node = get_node("Sprite")
 
+export var display_on_empty_cell : bool = false setget set_display_on_empty_cell, get_display_on_empty_cell
+
 var map_node = null
 
 var mouse_pos := Vector2()
@@ -19,7 +21,7 @@ func get_class() -> String: return "Cursor"
 
 func set_current_cell(value: Vector3):
 	if value != current_cell:
-		if map_node.is_cell_ground(value):
+		if map_node.is_cell_ground(value) or display_on_empty_cell:
 			var previous_cell = current_cell
 			current_cell = value
 			EVENTS.emit_signal("cursor_cell_changed", self, current_cell)
@@ -28,13 +30,15 @@ func set_current_cell(value: Vector3):
 		else:
 			change_color(Color.transparent)
 
-
 func set_max_z(value : int):
 	if value != max_z && value > 0 && value <= current_cell_max_z + 1:
 		max_z = value
 		emit_signal("max_z_changed", max_z)
 func get_max_z() -> int:
 	return max_z
+
+func set_display_on_empty_cell(value: bool) -> void: display_on_empty_cell = value
+func get_display_on_empty_cell() -> bool: return display_on_empty_cell
 
 #### BUILT-IN FUNCTIONS ####
 
@@ -59,8 +63,11 @@ func update_cursor_pos():
 	if new_grid2D_cell != grid2D_position:
 		grid2D_position = new_grid2D_cell
 		
-		var cell_stack = map_node.get_cell_stack_at_pos(mouse_pos)
-		set_current_cell(find_wanted_cell(cell_stack))
+		if display_on_empty_cell:
+			set_current_cell(Vector3(new_grid2D_cell.x, new_grid2D_cell.y, 0))
+		else:
+			var cell_stack = map_node.get_cell_stack_at_pos(mouse_pos)
+			set_current_cell(find_wanted_cell(cell_stack))
 	
 	# Set the cursor to the right position
 	set_global_position(map_node.cell_to_world(current_cell))
