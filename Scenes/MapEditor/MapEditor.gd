@@ -9,6 +9,8 @@ var map : IsoMap = null
 
 var selected_tile_id : int = -1 setget set_selected_tile_id, get_selected_tile_id
 
+var last_cell_clicked = Vector3.INF
+
 #### ACCESSORS ####
 
 func is_class(value: String): return value == "MapEditor" or .is_class(value)
@@ -54,30 +56,56 @@ func _change_map(map_path: String) -> void:
 	map.cursor.set_display_on_empty_cell(true)
 
 
-func add_ghost_tilemaps() -> void:
-	var tilemap : IsoTileMap = null
+func _place_tile(cell: Vector3, tile_id: int = selected_tile_id, ghost: bool = false) -> void:
+	if !ghost:
+		last_cell_clicked = cell
+		
+	var cell2d = Vector2(cell.x, cell.y)
+	var tile_type = map.tileset.tile_get_z_index(selected_tile_id)
+	var tilemap = map.get_layer(cell.z) if !ghost else map.get_layer(cell.z).get_node("Ghost")
 	
-	for layer in map.get_layers_array():
-		tilemap = IsoTileMap.new()
-		tilemap.set_mode(TileMap.MODE_ISOMETRIC)
-		tilemap.set_cell_size(GAME.TILE_SIZE)
-		tilemap.set_tileset(map.get_tileset())
-		tilemap.set_name("Ghost")
-		tilemap.set_modulate(Color(1.0, 1.0, 1.0, 0.3))
-		layer.call_deferred("add_child", tilemap)
-		tilemap.call_deferred("set_owner", self)
+	if tile_type == tile_list.TILE_TYPE.TILE:
+		tilemap.set_cellv(cell2d, tile_id)
+
+
+func _place_line(origin: Vector3, dest: Vector3, tile_id: int = selected_tile_id, ghost: bool = false) -> void:
+	if !ghost:
+		last_cell_clicked = dest
+	var tilemap = map.get_layer(dest.z) if !ghost else map.get_layer(dest.z).get_node("Ghost")
+	var line = IsoRaycast.bresenham3D(origin, dest)
+	for cell in line:
+		tilemap.set_cell(int(cell.x), int(cell.y), tile_id)
 
 
 #### INPUTS ####
 
+func _unhandled_input(_event: InputEvent) -> void:
+	if !is_instance_valid(map):
+		return
+	
+	var cursor_cell = map.cursor.get_current_cell()
+	
+	if Input.is_mouse_button_pressed(BUTTON_LEFT):
+		if Input.is_action_pressed("shift"):
+			if last_cell_clicked != Vector3.INF:
+				_place_line(last_cell_clicked, cursor_cell, selected_tile_id, false)
+		else:
+			_place_tile(cursor_cell, selected_tile_id)
+	
+	elif Input.is_mouse_button_pressed(BUTTON_RIGHT):
+		if Input.is_action_pressed("shift"):
+			if last_cell_clicked != Vector3.INF:
+				_place_line(last_cell_clicked, cursor_cell, -1, false)
+		else:
+			_place_tile(cursor_cell, -1)
 
 
 #### SIGNAL RESPONSES ####
 
+
 func _on_map_generation_finished() -> void:
 	renderer.init_rendering_queue(map.get_layers_array())
 	tile_list.update_tile_list(map)
-	add_ghost_tilemaps()
 
 
 func _on_tile_list_tile_selected(tile_id: int) -> void:
@@ -90,6 +118,15 @@ func _on_cursor_cell_changed(from: Vector3, to: Vector3) -> void:
 	
 	var layer = map.get_layer(to.z)
 	var ghost_tilemap : TileMap = layer.get_node("Ghost")
-	
 	ghost_tilemap.clear()
-	ghost_tilemap.set_cell(int(to.x), int(to.y), selected_tile_id)
+	
+	if Input.is_mouse_button_pressed(BUTTON_LEFT):
+		_place_tile(to, selected_tile_id)
+	elif Input.is_mouse_button_pressed(BUTTON_RIGHT):
+		_place_tile(to, -1)
+	else:
+		if Input.is_action_pressed("shift"):
+			if last_cell_clicked != Vector3.INF:
+				_place_line(last_cell_clicked, to, selected_tile_id, true)
+		else:
+			_place_tile(to, selected_tile_id, true)

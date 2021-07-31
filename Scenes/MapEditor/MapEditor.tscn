@@ -15,6 +15,7 @@ map_scene_path = "res://Scenes/Combat/Map/Map1.tscn"
 [node name="TileList" type="Control" parent="UI"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -45,6 +46,7 @@ __meta__ = {
 margin_top = 24.0
 margin_right = 176.0
 margin_bottom = 360.0
+same_column_width = true
 icon_mode = 0
 fixed_icon_size = Vector2( 32, 32 )
 __meta__ = {
