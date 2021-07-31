@@ -68,13 +68,27 @@ func _place_tile(cell: Vector3, tile_id: int = selected_tile_id, ghost: bool = f
 		tilemap.set_cellv(cell2d, tile_id)
 
 
-func _place_line(origin: Vector3, dest: Vector3, tile_id: int = selected_tile_id, ghost: bool = false) -> void:
+func _place_tile_line(origin: Vector3, dest: Vector3, tile_id: int = selected_tile_id, ghost: bool = false) -> void:
 	if !ghost:
 		last_cell_clicked = dest
 	var tilemap = map.get_layer(dest.z) if !ghost else map.get_layer(dest.z).get_node("Ghost")
 	var line = IsoRaycast.bresenham3D(origin, dest)
 	for cell in line:
 		tilemap.set_cell(int(cell.x), int(cell.y), tile_id)
+
+
+func _place_tile_rect(from: Vector3, to: Vector3, tile_id : int = selected_tile_id, ghost: bool = false) -> void:
+	var top_left = Vector2(min(from.x, to.x), min(from.y, to.y))
+	var bottom_right = Vector2(max(from.x, to.x), max(from.y, to.y))
+	var rect_size = bottom_right - top_left
+	var rect = Rect2(top_left, rect_size)
+	
+	if !ghost:
+		last_cell_clicked = from
+	
+	var tilemap = map.get_layer(from.z) if !ghost else map.get_layer(from.z).get_node("Ghost")
+	
+	tilemap.set_rect_cell(rect, tile_id)
 
 
 #### INPUTS ####
@@ -88,14 +102,20 @@ func _unhandled_input(_event: InputEvent) -> void:
 	if Input.is_mouse_button_pressed(BUTTON_LEFT):
 		if Input.is_action_pressed("shift"):
 			if last_cell_clicked != Vector3.INF:
-				_place_line(last_cell_clicked, cursor_cell, selected_tile_id, false)
+				if Input.is_action_pressed("ctrl"):
+					_place_tile_rect(last_cell_clicked, cursor_cell, selected_tile_id, false)
+				else:
+					_place_tile_line(last_cell_clicked, cursor_cell, selected_tile_id, false)
 		else:
 			_place_tile(cursor_cell, selected_tile_id)
 	
 	elif Input.is_mouse_button_pressed(BUTTON_RIGHT):
 		if Input.is_action_pressed("shift"):
 			if last_cell_clicked != Vector3.INF:
-				_place_line(last_cell_clicked, cursor_cell, -1, false)
+				if Input.is_action_pressed("ctrl"):
+					_place_tile_rect(last_cell_clicked, cursor_cell, -1, false)
+				else:
+					_place_tile_line(last_cell_clicked, cursor_cell, -1, false)
 		else:
 			_place_tile(cursor_cell, -1)
 
@@ -127,6 +147,9 @@ func _on_cursor_cell_changed(from: Vector3, to: Vector3) -> void:
 	else:
 		if Input.is_action_pressed("shift"):
 			if last_cell_clicked != Vector3.INF:
-				_place_line(last_cell_clicked, to, selected_tile_id, true)
+				if Input.is_action_pressed("ctrl"):
+					_place_tile_rect(last_cell_clicked, to, selected_tile_id, true)
+				else:
+					_place_tile_line(last_cell_clicked, to, selected_tile_id, true)
 		else:
 			_place_tile(to, selected_tile_id, true)
