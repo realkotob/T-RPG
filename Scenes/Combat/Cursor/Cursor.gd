@@ -2,6 +2,7 @@ extends IsoObject
 class_name Cursor
 
 onready var sprite_node = get_node("Sprite")
+onready var default_color = get_modulate()
 
 export var display_on_empty_cell : bool = false setget set_display_on_empty_cell, get_display_on_empty_cell
 
