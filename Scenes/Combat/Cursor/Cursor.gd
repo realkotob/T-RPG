@@ -6,15 +6,17 @@ onready var sprite_node = get_node("Sprite")
 onready var default_color = get_modulate()
 
 export var display_on_empty_cell : bool = false setget set_display_on_empty_cell, get_display_on_empty_cell
+export var z_locked : bool = false setget set_z_locked, is_z_locked
 
 var map_node = null
 
 var mouse_pos := Vector2()
 var grid2D_position := Vector2.ZERO
-export var z_locked : bool = false
 
 var max_z : int = INF setget set_max_z, get_max_z
 var current_cell_max_z : int = INF
+
+var z_cell_offset : int = 0 setget set_z_cell_offset, get_z_cell_offset
 
 signal max_z_changed
 
@@ -42,6 +44,13 @@ func set_max_z(value : int):
 func get_max_z() -> int:
 	return max_z
 
+func set_z_locked(value: bool): z_locked = value
+func is_z_locked() -> bool: return z_locked
+
+func set_z_cell_offset(value: int):
+	z_cell_offset = value
+func get_z_cell_offset() -> int: return z_cell_offset
+
 func set_display_on_empty_cell(value: bool) -> void: display_on_empty_cell = value
 func get_display_on_empty_cell() -> bool: return display_on_empty_cell
 
@@ -65,17 +74,17 @@ func update_cursor_pos():
 	# Get the mouse position
 	mouse_pos = get_global_mouse_position()
 	if z_locked:
-		mouse_pos += GAME.TILE_SIZE * Vector2(0, 1) * current_cell.z
+		var mouse_offset = GAME.TILE_SIZE * Vector2(0, 1) * -z_cell_offset
+		mouse_pos += mouse_offset
 	
 	var wanted_z = 0.0 if !z_locked else current_cell.z
 	
 	# Snap to the grid
-	var new_grid2D_cell = map_node.world_to_layer_2D_cell(mouse_pos, wanted_z)
-	if new_grid2D_cell != grid2D_position:
-		grid2D_position = new_grid2D_cell
-		
+	var cell_2d = map_node.world_to_layer_2D_cell(mouse_pos, wanted_z)
+	var new_cell = Utils.vec2_to_vec3(cell_2d, wanted_z)
+	if new_cell != current_cell:
 		if display_on_empty_cell:
-			set_current_cell(Vector3(new_grid2D_cell.x, new_grid2D_cell.y, wanted_z))
+			set_current_cell(new_cell)
 		else:
 			var cell_stack = map_node.get_cell_stack_at_pos(mouse_pos)
 			set_current_cell(find_wanted_cell(cell_stack))
@@ -126,6 +135,13 @@ func find_nearest_z_cell(cell_stack: PoolVector3Array, cur_cell: Vector3) -> Vec
 	return nearest_z_cell
 
 
+func place_at_world_pos(world_pos: Vector2) -> void:
+	var stack = map_node.get_cell_stack_at_pos(world_pos)
+	
+	if !stack.empty():
+		set_current_cell(stack[0])
+
+
 #### INPUT ####
 
 func _input(_event):
@@ -143,22 +159,25 @@ func _input(_event):
 
 	elif Input.is_action_just_pressed("click"):
 		EVENTS.emit_signal("click_at_cell", current_cell)
-
+	
+	if z_locked:
+		return
+	
 	var cell_stack = Array(map_node.get_cell_stack_at_pos(mouse_pos))
 	var index = cell_stack.find(current_cell)
-	
+
 	if cell_stack.empty():
 		return
 	
 	if !Input.is_action_just_pressed("NextLayer") && !Input.is_action_just_pressed("PreviousLayer"):
 		return
-	
+
 	if Input.is_action_just_pressed("PreviousLayer"):
 		index = wrapi(index - 1, 0, cell_stack.size())
-	
+
 	if Input.is_action_just_pressed("NextLayer"):
 		index = wrapi(index + 1, 0, cell_stack.size())
-	
+
 	set_current_cell(cell_stack[index])
 
 

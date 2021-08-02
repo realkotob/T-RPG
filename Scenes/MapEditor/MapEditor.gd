@@ -54,8 +54,8 @@ func _ready() -> void:
 #### VIRTUALS ####
 
 
-
 #### LOGIC ####
+
 
 func _change_map(map_path: String) -> void:
 	if DirNavHelper.is_file_existing(map_path):
@@ -244,6 +244,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			notification_list.push_notification("Undo: %s" % undo_redo.get_current_action_name())
 			undo_redo.undo()
 	
+	# Handles placing the cursor at the closest cell form the user at mouse position 
+	elif Input.is_action_just_pressed("click") && event.get_control() && !event.get_shift() && !event.get_alt():
+		cursor.set_z_cell_offset(0)
+		cursor.place_at_world_pos(get_global_mouse_position())
+	
 	# Handles adding/removing tiles
 	elif Input.is_action_just_pressed("click") or Input.is_action_just_pressed("right_click"):
 		
@@ -275,6 +280,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if layer == null:
 			map.add_layer(future_cell.z)
 		
+		cursor.set_z_cell_offset(cursor.get_z_cell_offset() + movement.z)
 		cursor.set_current_cell(future_cell)
 	
 	# Handles placing multiple tiles in one click
