@@ -8,6 +8,9 @@
 script = ExtResource( 2 )
 tileset = ExtResource( 3 )
 
+[node name="Cursor" parent="Interactives" index="0"]
+z_locked = true
+
 [node name="Layer" parent="." index="3"]
 tile_set = null
 

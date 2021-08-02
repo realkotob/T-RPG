@@ -534,6 +534,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BabaGodotLib/UI/LineContainer/DataContainer/NormalLineData.gd"
 }, {
+"base": "Label",
+"class": "NotificationLabel",
+"language": "GDScript",
+"path": "res://Scenes/MapEditor/NotificationList/NotificationLabel.gd"
+}, {
+"base": "Control",
+"class": "NotificationList",
+"language": "GDScript",
+"path": "res://Scenes/MapEditor/NotificationList/NotificationList.gd"
+}, {
 "base": "TRPG_DamagableObject",
 "class": "Obstacle",
 "language": "GDScript",
@@ -975,6 +985,8 @@ _global_script_class_icons={
 "MovementArrow": "",
 "MovementArrowSegment": "",
 "NormalLineData": "",
+"NotificationLabel": "",
+"NotificationList": "",
 "Obstacle": "",
 "OffensiveStrategy": "",
 "OnStartTrigger": "",

@@ -1,6 +1,7 @@
 extends IsoObject
 class_name Cursor
 
+onready var cell_label = $CellLabel
 onready var sprite_node = get_node("Sprite")
 onready var default_color = get_modulate()
 
@@ -10,6 +11,8 @@ var map_node = null
 
 var mouse_pos := Vector2()
 var grid2D_position := Vector2.ZERO
+export var z_locked : bool = false
+
 var max_z : int = INF setget set_max_z, get_max_z
 var current_cell_max_z : int = INF
 
@@ -22,9 +25,10 @@ func get_class() -> String: return "Cursor"
 
 func set_current_cell(value: Vector3):
 	if value != current_cell:
-		if map_node.is_cell_ground(value) or display_on_empty_cell:
-			var previous_cell = current_cell
-			current_cell = value
+		var previous_cell = current_cell
+		current_cell = value
+		
+		if map_node != null && map_node.is_cell_ground(value) or display_on_empty_cell:
 			EVENTS.emit_signal("cursor_cell_changed", self, current_cell)
 			EVENTS.emit_signal("iso_object_cell_changed", self)
 			emit_signal("cell_changed", previous_cell, current_cell)
@@ -46,6 +50,8 @@ func get_display_on_empty_cell() -> bool: return display_on_empty_cell
 func _ready():
 	yield(owner, "ready")
 	map_node = owner
+	
+	var __ = connect("cell_changed", self, "_on_cell_changed")
 
 
 func _process(_delta):
@@ -59,13 +65,15 @@ func update_cursor_pos():
 	# Get the mouse position
 	mouse_pos = get_global_mouse_position()
 	
+	var wanted_z = 0.0 if !z_locked else current_cell.z
+	
 	# Snap to the grid
-	var new_grid2D_cell = map_node.world_to_layer_2D_cell(mouse_pos, 0)
+	var new_grid2D_cell = map_node.world_to_layer_2D_cell(mouse_pos, wanted_z)
 	if new_grid2D_cell != grid2D_position:
 		grid2D_position = new_grid2D_cell
 		
 		if display_on_empty_cell:
-			set_current_cell(Vector3(new_grid2D_cell.x, new_grid2D_cell.y, 0))
+			set_current_cell(Vector3(new_grid2D_cell.x, new_grid2D_cell.y, wanted_z))
 		else:
 			var cell_stack = map_node.get_cell_stack_at_pos(mouse_pos)
 			set_current_cell(find_wanted_cell(cell_stack))
@@ -150,3 +158,9 @@ func _input(_event):
 		index = wrapi(index + 1, 0, cell_stack.size())
 	
 	set_current_cell(cell_stack[index])
+
+
+#### SIGNAL RESPONSES ####
+
+func _on_cell_changed(_from: Vector3, to: Vector3) -> void:
+	cell_label.set_text(String(to))

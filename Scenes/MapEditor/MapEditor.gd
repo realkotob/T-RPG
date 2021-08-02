@@ -10,9 +10,12 @@ enum PLACEMENT_TYPE{
 
 onready var renderer = $Renderer
 onready var tile_list = $UI/TileList
+onready var notification_list = $UI/NotificationList
 
 export var map_scene_path : String = ""
 export var print_logs : bool = false
+
+export var max_z : int = 15
 
 var map : IsoMap = null
 var undo_redo = UndoRedo.new()
@@ -114,8 +117,7 @@ func _place_procedure(placement_type: int, tile_id: int = selected_tile_id) -> v
 	undo_redo.commit_action()
 	tracked_tiles = []
 	
-	if print_logs:
-		print("Do: %s" % action_name)
+	notification_list.push_notification("Do: %s" % action_name)
 
 
 func _place_tiles_array(tile_array: Array) -> void:
@@ -219,11 +221,16 @@ func _unhandled_input(event: InputEvent) -> void:
 	if !is_instance_valid(map):
 		return
 	
+	# Handles Undo/Redo
 	if Input.is_action_just_pressed("z") && event.get_control():
-		if print_logs:
-			print("Undo: %s" % undo_redo.get_current_action_name())
-		undo_redo.undo()
+		if event.get_shift():
+			undo_redo.redo()
+			notification_list.push_notification("Redo: %s" % undo_redo.get_current_action_name())
+		else:
+			notification_list.push_notification("Undo: %s" % undo_redo.get_current_action_name())
+			undo_redo.undo()
 	
+	# Handles adding/removing tiles
 	elif Input.is_action_just_pressed("click") or Input.is_action_just_pressed("right_click"):
 		var tile_id = selected_tile_id if Input.is_mouse_button_pressed(BUTTON_LEFT) else -1
 		
@@ -241,6 +248,25 @@ func _unhandled_input(event: InputEvent) -> void:
 			if tilemap.get_cellv(Utils.vec2_from_vec3(cursor_cell)) != tile_id:
 				_place_procedure(PLACEMENT_TYPE.TILE, tile_id)
 	
+	# Handles moving on the z axis
+	elif event is InputEventMouseButton && event.button_index in [BUTTON_WHEEL_DOWN, BUTTON_WHEEL_UP]:
+		var cursor = map.cursor
+		var cursor_cell = cursor.get_current_cell()
+		
+		var movement = Vector3(0, 0, -1) if event.button_index == BUTTON_WHEEL_DOWN else Vector3(0, 0, 1)
+		var future_cell = cursor_cell + movement
+		
+		if future_cell.z < 0 or future_cell.z > max_z:
+			return
+		
+		var layer = map.get_layer(future_cell.z)
+		if layer == null:
+			map.add_layer(future_cell.z)
+		
+		cursor.set_current_cell(future_cell)
+	
+	
+	# Handles placing multiple tiles in one click
 	elif undo_redo.get_current_action_name() == "Place Tile":
 		if !Input.is_action_pressed("ctrl") && !Input.is_action_pressed("shift") && tracked_tiles.size() > 1:
 			
@@ -251,6 +277,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			elif Input.is_action_just_released("right_click"):
 				_place_procedure(PLACEMENT_TYPE.ARRAY, -1)
 				_clear_ghosts()
+
 
 #### SIGNAL RESPONSES ####
 
