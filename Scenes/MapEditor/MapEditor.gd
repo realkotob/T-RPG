@@ -26,7 +26,7 @@ var last_cell_clicked = Vector3.INF
 var tracked_tiles = []
 
 class Tile:
-	var cell =  Vector2.INF
+	var cell := Vector3.INF
 	var tile_id : int = -1
 	
 	func _init(_cell: Vector3, _tile_id: int) -> void:
@@ -78,7 +78,7 @@ func _change_map(map_path: String) -> void:
 	map.cursor.set_display_on_empty_cell(true)
 
 
-func _place_procedure(placement_type: int, tile_id: int = selected_tile_id) -> void:
+func _place_procedure(placement_type: int, tile_id: int = selected_tile_id, layer_range: Array = [0]) -> void:
 	var do_method = ""
 	var do_args = []
 	var cursor_cell = map.cursor.get_current_cell()
@@ -89,16 +89,16 @@ func _place_procedure(placement_type: int, tile_id: int = selected_tile_id) -> v
 	match(placement_type):
 		PLACEMENT_TYPE.TILE:
 			do_method = "_place_tile"
-			do_args = [cursor_cell, tile_id]
-			
+			do_args = [cursor_cell, tile_id, false,  layer_range]
+		
 		PLACEMENT_TYPE.LINE:
 			do_method = "_place_tile_line"
-			do_args = [last_cell_clicked, cursor_cell, tile_id]
-			
+			do_args = [last_cell_clicked, cursor_cell, tile_id, false,  layer_range]
+		
 		PLACEMENT_TYPE.RECT:
 			do_method = "_place_tile_rect"
-			do_args = [last_cell_clicked, cursor_cell, tile_id]
-			
+			do_args = [last_cell_clicked, cursor_cell, tile_id, false, layer_range]
+		
 		PLACEMENT_TYPE.ARRAY:
 			do_method = "_place_tiles_array"
 			var placement_cells = []
@@ -106,7 +106,7 @@ func _place_procedure(placement_type: int, tile_id: int = selected_tile_id) -> v
 			for tile in tracked_tiles:
 				placement_cells.append(Tile.new(tile.cell, tile_id))
 			
-			do_args.append(placement_cells)
+			do_args = [placement_cells, layer_range]
 	
 	tracked_tiles += _track_cells(cursor_cell, placement_type)
 	
@@ -120,45 +120,50 @@ func _place_procedure(placement_type: int, tile_id: int = selected_tile_id) -> v
 	notification_list.push_notification("Do: %s" % action_name)
 
 
-func _place_tiles_array(tile_array: Array) -> void:
+func _place_tiles_array(tile_array: Array, layer_range: Array = [0]) -> void:
 	if tile_array.empty():
 		return
 	
-	var tilemap = map.get_layer(tile_array[0].cell.z)
-	tilemap.set_cell_array(tile_array)
+	for layer_id in layer_range:
+		var tilemap = map.get_layer(layer_id)
+		tilemap.set_cell_array(tile_array)
 
 
-func _place_tile(cell: Vector3, tile_id: int = selected_tile_id, ghost: bool = false) -> void:
+func _place_tile(cell: Vector3, tile_id: int = selected_tile_id, ghost: bool = false, layer_range: Array = [0]) -> void:
 	if !ghost:
 		last_cell_clicked = cell
 	
-	var cell2d = Vector2(cell.x, cell.y)
-	var tile_type = map.tileset.tile_get_z_index(selected_tile_id)
-	var tilemap = map.get_layer(cell.z) if !ghost else map.get_layer(cell.z).get_node("Ghost")
-	
-	if tile_type == tile_list.TILE_TYPE.TILE:
-		tilemap.set_cellv(cell2d, tile_id)
+	for layer_id in layer_range:
+		var cell2d = Vector2(cell.x, cell.y)
+		var tile_type = map.tileset.tile_get_z_index(selected_tile_id)
+		var tilemap = map.get_layer(layer_id) if !ghost else map.get_layer(layer_id).get_node("Ghost")
+		
+		if tile_type == tile_list.TILE_TYPE.TILE:
+			tilemap.set_cellv(cell2d, tile_id)
 
 
-func _place_tile_line(origin: Vector3, dest: Vector3, tile_id: int = selected_tile_id, ghost: bool = false) -> void:
+func _place_tile_line(origin: Vector3, dest: Vector3, tile_id: int = selected_tile_id, ghost: bool = false, layer_range: Array = [0]) -> void:
 	if !ghost:
 		last_cell_clicked = dest
 	
-	var tilemap = map.get_layer(dest.z) if !ghost else map.get_layer(dest.z).get_node("Ghost")
 	var line = IsoRaycast.bresenham3D(origin, dest)
-	for cell in line:
-		tilemap.set_cell(int(cell.x), int(cell.y), tile_id)
+	
+	for layer_id in layer_range:
+		var tilemap = map.get_layer(layer_id) if !ghost else map.get_layer(layer_id).get_node("Ghost")
+		for cell in line:
+			tilemap.set_cell(int(cell.x), int(cell.y), tile_id)
 
 
-func _place_tile_rect(from: Vector3, to: Vector3, tile_id : int = selected_tile_id, ghost: bool = false) -> void:
+func _place_tile_rect(from: Vector3, to: Vector3, tile_id : int = selected_tile_id, ghost: bool = false, layer_range: Array = [0]) -> void:
 	var rect = _get_cell_rect(from, to)
 	
 	if !ghost:
 		last_cell_clicked = to
 	
-	var tilemap = map.get_layer(from.z) if !ghost else map.get_layer(from.z).get_node("Ghost")
-	
-	tilemap.set_rect_cell(rect, tile_id)
+	for layer_id in layer_range:
+		var tilemap = map.get_layer(layer_id) if !ghost else map.get_layer(layer_id).get_node("Ghost")
+		
+		tilemap.set_rect_cell(rect, tile_id)
 
 
 func _get_tile_type_tilemap(layer: IsoMapLayer, tile_type: int) -> Node:
@@ -215,11 +220,20 @@ func _clear_ghosts() -> void:
 		layer.get_node("Ghost").clear()
 
 
+func _compute_layer_range(cursor_cell: Vector3) -> Array:
+	return [cursor_cell.z] if !Input.is_action_pressed("alt") else range(int(cursor_cell.z + 1))
+
+
 #### INPUTS ####
 
 func _unhandled_input(event: InputEvent) -> void:
 	if !is_instance_valid(map):
 		return
+	
+	var cursor = map.cursor
+	var tile_id = selected_tile_id if Input.is_mouse_button_pressed(BUTTON_LEFT) else -1
+	var cursor_cell = cursor.get_current_cell()
+	var layer_range = _compute_layer_range(cursor_cell)
 	
 	# Handles Undo/Redo
 	if Input.is_action_just_pressed("z") && event.get_control():
@@ -232,29 +246,24 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	# Handles adding/removing tiles
 	elif Input.is_action_just_pressed("click") or Input.is_action_just_pressed("right_click"):
-		var tile_id = selected_tile_id if Input.is_mouse_button_pressed(BUTTON_LEFT) else -1
 		
 		if Input.is_action_pressed("shift"):
 			if last_cell_clicked != Vector3.INF:
 				if Input.is_action_pressed("ctrl"):
-					_place_procedure(PLACEMENT_TYPE.RECT, tile_id)
+					_place_procedure(PLACEMENT_TYPE.RECT, tile_id, layer_range)
 				else:
-					_place_procedure(PLACEMENT_TYPE.LINE, tile_id)
+					_place_procedure(PLACEMENT_TYPE.LINE, tile_id, layer_range)
 		else:
-			var cursor_cell = map.cursor.get_current_cell()
 			var tile_type = map.tileset.tile_get_z_index(selected_tile_id)
 			var tilemap = _get_tile_type_tilemap(map.get_layer(cursor_cell.z), tile_type)
 			
 			if tilemap.get_cellv(Utils.vec2_from_vec3(cursor_cell)) != tile_id:
-				_place_procedure(PLACEMENT_TYPE.TILE, tile_id)
+				_place_procedure(PLACEMENT_TYPE.TILE, tile_id, layer_range)
 	
 	# Handles moving on the z axis
 	elif event is InputEventMouseButton && event.button_index in [BUTTON_WHEEL_DOWN, BUTTON_WHEEL_UP]:
 		if event.is_pressed():
 			return
-		
-		var cursor = map.cursor
-		var cursor_cell = cursor.get_current_cell()
 		
 		var movement = Vector3(0, 0, -1) if event.button_index == BUTTON_WHEEL_DOWN else Vector3(0, 0, 1)
 		var future_cell = cursor_cell + movement
@@ -273,11 +282,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		if !Input.is_action_pressed("ctrl") && !Input.is_action_pressed("shift") && tracked_tiles.size() > 1:
 			
 			if Input.is_action_just_released("click"):
-				_place_procedure(PLACEMENT_TYPE.ARRAY)
+				_place_procedure(PLACEMENT_TYPE.ARRAY, selected_tile_id, layer_range)
 				_clear_ghosts()
 			
 			elif Input.is_action_just_released("right_click"):
-				_place_procedure(PLACEMENT_TYPE.ARRAY, -1)
+				_place_procedure(PLACEMENT_TYPE.ARRAY, -1, layer_range)
 				_clear_ghosts()
 
 
@@ -301,6 +310,7 @@ func _on_cursor_cell_changed(from: Vector3, to: Vector3) -> void:
 	var layer = map.get_layer(to.z)
 	var cursor_cell = map.cursor.get_current_cell()
 	var cursor_tilemap = _get_tile_type_tilemap(layer, selected_tile_id)
+	var layer_range = _compute_layer_range(cursor_cell)
 	
 	if cursor_tilemap.get_cellv(Utils.vec2_from_vec3(cursor_cell)) == -1:
 		map.cursor.set_modulate(map.cursor.default_color)
@@ -319,18 +329,18 @@ func _on_cursor_cell_changed(from: Vector3, to: Vector3) -> void:
 			tracked_tiles += _track_cells(to, PLACEMENT_TYPE.TILE)
 		
 		if Input.is_mouse_button_pressed(BUTTON_LEFT):
-			_place_tile(to, selected_tile_id)
+			_place_tile(to, selected_tile_id, false, layer_range)
 		
 		elif Input.is_mouse_button_pressed(BUTTON_RIGHT):
-			_place_tile(to, -1)
+			_place_tile(to, -1, false, layer_range)
 	
 	# Ghost tiles
 	else:
 		if Input.is_action_pressed("shift"):
 			if last_cell_clicked != Vector3.INF:
 				if Input.is_action_pressed("ctrl"):
-					_place_tile_rect(last_cell_clicked, to, selected_tile_id, true)
+					_place_tile_rect(last_cell_clicked, to, selected_tile_id, true, layer_range)
 				else:
-					_place_tile_line(last_cell_clicked, to, selected_tile_id, true)
+					_place_tile_line(last_cell_clicked, to, selected_tile_id, true, layer_range)
 		else:
-			_place_tile(to, selected_tile_id, true)
+			_place_tile(to, selected_tile_id, true, layer_range)
