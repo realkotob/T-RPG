@@ -113,7 +113,7 @@ func _place_procedure(placement_type: int, tile_id: int = selected_tile_id, laye
 	var action_name = do_method.capitalize()
 	undo_redo.create_action(action_name)
 	undo_redo.add_do_method(self, "callv", do_method, do_args)
-	undo_redo.add_undo_method(self, "call", "_place_tiles_array", tracked_tiles.duplicate())
+	undo_redo.add_undo_method(self, "call", "_place_tiles_array", tracked_tiles.duplicate(), layer_range)
 	undo_redo.commit_action()
 	tracked_tiles = []
 	
