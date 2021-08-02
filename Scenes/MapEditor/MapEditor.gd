@@ -250,6 +250,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	# Handles moving on the z axis
 	elif event is InputEventMouseButton && event.button_index in [BUTTON_WHEEL_DOWN, BUTTON_WHEEL_UP]:
+		if event.is_pressed():
+			return
+		
 		var cursor = map.cursor
 		var cursor_cell = cursor.get_current_cell()
 		
@@ -264,7 +267,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			map.add_layer(future_cell.z)
 		
 		cursor.set_current_cell(future_cell)
-	
 	
 	# Handles placing multiple tiles in one click
 	elif undo_redo.get_current_action_name() == "Place Tile":
@@ -306,8 +308,7 @@ func _on_cursor_cell_changed(from: Vector3, to: Vector3) -> void:
 		map.cursor.set_modulate(Color.deepskyblue)
 	
 	# Clear the ghost tilemap for update
-	var ghost_tilemap : TileMap = layer.get_node("Ghost")
-	ghost_tilemap.clear()
+	_clear_ghosts()
 	
 	# Moving while clicking
 	if Input.is_mouse_button_pressed(BUTTON_LEFT) or Input.is_mouse_button_pressed(BUTTON_RIGHT):

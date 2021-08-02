@@ -64,6 +64,8 @@ func _process(_delta):
 func update_cursor_pos():
 	# Get the mouse position
 	mouse_pos = get_global_mouse_position()
+	if z_locked:
+		mouse_pos += GAME.TILE_SIZE * Vector2(0, 1) * current_cell.z
 	
 	var wanted_z = 0.0 if !z_locked else current_cell.z
 	
