@@ -64,7 +64,6 @@ func _ready() -> void:
 		_change_map(map_scene_path)
 
 
-
 #### VIRTUALS ####
 
 
@@ -76,13 +75,18 @@ func _change_map(map_path: String) -> void:
 		map_scene_path = map_path
 	
 	var map_scene = ResourceLoader.load(map_scene_path, "PackedScene")
+	var map_instance = map_scene.instance()
+	
+	if not map_instance is IsoMap:
+		push_error("The given .tscn at path %s doesn't contain an IsoMap" % map_path)
+		return
 	
 	# Ask the user if he/she want to save the file
 	if is_instance_valid(map):
 		map.queue_free()
 		renderer.clear()
 	
-	set_map(map_scene.instance())
+	set_map(map_instance)
 	var __ = map.connect("map_generation_finished", self, "_on_map_generation_finished")
 	
 	add_child(map)
@@ -204,10 +208,12 @@ func _track_cells(cursor_cell: Vector3, placement_type: int) -> Array:
 		PLACEMENT_TYPE.TILE: 
 			var tile_id = current_tilemap.get_cellv(Utils.vec2_from_vec3(cursor_cell))
 			output_array.append(Tile.new(cursor_cell, tile_id))
+			
 		PLACEMENT_TYPE.LINE:
 			for cell in IsoRaycast.bresenham3D(last_cell_clicked, cursor_cell):
 				var tile_id = current_tilemap.get_cellv(Utils.vec2_from_vec3(cursor_cell))
 				output_array.append(Tile.new(cell, tile_id))
+			
 		PLACEMENT_TYPE.RECT:
 			var rect = _get_cell_rect(last_cell_clicked, cursor_cell)
 			for i in range(rect.size.y + 1):
@@ -236,6 +242,39 @@ func _clear_ghosts() -> void:
 
 func _compute_layer_range(cursor_cell: Vector3) -> Array:
 	return [cursor_cell.z] if !Input.is_action_pressed("alt") else range(int(cursor_cell.z + 1))
+
+
+func _paint_bucket(cell: Vector3, tile_id: int) -> void:
+	var layer = map.get_layer(cell.z)
+	var current_tile_id = layer.get_cellv(Utils.vec2_from_vec3(cell))
+	
+	if current_tile_id == -1:
+		push_warning("The selected tile's id is -1, ie an empty cell")
+		return
+	
+	var cells = []
+	get_same_adjacent_tiles(cell, current_tile_id, cells)
+	
+	tracked_tiles = []
+	for cell in cells:
+		tracked_tiles.append(Tile.new(cell, current_tile_id))
+	
+	_place_procedure(PLACEMENT_TYPE.ARRAY, tile_id)
+
+
+func get_same_adjacent_tiles(cell: Vector3, tile_id: int, array: Array) -> void:
+	var adj_array = IsoLogic.get_v3_adjacent_cells(cell)
+	
+	for adj_cell in adj_array:
+		if adj_cell in array:
+			continue
+		
+		var layer = map.get_layer(adj_cell.z)
+		var id = layer.get_cellv(Utils.vec2_from_vec3(adj_cell))
+		
+		if id == tile_id:
+			array.append(adj_cell)
+			get_same_adjacent_tiles(adj_cell, tile_id, array)
 
 
 func _save_map(save_path: String) -> void:
@@ -298,6 +337,10 @@ func _unhandled_input(event: InputEvent) -> void:
 					_place_procedure(PLACEMENT_TYPE.RECT, tile_id, layer_range)
 				else:
 					_place_procedure(PLACEMENT_TYPE.LINE, tile_id, layer_range)
+		
+		elif Input.is_key_pressed(KEY_G):
+			_paint_bucket(cursor_cell, tile_id)
+		
 		else:
 			var tile_type = _get_tile_type(selected_tile_id)
 			var tilemap = _get_tile_type_tilemap(map.get_layer(cursor_cell.z), tile_type)
@@ -354,7 +397,7 @@ func _on_tile_list_tile_selected(tile_id: int) -> void:
 
 
 func _on_cursor_cell_changed(from: Vector3, to: Vector3) -> void:
-	if from == to or is_instance_valid(map):
+	if from == to or !is_instance_valid(map):
 		return
 	
 	# Change the cursor's color based on its location

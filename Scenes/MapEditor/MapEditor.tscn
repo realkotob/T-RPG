@@ -51,6 +51,7 @@ __meta__ = {
 margin_top = 24.0
 margin_right = 176.0
 margin_bottom = 360.0
+focus_mode = 0
 same_column_width = true
 icon_mode = 0
 fixed_icon_size = Vector2( 32, 32 )
