@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scenes/MapEditor/MapEditor.gd" type="Script" id=1]
 [ext_resource path="res://BabaGodotLib/Isometric/IsoRenderer/Renderer.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/MapEditor/TileList.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/MapEditor/NotificationList/NotificationList.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/MapEditor/SaveMenu.gd" type="Script" id=5]
+[ext_resource path="res://Scenes/MapEditor/EditorCamera.gd" type="Script" id=6]
 
 [node name="MapEditor" type="Node2D"]
 script = ExtResource( 1 )
@@ -20,6 +22,7 @@ anchor_bottom = 1.0
 mouse_filter = 2
 script = ExtResource( 3 )
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -61,6 +64,7 @@ anchor_bottom = 1.0
 mouse_filter = 2
 script = ExtResource( 4 )
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -69,5 +73,54 @@ anchor_right = 1.0
 margin_bottom = 192.0
 mouse_filter = 2
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
+
+[node name="SaveMenu" type="Control" parent="UI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/SaveMenu"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -44.0
+margin_right = 72.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SaveMap" type="Button" parent="UI/SaveMenu/VBoxContainer"]
+margin_right = 92.0
+margin_bottom = 20.0
+text = "Save Map"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SaveMapAs" type="Button" parent="UI/SaveMenu/VBoxContainer"]
+margin_top = 24.0
+margin_right = 92.0
+margin_bottom = 44.0
+text = "Save Map As"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BrowseDialog" type="FileDialog" parent="UI/SaveMenu"]
+margin_left = 97.0
+margin_top = 56.0
+margin_right = 504.0
+margin_bottom = 266.0
+window_title = "Ouvrir un répertoire"
+mode = 2
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 320, 180 )
+current = true
+script = ExtResource( 6 )

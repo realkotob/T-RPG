@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://BabaGodotLib/Isometric/IsoMap/IsoMapLayer.tscn" type="PackedScene" id=1]
-[ext_resource path="res://BabaGodotLib/Isometric/IsoMap/CombatIsoMap.gd" type="Script" id=2]
+[ext_resource path="res://BabaGodotLib/Isometric/IsoMap/IsoMap.gd" type="Script" id=2]
 [ext_resource path="res://BabaGodotLib/Isometric/Pathfinder/IsoPathfinding.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/Combat/Cursor/Cursor.tscn" type="PackedScene" id=6]
 [ext_resource path="res://BabaGodotLib/Isometric/IsoRaycast/IsoRaycast.gd" type="Script" id=7]
