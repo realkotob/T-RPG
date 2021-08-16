@@ -253,28 +253,13 @@ func _paint_bucket(cell: Vector3, tile_id: int) -> void:
 		return
 	
 	var cells = []
-	get_same_adjacent_tiles(cell, current_tile_id, cells)
+	map.get_same_adjacent_tiles(cell, current_tile_id, cells)
 	
 	tracked_tiles = []
 	for cell in cells:
 		tracked_tiles.append(Tile.new(cell, current_tile_id))
 	
 	_place_procedure(PLACEMENT_TYPE.ARRAY, tile_id)
-
-
-func get_same_adjacent_tiles(cell: Vector3, tile_id: int, array: Array) -> void:
-	var adj_array = IsoLogic.get_v3_adjacent_cells(cell)
-	
-	for adj_cell in adj_array:
-		if adj_cell in array:
-			continue
-		
-		var layer = map.get_layer(adj_cell.z)
-		var id = layer.get_cellv(Utils.vec2_from_vec3(adj_cell))
-		
-		if id == tile_id:
-			array.append(adj_cell)
-			get_same_adjacent_tiles(adj_cell, tile_id, array)
 
 
 func _save_map(save_path: String) -> void:
