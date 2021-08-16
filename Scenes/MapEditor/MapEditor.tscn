@@ -11,6 +11,7 @@
 script = ExtResource( 1 )
 map_scene_path = "res://Scenes/Combat/Map/Map1.tscn"
 print_logs = true
+ignore_ghosts = true
 
 [node name="Renderer" parent="." instance=ExtResource( 2 )]
 

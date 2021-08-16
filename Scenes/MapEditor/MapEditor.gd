@@ -28,6 +28,8 @@ var last_cell_clicked = Vector3.INF
 
 var tracked_tiles = []
 
+export var ignore_ghosts : bool = false
+
 signal map_changed
 
 class Tile:
@@ -143,8 +145,8 @@ func _place_tiles_array(tile_array: Array, layer_range: Array = [0]) -> void:
 		return
 	
 	for layer_id in layer_range:
-		var tilemap = map.get_layer(layer_id)
-		tilemap.set_cell_array(tile_array)
+		var layer = map.get_layer(layer_id)
+		layer.set_cell_array(tile_array)
 
 
 func _place_tile(cell: Vector3, tile_id: int = selected_tile_id, ghost: bool = false, layer_range: Array = [0]) -> void:
@@ -418,14 +420,15 @@ func _on_cursor_cell_changed(from: Vector3, to: Vector3) -> void:
 	
 	# Ghost tiles
 	else:
-		if Input.is_action_pressed("shift"):
-			if last_cell_clicked != Vector3.INF:
-				if Input.is_action_pressed("ctrl"):
-					_place_tile_rect(last_cell_clicked, to, selected_tile_id, true, layer_range)
-				else:
-					_place_tile_line(last_cell_clicked, to, selected_tile_id, true, layer_range)
-		else:
-			_place_tile(to, selected_tile_id, true, layer_range)
+		if !ignore_ghosts:	
+			if Input.is_action_pressed("shift"):
+				if last_cell_clicked != Vector3.INF:
+					if Input.is_action_pressed("ctrl"):
+						_place_tile_rect(last_cell_clicked, to, selected_tile_id, true, layer_range)
+					else:
+						_place_tile_line(last_cell_clicked, to, selected_tile_id, true, layer_range)
+			else:
+				_place_tile(to, selected_tile_id, true, layer_range)
 
 
 func _on_save_menu_save_query(path: String) -> void:
