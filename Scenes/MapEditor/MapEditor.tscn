@@ -89,8 +89,8 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/SaveMenu"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -44.0
-margin_right = 72.0
+margin_top = -68.0
+margin_right = 92.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -103,10 +103,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="SaveMapAs" type="Button" parent="UI/SaveMenu/VBoxContainer"]
+[node name="LoadMap" type="Button" parent="UI/SaveMenu/VBoxContainer"]
 margin_top = 24.0
 margin_right = 92.0
 margin_bottom = 44.0
+text = "Load Map"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SaveMapAs" type="Button" parent="UI/SaveMenu/VBoxContainer"]
+margin_top = 48.0
+margin_right = 92.0
+margin_bottom = 68.0
 text = "Save Map As"
 __meta__ = {
 "_edit_use_anchors_": false

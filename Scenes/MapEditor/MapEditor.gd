@@ -57,7 +57,8 @@ func get_map() -> IsoMap: return map
 func _ready() -> void:
 	var __ = tile_list.connect("tile_selected", self, "_on_tile_list_tile_selected")
 	__ = connect("map_changed", self, "_on_map_changed")
-	__ = save_menu.connect("save", self, "_on_save_menu_save_query")
+	__ = save_menu.connect("save_map", self, "_on_save_menu_save_query")
+	__ = save_menu.connect("load_map", self, "_on_save_menu_load_query")
 	
 	if map_scene_path != "" && DirNavHelper.is_file_existing(map_scene_path):
 		_change_map(map_scene_path)
@@ -79,7 +80,7 @@ func _change_map(map_path: String) -> void:
 	# Ask the user if he/she want to save the file
 	if is_instance_valid(map):
 		map.queue_free()
-		renderer.clear_tiles()
+		renderer.clear()
 	
 	set_map(map_scene.instance())
 	var __ = map.connect("map_generation_finished", self, "_on_map_generation_finished")
@@ -353,7 +354,7 @@ func _on_tile_list_tile_selected(tile_id: int) -> void:
 
 
 func _on_cursor_cell_changed(from: Vector3, to: Vector3) -> void:
-	if from == to:
+	if from == to or is_instance_valid(map):
 		return
 	
 	# Change the cursor's color based on its location
@@ -403,3 +404,7 @@ func _on_save_menu_save_query(path: String) -> void:
 	if path != "":
 		dest_path = path
 	_save_map(dest_path)
+
+
+func _on_save_menu_load_query(path: String) -> void:
+	_change_map(path)
