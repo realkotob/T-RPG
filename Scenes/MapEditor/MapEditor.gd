@@ -312,7 +312,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	# Handles placing the cursor at the closest cell form the user at mouse position 
 	elif Input.is_action_just_pressed("click") && event.get_control() && !event.get_shift() && !event.get_alt():
-		cursor.set_z_cell_offset(0)
 		cursor.place_at_world_pos(get_global_mouse_position())
 	
 	# Handles adding/removing tiles
@@ -325,6 +324,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				else:
 					_place_procedure(PLACEMENT_TYPE.LINE, tile_id, layer_range)
 		
+		# Paint bucket
 		elif Input.is_key_pressed(KEY_G):
 			_paint_bucket(cursor_cell, tile_id)
 		
@@ -420,7 +420,7 @@ func _on_cursor_cell_changed(from: Vector3, to: Vector3) -> void:
 	
 	# Ghost tiles
 	else:
-		if !ignore_ghosts:	
+		if !ignore_ghosts:
 			if Input.is_action_pressed("shift"):
 				if last_cell_clicked != Vector3.INF:
 					if Input.is_action_pressed("ctrl"):

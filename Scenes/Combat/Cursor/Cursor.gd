@@ -139,6 +139,7 @@ func place_at_world_pos(world_pos: Vector2) -> void:
 	var stack = map_node.get_cell_stack_at_pos(world_pos)
 	
 	if !stack.empty():
+		set_z_cell_offset(0)
 		set_current_cell(stack[0])
 
 
