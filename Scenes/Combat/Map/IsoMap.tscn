@@ -20,5 +20,3 @@ script = ExtResource( 3 )
 [node name="Cursor" parent="Interactives" instance=ExtResource( 6 )]
 
 [node name="Layer" parent="." instance=ExtResource( 1 )]
-
-[editable path="Layer"]

@@ -53,6 +53,10 @@ func update_tile_list(map_node: IsoMap = null, category: int = 0) -> void:
 	
 	var tileset : TileSet = map.get_tileset()
 	
+	if tileset == null:
+		push_warning("The map %s has not Tileset" % map.name)
+		return
+	
 	for tile_id in tileset.get_tiles_ids():
 		var tile_category = tileset.tile_get_z_index(tile_id)
 		if tile_category != category:
