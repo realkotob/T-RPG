@@ -3,7 +3,7 @@ class_name Cursor
 
 onready var cell_label = $CellLabel
 onready var sprite_node = get_node("Sprite")
-onready var default_color = get_modulate()
+export var default_color := Color("f6d884")
 
 export var display_on_empty_cell : bool = false setget set_display_on_empty_cell, get_display_on_empty_cell
 export var z_locked : bool = false setget set_z_locked, is_z_locked
@@ -57,6 +57,8 @@ func get_display_on_empty_cell() -> bool: return display_on_empty_cell
 #### BUILT-IN FUNCTIONS ####
 
 func _ready():
+	set_modulate(default_color)
+	
 	yield(owner, "ready")
 	map_node = owner
 	

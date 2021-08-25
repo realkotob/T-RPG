@@ -264,7 +264,7 @@ func _paint_bucket(cell: Vector3, tile_id: int) -> void:
 	_place_procedure(PLACEMENT_TYPE.ARRAY, tile_id)
 
 
-func _save_map(save_path: String) -> void:
+func _save_map(save_path: String = "") -> void:
 	if !is_instance_valid(map):
 		return
 	
@@ -309,6 +309,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		else:
 			notification_list.push_notification("Undo: %s" % undo_redo.get_current_action_name())
 			undo_redo.undo()
+	
+	# Handles quick save
+	elif Input.is_action_pressed("ctrl") && Input.is_action_just_pressed("s"):
+		_save_map()
 	
 	# Handles placing the cursor at the closest cell form the user at mouse position 
 	elif Input.is_action_just_pressed("click") && event.get_control() && !event.get_shift() && !event.get_alt():
