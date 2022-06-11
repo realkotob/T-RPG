@@ -8,6 +8,7 @@ onready var browse_dialog = $BrowseDialog
 
 signal save_map(path)
 signal load_map(path)
+signal load_last_map()
 
 #### ACCESSORS ####
 
@@ -18,11 +19,11 @@ func get_class() -> String: return "MapEditorSaveMenu"
 #### BUILT-IN ####
 
 func _ready() -> void:
-	var __ = save_button.connect("button_down", self, "_on_save_button_pressed")
-	__ = load_button.connect("button_down", self, "_on_load_button_pressed")
-	__ = browse_button.connect("button_down", self, "_on_browse_button_pressed")
-	__ = browse_dialog.connect("dir_selected", self, "_on_browse_dialog_dir_selected")
+	var __ = browse_dialog.connect("dir_selected", self, "_on_browse_dialog_dir_selected")
 	__ = browse_dialog.connect("file_selected", self, "_on_browse_dialog_file_selected")
+	
+	for button in $VBoxContainer.get_children():
+		__ = button.connect("pressed", self, "_on_button_pressed", [button])
 
 
 #### VIRTUALS ####
@@ -40,20 +41,20 @@ func _ready() -> void:
 #### SIGNAL RESPONSES ####
 
 
-func _on_save_button_pressed() -> void:
-	 emit_signal("save_map" , "")
-
-
-func _on_browse_button_pressed() -> void:
-	browse_dialog.popup_centered()
-	browse_dialog.set_mode(FileDialog.MODE_OPEN_DIR)
-	browse_dialog.set_filters(PoolStringArray([]))
-
-
-func _on_load_button_pressed() -> void:
-	browse_dialog.popup_centered()
-	browse_dialog.set_mode(FileDialog.MODE_OPEN_FILE)
-	browse_dialog.set_filters(PoolStringArray(["*.tscn"]))
+func _on_button_pressed(button: Button) -> void:
+	match(button.name):
+		"SaveMap": 
+			emit_signal("save_map" , "")
+		"LoadMap":
+			browse_dialog.popup_centered()
+			browse_dialog.set_mode(FileDialog.MODE_OPEN_FILE)
+			browse_dialog.set_filters(PoolStringArray(["*.tscn"]))
+		"SaveMapAs":
+			browse_dialog.popup_centered()
+			browse_dialog.set_mode(FileDialog.MODE_OPEN_DIR)
+			browse_dialog.set_filters(PoolStringArray([]))
+		"LoadLastMap":
+			emit_signal("load_last_map")
 
 
 func _on_browse_dialog_dir_selected(dir: String) -> void:

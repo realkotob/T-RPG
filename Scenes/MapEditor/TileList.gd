@@ -7,12 +7,6 @@ onready var category_container = $Panel/Control/CategoryContainer
 var map : IsoMap = null setget set_map, get_map 
 var current_category : int = 0
 
-enum TILE_TYPE {
-	TILE,
-	OBSTACLE,
-	DECORATION
-}
-
 signal tile_selected(tile_id)
 
 
@@ -39,7 +33,7 @@ func _ready() -> void:
 
 
 func _generate_categories() -> void:
-	for key in TILE_TYPE.keys():
+	for key in GAME.TILE_TYPE.keys():
 		var button = Button.new()
 		button.set_text(key.capitalize())
 		

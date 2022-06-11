@@ -1,4 +1,4 @@
-extends StatesMachine
+extends StateMachine
 class_name PlayerTurn
 
 #### ACCESSORS ####

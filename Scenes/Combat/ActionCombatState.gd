@@ -1,4 +1,4 @@
-extends StateBase
+extends State
 class_name ActionCombatState
 
 var aoe_target : AOE_Target = null setget set_aoe_target, get_aoe_target

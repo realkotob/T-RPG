@@ -1,4 +1,4 @@
-extends StateBase
+extends State
 class_name TL_StateBase
 
 #### TIMELINE STATE BASE CLASS ####

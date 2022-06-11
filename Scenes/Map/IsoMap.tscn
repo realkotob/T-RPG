@@ -1,0 +1,21 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scenes/Isometric/Pathfinder/IsoPathfinding.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Combat/Cursor/Cursor.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Isometric/IsoRaycast/IsoRaycast.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/Isometric/IsoMap/IsoMap.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/Map/IsoMapLayer.tscn" type="PackedScene" id=5]
+
+[node name="Map" type="Node2D"]
+script = ExtResource( 4 )
+layer_scene = ExtResource( 5 )
+
+[node name="IsoRaycast" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="Pathfinding" type="Node" parent="."]
+script = ExtResource( 1 )
+
+[node name="Interactives" type="Node2D" parent="."]
+
+[node name="Cursor" parent="Interactives" instance=ExtResource( 2 )]

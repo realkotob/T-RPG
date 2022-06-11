@@ -24,7 +24,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Resources/AOE/AOE_Target.gd"
 }, {
-"base": "StateBase",
+"base": "State",
 "class": "ActionCombatState",
 "language": "GDScript",
 "path": "res://Scenes/Combat/ActionCombatState.gd"
@@ -32,14 +32,14 @@ _global_script_classes=[ {
 "base": "ListMenu",
 "class": "ActionMenu",
 "language": "GDScript",
-"path": "res://BabaGodotLib/UI/Menu/ActionMenu.gd"
+"path": "res://Scenes/UI/Menu/ActionMenu.gd"
 }, {
 "base": "Object",
 "class": "ActorActionRequest",
 "language": "GDScript",
 "path": "res://Scenes/Actors/ActorActionRequest.gd"
 }, {
-"base": "ActorStateBase",
+"base": "State",
 "class": "ActorActionState",
 "language": "GDScript",
 "path": "res://BabaGodotLib/Actor/States/ActorState/BaseStates/ActorActionState.gd"
@@ -49,45 +49,35 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/CombatEffectResult/ActorCombatState.gd"
 }, {
-"base": "ActorStateBase",
+"base": "State",
 "class": "ActorFallState",
 "language": "GDScript",
 "path": "res://BabaGodotLib/Actor/States/ActorState/BaseStates/ActorFallState.gd"
 }, {
-"base": "TRPG_ActorStateBase",
+"base": "State",
 "class": "ActorHurtState",
 "language": "GDScript",
 "path": "res://BabaGodotLib/Actor/States/ActorState/BaseStates/ActorHurtState.gd"
 }, {
-"base": "ActorStateBase",
-"class": "ActorIdleState",
-"language": "GDScript",
-"path": "res://BabaGodotLib/Actor/States/ActorState/BaseStates/ActorIdleState.gd"
-}, {
-"base": "ActorStateBase",
+"base": "State",
 "class": "ActorInactiveState",
 "language": "GDScript",
 "path": "res://BabaGodotLib/Actor/Inactive.gd"
 }, {
-"base": "ActorStateBase",
+"base": "State",
 "class": "ActorJumpState",
 "language": "GDScript",
 "path": "res://BabaGodotLib/Actor/States/ActorState/BaseStates/ActorJumpState.gd"
 }, {
-"base": "ActorStateBase",
-"class": "ActorMoveState",
+"base": "State",
+"class": "ActorLandState",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Actor/States/ActorState/BaseStates/ActorMoveState.gd"
+"path": "res://BabaGodotLib/Actor/States/ActorState/BaseStates/ActorLandState.gd"
 }, {
 "base": "Node2D",
 "class": "ActorPath",
 "language": "GDScript",
 "path": "res://BabaGodotLib/Actor/AI/ActorPath/ActorPath.gd"
-}, {
-"base": "AnimatedObjectStateBase",
-"class": "ActorStateBase",
-"language": "GDScript",
-"path": "res://BabaGodotLib/Actor/States/ActorState/ActorStateBase.gd"
 }, {
 "base": "Resource",
 "class": "ActorStats",
@@ -109,20 +99,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Resources/Ailment/Ailment.gd"
 }, {
-"base": "StateBase",
-"class": "AnimatedObjectStateBase",
-"language": "GDScript",
-"path": "res://BabaGodotLib/Absract/StateMachine/AbstractStates/AnimatedObjectStateBase.gd"
-}, {
 "base": "Node",
 "class": "AnimationEvent",
 "language": "GDScript",
 "path": "res://BabaGodotLib/AnimationEvents/AnimationEvent.gd"
 }, {
-"base": "StateBase",
+"base": "State",
 "class": "AppearState",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Absract/StateMachine/AbstractStates/Appear.gd"
+"path": "res://BabaGodotLib/StateMachine/AbstractStates/Appear.gd"
+}, {
+"base": "Behaviour",
+"class": "ApproachBehaviour",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Behaviours/Approach/ApproachBehaviour.gd"
 }, {
 "base": "Node2D",
 "class": "AreaContainer",
@@ -134,30 +124,70 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BabaGodotLib/Triggers/AreaTrigger.gd"
 }, {
-"base": "InteractiveObject",
+"base": "Behaviour",
+"class": "AwakableBehaviour",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Behaviours/Awakable/AwakableBehaviour.gd"
+}, {
+"base": "Behaviour",
+"class": "AwakerBehaviour",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Behaviours/Awaker/AwakerBehaviour.gd"
+}, {
+"base": "TabContainer",
+"class": "BabaTabContainer",
+"language": "GDScript",
+"path": "res://BabaGodotLib/UI/TabContainer/BabaTabContainer.gd"
+}, {
+"base": "Tween",
+"class": "BabaTween",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Tween/BabaTween.gd"
+}, {
+"base": "HSlider",
+"class": "Baba_HSlider",
+"language": "GDScript",
+"path": "res://BabaGodotLib/UI/Sliders/Baba_HSlider.gd"
+}, {
+"base": "RayCast2D",
+"class": "Baba_RayCast2D",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Raycast/Baba_RayCast2D.gd"
+}, {
+"base": "Node2D",
+"class": "Behaviour",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Behaviours/BehaviourAbstract.gd"
+}, {
+"base": "Behaviour",
+"class": "BuoyableBehaviour",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Behaviours/Buoyable/BuoyableBehaviour.gd"
+}, {
+"base": "CollectableBehaviour",
 "class": "Collectable",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Scenes/InteractiveObject/Collectable/Collectable.gd"
+"path": "res://BabaGodotLib/Behaviours/Collectable/Collactable.gd"
 }, {
-"base": "StateBase",
+"base": "Behaviour",
+"class": "CollectableBehaviour",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Behaviours/Collectable/CollectableBehaviourAbstract.gd"
+}, {
+"base": "State",
 "class": "Collectable_CollectState",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Scenes/InteractiveObject/Collectable/States/Collect.gd"
+"path": "res://BabaGodotLib/Behaviours/Collectable/Collect.gd"
 }, {
-"base": "StateBase",
+"base": "State",
 "class": "Collectable_FollowState",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Scenes/InteractiveObject/Collectable/States/Follow.gd"
+"path": "res://BabaGodotLib/Behaviours/Collectable/CollectableFollowState.gd"
 }, {
-"base": "Control",
+"base": "HBoxContainer",
 "class": "Collectable_HUD_Label",
 "language": "GDScript",
 "path": "res://BabaGodotLib/Scenes/HUD/Collectable_HUD_Label.gd"
-}, {
-"base": "StateBase",
-"class": "Collectable_IdleState",
-"language": "GDScript",
-"path": "res://BabaGodotLib/Scenes/InteractiveObject/Collectable/States/Idle.gd"
 }, {
 "base": "Object",
 "class": "CombatDamage",
@@ -192,14 +222,14 @@ _global_script_classes=[ {
 "base": "IsoMap",
 "class": "CombatIsoMap",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Isometric/IsoMap/CombatIsoMap.gd"
+"path": "res://Scenes/Isometric/IsoMap/CombatIsoMap.gd"
 }, {
 "base": "Node",
 "class": "CombatLoop",
 "language": "GDScript",
 "path": "res://Scenes/Combat/CombatLoop.gd"
 }, {
-"base": "StateBase",
+"base": "State",
 "class": "CombatStateBase",
 "language": "GDScript",
 "path": "res://Scenes/Combat/CombatStates/CombatStateBase.gd"
@@ -229,6 +259,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/IA/DamageRatio.gd"
 }, {
+"base": "Factory",
+"class": "DebrisFactory",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Factories/Debris/DebrisFactory.gd"
+}, {
 "base": "IA_Strategy",
 "class": "DefensiveStrategy",
 "language": "GDScript",
@@ -237,7 +272,12 @@ _global_script_classes=[ {
 "base": "ResizableWindow",
 "class": "DescriptionWindow",
 "language": "GDScript",
-"path": "res://BabaGodotLib/UI/Windows/DescritpionWindow.gd"
+"path": "res://BabaGodotLib/UI/Windows/DescriptionWindow.gd"
+}, {
+"base": "Behaviour",
+"class": "DestructibleBehaviour",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Behaviours/Destructible/DestructibleBehaviour.gd"
 }, {
 "base": "Node",
 "class": "DirNavHelper",
@@ -249,10 +289,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/IA/DirectTargetCriteria.gd"
 }, {
-"base": "StateBase",
+"base": "State",
 "class": "Disappear",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Absract/StateMachine/AbstractStates/Disappear.gd"
+"path": "res://BabaGodotLib/StateMachine/AbstractStates/Disappear.gd"
 }, {
 "base": "Camera2D",
 "class": "EditorCamera",
@@ -279,6 +319,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/IA/IA_Strategy/ExploreStrategy.gd"
 }, {
+"base": "Node",
+"class": "Factory",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Factories/Factory.gd"
+}, {
 "base": "CanvasLayer",
 "class": "FadeTransition",
 "language": "GDScript",
@@ -288,6 +333,16 @@ _global_script_classes=[ {
 "class": "Firearm",
 "language": "GDScript",
 "path": "res://Resources/CombatEffectObject/Weapons/Firearm.gd"
+}, {
+"base": "Collectable",
+"class": "FollowCollectable",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Behaviours/Collectable/FollowCollectable.gd"
+}, {
+"base": "FollowCollectable",
+"class": "FollowHUDCollectable",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Behaviours/Collectable/FollowHUDCollectable.gd"
 }, {
 "base": "Node",
 "class": "GameLoader",
@@ -318,6 +373,11 @@ _global_script_classes=[ {
 "class": "HUD_Gauge",
 "language": "GDScript",
 "path": "res://Scenes/Combat/HUD/ActorInfos/Gauge/HUD_Gauge.gd"
+}, {
+"base": "TextureRect",
+"class": "HUD_Icon",
+"language": "GDScript",
+"path": "res://BabaGodotLib/UI/HUD_Icon/HUD_Icon.gd"
 }, {
 "base": "ConditionCriteria",
 "class": "HasSupportObject_Criteria",
@@ -369,6 +429,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BabaGodotLib/UI/LineContainer/DataContainer/IconsLineData.gd"
 }, {
+"base": "Object",
+"class": "InputMapper",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Inputs/InputMapper.gd"
+}, {
+"base": "Object",
+"class": "InputProfile",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Inputs/InputProfile.gd"
+}, {
 "base": "Node2D",
 "class": "InteractiveObject",
 "language": "GDScript",
@@ -377,7 +447,7 @@ _global_script_classes=[ {
 "base": "AnimatedSprite",
 "class": "IsoAnimatedSprite",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Isometric/IsoAnimatedSprite.gd"
+"path": "res://Scenes/Isometric/IsoAnimatedSprite.gd"
 }, {
 "base": "EditorPlugin",
 "class": "IsoAutotileImporter",
@@ -387,27 +457,27 @@ _global_script_classes=[ {
 "base": "EventsBase",
 "class": "IsoEvents",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Isometric/Autoload/IsoEvents.gd"
+"path": "res://Scenes/Isometric/Autoload/IsoEvents.gd"
 }, {
 "base": "Object",
 "class": "IsoLogic",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Isometric/Static/IsoLogic.gd"
+"path": "res://Scenes/Isometric/Static/IsoLogic.gd"
 }, {
 "base": "Node2D",
 "class": "IsoMap",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Isometric/IsoMap/IsoMap.gd"
+"path": "res://Scenes/Isometric/IsoMap/IsoMap.gd"
 }, {
 "base": "IsoTileMap",
 "class": "IsoMapLayer",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Isometric/IsoMap/IsoMapLayer.gd"
+"path": "res://Scenes/Isometric/IsoMap/IsoMapLayer.gd"
 }, {
 "base": "Node2D",
 "class": "IsoObject",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Isometric/IsoObjects/IsoObject.gd"
+"path": "res://Scenes/Isometric/IsoObjects/IsoObject.gd"
 }, {
 "base": "Tween",
 "class": "IsoObjectTween",
@@ -417,37 +487,37 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "IsoPathfinder",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Isometric/Pathfinder/IsoPathfinding.gd"
+"path": "res://Scenes/Isometric/Pathfinder/IsoPathfinding.gd"
 }, {
 "base": "Node",
 "class": "IsoRaycast",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Isometric/IsoRaycast/IsoRaycast.gd"
+"path": "res://Scenes/Isometric/IsoRaycast/IsoRaycast.gd"
 }, {
 "base": "RenderPart",
 "class": "IsoRenderPart",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Isometric/IsoRenderer/RenderPart/IsoRenderPart.gd"
+"path": "res://Scenes/Isometric/IsoRenderer/RenderPart/IsoRenderPart.gd"
 }, {
 "base": "Node2D",
 "class": "IsoRenderer",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Isometric/IsoRenderer/IsoRenderer.gd"
+"path": "res://Scenes/Isometric/IsoRenderer/IsoRenderer.gd"
 }, {
 "base": "Tween",
 "class": "IsoRendererTween",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Isometric/IsoRenderer/RenderPart/PartTween.gd"
+"path": "res://Scenes/Isometric/IsoRenderer/RenderPart/PartTween.gd"
 }, {
 "base": "Sprite",
 "class": "IsoSprite",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Isometric/IsoSprite.gd"
+"path": "res://Scenes/Isometric/IsoSprite.gd"
 }, {
 "base": "TileMap",
 "class": "IsoTileMap",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Isometric/IsoMap/IsoTilemap.gd"
+"path": "res://Scenes/Isometric/IsoMap/IsoTilemap.gd"
 }, {
 "base": "CombatEffectObject",
 "class": "Item",
@@ -489,6 +559,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BabaGodotLib/UI/LineContainer/DataContainer/LineData.gd"
 }, {
+"base": "LineEdit",
+"class": "LineField",
+"language": "GDScript",
+"path": "res://BabaGodotLib/UI/LineField/LineField.gd"
+}, {
 "base": "MenuBase",
 "class": "ListMenu",
 "language": "GDScript",
@@ -519,12 +594,12 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BabaGodotLib/UI/Menu/GameMenuBase.gd"
 }, {
-"base": "Button",
+"base": "Control",
 "class": "MenuOptionsBase",
 "language": "GDScript",
 "path": "res://BabaGodotLib/UI/Menu/OptionButtons/MenuOptionsBase.gd"
 }, {
-"base": "StateBase",
+"base": "State",
 "class": "MoveAnimationState",
 "language": "GDScript",
 "path": "res://Scenes/Combat/MoveAnimationState.gd"
@@ -594,12 +669,17 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/IA/IA_Criteria/TargetChoiceCriterias/OutputHPCriteria.gd"
 }, {
+"base": "Factory",
+"class": "ParticulesFactory",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Factories/ParticulesFactory.gd"
+}, {
 "base": "Position2D",
 "class": "PathPoint",
 "language": "GDScript",
 "path": "res://BabaGodotLib/Actor/AI/ActorPath/PathPointBase.gd"
 }, {
-"base": "StatesMachine",
+"base": "StateMachine",
 "class": "PlayerTurn",
 "language": "GDScript",
 "path": "res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/AllyTurn.gd"
@@ -614,45 +694,15 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BabaGodotLib/Feedback/PulsingLight.gd"
 }, {
-"base": "StatesMachine",
+"base": "StateMachine",
 "class": "PushdownAutomata",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Absract/StateMachine/PushdownAutomata/PushdownAutomata.gd"
-}, {
-"base": "ActorActionState",
-"class": "RT_ActorActionState",
-"language": "GDScript",
-"path": "res://BabaGodotLib/Actor/States/ActorState/RealTimeStates/RT_ActorActionState.gd"
-}, {
-"base": "ActorFallState",
-"class": "RT_ActorFallState",
-"language": "GDScript",
-"path": "res://BabaGodotLib/Actor/States/ActorState/RealTimeStates/RT_ActorFallState.gd"
-}, {
-"base": "ActorIdleState",
-"class": "RT_ActorIdleState",
-"language": "GDScript",
-"path": "res://BabaGodotLib/Actor/States/ActorState/RealTimeStates/RT_ActorIdleState.gd"
-}, {
-"base": "ActorJumpState",
-"class": "RT_ActorJumpState",
-"language": "GDScript",
-"path": "res://BabaGodotLib/Actor/States/ActorState/RealTimeStates/RT_ActorJumpState.gd"
-}, {
-"base": "ActorMoveState",
-"class": "RT_ActorMoveState",
-"language": "GDScript",
-"path": "res://BabaGodotLib/Actor/States/ActorState/RealTimeStates/RT_ActorMoveState.gd"
-}, {
-"base": "RayCast2D",
-"class": "RayCastBase",
-"language": "GDScript",
-"path": "res://BabaGodotLib/Absract/Raycast/RayCastBase.gd"
+"path": "res://BabaGodotLib/StateMachine/PushdownAutomata/PushdownAutomata.gd"
 }, {
 "base": "Sprite",
 "class": "RenderPart",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Isometric/IsoRenderer/RenderPart/RenderPart.gd"
+"path": "res://Scenes/Isometric/IsoRenderer/RenderPart/RenderPart.gd"
 }, {
 "base": "PropertyCriteria",
 "class": "ResemblanceCriteria",
@@ -674,10 +724,15 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BabaGodotLib/SFX/SFX_Animation/SFX_AnimationBase.gd"
 }, {
+"base": "Factory",
+"class": "SFX_Factory",
+"language": "GDScript",
+"path": "res://BabaGodotLib/Factories/SFX_Factory.gd"
+}, {
 "base": "Node",
 "class": "SceneFinder",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Absract/SceneFinder/SceneFinder.gd"
+"path": "res://BabaGodotLib/SceneFinder/SceneFinder.gd"
 }, {
 "base": "Trigger",
 "class": "SignalTrigger",
@@ -689,25 +744,30 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Resources/CombatEffectObject/Skills/Skill.gd"
 }, {
-"base": "Node2D",
-"class": "SoundEffectsHandler",
+"base": "Factory",
+"class": "SoundEffectFactory",
 "language": "GDScript",
-"path": "res://BabaGodotLib/SoundEffects/SoundEffectsHandler.gd"
+"path": "res://BabaGodotLib/SoundEffects/SoundEffectFactory.gd"
 }, {
 "base": "Node",
-"class": "StateBase",
+"class": "State",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Absract/StateMachine/StateBase.gd"
+"path": "res://BabaGodotLib/StateMachine/State.gd"
+}, {
+"base": "Node",
+"class": "StateAnimationHandler",
+"language": "GDScript",
+"path": "res://BabaGodotLib/StateMachine/StateAnimationHandler/StateAnimationHandler.gd"
 }, {
 "base": "Label",
 "class": "StateLabel",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Absract/StateMachine/StateLabel.gd"
+"path": "res://BabaGodotLib/StateMachine/StateLabel.gd"
 }, {
-"base": "Node2D",
-"class": "StatesMachine",
+"base": "State",
+"class": "StateMachine",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Absract/StateMachine/StateMachine.gd"
+"path": "res://BabaGodotLib/StateMachine/StateMachine.gd"
 }, {
 "base": "Object",
 "class": "SupportNeed",
@@ -719,75 +779,30 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/IA/IA_Strategy/Support/SupportStrategy.gd"
 }, {
-"base": "ActorActionState",
-"class": "TB_ActorActionState",
-"language": "GDScript",
-"path": "res://BabaGodotLib/Actor/States/ActorState/TurnBasedStates/TB_ActorActionState.gd"
-}, {
-"base": "ActorFallState",
-"class": "TB_ActorFallState",
-"language": "GDScript",
-"path": "res://BabaGodotLib/Actor/States/ActorState/TurnBasedStates/TB_ActorFallState.gd"
-}, {
-"base": "ActorStateBase",
-"class": "TB_ActorIdleState",
-"language": "GDScript",
-"path": "res://BabaGodotLib/Actor/States/ActorState/TurnBasedStates/TB_ActorIdleState.gd"
-}, {
-"base": "ActorJumpState",
-"class": "TB_ActorJumpState",
-"language": "GDScript",
-"path": "res://BabaGodotLib/Actor/States/ActorState/TurnBasedStates/TB_ActorJumpState.gd"
-}, {
-"base": "ActorMoveState",
-"class": "TB_ActorMoveState",
-"language": "GDScript",
-"path": "res://BabaGodotLib/Actor/States/ActorState/TurnBasedStates/TB_ActorMoveState.gd"
-}, {
-"base": "StateBase",
+"base": "State",
 "class": "TL_StateBase",
 "language": "GDScript",
 "path": "res://Scenes/Combat/HUD/Timeline/States/TL_StateBase.gd"
 }, {
-"base": "TRPG_ActorStateBase",
-"class": "TRPG_ActionState",
-"language": "GDScript",
-"path": "res://BabaGodotLib/Absract/StateMachine/AbstractStates/TRPG_ActionState.gd"
-}, {
 "base": "TRPG_DamagableObject",
 "class": "TRPG_Actor",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Isometric/IsoObjects/TRPG_Actor.gd"
+"path": "res://Scenes/Actors/TRPG_Actor.gd"
 }, {
-"base": "TRPG_ActionState",
-"class": "TRPG_ActorAttackState",
-"language": "GDScript",
-"path": "res://Scenes/Actors/Allies/States/ActorAttackState.gd"
-}, {
-"base": "TRPG_ActorStateBase",
+"base": "State",
 "class": "TRPG_ActorIdleState",
 "language": "GDScript",
 "path": "res://Scenes/Actors/Allies/States/TRPG_ActorIdleState.gd"
 }, {
-"base": "TRPG_ActionState",
+"base": "State",
 "class": "TRPG_ActorMoveState",
 "language": "GDScript",
 "path": "res://Scenes/Actors/Allies/States/TRPG_ActorMoveState.gd"
 }, {
-"base": "TRPG_ActionState",
-"class": "TRPG_ActorSkillState",
-"language": "GDScript",
-"path": "res://Scenes/Actors/Allies/States/TRPG_ActorSkillState.gd"
-}, {
-"base": "ActorStateBase",
-"class": "TRPG_ActorStateBase",
-"language": "GDScript",
-"path": "res://BabaGodotLib/Actor/States/ActorState/TurnBasedStates/TRPG_ActorState/TRPG_ActorStateBase.gd"
-}, {
 "base": "IsoObject",
 "class": "TRPG_DamagableObject",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Isometric/IsoObjects/TRPG_DamagableObject.gd"
+"path": "res://Scenes/TRPG_DamagableObject.gd"
 }, {
 "base": "IsoEvents",
 "class": "TRPG_Events",
@@ -814,6 +829,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/TeamsContainer.gd"
 }, {
+"base": "TextEdit",
+"class": "TextField",
+"language": "GDScript",
+"path": "res://BabaGodotLib/UI/TextField/TextField.gd"
+}, {
 "base": "LineContainer",
 "class": "TextLineContainer",
 "language": "GDScript",
@@ -832,7 +852,7 @@ _global_script_classes=[ {
 "base": "RenderPart",
 "class": "TileRenderPart",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Isometric/IsoRenderer/RenderPart/TileRenderPart.gd"
+"path": "res://Scenes/Isometric/IsoRenderer/RenderPart/TileRenderPart.gd"
 }, {
 "base": "Node2D",
 "class": "Timeline",
@@ -844,10 +864,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/HUD/Timeline/TL_Portrait/TL_Portrait.gd"
 }, {
-"base": "StatesMachine",
-"class": "ToolStatesMachine",
+"base": "HBoxContainer",
+"class": "TitleDataLabel",
 "language": "GDScript",
-"path": "res://BabaGodotLib/Absract/StateMachine/ToolStateMachine.gd"
+"path": "res://BabaGodotLib/UI/TitleBodyLine/TitleBodyLine.gd"
 }, {
 "base": "Node2D",
 "class": "Trigger",
@@ -900,26 +920,32 @@ _global_script_class_icons={
 "ActorCombatState": "",
 "ActorFallState": "",
 "ActorHurtState": "",
-"ActorIdleState": "",
 "ActorInactiveState": "",
 "ActorJumpState": "",
-"ActorMoveState": "",
+"ActorLandState": "",
 "ActorPath": "",
-"ActorStateBase": "",
 "ActorStats": "",
 "ActorSupportNeed": "",
 "ActorTeam": "",
 "Ailment": "",
-"AnimatedObjectStateBase": "",
 "AnimationEvent": "",
 "AppearState": "",
+"ApproachBehaviour": "",
 "AreaContainer": "",
 "AreaTrigger": "",
+"AwakableBehaviour": "",
+"AwakerBehaviour": "",
+"BabaTabContainer": "",
+"BabaTween": "",
+"Baba_HSlider": "",
+"Baba_RayCast2D": "",
+"Behaviour": "",
+"BuoyableBehaviour": "",
 "Collectable": "",
+"CollectableBehaviour": "",
 "Collectable_CollectState": "",
 "Collectable_FollowState": "",
 "Collectable_HUD_Label": "",
-"Collectable_IdleState": "",
 "CombatDamage": "",
 "CombatEffect": "",
 "CombatEffectHandler": "",
@@ -934,8 +960,10 @@ _global_script_class_icons={
 "DamagableSmallGauge": "",
 "DamageContainer": "",
 "DamageInflictedRatioCriteria": "",
+"DebrisFactory": "",
 "DefensiveStrategy": "",
 "DescriptionWindow": "",
+"DestructibleBehaviour": "",
 "DirNavHelper": "",
 "DirectTargetCriteria": "",
 "Disappear": "",
@@ -944,14 +972,18 @@ _global_script_class_icons={
 "Event": "",
 "EventsBase": "",
 "ExploreStrategy": "",
+"Factory": "",
 "FadeTransition": "",
 "Firearm": "",
+"FollowCollectable": "",
+"FollowHUDCollectable": "",
 "GameLoader": "",
 "GameObject": "",
 "GameSaver": "",
 "Gauge": "",
 "HUD_ActorAction": "",
 "HUD_Gauge": "",
+"HUD_Icon": "",
 "HasSupportObject_Criteria": "",
 "IA": "",
 "IA_Criteria": "",
@@ -962,6 +994,8 @@ _global_script_class_icons={
 "IA_TargetChoice": "",
 "IconsLineContainer": "",
 "IconsLineData": "",
+"InputMapper": "",
+"InputProfile": "",
 "InteractiveObject": "",
 "IsoAnimatedSprite": "",
 "IsoAutotileImporter": "",
@@ -986,6 +1020,7 @@ _global_script_class_icons={
 "LevelSaver": "",
 "LineContainer": "",
 "LineData": "",
+"LineField": "",
 "ListMenu": "",
 "LowHPAlly_Group": "",
 "MapEditor": "",
@@ -1007,57 +1042,46 @@ _global_script_class_icons={
 "OptionDataContainer": "",
 "OptionLineContainer": "",
 "OutputHPRatioCriteria": "",
+"ParticulesFactory": "",
 "PathPoint": "",
 "PlayerTurn": "",
 "PropertyCriteria": "",
 "PulsingLight": "",
 "PushdownAutomata": "",
-"RT_ActorActionState": "",
-"RT_ActorFallState": "",
-"RT_ActorIdleState": "",
-"RT_ActorJumpState": "",
-"RT_ActorMoveState": "",
-"RayCastBase": "",
 "RenderPart": "",
 "ResemblanceCriteria": "",
 "ResizableWindow": "",
 "RunAwayStrategy": "",
 "SFX_AnimationBase": "",
+"SFX_Factory": "",
 "SceneFinder": "",
 "SignalTrigger": "",
 "Skill": "",
-"SoundEffectsHandler": "",
-"StateBase": "",
+"SoundEffectFactory": "",
+"State": "",
+"StateAnimationHandler": "",
 "StateLabel": "",
-"StatesMachine": "",
+"StateMachine": "",
 "SupportNeed": "",
 "SupportStrategy": "",
-"TB_ActorActionState": "",
-"TB_ActorFallState": "",
-"TB_ActorIdleState": "",
-"TB_ActorJumpState": "",
-"TB_ActorMoveState": "",
 "TL_StateBase": "",
-"TRPG_ActionState": "",
 "TRPG_Actor": "",
-"TRPG_ActorAttackState": "",
 "TRPG_ActorIdleState": "",
 "TRPG_ActorMoveState": "",
-"TRPG_ActorSkillState": "",
-"TRPG_ActorStateBase": "",
 "TRPG_DamagableObject": "",
 "TRPG_Events": "",
 "TargetChoiceState": "",
 "TargetDistanceCriteria": "",
 "TargetKillCriteria": "",
 "TeamsContainer": "",
+"TextField": "",
 "TextLineContainer": "",
 "TileArea": "",
 "TileList": "",
 "TileRenderPart": "",
 "Timeline": "",
 "TimelinePortrait": "",
-"ToolStatesMachine": "",
+"TitleDataLabel": "",
 "Trigger": "",
 "Utils": "",
 "WaitCombatState": "",
@@ -1093,7 +1117,7 @@ window/stretch/aspect="keep"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/IsoAutotileGenerator/plugin.cfg", "res://addons/Plugin/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/IsoAutotileGenerator/plugin.cfg" )
 
 [importer_defaults]
 
@@ -1122,7 +1146,7 @@ texture={
 
 NewLayer={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777253,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777253,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 NextLayer={
@@ -1137,7 +1161,7 @@ PreviousLayer={
 }
 ToggleDebug={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777244,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777244,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 click={
@@ -1157,22 +1181,22 @@ rotateCCW={
 }
 tab={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777218,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777218,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 ctrl={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777238,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777238,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 shift={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777237,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777237,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 z={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":90,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":90,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 right_click={
@@ -1182,7 +1206,7 @@ right_click={
 }
 alt={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777240,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777240,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 wheel_button={
@@ -1192,7 +1216,7 @@ wheel_button={
 }
 s={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":83,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":83,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 

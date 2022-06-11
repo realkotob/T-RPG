@@ -1,0 +1,93 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Scenes/Isometric/Pathfinder/IsoPathfinding.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Combat/Cursor/Cursor.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Map/IsoMapLayer.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Environement/TileSet/InsideTower.tres" type="TileSet" id=4]
+[ext_resource path="res://Scenes/Isometric/IsoRaycast/IsoRaycast.gd" type="Script" id=5]
+[ext_resource path="res://Scenes/Isometric/IsoMap/IsoMap.gd" type="Script" id=6]
+
+[node name="Map1" type="Node2D"]
+script = ExtResource( 6 )
+tileset = ExtResource( 4 )
+layer_scene = ExtResource( 3 )
+
+[node name="IsoRaycast" type="Node" parent="."]
+script = ExtResource( 5 )
+
+[node name="Pathfinding" type="Node" parent="."]
+script = ExtResource( 1 )
+
+[node name="Interactives" type="Node2D" parent="."]
+
+[node name="Cursor" parent="Interactives" instance=ExtResource( 2 )]
+modulate = Color( 0.964706, 0.847059, 0.517647, 1 )
+position = Vector2( 336, 112 )
+default_color = Color( 0.964706, 0.847059, 0.517647, 1 )
+display_on_empty_cell = true
+
+[node name="Layer" parent="." instance=ExtResource( 3 )]
+tile_data = PoolIntArray( 10, 77, 3, 11, 77, 1, 12, 77, 1, 13, 77, 1, 14, 77, 1, 15, 77, 1, 16, 77, 1, 17, 77, 1, 18, 77, 1, 19, 77, 1, 20, 77, 1, 21, 77, 1, 22, 77, 1, 23, 77, 65540, 65546, 77, 0, 65547, 77, 65539, 65548, 77, 65539, 65549, 77, 65539, 65550, 77, 65539, 65551, 77, 65539, 65552, 77, 65539, 65553, 77, 65539, 65554, 77, 65539, 65555, 77, 65539, 65556, 77, 65539, 65557, 77, 65539, 65558, 77, 65539, 65559, 77, 65537, 131082, 77, 0, 131083, 77, 65539, 131084, 77, 65539, 131085, 77, 65539, 131086, 77, 65539, 131087, 77, 65539, 131088, 77, 65539, 131089, 77, 65539, 131090, 77, 65539, 131091, 77, 65539, 131092, 77, 65539, 131093, 77, 65539, 131094, 77, 65539, 131095, 77, 65537, 196618, 77, 0, 196619, 77, 65539, 196620, 77, 65539, 196621, 77, 65539, 196622, 77, 65539, 196623, 77, 65539, 196624, 77, 65539, 196625, 77, 65539, 196626, 77, 65539, 196627, 77, 65539, 196628, 77, 65539, 196629, 77, 65539, 196630, 77, 65539, 196631, 77, 65537, 262154, 77, 0, 262155, 77, 65539, 262156, 77, 65539, 262157, 77, 65539, 262158, 77, 65539, 262159, 77, 65539, 262160, 77, 65539, 262161, 77, 65539, 262162, 77, 65539, 262163, 77, 65539, 262164, 77, 65539, 262165, 77, 65539, 262166, 77, 65539, 262167, 77, 65537, 327690, 77, 0, 327691, 77, 65539, 327692, 77, 65539, 327693, 77, 65539, 327694, 77, 65539, 327695, 77, 65539, 327696, 77, 65539, 327697, 77, 65539, 327698, 77, 65539, 327699, 77, 65539, 327700, 77, 65539, 327701, 77, 65539, 327702, 77, 65539, 327703, 77, 65537, 393226, 77, 0, 393227, 77, 65539, 393228, 77, 65539, 393229, 77, 65539, 393230, 77, 65539, 393231, 77, 65539, 393232, 77, 65539, 393233, 77, 65539, 393234, 77, 65539, 393235, 77, 65539, 393236, 77, 65539, 393237, 77, 65539, 393238, 77, 65539, 393239, 77, 65537, 458762, 77, 0, 458763, 77, 65539, 458764, 77, 65539, 458765, 77, 65539, 458766, 77, 65539, 458767, 77, 65539, 458768, 77, 65539, 458769, 77, 65539, 458770, 77, 65539, 458771, 77, 65539, 458772, 77, 65539, 458773, 77, 65539, 458774, 77, 65539, 458775, 77, 65537, 524298, 77, 0, 524299, 77, 65539, 524300, 77, 65539, 524301, 77, 65539, 524302, 77, 65539, 524303, 77, 65539, 524304, 77, 65539, 524305, 77, 65539, 524306, 77, 65539, 524307, 77, 65539, 524308, 77, 65539, 524309, 77, 65539, 524310, 77, 65539, 524311, 77, 65537, 589834, 77, 0, 589835, 77, 65539, 589836, 77, 65539, 589837, 77, 65539, 589838, 77, 65539, 589839, 77, 65539, 589840, 77, 65539, 589841, 77, 65539, 589842, 77, 65539, 589843, 77, 65539, 589844, 77, 65539, 589845, 77, 65539, 589846, 77, 65539, 589847, 77, 65537, 655370, 77, 65538, 655371, 77, 65536, 655372, 77, 65536, 655373, 77, 65536, 655374, 77, 65536, 655375, 77, 65536, 655376, 77, 65536, 655377, 77, 65536, 655378, 77, 65536, 655379, 77, 65536, 655380, 77, 65536, 655381, 77, 65536, 655382, 77, 65536, 655383, 77, 131075 )
+
+[node name="WestWall" parent="Layer" index="0"]
+tile_set = ExtResource( 4 )
+tile_data = PoolIntArray( 655370, 76, 2, 655371, 76, 1, 655372, 76, 0, 655373, 76, 0, 655374, 76, 2, 655375, 76, 2, 655376, 76, 2, 655377, 76, 0, 655378, 76, 2, 655379, 76, 2, 655380, 76, 1, 655381, 76, 0, 655382, 76, 1, 655383, 76, 1 )
+
+[node name="EastWall" parent="Layer" index="1"]
+tile_set = ExtResource( 4 )
+tile_data = PoolIntArray( 23, 76, 4, 65559, 76, 5, 131095, 76, 4, 196631, 76, 4, 262167, 76, 5, 327703, 76, 5, 393239, 76, 5, 458775, 76, 4, 524311, 76, 3, 589847, 76, 5, 655383, 76, 4 )
+
+[node name="Wall" parent="Layer" index="2"]
+tile_set = ExtResource( 4 )
+
+[node name="Obstacle" parent="Layer" index="3"]
+tile_set = ExtResource( 4 )
+tile_data = PoolIntArray( 131083, 6, 0, 131094, 6, 0, 524299, 6, 0, 524310, 6, 0 )
+
+[node name="Decoration" parent="Layer" index="4"]
+tile_set = ExtResource( 4 )
+
+[node name="Slopes" parent="Layer" index="5"]
+tile_set = ExtResource( 4 )
+
+[node name="Ghost" parent="Layer" index="7"]
+tile_set = ExtResource( 4 )
+
+[node name="WestWall" parent="Layer/Ghost" index="0"]
+tile_set = ExtResource( 4 )
+
+[node name="EastWall" parent="Layer/Ghost" index="1"]
+tile_set = ExtResource( 4 )
+
+[node name="Layer2" parent="." instance=ExtResource( 3 )]
+position = Vector2( 0, -16 )
+
+[node name="WestWall" parent="Layer2" index="0"]
+tile_set = ExtResource( 4 )
+
+[node name="EastWall" parent="Layer2" index="1"]
+tile_set = ExtResource( 4 )
+
+[node name="Wall" parent="Layer2" index="2"]
+tile_set = ExtResource( 4 )
+
+[node name="Obstacle" parent="Layer2" index="3"]
+tile_set = ExtResource( 4 )
+
+[node name="Decoration" parent="Layer2" index="4"]
+tile_set = ExtResource( 4 )
+
+[node name="Slopes" parent="Layer2" index="5"]
+tile_set = ExtResource( 4 )
+
+[node name="Ghost" parent="Layer2" index="7"]
+tile_set = ExtResource( 4 )
+
+[node name="WestWall" parent="Layer2/Ghost" index="0"]
+tile_set = ExtResource( 4 )
+
+[node name="EastWall" parent="Layer2/Ghost" index="1"]
+tile_set = ExtResource( 4 )
+
+[editable path="Layer"]
+[editable path="Layer2"]

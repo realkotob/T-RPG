@@ -18,6 +18,8 @@ export var print_logs : bool = false
 
 export var max_z : int = 15
 
+export var last_map_path : String = ""
+
 var dest_path : String = ""
 
 var map : IsoMap = null setget set_map, get_map
@@ -61,6 +63,7 @@ func _ready() -> void:
 	__ = connect("map_changed", self, "_on_map_changed")
 	__ = save_menu.connect("save_map", self, "_on_save_menu_save_query")
 	__ = save_menu.connect("load_map", self, "_on_save_menu_load_query")
+	__ = save_menu.connect("load_last_map", self, "_on_save_menu_load_last_map_query")
 	
 	if map_scene_path != "" && DirNavHelper.is_file_existing(map_scene_path):
 		_change_map(map_scene_path)
@@ -83,7 +86,15 @@ func _change_map(map_path: String) -> void:
 		push_error("The given .tscn at path %s doesn't contain an IsoMap" % map_path)
 		return
 	
-	# Ask the user if he/she want to save the file
+	# Update the last_map_path, then save the editor scene in file to make the data persist
+	last_map_path = map_path
+	var editor_scene = PackedScene.new()
+	editor_scene.pack(self)
+	
+	if ResourceSaver.save(filename, editor_scene) != OK:
+		push_error("Overwriting map_editor scene failed")
+	
+	# Ask the user if they want to save the file
 	if is_instance_valid(map):
 		map.queue_free()
 		renderer.clear()
@@ -158,8 +169,11 @@ func _place_tile(cell: Vector3, tile_id: int = selected_tile_id, ghost: bool = f
 		
 		var tilemap = map.get_layer(layer_id) if !ghost else map.get_layer(layer_id).get_node("Ghost")
 		var tile_type = _get_tile_type(selected_tile_id)
-		if tile_type == tile_list.TILE_TYPE.TILE or -1:
+		
+		if ghost:
 			tilemap.set_cellv(cell2d, tile_id)
+		else:
+			tilemap.place_tile(cell2d, tile_id, tile_type)
 
 
 func _place_tile_line(origin: Vector3, dest: Vector3, tile_id: int = selected_tile_id, ghost: bool = false, layer_range: Array = [0]) -> void:
@@ -188,7 +202,7 @@ func _place_tile_rect(from: Vector3, to: Vector3, tile_id : int = selected_tile_
 
 func _get_tile_type_tilemap(layer: IsoMapLayer, tile_type: int) -> Node:
 	match(tile_type):
-		tile_list.TILE_TYPE.DECORATION: return layer.get_node("Decortion")
+		GAME.TILE_TYPE.DECORATION: return layer.get_node("Decortion")
 	return layer
 
 
@@ -336,8 +350,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			var tile_type = _get_tile_type(selected_tile_id)
 			var tilemap = _get_tile_type_tilemap(map.get_layer(cursor_cell.z), tile_type)
 			
-			if tilemap.get_cellv(Utils.vec2_from_vec3(cursor_cell)) != tile_id:
-				_place_procedure(PLACEMENT_TYPE.TILE, tile_id, layer_range)
+			_place_procedure(PLACEMENT_TYPE.TILE, tile_id, layer_range)
 	
 	# Handles moving on the z axis
 	elif event is InputEventMouseButton && event.button_index in [BUTTON_WHEEL_DOWN, BUTTON_WHEEL_UP]:
@@ -353,6 +366,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		var layer = map.get_layer(future_cell.z)
 		if layer == null:
 			map.add_layer(future_cell.z)
+			yield(map, "layer_added")
 		
 		cursor.set_z_cell_offset(cursor.get_z_cell_offset() + movement.z)
 		cursor.set_current_cell(future_cell)
@@ -375,6 +389,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _on_map_changed(new_map: IsoMap) -> void:
 	save_menu.set_visible(new_map != null)
+	tile_list.set_visible(new_map != null)
 
 
 func _on_map_generation_finished() -> void:
@@ -443,3 +458,11 @@ func _on_save_menu_save_query(path: String) -> void:
 
 func _on_save_menu_load_query(path: String) -> void:
 	_change_map(path)
+
+
+func _on_save_menu_load_last_map_query() -> void:
+	if last_map_path == "":
+		push_error("Can't load last map: no last map path exists")
+		return
+	
+	_change_map(last_map_path)

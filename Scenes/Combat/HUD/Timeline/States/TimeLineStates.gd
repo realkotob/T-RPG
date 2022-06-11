@@ -1,4 +1,4 @@
-extends StatesMachine
+extends StateMachine
 
 func _ready():
 	yield(owner, "ready")

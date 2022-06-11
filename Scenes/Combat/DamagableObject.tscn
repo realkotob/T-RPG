@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://BabaGodotLib/Isometric/IsoObjects/TRPG_DamagableObject.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/TRPG_DamagableObject.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Combat/Tween.gd" type="Script" id=2]
 
 [node name="DamagableObject" type="Node2D"]

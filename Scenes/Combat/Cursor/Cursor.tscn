@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Scenes/Combat/Cursor/Cursor.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Combat/Cursor/Cursor.png" type="Texture" id=2]
-[ext_resource path="res://BabaGodotLib/Isometric/IsoSprite.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/Isometric/IsoSprite.gd" type="Script" id=4]
 
 [node name="Cursor" type="Node2D"]
 script = ExtResource( 1 )

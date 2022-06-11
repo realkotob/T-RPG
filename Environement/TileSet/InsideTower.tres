@@ -19,7 +19,7 @@
 5/shape_one_way = false
 5/shape_one_way_margin = 0.0
 5/shapes = [  ]
-5/z_index = 1
+5/z_index = 2
 6/name = "Column"
 6/texture = ExtResource( 1 )
 6/tex_offset = Vector2( 0, -64 )
@@ -33,7 +33,7 @@
 6/shape_one_way = false
 6/shape_one_way_margin = 0.0
 6/shapes = [  ]
-6/z_index = 1
+6/z_index = 2
 17/name = "Skull1"
 17/texture = ExtResource( 1 )
 17/tex_offset = Vector2( 0, 0 )
@@ -203,7 +203,7 @@
 73/shape_one_way = false
 73/shape_one_way_margin = 0.0
 73/shapes = [  ]
-73/z_index = 1
+73/z_index = 2
 74/name = "Earth"
 74/texture = ExtResource( 2 )
 74/tex_offset = Vector2( 0, 0 )
@@ -370,7 +370,7 @@
 81/shape_one_way = false
 81/shape_one_way_margin = 0.0
 81/shapes = [  ]
-81/z_index = 1
+81/z_index = 2
 82/name = "Barrel"
 82/texture = ExtResource( 1 )
 82/tex_offset = Vector2( 0, -32 )
@@ -384,7 +384,7 @@
 82/shape_one_way = false
 82/shape_one_way_margin = 0.0
 82/shapes = [  ]
-82/z_index = 1
+82/z_index = 2
 83/name = "Pot"
 83/texture = ExtResource( 1 )
 83/tex_offset = Vector2( 0, -16 )
@@ -405,4 +405,4 @@
 83/shape_one_way = false
 83/shape_one_way_margin = 0.0
 83/shapes = [  ]
-83/z_index = 1
+83/z_index = 2
