@@ -18,10 +18,10 @@ func _on_timeline_state_changed(state: Object):
 func _on_turn_type_state_changed(state: Object):
 	$VBoxContainer/TurnType.text = "Turn Type: " + state.name if state != null else "Turn Type: "
 	
-func _on_combat_state_changed(state: Object):
+func _on_combat_state_entered(state: Object):
 	$VBoxContainer/CombatState.text = "Combat State: " + state.name if state != null else "Combat State: "
 
-func _on_combat_substate_changed(state: Object):
+func _on_combat_state_entered_recursive(state: Object):
 	$VBoxContainer/CombatSubState.text = "Combat SubState: " + state.name if state != null else "Combat SubState: "
 
 func _on_cursor_changed_cell(_cursor: Cursor, cell: Vector3):

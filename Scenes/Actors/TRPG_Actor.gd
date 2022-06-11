@@ -211,7 +211,7 @@ func _init():
 func _ready():
 	var _err = connect("cell_changed", self, "_on_cell_changed")
 	_err = connect("action_finished", self, "_on_action_finished")
-	_err = statemachine.connect("state_changed", self, "_on_state_changed")
+	_err = statemachine.connect("state_entered", self, "_on_state_entered")
 	_err = $States/Hurt.connect("hurt_feedback_finished", self, "_on_hurt_feedback_finished")
 	
 	if current_actions == -1: set_current_actions(get_max_actions())
@@ -361,7 +361,7 @@ func set_flip_h_SFX(value: bool) -> void:
 
 #### SIGNAL RESPONSES ####
 
-func _on_state_changed(new_state: Object) -> void:
+func _on_state_entered(new_state: Object) -> void:
 	emit_signal("state_changed", new_state)
 	
 	var previous_state = statemachine.previous_state

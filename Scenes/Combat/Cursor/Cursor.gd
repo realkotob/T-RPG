@@ -83,7 +83,7 @@ func update_cursor_pos():
 	
 	# Snap to the grid
 	var cell_2d = map_node.world_to_layer_2D_cell(mouse_pos, wanted_z)
-	var new_cell = Utils.vec2_to_vec3(cell_2d, wanted_z)
+	var new_cell = Math.vec2_to_vec3(cell_2d, wanted_z)
 	if new_cell != current_cell:
 		if display_on_empty_cell:
 			set_current_cell(new_cell)

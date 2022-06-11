@@ -13,6 +13,7 @@ script = ExtResource( 2 )
 
 [node name="TimeLineStates" type="Node2D" parent="."]
 script = ExtResource( 6 )
+no_default_state = true
 
 [node name="Idle" type="Node" parent="TimeLineStates"]
 script = ExtResource( 4 )

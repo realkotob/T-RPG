@@ -3,14 +3,14 @@ class_name CombatLoop
 
 onready var ia = $IA
 onready var map_node = $Map
-onready var cursor_node = $Map/Interactives/Cursor
+onready var cursor_node = $Map.cursor
 onready var renderer = $Renderer
 onready var combat_state_node = $CombatStatesMachine
 onready var HUD_node = $HUD
 onready var debug_panel = $DebugPanel
 onready var pathfinder = $Map/Pathfinding
-onready var teams_container = $Map/Interactives/ActorTeams
-onready var allies_team = $Map/Interactives/ActorTeams/Allies
+onready var teams_container = $TeamsContainer
+onready var allies_team = $TeamsContainer/Allies
 onready var timeline = $HUD/Timeline
 
 onready var allies_array : Array = get_tree().get_nodes_in_group("Allies")
@@ -64,10 +64,10 @@ func _ready() -> void:
 	_err = connect("active_actor_state_changed", debug_panel, "_on_active_actor_state_changed")
 	
 	# Combat states signals
-	_err = combat_state_node.connect("state_changed", debug_panel, "_on_turn_type_state_changed")
+	_err = combat_state_node.connect("state_entered", debug_panel, "_on_turn_type_state_entered")
 	for child in combat_state_node.get_children():
-		_err = child.connect("state_changed", debug_panel, "_on_combat_state_changed")
-		_err = child.connect("substate_changed", debug_panel, "_on_combat_substate_changed")
+		_err = child.connect("state_entered", debug_panel, "_on_combat_state_entered")
+		_err = child.connect("state_entered_recursive", debug_panel, "_on_combat_state_entered_recursive")
 	
 	_err = map_node.connect("map_generation_finished", self, "_on_map_generation_finished")
 	_err = EVENTS.connect("timeline_movement_finished", self, "_on_timeline_movement_finished")

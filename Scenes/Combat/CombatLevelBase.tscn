@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://Scenes/Isometric/IsoRenderer/Renderer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Combat/DebugPanel/DebugPanel.gd" type="Script" id=2]
@@ -9,12 +9,13 @@
 [ext_resource path="res://Scenes/Combat/Timeline/Timeline.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/Actors/Allies/Character.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Gauge/HUD_Gauge.tscn" type="PackedScene" id=9]
-[ext_resource path="res://BabaGodotLib/StateMachine/StateMachine.gd" type="Script" id=10]
+[ext_resource path="res://addons/StateGraph/StateMachine/PushdownAutomata/PushdownAutomata.gd" type="Script" id=10]
 [ext_resource path="res://Scenes/Combat/HUD/HUD.gd" type="Script" id=11]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/Overlook.gd" type="Script" id=12]
 [ext_resource path="res://Scenes/Combat/CombatLoop.gd" type="Script" id=13]
 [ext_resource path="res://Scenes/Combat/MoveAnimationState.gd" type="Script" id=14]
-[ext_resource path="res://BabaGodotLib/StateMachine/PushdownAutomata/PushdownAutomata.gd" type="Script" id=15]
+[ext_resource path="res://Scenes/Combat/TeamsContainer.gd" type="Script" id=15]
+[ext_resource path="res://addons/StateGraph/StateMachine/StateMachine.gd" type="Script" id=16]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/Attack.gd" type="Script" id=17]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/Skills.gd" type="Script" id=18]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/Items.gd" type="Script" id=19]
@@ -26,7 +27,9 @@
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Portrait/PortBackGround.png" type="Texture" id=25]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/EnemyTurn/IA_OverlookState.gd" type="Script" id=26]
 [ext_resource path="res://Fonts/BoldCapitalPixel.tres" type="DynamicFont" id=27]
+[ext_resource path="res://Scenes/Combat/ActorTeam.gd" type="Script" id=28]
 [ext_resource path="res://Scenes/Combat/HUD/ActionsLeft.gd" type="Script" id=29]
+[ext_resource path="res://BabaGodotLib/UI/LineContainer/OptionLineContainer.tscn" type="PackedScene" id=30]
 [ext_resource path="res://Scenes/Combat/ActionCombatState.gd" type="Script" id=31]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/TargetChoice.gd" type="Script" id=32]
 [ext_resource path="res://Scenes/Combat/DamageContainer.gd" type="Script" id=33]
@@ -172,8 +175,7 @@ margin_top = 80.0
 margin_right = -4.0
 margin_bottom = -181.0
 rect_min_size = Vector2( 70, 99 )
-description_window_path = "res://Scenes/UI/TRPG_DescritpionWindow.tscn"
-menu_option_scene_path = "res://BabaGodotLib/UI/LineContainer/OptionLineContainer.tscn"
+menu_option_scene = ExtResource( 30 )
 option_v_separation = -4
 column_container_path = "ResizableWindow/MarginContainer/HBoxContainer"
 max_lines = 10
@@ -291,17 +293,23 @@ __meta__ = {
 }
 
 [node name="CombatStatesMachine" type="Node2D" parent="."]
-script = ExtResource( 10 )
+script = ExtResource( 16 )
+standalone_trigger = {
+}
+no_default_state = true
 
 [node name="PlayerTurn" type="Node2D" parent="CombatStatesMachine"]
 script = ExtResource( 41 )
+no_default_state = true
 
 [node name="Overlook" type="Node" parent="CombatStatesMachine/PlayerTurn"]
 script = ExtResource( 12 )
+standalone_trigger = {
+}
 
 [node name="Move" type="Node2D" parent="CombatStatesMachine/PlayerTurn"]
-script = ExtResource( 15 )
-reset_to_default = true
+script = ExtResource( 10 )
+no_default_state = true
 
 [node name="DestinationChoice" type="Node" parent="CombatStatesMachine/PlayerTurn/Move"]
 script = ExtResource( 35 )
@@ -311,6 +319,7 @@ script = ExtResource( 14 )
 
 [node name="Attack" type="Node2D" parent="CombatStatesMachine/PlayerTurn"]
 script = ExtResource( 17 )
+no_default_state = true
 reset_to_default = true
 
 [node name="TargetChoice" type="Node" parent="CombatStatesMachine/PlayerTurn/Attack"]
@@ -321,6 +330,7 @@ script = ExtResource( 31 )
 
 [node name="Skill" type="Node2D" parent="CombatStatesMachine/PlayerTurn"]
 script = ExtResource( 18 )
+no_default_state = true
 reset_to_default = true
 
 [node name="OptionChoice" type="Node" parent="CombatStatesMachine/PlayerTurn/Skill"]
@@ -334,6 +344,7 @@ script = ExtResource( 31 )
 
 [node name="Item" type="Node2D" parent="CombatStatesMachine/PlayerTurn"]
 script = ExtResource( 19 )
+no_default_state = true
 
 [node name="OptionChoice" type="Node" parent="CombatStatesMachine/PlayerTurn/Item"]
 script = ExtResource( 24 )
@@ -348,8 +359,10 @@ script = ExtResource( 31 )
 script = ExtResource( 20 )
 
 [node name="IATurn" type="Node2D" parent="CombatStatesMachine"]
-script = ExtResource( 10 )
-reset_to_default = true
+script = ExtResource( 16 )
+standalone_trigger = {
+}
+no_default_state = true
 
 [node name="Overlook" type="Node" parent="CombatStatesMachine/IATurn"]
 script = ExtResource( 26 )
@@ -372,7 +385,18 @@ script = ExtResource( 20 )
 [node name="DamageContainer" type="Node2D" parent="."]
 script = ExtResource( 33 )
 
-[node name="Map1" parent="." instance=ExtResource( 6 )]
+[node name="Map" parent="." instance=ExtResource( 6 )]
 
-[node name="Character" parent="." instance=ExtResource( 8 )]
+[node name="TeamsContainer" type="Node2D" parent="."]
+script = ExtResource( 15 )
+
+[node name="Allies" type="Node2D" parent="TeamsContainer"]
+script = ExtResource( 28 )
+team_side = 0
+
+[node name="Character" parent="TeamsContainer/Allies" instance=ExtResource( 8 )]
 position = Vector2( 143.303, 192.551 )
+
+[node name="Enemies" type="Node2D" parent="TeamsContainer"]
+script = ExtResource( 28 )
+team_side = 0

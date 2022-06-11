@@ -1,20 +1,19 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Scenes/Actors/TRPG_Actor.gd" type="Script" id=1]
-[ext_resource path="res://BabaGodotLib/StateMachine/State.gd" type="Script" id=2]
+[ext_resource path="res://addons/StateGraph/StateMachine/StateAnimationHandler/StateAnimationHandler.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/Isometric/IsoAnimatedSprite.gd" type="Script" id=3]
-[ext_resource path="res://BabaGodotLib/StateMachine/StateMachine.gd" type="Script" id=4]
+[ext_resource path="res://addons/StateGraph/StateMachine/StateMachine.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/Actors/Allies/States/TRPG_ActorMoveState.gd" type="Script" id=5]
 [ext_resource path="res://BabaGodotLib/Actor/States/ActorState/BaseStates/ActorHurtState.gd" type="Script" id=6]
 [ext_resource path="res://Scenes/Actors/Allies/CptHart/HartStats.tres" type="Resource" id=7]
 [ext_resource path="res://Resources/CombatEffectObject/Weapons/Firearm.tres" type="Resource" id=8]
 [ext_resource path="res://Scenes/Combat/DamagableObject.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Resources/AOE/AOE.gd" type="Script" id=10]
+[ext_resource path="res://addons/StateGraph/StateMachine/StateLabel.gd" type="Script" id=11]
+[ext_resource path="res://addons/StateGraph/StateMachine/State.gd" type="Script" id=12]
 [ext_resource path="res://Resources/AOE/AOE_AreaType/AOE_Type_Circle.tres" type="Resource" id=13]
 [ext_resource path="res://Resources/Effect.gd" type="Script" id=14]
-[ext_resource path="res://BabaGodotLib/StateMachine/StateLabel.gd" type="Script" id=15]
-[ext_resource path="res://BabaGodotLib/AnimationEvents/AnimationEvent.gd" type="Script" id=17]
-[ext_resource path="res://BabaGodotLib/StateMachine/StateAnimationHandler/StateAnimationHandler.gd" type="Script" id=18]
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 14 )
@@ -50,29 +49,41 @@ weapon = ExtResource( 8 )
 
 [node name="States" type="Node2D" parent="." index="1"]
 script = ExtResource( 4 )
+standalone_trigger = {
+}
 
 [node name="Idle" type="Node" parent="States" index="0"]
-script = ExtResource( 2 )
+script = ExtResource( 12 )
+standalone_trigger = {
+}
 
 [node name="Move" type="Node" parent="States" index="1"]
 script = ExtResource( 5 )
+standalone_trigger = {
+}
 
 [node name="Attack" type="Node" parent="States" index="2"]
-script = ExtResource( 2 )
+script = ExtResource( 12 )
+standalone_trigger = {
+}
 
 [node name="Hurt" type="Node" parent="States" index="3"]
 script = ExtResource( 6 )
-toggle_state_mode = true
+standalone_trigger = {
+}
 
 [node name="Skill" type="Node" parent="States" index="4"]
-script = ExtResource( 2 )
+script = ExtResource( 12 )
+standalone_trigger = {
+}
 
 [node name="Death" type="Node" parent="States" index="5"]
-script = ExtResource( 2 )
+script = ExtResource( 12 )
+standalone_trigger = {
+}
 
 [node name="StateAnimationHandler" type="Node" parent="States" index="6"]
-script = ExtResource( 18 )
-animated_sprite_path = NodePath("../../AnimatedSprite")
+script = ExtResource( 2 )
 
 [node name="StateLabel" type="Label" parent="States" index="7"]
 visible = false
@@ -80,7 +91,7 @@ margin_left = -19.6441
 margin_top = -42.6614
 margin_right = 20.3559
 margin_bottom = -28.6614
-script = ExtResource( 15 )
+script = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -90,12 +101,3 @@ frames = SubResource( 3 )
 animation = "IdleBottom"
 playing = true
 script = ExtResource( 3 )
-
-[node name="AttackHit" type="Node" parent="AnimatedSprite" index="0"]
-script = ExtResource( 17 )
-animation_name = "Attack"
-subsequence_anim_name = true
-trigger_frames = PoolIntArray( 2 )
-target_node_path = "."
-target_method = "emit_signal"
-arguments = [ "hit" ]

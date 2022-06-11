@@ -1,3 +1,6 @@
 [submodule "BabaGodotLib"]
 	path = BabaGodotLib
 	url = https://github.com/MrBSmith/BabaGodotLib
+[submodule "addons/StateGraph"]
+	path = addons/StateGraph
+	url = git@github.com:MrBSmith/StateGraph.git

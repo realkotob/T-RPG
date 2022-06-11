@@ -1,11 +1,13 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Scenes/Actors/Actor.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Global/Lights/Light300.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/Actors/SFX/Runes.png" type="Texture" id=3]
 [ext_resource path="res://Scenes/Actors/Allies/CptHart/Portrait/Hart (transparant).png" type="Texture" id=4]
+[ext_resource path="res://addons/StateGraph/StateMachine/State.gd" type="Script" id=5]
 [ext_resource path="res://Scenes/Isometric/IsoAnimatedSprite.gd" type="Script" id=6]
 [ext_resource path="res://Scenes/Actors/Allies/PriestSpriteFrame.tres" type="SpriteFrames" id=7]
+[ext_resource path="res://addons/StateGraph/StateMachine/StateMachine.gd" type="Script" id=8]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 3 )
@@ -66,8 +68,34 @@ animations = [ {
 [node name="Character" instance=ExtResource( 1 )]
 portrait = ExtResource( 4 )
 
+[node name="States" parent="." index="1"]
+script = ExtResource( 8 )
+standalone_trigger = {
+}
+
+[node name="Idle" parent="States" index="0"]
+script = ExtResource( 5 )
+standalone_trigger = {
+}
+
+[node name="Attack" parent="States" index="2"]
+script = ExtResource( 5 )
+standalone_trigger = {
+}
+
+[node name="Skill" parent="States" index="4"]
+script = ExtResource( 5 )
+standalone_trigger = {
+}
+
+[node name="Death" parent="States" index="5"]
+script = ExtResource( 5 )
+standalone_trigger = {
+}
+
 [node name="AnimatedSprite" parent="." index="2"]
 frames = ExtResource( 7 )
+frame = 1
 offset = Vector2( 0, -20 )
 
 [node name="SFX" type="Node2D" parent="." index="3"]

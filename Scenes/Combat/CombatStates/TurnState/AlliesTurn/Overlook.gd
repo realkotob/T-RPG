@@ -1,3 +1,4 @@
+tool
 extends CombatStateBase
 
 #### COMBAT OVERLOOK STATE ####
