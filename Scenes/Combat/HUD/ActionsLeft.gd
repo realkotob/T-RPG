@@ -21,6 +21,8 @@ func update_max_action_number() -> void:
 	var nb_icon = get_child_count()
 	var diff = actor_max_actions - nb_icon
 	
+	## TO DO: make the first action left have a expand size_flag for it to be docked to the right
+	
 	# Create or destroy the right numbers of icons
 	for _i in range(abs(diff)):
 		if diff > 0:

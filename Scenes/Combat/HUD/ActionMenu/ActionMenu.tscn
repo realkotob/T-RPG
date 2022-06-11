@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Scenes/UI/Menu/ActionMenu.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/UI/Menu/ActionMenu/ActionMenu.gd" type="Script" id=1]
 [ext_resource path="res://BabaGodotLib/UI/Windows/ResizableWindow.gd" type="Script" id=2]
 [ext_resource path="res://BabaGodotLib/UI/Windows/DescriptionWindow.tscn" type="PackedScene" id=3]
 [ext_resource path="res://BabaGodotLib/UI/Menu/OptionButtons/MenuOptionBase.tscn" type="PackedScene" id=4]
@@ -13,6 +13,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 menu_option_scene = ExtResource( 4 )
+option_v_separation = 10
 column_container_path = "ResizableWindow/HBoxContainer"
 description_window_scene = ExtResource( 3 )
 

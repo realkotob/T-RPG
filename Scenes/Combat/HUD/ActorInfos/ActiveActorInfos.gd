@@ -2,11 +2,11 @@ extends Control
 
 onready var portrait_node = $PortraitContainer/Portrait
 onready var actor_data_container = $ActorData
-onready var actions_left_node = $ActorData/ActionsLeft
-onready var gauge_container = $ActorData/Gauges
+onready var actions_left_node = $ActorData/Stats/ActionsLeft
+onready var gauge_container = $ActorData/Stats/Gauges
 onready var altitude_label = $ActorData/Altitude
-onready var HP_gauge = $ActorData/Gauges/HP
-onready var MP_gauge = $ActorData/Gauges/MP
+onready var HP_gauge = gauge_container.get_node("HP/Gauge")
+onready var MP_gauge = gauge_container.get_node("MP/Gauge")
 
 const ALLY_COLOR = Color("496d6f")
 const ENEMY_COLOR = Color.red

@@ -11,7 +11,7 @@ onready var debug_panel = $DebugPanel
 onready var pathfinder = $Map/Pathfinding
 onready var teams_container = $TeamsContainer
 onready var allies_team = $TeamsContainer/Allies
-onready var timeline = $HUD/Timeline
+onready var timeline = $HUD/Control/Timeline
 
 onready var allies_array : Array = get_tree().get_nodes_in_group("Allies")
 onready var actors_order : Array = get_tree().get_nodes_in_group("Actors") setget set_actors_order

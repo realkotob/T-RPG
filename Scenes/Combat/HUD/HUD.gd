@@ -1,9 +1,9 @@
 extends Node
 
-onready var action_menu_node = $ActionMenu
-onready var action_buttons_array = $ActionMenu.get_children()
-onready var actor_infos_node = $ActorInfos
-onready var timeline_node = $Timeline
+onready var action_menu_node = $Control/VBoxContainer/ActionMenu
+onready var action_buttons_array = action_menu_node.get_children()
+onready var actor_infos_node = $Control/VBoxContainer/ActorInfos
+onready var timeline_node = $Control/Timeline
 
 func _ready():
 	action_menu_node.set_visible(true)

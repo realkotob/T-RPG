@@ -32,7 +32,7 @@ _global_script_classes=[ {
 "base": "ListMenu",
 "class": "ActionMenu",
 "language": "GDScript",
-"path": "res://Scenes/UI/Menu/ActionMenu.gd"
+"path": "res://Scenes/UI/Menu/ActionMenu/ActionMenu.gd"
 }, {
 "base": "Behaviour",
 "class": "ActivableBehaviour",
@@ -178,6 +178,11 @@ _global_script_classes=[ {
 "class": "CollisionChecker",
 "language": "GDScript",
 "path": "res://BabaGodotLib/Statics/CollisionChecker.gd"
+}, {
+"base": "ColorRect",
+"class": "ColorTile",
+"language": "GDScript",
+"path": "res://addons/color-palette/ColorTile.gd"
 }, {
 "base": "Object",
 "class": "CombatDamage",
@@ -343,6 +348,11 @@ _global_script_classes=[ {
 "class": "Firearm",
 "language": "GDScript",
 "path": "res://Resources/CombatEffectObject/Weapons/Firearm.gd"
+}, {
+"base": "Container",
+"class": "FlexGridContainer",
+"language": "GDScript",
+"path": "res://addons/color-palette/utilities/FlexGridContainer.gd"
 }, {
 "base": "Collectable",
 "class": "FollowCollectable",
@@ -694,6 +704,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Combat/IA/IA_Criteria/TargetChoiceCriterias/OutputHPCriteria.gd"
 }, {
+"base": "Reference",
+"class": "Palette",
+"language": "GDScript",
+"path": "res://addons/color-palette/Palette.gd"
+}, {
+"base": "Reference",
+"class": "PaletteImporter",
+"language": "GDScript",
+"path": "res://addons/color-palette/PaletteImporter.gd"
+}, {
 "base": "Factory",
 "class": "ParticulesFactory",
 "language": "GDScript",
@@ -979,6 +999,7 @@ _global_script_class_icons={
 "Collectable_FollowState": "",
 "Collectable_HUD_Label": "",
 "CollisionChecker": "",
+"ColorTile": "",
 "CombatDamage": "",
 "CombatEffect": "",
 "CombatEffectHandler": "",
@@ -1012,6 +1033,7 @@ _global_script_class_icons={
 "Factory": "",
 "FadeTransition": "",
 "Firearm": "",
+"FlexGridContainer": "res://addons/color-palette/utilities/FlexGridContainerIcon.png",
 "FollowCollectable": "",
 "FollowHUDCollectable": "",
 "GameLoader": "",
@@ -1082,6 +1104,8 @@ _global_script_class_icons={
 "OptionDataContainer": "",
 "OptionLineContainer": "",
 "OutputHPRatioCriteria": "",
+"Palette": "",
+"PaletteImporter": "",
 "ParticulesFactory": "",
 "PathPoint": "",
 "PlayerTurn": "",
@@ -1159,7 +1183,7 @@ window/stretch/aspect="keep"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/IsoAutotileGenerator/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/IsoAutotileGenerator/plugin.cfg", "res://addons/StateGraph/plugin.cfg", "res://addons/color-palette/plugin.cfg" )
 
 [importer_defaults]
 

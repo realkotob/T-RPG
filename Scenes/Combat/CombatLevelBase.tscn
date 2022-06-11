@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Scenes/Isometric/IsoRenderer/Renderer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Combat/DebugPanel/DebugPanel.gd" type="Script" id=2]
@@ -22,19 +22,22 @@
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/WaitCombatState.gd" type="Script" id=20]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/ActiveActorInfos.gd" type="Script" id=21]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Portrait/PortBorder.png" type="Texture" id=22]
-[ext_resource path="res://BabaGodotLib/Fonts/BoldCapsPixel24.tres" type="DynamicFont" id=23]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/OptionChoice.gd" type="Script" id=24]
 [ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Portrait/PortBackGround.png" type="Texture" id=25]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/EnemyTurn/IA_OverlookState.gd" type="Script" id=26]
-[ext_resource path="res://Fonts/BoldCapitalPixel.tres" type="DynamicFont" id=27]
 [ext_resource path="res://Scenes/Combat/ActorTeam.gd" type="Script" id=28]
 [ext_resource path="res://Scenes/Combat/HUD/ActionsLeft.gd" type="Script" id=29]
-[ext_resource path="res://BabaGodotLib/UI/LineContainer/OptionLineContainer.tscn" type="PackedScene" id=30]
+[ext_resource path="res://BabaGodotLib/Fonts/MediumPixel.tres" type="DynamicFont" id=30]
 [ext_resource path="res://Scenes/Combat/ActionCombatState.gd" type="Script" id=31]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/TargetChoice.gd" type="Script" id=32]
 [ext_resource path="res://Scenes/Combat/DamageContainer.gd" type="Script" id=33]
+[ext_resource path="res://Scenes/Combat/HUD/ActorInfos/Actions/ActionLeft.tscn" type="PackedScene" id=34]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/DestinationChoice.gd" type="Script" id=35]
+[ext_resource path="res://Scenes/UI/Menu/ActionMenu/ActionButton/ActionOption.tscn" type="PackedScene" id=36]
 [ext_resource path="res://Scenes/Combat/CombatStates/TurnState/AlliesTurn/AllyTurn.gd" type="Script" id=41]
+
+[sub_resource type="Theme" id=1]
+default_font = ExtResource( 30 )
 
 [node name="Level1" type="Node2D"]
 script = ExtResource( 13 )
@@ -47,135 +50,203 @@ fog_of_war = false
 layer = 2
 script = ExtResource( 11 )
 
-[node name="ActorInfos" type="Control" parent="HUD"]
+[node name="Control" type="Control" parent="HUD"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 7.0
+margin_top = 7.0
+margin_right = -7.0
+margin_bottom = -7.0
+theme = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timeline" parent="HUD/Control" instance=ExtResource( 7 )]
+position = Vector2( -0.0244002, 2.12211 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/Control"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -185.0
-margin_top = -4.0
-margin_right = -1.0
-margin_bottom = 60.0
+margin_left = -273.0
+margin_bottom = 173.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="ActorInfos" type="HBoxContainer" parent="HUD/Control/VBoxContainer"]
+margin_right = 273.0
+margin_bottom = 70.0
 mouse_filter = 2
+custom_constants/separation = 17
 script = ExtResource( 21 )
 __meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PortraitContainer" type="Position2D" parent="HUD/ActorInfos"]
-position = Vector2( 146.092, 44.9053 )
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="Border" type="Sprite" parent="HUD/ActorInfos/PortraitContainer"]
-texture = ExtResource( 22 )
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="Background" type="Sprite" parent="HUD/ActorInfos/PortraitContainer"]
-modulate = Color( 0.286275, 0.427451, 0.435294, 1 )
-texture = ExtResource( 25 )
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="Portrait" type="Sprite" parent="HUD/ActorInfos/PortraitContainer"]
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="ActorData" type="Control" parent="HUD/ActorInfos"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
-[node name="Gauges" type="VBoxContainer" parent="HUD/ActorInfos/ActorData"]
-margin_left = 1.0
-margin_top = 13.0
-margin_right = 102.0
+[node name="ActorData" type="HBoxContainer" parent="HUD/Control/VBoxContainer/ActorInfos"]
+margin_right = 186.0
 margin_bottom = 70.0
+size_flags_horizontal = 10
+custom_constants/separation = 35
 __meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
+"_edit_lock_": true
 }
 
-[node name="HP" parent="HUD/ActorInfos/ActorData/Gauges" instance=ExtResource( 9 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 101.0
-margin_bottom = 19.0
-gauge_color = Color( 1, 0, 0, 1 )
-feedback_gauge_color = Color( 0.392157, 0, 0, 1 )
-shake_feedback_on = true
-
-[node name="Label" type="Label" parent="HUD/ActorInfos/ActorData/Gauges/HP"]
-margin_right = 101.0
-margin_bottom = 19.0
-custom_fonts/font = ExtResource( 23 )
-text = "HP"
-
-[node name="MP" parent="HUD/ActorInfos/ActorData/Gauges" instance=ExtResource( 9 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 23.0
-margin_right = 101.0
-margin_bottom = 42.0
-gauge_color = Color( 0, 0, 1, 1 )
-feedback_gauge_color = Color( 0, 0, 0.364706, 1 )
-
-[node name="Label" type="Label" parent="HUD/ActorInfos/ActorData/Gauges/MP"]
-margin_right = 101.0
-margin_bottom = 19.0
-custom_fonts/font = ExtResource( 23 )
-text = "MP"
-
-[node name="ActionsLeft" type="HBoxContainer" parent="HUD/ActorInfos/ActorData"]
-anchor_left = 0.304
-anchor_top = 0.734
-anchor_right = 0.533
-anchor_bottom = 1.0
-margin_left = 34.064
-margin_top = -1.976
-margin_right = 33.928
-margin_bottom = -4.0
-grow_horizontal = 0
-grow_vertical = 0
-custom_constants/separation = -24
-script = ExtResource( 29 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
-
-[node name="Altitude" type="Label" parent="HUD/ActorInfos/ActorData"]
-anchor_left = -0.364
-anchor_top = 0.219
-anchor_right = -0.13
-anchor_bottom = 0.609
-margin_left = -0.0240021
-margin_top = -0.0160007
-margin_right = 1.616
-margin_bottom = 0.0239983
-custom_fonts/font = ExtResource( 27 )
+[node name="Altitude" type="Label" parent="HUD/Control/VBoxContainer/ActorInfos/ActorData"]
+margin_right = 24.0
+margin_bottom = 16.0
+size_flags_horizontal = 2
+size_flags_vertical = 0
+size_flags_stretch_ratio = 0.0
 text = "Alt:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Tween" type="Tween" parent="HUD/ActorInfos"]
+[node name="Stats" type="VBoxContainer" parent="HUD/Control/VBoxContainer/ActorInfos/ActorData"]
+margin_left = 59.0
+margin_right = 186.0
+margin_bottom = 70.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
 
-[node name="Timeline" parent="HUD" instance=ExtResource( 7 )]
+[node name="Gauges" type="VBoxContainer" parent="HUD/Control/VBoxContainer/ActorInfos/ActorData/Stats"]
+margin_right = 127.0
+margin_bottom = 36.0
 
-[node name="ActionMenu" parent="HUD" instance=ExtResource( 3 )]
-margin_left = 566.0
-margin_top = 80.0
-margin_right = -4.0
-margin_bottom = -181.0
-rect_min_size = Vector2( 70, 99 )
-menu_option_scene = ExtResource( 30 )
+[node name="HP" type="HBoxContainer" parent="HUD/Control/VBoxContainer/ActorInfos/ActorData/Stats/Gauges"]
+margin_right = 127.0
+margin_bottom = 16.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HUD/Control/VBoxContainer/ActorInfos/ActorData/Stats/Gauges/HP"]
+margin_left = 1.0
+margin_right = 21.0
+margin_bottom = 16.0
+size_flags_horizontal = 6
+text = "HP"
+valign = 1
+
+[node name="Gauge" parent="HUD/Control/VBoxContainer/ActorInfos/ActorData/Stats/Gauges/HP" instance=ExtResource( 9 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 26.0
+margin_top = 2.0
+margin_right = 127.0
+margin_bottom = 14.0
+size_flags_horizontal = 8
+size_flags_vertical = 4
+gauge_color = Color( 0.862745, 0.156863, 0.156863, 1 )
+feedback_gauge_color = Color( 0.52549, 0.0627451, 0.0313726, 1 )
+shake_feedback_on = true
+
+[node name="MP" type="HBoxContainer" parent="HUD/Control/VBoxContainer/ActorInfos/ActorData/Stats/Gauges"]
+margin_top = 20.0
+margin_right = 127.0
+margin_bottom = 36.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HUD/Control/VBoxContainer/ActorInfos/ActorData/Stats/Gauges/MP"]
+margin_right = 22.0
+margin_bottom = 16.0
+size_flags_horizontal = 3
+text = "MP"
+align = 1
+valign = 1
+
+[node name="Gauge" parent="HUD/Control/VBoxContainer/ActorInfos/ActorData/Stats/Gauges/MP" instance=ExtResource( 9 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 26.0
+margin_top = 2.0
+margin_right = 127.0
+margin_bottom = 14.0
+size_flags_horizontal = 9
+size_flags_vertical = 4
+gauge_color = Color( 0.239216, 0.639216, 0.74902, 1 )
+feedback_gauge_color = Color( 0.0509804, 0.415686, 0.45098, 1 )
+
+[node name="ActionsLeft" type="HBoxContainer" parent="HUD/Control/VBoxContainer/ActorInfos/ActorData/Stats"]
+margin_top = 40.0
+margin_right = 127.0
+margin_bottom = 50.0
+grow_horizontal = 0
+grow_vertical = 0
+custom_constants/separation = 4
+script = ExtResource( 29 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ActionLeft" parent="HUD/Control/VBoxContainer/ActorInfos/ActorData/Stats/ActionsLeft" instance=ExtResource( 34 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 103.0
+margin_right = 113.0
+margin_bottom = 10.0
+size_flags_horizontal = 10
+
+[node name="ActionLeft2" parent="HUD/Control/VBoxContainer/ActorInfos/ActorData/Stats/ActionsLeft" instance=ExtResource( 34 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 117.0
+margin_right = 127.0
+margin_bottom = 10.0
+
+[node name="PortraitContainer" type="CenterContainer" parent="HUD/Control/VBoxContainer/ActorInfos"]
+margin_left = 203.0
+margin_right = 273.0
+margin_bottom = 70.0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Border" type="TextureRect" parent="HUD/Control/VBoxContainer/ActorInfos/PortraitContainer"]
+margin_right = 70.0
+margin_bottom = 70.0
+texture = ExtResource( 22 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Background" type="TextureRect" parent="HUD/Control/VBoxContainer/ActorInfos/PortraitContainer"]
+modulate = Color( 0.286275, 0.427451, 0.435294, 1 )
+margin_right = 70.0
+margin_bottom = 70.0
+texture = ExtResource( 25 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Portrait" type="TextureRect" parent="HUD/Control/VBoxContainer/ActorInfos/PortraitContainer"]
+margin_left = 35.0
+margin_top = 35.0
+margin_right = 35.0
+margin_bottom = 35.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Tween" type="Tween" parent="HUD/Control/VBoxContainer/ActorInfos"]
+
+[node name="ActionMenu" parent="HUD/Control/VBoxContainer" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 203.0
+margin_top = 74.0
+margin_right = 273.0
+margin_bottom = 204.0
+rect_min_size = Vector2( 70, 130 )
+size_flags_horizontal = 8
+menu_option_scene = ExtResource( 36 )
 option_v_separation = -4
 column_container_path = "ResizableWindow/MarginContainer/HBoxContainer"
 max_lines = 10

@@ -9,6 +9,8 @@ anchor_right = 0.016
 anchor_bottom = 0.028
 margin_right = -10.24
 margin_bottom = -10.08
+size_flags_horizontal = 8
+size_flags_vertical = 3
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
